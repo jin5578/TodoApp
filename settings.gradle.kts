@@ -30,6 +30,7 @@ include(
     ":core:data-api",
     ":core:datastore",
     ":core:design-system",
+    ":core:domain",
     ":core:model"
 )
 include(":feature:main")
