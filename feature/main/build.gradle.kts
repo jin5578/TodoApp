@@ -26,6 +26,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:design-system"))
+
     implementation(libs.kotlinx.coroutines.core)
 
     implementation(libs.androidx.appcompat)

@@ -38,6 +38,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":feature:main"))
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.ui)
     implementation(libs.hilt.android)
