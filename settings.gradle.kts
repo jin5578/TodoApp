@@ -31,6 +31,7 @@ include(
     ":core:datastore",
     ":core:design-system",
     ":core:domain",
-    ":core:model"
+    ":core:model",
+    ":core:navigation"
 )
 include(":feature:main")
