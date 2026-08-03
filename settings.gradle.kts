@@ -29,3 +29,4 @@ include(
     ":core:design-system",
     ":core:model"
 )
+include(":feature:main")
