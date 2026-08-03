@@ -27,6 +27,7 @@ rootProject.name = "TodoApp"
 include(":app")
 include(
     ":core:data",
+    ":core:data-api",
     ":core:datastore",
     ":core:design-system",
     ":core:model"
