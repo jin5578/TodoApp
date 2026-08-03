@@ -26,7 +26,14 @@ android {
 }
 
 dependencies {
+    // Hilt 그래프가 app까지 전파되도록 필요
+    implementation(project(":core:data"))
+    implementation(project(":core:data-api"))
+    implementation(project(":core:datastore"))
     implementation(project(":core:design-system"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:model"))
+    implementation(project(":core:navigation"))
 
     implementation(libs.kotlinx.coroutines.core)
 

@@ -1,42 +1,38 @@
 package com.example.main
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.activity.viewModels
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.runtime.getValue
+import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.design_system.theme.TodoTheme
+import com.example.model.ThemeType
+import dagger.hilt.android.AndroidEntryPoint
 
-class MainActivity : ComponentActivity() {
+@AndroidEntryPoint
+class MainActivity : AppCompatActivity() {
+    private val viewModel by viewModels<MainViewModel>()
+
     override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
+        installSplashScreen()
         enableEdgeToEdge()
+
+        super.onCreate(savedInstanceState)
+
         setContent {
-            Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                Greeting(
-                    name = "Android",
-                    modifier = Modifier.padding(innerPadding)
-                )
+            val themeType by viewModel.themeType.collectAsStateWithLifecycle(
+                initialValue = ThemeType.SYSTEM,
+                lifecycleOwner = this
+            )
+
+            val navigator = rememberMainNavigator()
+
+            TodoTheme(theme = themeType) {
+                MainRoute(navigator = navigator)
             }
         }
     }
-}
-
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
-}
-
-@Preview(showBackground = true)
-@Composable
-fun GreetingPreview() {
-    Greeting("Android")
 }
