@@ -22,6 +22,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:data-api"))
     implementation(project(":core:datastore"))
     implementation(project(":core:model"))
 
