@@ -26,6 +26,7 @@ dependencyResolutionManagement {
 rootProject.name = "TodoApp"
 include(":app")
 include(
+    ":core:datastore",
     ":core:design-system",
     ":core:model"
 )
