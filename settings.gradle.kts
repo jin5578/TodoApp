@@ -19,9 +19,13 @@ dependencyResolutionManagement {
     repositories {
         google()
         mavenCentral()
+        maven { url = uri("https://jitpack.io") }
     }
 }
 
 rootProject.name = "TodoApp"
 include(":app")
-include(":core:design-system")
+include(
+    ":core:design-system",
+    ":core:model"
+)
