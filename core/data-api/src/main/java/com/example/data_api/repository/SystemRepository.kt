@@ -11,4 +11,5 @@ interface SystemRepository {
     fun getSettingSystem(): Flow<SettingSystem>
     suspend fun updateLanguage(languageType: LanguageType)
     suspend fun updateLocale(locale: Locale)
+    suspend fun updateThemeType(themeType: ThemeType)
 }

@@ -37,6 +37,9 @@ class DefaultSystemRepository @Inject constructor(
     override suspend fun updateLocale(locale: Locale) =
         systemDataSource.updateLocale(locale = locale.country)
 
+    override suspend fun updateThemeType(themeType: ThemeType) =
+        systemDataSource.updateThemeType(themeType = themeType.key)
+
     private fun String.toLanguageType() = when (this) {
         LanguageType.KOREAN.key -> LanguageType.KOREAN
         else -> LanguageType.ENGLISH

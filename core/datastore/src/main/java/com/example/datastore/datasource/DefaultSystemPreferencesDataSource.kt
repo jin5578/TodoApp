@@ -54,6 +54,12 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
         }
     }
 
+    override suspend fun updateThemeType(themeType: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.THEME_KEY] = themeType
+        }
+    }
+
     companion object {
         private val DEFAULT_SLEEP_TIME = LocalTime.of(23, 59).toString()
         private const val DEFAULT_LANGUAGE_TYPE = "korean"
