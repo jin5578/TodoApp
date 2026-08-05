@@ -1,0 +1,280 @@
+package com.example.setting
+
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Text
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.design_system.component.Loading
+import com.example.design_system.theme.TodoTheme
+import com.example.model.LanguageType
+import com.example.model.ThemeType
+import com.example.model.TimePickerType
+import com.example.setting.component.SettingCategory
+import com.example.setting.component.SettingLanguageContent
+import com.example.setting.component.SettingThemeContent
+import com.example.setting.component.SettingTimePickerContent
+import com.example.setting.model.BottomSheetType
+import com.example.setting.model.CategoryItemUiState
+import com.example.setting.model.SettingUiState
+import com.example.utils.openUrl
+import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.flow.collectLatest
+import com.example.design_system.R as DesignSystemR
+
+private const val ABOUT_URL =
+    "https://intelligent-party-142.notion.site/TODO-1109ff809974806cb274f0b95d4a71d4?pvs=4"
+private const val GITHUB_URL = "https://github.com/jin5578"
+
+@Composable
+internal fun SettingRoute(
+    viewModel: SettingViewModel = hiltViewModel(),
+    navigateInfo: () -> Unit,
+    navigateManageCategories: () -> Unit,
+    popBackStack: () -> Unit,
+    onShowErrorSnackbar: (Throwable?) -> Unit,
+) {
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val context = LocalContext.current
+
+    LaunchedEffect(key1 = Unit) {
+        viewModel.errorFlow.collectLatest { throwable ->
+            onShowErrorSnackbar(throwable)
+        }
+    }
+
+    SettingContent(
+        uiState = uiState,
+        navigateManageCategories = navigateManageCategories,
+        popBackStack = popBackStack,
+        openUrl = { url -> openUrl(context = context, url = url) },
+        onLanguageTypeChanged = viewModel::updateLanguageType,
+        onThemeTypeChanged = viewModel::updateThemeType,
+        onTimePickerTypeChanged = viewModel::updateTimePickerType,
+    )
+}
+
+@Composable
+private fun SettingContent(
+    uiState: SettingUiState,
+    navigateManageCategories: () -> Unit,
+    popBackStack: () -> Unit,
+    openUrl: (String) -> Unit,
+    onLanguageTypeChanged: (LanguageType) -> Unit,
+    onThemeTypeChanged: (ThemeType) -> Unit,
+    onTimePickerTypeChanged: (TimePickerType) -> Unit,
+) {
+    when (uiState) {
+        is SettingUiState.Loading -> Loading()
+        is SettingUiState.Success -> SettingScreen(
+            languageType = uiState.languageType,
+            themeType = uiState.themeType,
+            timePickerType = uiState.timePickerType,
+            buildVersion = uiState.buildVersion,
+            navigateManageCategories = navigateManageCategories,
+            popBackStack = popBackStack,
+            openUrl = openUrl,
+            onLanguageTypeChanged = onLanguageTypeChanged,
+            onThemeTypeChanged = onThemeTypeChanged,
+            onTimePickerTypeChanged = onTimePickerTypeChanged,
+        )
+    }
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun SettingScreen(
+    modifier: Modifier = Modifier,
+    languageType: LanguageType,
+    themeType: ThemeType,
+    timePickerType: TimePickerType,
+    buildVersion: String,
+    navigateManageCategories: () -> Unit,
+    popBackStack: () -> Unit,
+    openUrl: (String) -> Unit,
+    onLanguageTypeChanged: (LanguageType) -> Unit,
+    onThemeTypeChanged: (ThemeType) -> Unit,
+    onTimePickerTypeChanged: (TimePickerType) -> Unit
+) {
+    val scrollState = rememberScrollState()
+
+    val bottomSheetState = rememberModalBottomSheetState()
+    var showBottomSheet by remember { mutableStateOf(value = BottomSheetType.IDLE) }
+
+    val infoCategory = persistentListOf(
+        CategoryItemUiState(
+            titleResId = DesignSystemR.string.about,
+            iconResId = DesignSystemR.drawable.svg_information,
+            onClick = { openUrl(ABOUT_URL) }
+        ),
+        CategoryItemUiState(
+            titleResId = DesignSystemR.string.github,
+            iconResId = DesignSystemR.drawable.svg_github,
+            onClick = { openUrl(GITHUB_URL) }
+        )
+    )
+
+    val systemCategory = persistentListOf(
+        CategoryItemUiState(
+            titleResId = DesignSystemR.string.language,
+            iconResId =
+                if (languageType == LanguageType.KOREAN) DesignSystemR.drawable.svg_korean
+                else DesignSystemR.drawable.svg_english,
+            onClick = { showBottomSheet = BottomSheetType.LANGUAGE }
+        ),
+        CategoryItemUiState(
+            titleResId = DesignSystemR.string.theme,
+            iconResId = DesignSystemR.drawable.svg_theme,
+            onClick = { showBottomSheet = BottomSheetType.THEME }
+        ),
+        CategoryItemUiState(
+            titleResId = DesignSystemR.string.time_picker,
+            iconResId = DesignSystemR.drawable.svg_clock,
+            onClick = { showBottomSheet = BottomSheetType.TIME_PICKER }
+        ),
+        CategoryItemUiState(
+            titleResId = DesignSystemR.string.category,
+            iconResId = DesignSystemR.drawable.svg_category,
+            onClick = { navigateManageCategories() }
+        )
+    )
+
+    Scaffold(
+        topBar = {
+            TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = Color.Transparent
+                ),
+                title = {
+                    Text(
+                        text = stringResource(id = DesignSystemR.string.settings),
+                        style = TodoTheme.typography.headlineMedium,
+                        color = MaterialTheme.colorScheme.onSurface,
+                    )
+                },
+                navigationIcon = {
+                    IconButton(onClick = popBackStack) {
+                        Icon(
+                            modifier = modifier.size(size = 24.dp),
+                            imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                }
+            )
+        }
+    ) { paddingValues ->
+        if (showBottomSheet != BottomSheetType.IDLE) {
+            ModalBottomSheet(
+                onDismissRequest = { showBottomSheet = BottomSheetType.IDLE },
+                sheetState = bottomSheetState,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ) {
+                Box() {
+                    when (showBottomSheet) {
+                        BottomSheetType.LANGUAGE -> {
+                            SettingLanguageContent(
+                                languageType = languageType,
+                                onSelect = onLanguageTypeChanged,
+                            )
+                        }
+
+                        BottomSheetType.THEME -> {
+                            SettingThemeContent(
+                                themeType = themeType,
+                                onSelect = onThemeTypeChanged,
+                            )
+                        }
+
+                        else -> {
+                            SettingTimePickerContent(
+                                timePickerType = timePickerType,
+                                onSelect = onTimePickerTypeChanged,
+                            )
+                        }
+                    }
+                }
+            }
+        }
+
+        Column(
+            modifier = modifier.fillMaxSize()
+                .padding(paddingValues = paddingValues),
+            verticalArrangement = Arrangement.SpaceBetween,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Column(
+                modifier = Modifier.verticalScroll(state = scrollState),
+                verticalArrangement = Arrangement.spacedBy(space = 24.dp),
+            ) {
+                SettingCategory(
+                    titleResId = DesignSystemR.string.info,
+                    category = infoCategory,
+                )
+
+                SettingCategory(
+                    titleResId = DesignSystemR.string.system_setting,
+                    category = systemCategory,
+                )
+            }
+
+            Text(
+                modifier = Modifier.padding(bottom = 20.dp),
+                text = "Version $buildVersion",
+                style = TodoTheme.typography.infoDescTextStyle,
+                color = MaterialTheme.colorScheme.onSurface,
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun SettingScreenPreview() {
+    TodoTheme {
+        SettingScreen(
+            languageType = LanguageType.KOREAN,
+            themeType = ThemeType.SUN_RISE,
+            timePickerType = TimePickerType.SCROLL_TIME_PICKER,
+            buildVersion = "1.0.0",
+            navigateManageCategories = {},
+            popBackStack = {},
+            openUrl = {},
+            onLanguageTypeChanged = {},
+            onThemeTypeChanged = {},
+            onTimePickerTypeChanged = {}
+        )
+    }
+}

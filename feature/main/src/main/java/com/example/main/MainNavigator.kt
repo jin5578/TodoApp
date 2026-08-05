@@ -17,6 +17,8 @@ internal class MainNavigator(
 
     val startDestination = Route.Home
 
+    fun navigateManageCategories() {}
+
     private fun popBackStack() =
         navController.popBackStack()
 

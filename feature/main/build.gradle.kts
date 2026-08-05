@@ -35,6 +35,8 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:navigation"))
 
+    implementation(project(":feature:setting"))
+
     implementation(libs.kotlinx.coroutines.core)
 
     implementation(libs.androidx.appcompat)
