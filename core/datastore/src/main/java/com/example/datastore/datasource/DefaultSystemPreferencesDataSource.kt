@@ -60,6 +60,12 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
         }
     }
 
+    override suspend fun updateTimePickerType(timePickerType: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.TIME_PICKER_KEY] = timePickerType
+        }
+    }
+
     companion object {
         private val DEFAULT_SLEEP_TIME = LocalTime.of(23, 59).toString()
         private const val DEFAULT_LANGUAGE_TYPE = "korean"

@@ -40,6 +40,9 @@ class DefaultSystemRepository @Inject constructor(
     override suspend fun updateThemeType(themeType: ThemeType) =
         systemDataSource.updateThemeType(themeType = themeType.key)
 
+    override suspend fun updateTimePickerType(timePickerType: TimePickerType) =
+        systemDataSource.updateTimePickerType(timePickerType = timePickerType.key)
+
     private fun String.toLanguageType() = when (this) {
         LanguageType.KOREAN.key -> LanguageType.KOREAN
         else -> LanguageType.ENGLISH
