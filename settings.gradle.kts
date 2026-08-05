@@ -34,4 +34,7 @@ include(
     ":core:model",
     ":core:navigation"
 )
-include(":feature:main")
+include(
+    ":feature:main",
+    ":feature:setting"
+)
