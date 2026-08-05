@@ -9,6 +9,7 @@ import com.example.model.setting.SettingSystem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalTime
+import java.util.Locale
 import javax.inject.Inject
 
 class DefaultSystemRepository @Inject constructor(
@@ -29,6 +30,9 @@ class DefaultSystemRepository @Inject constructor(
                 buildVersion = data.buildVersion
             )
         }
+
+    override suspend fun updateLocale(locale: Locale) =
+        systemDataSource.updateLocale(locale = locale.country)
 
     private fun String.toLanguageType() = when (this) {
         LanguageType.KOREAN.key -> LanguageType.KOREAN

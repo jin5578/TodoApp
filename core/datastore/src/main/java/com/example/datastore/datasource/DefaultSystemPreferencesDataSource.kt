@@ -2,6 +2,7 @@ package com.example.datastore.datasource
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.datastore.model.SystemData
 import kotlinx.coroutines.flow.Flow
@@ -18,6 +19,7 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
         val LANGUAGE_TYPE_KEY = stringPreferencesKey(name = "language_type_key")
         val THEME_KEY = stringPreferencesKey(name = "theme_key")
         val TIME_PICKER_KEY = stringPreferencesKey(name = "time_picker_key")
+        val LOCALE_KEY = stringPreferencesKey(name = "locale_key")
         val BUILD_VERSION_KEY = stringPreferencesKey(name = "build_version_key")
     }
 
@@ -32,17 +34,26 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
                     ?: DEFAULT_THEME,
                 timePickerType = preferences[PreferencesKey.TIME_PICKER_KEY]
                     ?: DEFAULT_TIME_PICKER,
+                locale = preferences[PreferencesKey.LOCALE_KEY]
+                    ?: DEFAULT_LOCALE,
                 buildVersion = preferences[PreferencesKey.BUILD_VERSION_KEY]
                     ?: DEFAULT_BUILD_VERSION,
 
-            )
+                )
         }
+
+    override suspend fun updateLocale(locale: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.LOCALE_KEY] = locale
+        }
+    }
 
     companion object {
         private val DEFAULT_SLEEP_TIME = LocalTime.of(23, 59).toString()
         private const val DEFAULT_LANGUAGE_TYPE = "korean"
         private const val DEFAULT_THEME = "system"
         private const val DEFAULT_TIME_PICKER = "clockTimePicker"
+        private const val DEFAULT_LOCALE = "KR"
         private const val DEFAULT_BUILD_VERSION = "1.0.0"
     }
 }

@@ -5,5 +5,6 @@ data class SystemData(
     val languageType: String,
     val themeType: String,
     val timePickerType: String,
+    val locale: String,
     val buildVersion: String,
 )
