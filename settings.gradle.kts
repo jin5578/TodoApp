@@ -32,7 +32,8 @@ include(
     ":core:design-system",
     ":core:domain",
     ":core:model",
-    ":core:navigation"
+    ":core:navigation",
+    ":core:utils"
 )
 include(
     ":feature:main",
