@@ -2,9 +2,13 @@ package com.example.data.repository
 
 import com.example.data_api.repository.SystemRepository
 import com.example.datastore.datasource.SystemPreferencesDataSource
+import com.example.model.LanguageType
 import com.example.model.ThemeType
+import com.example.model.TimePickerType
+import com.example.model.setting.SettingSystem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import java.time.LocalTime
 import javax.inject.Inject
 
 class DefaultSystemRepository @Inject constructor(
@@ -15,6 +19,22 @@ class DefaultSystemRepository @Inject constructor(
             data.themeType.toThemeType()
         }
 
+    override fun getSettingSystem(): Flow<SettingSystem> =
+        systemDataSource.systemData.map { data ->
+            SettingSystem(
+                languageType = data.languageType.toLanguageType(),
+                themeType = data.themeType.toThemeType(),
+                sleepTime = LocalTime.parse(data.sleepTime),
+                timePickerType = data.timePickerType.toTimePickerType(),
+                buildVersion = data.buildVersion
+            )
+        }
+
+    private fun String.toLanguageType() = when (this) {
+        LanguageType.KOREAN.key -> LanguageType.KOREAN
+        else -> LanguageType.ENGLISH
+    }
+
     private fun String.toThemeType() = when (this) {
         ThemeType.SYSTEM.key -> ThemeType.SYSTEM
         ThemeType.SUN_RISE.key -> ThemeType.SUN_RISE
@@ -23,5 +43,10 @@ class DefaultSystemRepository @Inject constructor(
         ThemeType.MIDNIGHT_BLUE.key -> ThemeType.MIDNIGHT_BLUE
         ThemeType.CHARCOAL_BLACK.key -> ThemeType.CHARCOAL_BLACK
         else -> ThemeType.DEEP_FOREST_GREEN
+    }
+
+    private fun String.toTimePickerType() = when (this) {
+        TimePickerType.SCROLL_TIME_PICKER.key -> TimePickerType.SCROLL_TIME_PICKER
+        else -> TimePickerType.CLOCK_TIME_PICKER
     }
 }
