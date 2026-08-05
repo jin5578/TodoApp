@@ -42,6 +42,12 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
                 )
         }
 
+    override suspend fun updateLanguage(languageType: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.LANGUAGE_TYPE_KEY] = languageType
+        }
+    }
+
     override suspend fun updateLocale(locale: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.LOCALE_KEY] = locale

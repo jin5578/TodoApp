@@ -31,6 +31,9 @@ class DefaultSystemRepository @Inject constructor(
             )
         }
 
+    override suspend fun updateLanguage(languageType: LanguageType) =
+        systemDataSource.updateLanguage(languageType = languageType.key)
+
     override suspend fun updateLocale(locale: Locale) =
         systemDataSource.updateLocale(locale = locale.country)
 

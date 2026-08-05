@@ -6,5 +6,6 @@ import java.util.Locale
 
 interface SystemPreferencesDataSource {
     val systemData: Flow<SystemData>
+    suspend fun updateLanguage(languageType: String)
     suspend fun updateLocale(locale: String)
 }
