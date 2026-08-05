@@ -37,5 +37,6 @@ include(
 )
 include(
     ":feature:main",
+    ":feature:manage-categories",
     ":feature:setting"
 )
