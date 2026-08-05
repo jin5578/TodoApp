@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="error_message_network">네트워크 연결이 불안정합니다.</string>
+    <string name="error_message_unknown">알 수 없는 오류가 발생했습니다.</string>
+    <string name="language">언어</string>
+    <string name="theme">테마</string>
+    <string name="sleep_time">취침 시간</string>
+    <string name="time_picker">시간 선택기</string>
+    <string name="about">정보</string>
+    <string name="github">Github</string>
+    <string name="category">카테고리</string>
+    <string name="settings">설정</string>
+    <string name="choose_language">언어 선택</string>
+    <string name="choose_theme_style">테마 스타일 선택</string>
+    <string name="choose_time_picker_style">시간 선택기 스타일 선택</string>
+    <string name="info">정보</string>
+    <string name="system_setting">시스템 설정</string>
+</resources>
