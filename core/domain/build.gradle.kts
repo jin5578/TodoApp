@@ -24,6 +24,7 @@ android {
 dependencies {
     implementation(project(":core:data-api"))
     implementation(project(":core:model"))
+    implementation(project(":core:utils"))
 
     implementation(libs.kotlinx.coroutines.core)
 
