@@ -28,6 +28,7 @@ include(":app")
 include(
     ":core:data",
     ":core:data-api",
+    ":core:database",
     ":core:datastore",
     ":core:design-system",
     ":core:domain",
