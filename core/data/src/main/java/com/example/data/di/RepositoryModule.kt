@@ -2,9 +2,12 @@ package com.example.data.di
 
 import com.example.data.repository.DefaultCategoryRepository
 import com.example.data.repository.DefaultSystemRepository
+import com.example.data.repository.DefaultTaskRepository
 import com.example.data_api.repository.CategoryRepository
 import com.example.data_api.repository.SystemRepository
+import com.example.data_api.repository.TaskRepository
 import com.example.database.datasource.CategoryDatabaseDataSource
+import com.example.database.datasource.TaskDatabaseDataSource
 import com.example.datastore.datasource.SystemPreferencesDataSource
 import dagger.Module
 import dagger.Provides
@@ -28,4 +31,11 @@ internal object RepositoryModule {
         categoryDataSource: CategoryDatabaseDataSource,
     ): CategoryRepository =
         DefaultCategoryRepository(categoryDataSource = categoryDataSource)
+
+    @Provides
+    @Singleton
+    fun providesTaskRepository(
+        taskDataSource: TaskDatabaseDataSource,
+    ): TaskRepository =
+        DefaultTaskRepository(taskDataSource = taskDataSource)
 }
