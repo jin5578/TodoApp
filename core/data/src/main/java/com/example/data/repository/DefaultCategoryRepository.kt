@@ -18,9 +18,20 @@ internal class DefaultCategoryRepository @Inject constructor(
             }
         }
 
-    private fun CategoryEntity.toCategory() = Category(
-        id = this.id,
-        title = this.title,
-        colorValue = this.colorValue
-    )
+    override suspend fun insertCategory(category: Category) =
+        categoryDataSource.insertCategory(entity = category.toCategoryEntity())
+
+    private fun CategoryEntity.toCategory() =
+        Category(
+            id = this.id,
+            title = this.title,
+            colorValue = this.colorValue
+        )
+
+    private fun Category.toCategoryEntity() =
+        CategoryEntity(
+            id = this.id,
+            title = this.title,
+            colorValue = this.colorValue
+        )
 }
