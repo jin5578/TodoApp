@@ -18,6 +18,9 @@ internal class DefaultCategoryRepository @Inject constructor(
             }
         }
 
+    override suspend fun getCategoryById(id: Long): Category =
+        categoryDataSource.getCategoryById(id = id).toCategory()
+
     override suspend fun insertCategory(category: Category) =
         categoryDataSource.insertCategory(entity = category.toCategoryEntity())
 

@@ -11,6 +11,9 @@ class DefaultCategoryDatabaseDataSource @Inject constructor(
     override fun getAllCategory(): Flow<List<CategoryEntity>> =
         categoryDatabase.categoryDao().getAllCategory()
 
+    override suspend fun getCategoryById(id: Long): CategoryEntity =
+        categoryDatabase.categoryDao().getCategoryById(id = id)
+
     override suspend fun insertCategory(entity: CategoryEntity) =
         categoryDatabase.categoryDao().insertCategory(entity = entity)
 }
