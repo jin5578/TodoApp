@@ -17,6 +17,9 @@ class DefaultCategoryDatabaseDataSource @Inject constructor(
     override suspend fun insertCategory(entity: CategoryEntity) =
         categoryDatabase.categoryDao().insertCategory(entity = entity)
 
+    override suspend fun updateCategory(entity: CategoryEntity) =
+        categoryDatabase.categoryDao().updateCategory(entity = entity)
+
     override suspend fun deleteCategory(entity: CategoryEntity) =
         categoryDatabase.categoryDao().deleteCategory(entity = entity)
 }
