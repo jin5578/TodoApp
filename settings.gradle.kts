@@ -37,6 +37,7 @@ include(
     ":core:utils"
 )
 include(
+    ":feature:add-task",
     ":feature:main",
     ":feature:manage-categories",
     ":feature:setting"
