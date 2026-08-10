@@ -5,6 +5,7 @@ import com.example.datastore.datasource.SystemPreferencesDataSource
 import com.example.model.LanguageType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
+import com.example.model.addtask.AddTaskSystem
 import com.example.model.setting.SettingSystem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -31,6 +32,14 @@ class DefaultSystemRepository @Inject constructor(
             )
         }
 
+    override fun getAddTaskSystem(): Flow<AddTaskSystem> =
+        systemDataSource.systemData.map { data ->
+            AddTaskSystem(
+                locale = data.locale.toLocale(),
+                timePickerType = data.timePickerType.toTimePickerType()
+            )
+        }
+
     override suspend fun updateLanguage(languageType: LanguageType) =
         systemDataSource.updateLanguage(languageType = languageType.key)
 
@@ -46,6 +55,11 @@ class DefaultSystemRepository @Inject constructor(
     private fun String.toLanguageType() = when (this) {
         LanguageType.KOREAN.key -> LanguageType.KOREAN
         else -> LanguageType.ENGLISH
+    }
+
+    private fun String.toLocale() = when (this) {
+        "KR" -> Locale.KOREA
+        else -> Locale.US
     }
 
     private fun String.toThemeType() = when (this) {
