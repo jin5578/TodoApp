@@ -3,6 +3,7 @@ package com.example.database.di
 import android.content.Context
 import androidx.room.Room
 import com.example.database.category.CategoryDatabase
+import com.example.database.task.TaskDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,6 +23,19 @@ internal object DatabaseModule {
             context = context,
             klass = CategoryDatabase::class.java,
             name = "category"
+        )
+            .fallbackToDestructiveMigration(dropAllTables = true)
+            .build()
+
+    @Provides
+    @Singleton
+    fun providesTaskDatabase(
+        @ApplicationContext context: Context,
+    ): TaskDatabase =
+        Room.databaseBuilder(
+            context = context,
+            klass = TaskDatabase::class.java,
+            name = "task"
         )
             .fallbackToDestructiveMigration(dropAllTables = true)
             .build()
