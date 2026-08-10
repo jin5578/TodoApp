@@ -24,6 +24,9 @@ internal class DefaultCategoryRepository @Inject constructor(
     override suspend fun insertCategory(category: Category) =
         categoryDataSource.insertCategory(entity = category.toCategoryEntity())
 
+    override suspend fun deleteCategory(category: Category) =
+        categoryDataSource.deleteCategory(entity = category.toCategoryEntity())
+
     private fun CategoryEntity.toCategory() =
         Category(
             id = this.id,
