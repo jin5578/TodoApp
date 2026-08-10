@@ -1,5 +1,7 @@
 package com.example.data.di
 
+import com.example.database.datasource.CategoryDatabaseDataSource
+import com.example.database.datasource.DefaultCategoryDatabaseDataSource
 import com.example.datastore.datasource.DefaultSystemPreferencesDataSource
 import com.example.datastore.datasource.SystemPreferencesDataSource
 import dagger.Binds
@@ -16,4 +18,10 @@ internal abstract class DataModule {
     abstract fun bindsSystemPreferencesDataSource(
         dataSource: DefaultSystemPreferencesDataSource
     ): SystemPreferencesDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsCategoryDatabaseDataSource(
+        dataSource: DefaultCategoryDatabaseDataSource
+    ): CategoryDatabaseDataSource
 }

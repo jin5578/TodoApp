@@ -35,6 +35,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:navigation"))
 
+    implementation(project(":feature:manage-categories"))
     implementation(project(":feature:setting"))
 
     implementation(libs.kotlinx.coroutines.core)

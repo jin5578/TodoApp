@@ -15,4 +15,11 @@
     <string name="choose_time_picker_style">Choose time picker style</string>
     <string name="info">Info</string>
     <string name="system_setting">System setting</string>
+    <string name="new_category">New category</string>
+    <string name="please_enter_the_category_you_want_to_add">Please enter the category you want to add</string>
+    <string name="cancel">Cancel</string>
+    <string name="create">Create</string>
+    <string name="edit_category">Edit category</string>
+    <string name="no_tasks">No Tasks</string>
+    <string name="no_categories">No Categories</string>
 </resources>
