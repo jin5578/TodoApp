@@ -6,6 +6,7 @@ import com.example.model.LanguageType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
 import com.example.model.addtask.AddTaskSystem
+import com.example.model.edittask.EditTaskSystem
 import com.example.model.setting.SettingSystem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -35,6 +36,14 @@ class DefaultSystemRepository @Inject constructor(
     override fun getAddTaskSystem(): Flow<AddTaskSystem> =
         systemDataSource.systemData.map { data ->
             AddTaskSystem(
+                locale = data.locale.toLocale(),
+                timePickerType = data.timePickerType.toTimePickerType()
+            )
+        }
+
+    override fun getEditTaskSystem(): Flow<EditTaskSystem> =
+        systemDataSource.systemData.map { data ->
+            EditTaskSystem(
                 locale = data.locale.toLocale(),
                 timePickerType = data.timePickerType.toTimePickerType()
             )

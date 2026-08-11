@@ -14,6 +14,9 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
         taskDatabase.taskDao().getTasksByDate(date = date.toString())
             .map { it.count() }
 
+    override fun getFlowTaskById(id: Long): Flow<TaskEntity> =
+        taskDatabase.taskDao().getFlowTaskById(id = id)
+
     override suspend fun insertTask(entity: TaskEntity) =
         taskDatabase.taskDao().insertTask(entity = entity)
 }
