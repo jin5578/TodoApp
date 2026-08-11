@@ -19,4 +19,7 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
 
     override suspend fun insertTask(entity: TaskEntity) =
         taskDatabase.taskDao().insertTask(entity = entity)
+
+    override suspend fun updateTask(entity: TaskEntity) =
+        taskDatabase.taskDao().updateTask(entity = entity)
 }

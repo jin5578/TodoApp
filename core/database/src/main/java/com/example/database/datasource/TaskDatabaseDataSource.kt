@@ -8,4 +8,5 @@ interface TaskDatabaseDataSource {
     fun getTaskCountByDate(date: LocalDate): Flow<Int>
     fun getFlowTaskById(id: Long): Flow<TaskEntity>
     suspend fun insertTask(entity: TaskEntity)
+    suspend fun updateTask(entity: TaskEntity)
 }
