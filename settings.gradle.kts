@@ -42,3 +42,4 @@ include(
     ":feature:manage-categories",
     ":feature:setting"
 )
+include(":feature:edit-task")
