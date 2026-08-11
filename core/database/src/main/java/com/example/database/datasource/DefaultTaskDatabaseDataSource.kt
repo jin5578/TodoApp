@@ -1,6 +1,7 @@
 package com.example.database.datasource
 
 import com.example.database.task.TaskDatabase
+import com.example.database.task.TaskEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
@@ -12,4 +13,7 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
     override fun getTaskCountByDate(date: LocalDate): Flow<Int> =
         taskDatabase.taskDao().getTasksByDate(date = date.toString())
             .map { it.count() }
+
+    override suspend fun insertTask(entity: TaskEntity) =
+        taskDatabase.taskDao().insertTask(entity = entity)
 }

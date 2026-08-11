@@ -6,4 +6,6 @@ import java.time.LocalDate
 
 interface TaskDatabaseDataSource {
     fun getTaskCountByDate(date: LocalDate): Flow<Int>
+
+    suspend fun insertTask(entity: TaskEntity)
 }
