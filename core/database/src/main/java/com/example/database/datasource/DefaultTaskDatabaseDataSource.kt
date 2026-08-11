@@ -17,9 +17,15 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
     override fun getFlowTaskById(id: Long): Flow<TaskEntity> =
         taskDatabase.taskDao().getFlowTaskById(id = id)
 
+    override suspend fun getTaskById(id: Long): TaskEntity =
+        taskDatabase.taskDao().getTaskById(id = id)
+
     override suspend fun insertTask(entity: TaskEntity) =
         taskDatabase.taskDao().insertTask(entity = entity)
 
     override suspend fun updateTask(entity: TaskEntity) =
         taskDatabase.taskDao().updateTask(entity = entity)
+
+    override suspend fun deleteTask(entity: TaskEntity) =
+        taskDatabase.taskDao().deleteTask(entity = entity)
 }

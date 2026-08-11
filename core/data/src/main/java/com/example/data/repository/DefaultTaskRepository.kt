@@ -20,11 +20,17 @@ internal class DefaultTaskRepository @Inject constructor(
             entity.toTask()
         }
 
+    override suspend fun getTaskById(id: Long): Task =
+        taskDataSource.getTaskById(id = id).toTask()
+
     override suspend fun insertTask(task: Task) =
         taskDataSource.insertTask(entity = task.toTaskEntity())
 
     override suspend fun updateTask(task: Task) =
         taskDataSource.updateTask(entity = task.toTaskEntity())
+
+    override suspend fun deleteTask(task: Task) =
+        taskDataSource.deleteTask(entity = task.toTaskEntity())
 
     private fun TaskEntity.toTask() = Task(
         id = this.id,
