@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.example.add_task.navigation.addTaskNavGraph
+import com.example.edit_task.navigation.editTaskNavGraph
 import com.example.manage_categories.navigation.manageCategoriesNavGraph
 import com.example.setting.navigation.settingNavGraph
 
@@ -37,6 +38,11 @@ internal fun MainNavHost(
                 onShowErrorSnackbar = onShowErrorSnackbar,
             )
             addTaskNavGraph(
+                popBackStack = navigator::popBackStackIfNotHome,
+                onShowErrorSnackbar = onShowErrorSnackbar,
+                onShowMessageSnackbar = onShowMessageSnackbar
+            )
+            editTaskNavGraph(
                 popBackStack = navigator::popBackStackIfNotHome,
                 onShowErrorSnackbar = onShowErrorSnackbar,
                 onShowMessageSnackbar = onShowMessageSnackbar

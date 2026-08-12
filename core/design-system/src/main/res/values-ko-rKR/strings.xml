@@ -49,4 +49,5 @@
     <string name="one_hour_before">1시간 전</string>
     <string name="on">켜짐</string>
     <string name="off">꺼짐</string>
+    <string name="edit_task">할 일 수정</string>
 </resources>

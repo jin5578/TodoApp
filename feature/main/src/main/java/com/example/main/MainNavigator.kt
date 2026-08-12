@@ -8,6 +8,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.add_task.navigation.navigateAddTask
+import com.example.edit_task.navigation.navigateEditTask
 import com.example.manage_categories.navigation.navigateManageCategories
 import com.example.navigation.Route
 import java.time.LocalDate
@@ -22,6 +23,9 @@ internal class MainNavigator(
 
     fun navigateAddTask(date: LocalDate = LocalDate.now()) =
         navController.navigateAddTask(date = date)
+
+    fun navigateEditTask(taskId: Long) =
+        navController.navigateEditTask(taskId = taskId)
 
     fun navigateManageCategories() =
         navController.navigateManageCategories()
