@@ -38,8 +38,9 @@ include(
 )
 include(
     ":feature:add-task",
+    ":feature:edit-task",
+    ":feature:home",
     ":feature:main",
     ":feature:manage-categories",
     ":feature:setting"
 )
-include(":feature:edit-task")
