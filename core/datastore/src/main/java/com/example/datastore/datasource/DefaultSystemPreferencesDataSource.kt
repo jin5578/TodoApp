@@ -16,6 +16,7 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
 ) : SystemPreferencesDataSource {
     object PreferencesKey {
         val SLEEP_TIME_KEY = stringPreferencesKey(name = "sleep_time_key")
+        val SORT_TASK_KEY = stringPreferencesKey(name = "sort_task_key")
         val LANGUAGE_TYPE_KEY = stringPreferencesKey(name = "language_type_key")
         val THEME_KEY = stringPreferencesKey(name = "theme_key")
         val TIME_PICKER_KEY = stringPreferencesKey(name = "time_picker_key")
@@ -28,6 +29,8 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
             SystemData(
                 sleepTime = preferences[PreferencesKey.SLEEP_TIME_KEY]
                     ?: DEFAULT_SLEEP_TIME,
+                sortTaskType = preferences[PreferencesKey.SORT_TASK_KEY]
+                    ?: DEFAULT_SORT_TASK,
                 languageType = preferences[PreferencesKey.LANGUAGE_TYPE_KEY]
                     ?: DEFAULT_LANGUAGE_TYPE,
                 themeType = preferences[PreferencesKey.THEME_KEY]
@@ -68,6 +71,7 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
 
     companion object {
         private val DEFAULT_SLEEP_TIME = LocalTime.of(23, 59).toString()
+        private const val DEFAULT_SORT_TASK = "byCreateTimeDescending"
         private const val DEFAULT_LANGUAGE_TYPE = "korean"
         private const val DEFAULT_THEME = "system"
         private const val DEFAULT_TIME_PICKER = "clockTimePicker"

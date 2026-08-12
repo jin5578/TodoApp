@@ -19,6 +19,9 @@ interface TaskDao {
     @Delete
     suspend fun deleteTask(entity: TaskEntity)
 
+    @Query(value = "SELECT * FROM task ORDER BY date ASC")
+    fun getAllTask(): Flow<List<TaskEntity>>
+
     @Query("SELECT * FROM task WHERE date = :date")
     fun getTasksByDate(date: String): Flow<List<TaskEntity>>
 

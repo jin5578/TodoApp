@@ -3,10 +3,12 @@ package com.example.data.repository
 import com.example.data_api.repository.SystemRepository
 import com.example.datastore.datasource.SystemPreferencesDataSource
 import com.example.model.LanguageType
+import com.example.model.SortTaskType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
 import com.example.model.addtask.AddTaskSystem
 import com.example.model.edittask.EditTaskSystem
+import com.example.model.home.HomeSystem
 import com.example.model.setting.SettingSystem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -20,6 +22,17 @@ class DefaultSystemRepository @Inject constructor(
     override fun getThemeType(): Flow<ThemeType> =
         systemDataSource.systemData.map { data ->
             data.themeType.toThemeType()
+        }
+
+    override fun getHomeSystem(): Flow<HomeSystem> =
+        systemDataSource.systemData.map { data ->
+            HomeSystem(
+                sleepTime = LocalTime.parse(data.sleepTime),
+                sortTaskType = data.sortTaskType.toSortTaskType(),
+                themeType = data.themeType.toThemeType(),
+                buildVersion = data.buildVersion,
+                locale = data.locale.toLocale(),
+            )
         }
 
     override fun getSettingSystem(): Flow<SettingSystem> =
@@ -79,6 +92,15 @@ class DefaultSystemRepository @Inject constructor(
         ThemeType.MIDNIGHT_BLUE.key -> ThemeType.MIDNIGHT_BLUE
         ThemeType.CHARCOAL_BLACK.key -> ThemeType.CHARCOAL_BLACK
         else -> ThemeType.DEEP_FOREST_GREEN
+    }
+
+    private fun String.toSortTaskType() = when (this) {
+        SortTaskType.BY_PRIORITY_ASCENDING.key -> SortTaskType.BY_PRIORITY_ASCENDING
+        SortTaskType.BY_PRIORITY_DESCENDING.key -> SortTaskType.BY_PRIORITY_DESCENDING
+        SortTaskType.BY_TIME_ASCENDING.key -> SortTaskType.BY_TIME_ASCENDING
+        SortTaskType.BY_TIME_DESCENDING.key -> SortTaskType.BY_TIME_DESCENDING
+        SortTaskType.BY_CREATE_TIME_ASCENDING.key -> SortTaskType.BY_CREATE_TIME_ASCENDING
+        else -> SortTaskType.BY_CREATE_TIME_DESCENDING
     }
 
     private fun String.toTimePickerType() = when (this) {
