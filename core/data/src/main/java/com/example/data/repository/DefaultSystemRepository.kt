@@ -62,6 +62,9 @@ class DefaultSystemRepository @Inject constructor(
             )
         }
 
+    override suspend fun updateSortTaskType(sortTaskType: SortTaskType) =
+        systemDataSource.updateSortTaskType(sortTaskType = sortTaskType.key)
+
     override suspend fun updateLanguage(languageType: LanguageType) =
         systemDataSource.updateLanguage(languageType = languageType.key)
 

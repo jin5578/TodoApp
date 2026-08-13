@@ -45,6 +45,12 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
                 )
         }
 
+    override suspend fun updateSortTaskType(sortTaskType: String) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.SORT_TASK_KEY] = sortTaskType
+        }
+    }
+
     override suspend fun updateLanguage(languageType: String) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.LANGUAGE_TYPE_KEY] = languageType

@@ -1,6 +1,7 @@
 package com.example.data_api.repository
 
 import com.example.model.LanguageType
+import com.example.model.SortTaskType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
 import com.example.model.addtask.AddTaskSystem
@@ -16,6 +17,7 @@ interface SystemRepository {
     fun getSettingSystem(): Flow<SettingSystem>
     fun getAddTaskSystem(): Flow<AddTaskSystem>
     fun getEditTaskSystem(): Flow<EditTaskSystem>
+    suspend fun updateSortTaskType(sortTaskType: SortTaskType)
     suspend fun updateLanguage(languageType: LanguageType)
     suspend fun updateLocale(locale: Locale)
     suspend fun updateThemeType(themeType: ThemeType)
