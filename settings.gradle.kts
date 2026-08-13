@@ -42,5 +42,6 @@ include(
     ":feature:home",
     ":feature:main",
     ":feature:manage-categories",
-    ":feature:setting"
+    ":feature:setting",
+    ":feature:tasks"
 )
