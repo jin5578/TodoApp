@@ -22,6 +22,14 @@ internal class DefaultTaskRepository @Inject constructor(
     override fun getTaskCountByDate(date: LocalDate): Flow<Int> =
         taskDataSource.getTaskCountByDate(date = date)
 
+    override fun getTasksByState(isCompleted: Boolean): Flow<List<Task>> =
+        taskDataSource.getTasksByState(isCompleted = isCompleted)
+            .map { entities ->
+                entities.map { entity ->
+                    entity.toTask()
+                }
+            }
+
     override fun getFlowTaskById(id: Long): Flow<Task> =
         taskDataSource.getFlowTaskById(id = id).map { entity ->
             entity.toTask()

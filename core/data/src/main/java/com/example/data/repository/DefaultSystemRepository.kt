@@ -10,6 +10,7 @@ import com.example.model.addtask.AddTaskSystem
 import com.example.model.edittask.EditTaskSystem
 import com.example.model.home.HomeSystem
 import com.example.model.setting.SettingSystem
+import com.example.model.tasks.TasksSystem
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalTime
@@ -59,6 +60,13 @@ class DefaultSystemRepository @Inject constructor(
             EditTaskSystem(
                 locale = data.locale.toLocale(),
                 timePickerType = data.timePickerType.toTimePickerType()
+            )
+        }
+
+    override fun getTasksSystem(): Flow<TasksSystem> =
+        systemDataSource.systemData.map { data ->
+            TasksSystem(
+                locale = data.locale.toLocale()
             )
         }
 

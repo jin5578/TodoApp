@@ -8,6 +8,7 @@ import com.example.model.addtask.AddTaskSystem
 import com.example.model.edittask.EditTaskSystem
 import com.example.model.home.HomeSystem
 import com.example.model.setting.SettingSystem
+import com.example.model.tasks.TasksSystem
 import kotlinx.coroutines.flow.Flow
 import java.util.Locale
 
@@ -17,6 +18,7 @@ interface SystemRepository {
     fun getSettingSystem(): Flow<SettingSystem>
     fun getAddTaskSystem(): Flow<AddTaskSystem>
     fun getEditTaskSystem(): Flow<EditTaskSystem>
+    fun getTasksSystem(): Flow<TasksSystem>
     suspend fun updateSortTaskType(sortTaskType: SortTaskType)
     suspend fun updateLanguage(languageType: LanguageType)
     suspend fun updateLocale(locale: Locale)
