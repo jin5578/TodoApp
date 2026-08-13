@@ -17,6 +17,15 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
         taskDatabase.taskDao().getTasksByDate(date = date.toString())
             .map { it.count() }
 
+    override fun getTasksByDateRange(
+        fromDate: LocalDate,
+        toDate: LocalDate
+    ): Flow<List<TaskEntity>> =
+        taskDatabase.taskDao().getTasksByEpochDayRange(
+            fromDate = fromDate.toEpochDay(),
+            toDate = toDate.toEpochDay()
+        )
+
     override fun getTasksByState(isCompleted: Boolean): Flow<List<TaskEntity>> =
         taskDatabase.taskDao().getTasksByState(isCompleted = isCompleted)
 

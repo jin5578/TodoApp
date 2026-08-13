@@ -7,6 +7,11 @@ import java.time.LocalDate
 interface TaskDatabaseDataSource {
     fun getTasksByDate(date: LocalDate): Flow<List<TaskEntity>>
     fun getTaskCountByDate(date: LocalDate): Flow<Int>
+    fun getTasksByDateRange(
+        fromDate: LocalDate,
+        toDate: LocalDate
+    ): Flow<List<TaskEntity>>
+
     fun getTasksByState(isCompleted: Boolean): Flow<List<TaskEntity>>
     fun getFlowTaskById(id: Long): Flow<TaskEntity>
     suspend fun getTaskById(id: Long): TaskEntity
