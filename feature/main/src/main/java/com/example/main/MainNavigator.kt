@@ -19,7 +19,19 @@ internal class MainNavigator(
     private val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
-    val startDestination = Route.Setting
+    val startDestination = Route.Home
+
+    fun navigateCalendar() {
+
+    }
+
+    fun navigateSetting() {
+
+    }
+
+    fun navigateTasks(type: String) {
+
+    }
 
     fun navigateAddTask(date: LocalDate = LocalDate.now()) =
         navController.navigateAddTask(date = date)

@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">TodoRefactoring</string>
     <string name="error_message_network">The network connection is unstable.</string>
     <string name="error_message_unknown">An unknown error has occurred.</string>
     <string name="language">Language</string>
@@ -50,4 +51,12 @@
     <string name="on">ON</string>
     <string name="off">OFF</string>
     <string name="edit_task">Edit Task</string>
+    <string name="sort_tasks_by">Sort Tasks by</string>
+    <string name="select">Select</string>
+    <string name="completed">Completed</string>
+    <string name="incomplete">Incomplete</string>
+    <string name="this_week">This week</string>
+    <string name="all">All</string>
+    <string name="today_tasks">Today Tasks</string>
+    <string name="task_deleted">Task Deleted</string>
 </resources>

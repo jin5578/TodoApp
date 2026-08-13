@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">TodoRefactoring</string>
     <string name="error_message_network">네트워크 연결이 불안정합니다.</string>
     <string name="error_message_unknown">알 수 없는 오류가 발생했습니다.</string>
     <string name="language">언어</string>
@@ -50,4 +51,12 @@
     <string name="on">켜짐</string>
     <string name="off">꺼짐</string>
     <string name="edit_task">할 일 수정</string>
+    <string name="sort_tasks_by">할 일 정렬 기준</string>
+    <string name="select">선택</string>
+    <string name="completed">완료됨</string>
+    <string name="incomplete">미완료</string>
+    <string name="this_week">이번 주</string>
+    <string name="all">전체</string>
+    <string name="today_tasks">오늘의 할 일</string>
+    <string name="task_deleted">할 일이 삭제되었습니다</string>
 </resources>

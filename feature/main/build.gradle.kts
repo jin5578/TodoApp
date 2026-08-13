@@ -37,6 +37,7 @@ dependencies {
 
     implementation(project(":feature:add-task"))
     implementation(project(":feature:edit-task"))
+    implementation(project(":feature:home"))
     implementation(project(":feature:manage-categories"))
     implementation(project(":feature:setting"))
 

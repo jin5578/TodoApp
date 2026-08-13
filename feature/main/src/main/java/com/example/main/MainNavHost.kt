@@ -9,6 +9,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.example.add_task.navigation.addTaskNavGraph
 import com.example.edit_task.navigation.editTaskNavGraph
+import com.example.home.navigation.homeNavGraph
 import com.example.manage_categories.navigation.manageCategoriesNavGraph
 import com.example.setting.navigation.settingNavGraph
 
@@ -27,6 +28,18 @@ internal fun MainNavHost(
             navController = navigator.navController,
             startDestination = navigator.startDestination
         ) {
+            homeNavGraph(
+                navigateCalendar = navigator::navigateCalendar,
+                navigateSetting = navigator::navigateSetting,
+                navigateAddTask = navigator::navigateAddTask,
+                navigateCompletedTask = navigator::navigateTasks,
+                navigateIncompleteTask = navigator::navigateTasks,
+                navigateThisWeekTask = navigator::navigateTasks,
+                navigateAllTask = navigator::navigateTasks,
+                navigateEditTask = navigator::navigateEditTask,
+                onShowErrorSnackbar = onShowErrorSnackbar,
+                onShowMessageSnackbar = onShowMessageSnackbar
+            )
             settingNavGraph(
                 navigateInfo = {},
                 navigateManageCategories = navigator::navigateManageCategories,
