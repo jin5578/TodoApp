@@ -45,3 +45,4 @@ include(
     ":feature:setting",
     ":feature:tasks"
 )
+include(":feature:calendar")
