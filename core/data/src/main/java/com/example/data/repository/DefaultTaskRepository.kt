@@ -12,6 +12,13 @@ import javax.inject.Inject
 internal class DefaultTaskRepository @Inject constructor(
     private val taskDataSource: TaskDatabaseDataSource
 ) : TaskRepository {
+    override fun getAllTask(): Flow<List<Task>> =
+        taskDataSource.getAllTask().map { entities ->
+            entities.map { entity ->
+                entity.toTask()
+            }
+        }
+
     override fun getTasksByDate(date: LocalDate): Flow<List<Task>> =
         taskDataSource.getTasksByDate(date = date).map { entities ->
             entities.map { entity ->

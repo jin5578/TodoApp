@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
 
 interface TaskRepository {
+    fun getAllTask(): Flow<List<Task>>
     fun getTasksByDate(date: LocalDate): Flow<List<Task>>
     fun getTaskCountByDate(date: LocalDate): Flow<Int>
     fun getTasksByDateRange(

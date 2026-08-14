@@ -10,6 +10,9 @@ import javax.inject.Inject
 class DefaultTaskDatabaseDataSource @Inject constructor(
     private val taskDatabase: TaskDatabase
 ) : TaskDatabaseDataSource {
+    override fun getAllTask(): Flow<List<TaskEntity>> =
+        taskDatabase.taskDao().getAllTask()
+
     override fun getTasksByDate(date: LocalDate): Flow<List<TaskEntity>> =
         taskDatabase.taskDao().getTasksByDate(date = date.toString())
 
