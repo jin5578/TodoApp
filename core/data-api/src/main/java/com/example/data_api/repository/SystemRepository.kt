@@ -5,6 +5,7 @@ import com.example.model.SortTaskType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
 import com.example.model.addtask.AddTaskSystem
+import com.example.model.calendar.CalendarSystem
 import com.example.model.edittask.EditTaskSystem
 import com.example.model.home.HomeSystem
 import com.example.model.setting.SettingSystem
@@ -18,6 +19,7 @@ interface SystemRepository {
     fun getSettingSystem(): Flow<SettingSystem>
     fun getAddTaskSystem(): Flow<AddTaskSystem>
     fun getEditTaskSystem(): Flow<EditTaskSystem>
+    fun getCalendarSystem(): Flow<CalendarSystem>
     fun getTasksSystem(): Flow<TasksSystem>
     suspend fun updateSortTaskType(sortTaskType: SortTaskType)
     suspend fun updateLanguage(languageType: LanguageType)

@@ -7,6 +7,7 @@ import com.example.model.SortTaskType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
 import com.example.model.addtask.AddTaskSystem
+import com.example.model.calendar.CalendarSystem
 import com.example.model.edittask.EditTaskSystem
 import com.example.model.home.HomeSystem
 import com.example.model.setting.SettingSystem
@@ -60,6 +61,14 @@ class DefaultSystemRepository @Inject constructor(
             EditTaskSystem(
                 locale = data.locale.toLocale(),
                 timePickerType = data.timePickerType.toTimePickerType()
+            )
+        }
+
+    override fun getCalendarSystem(): Flow<CalendarSystem> =
+        systemDataSource.systemData.map { data ->
+            CalendarSystem(
+                locale = data.locale.toLocale(),
+                sortTaskType = data.sortTaskType.toSortTaskType()
             )
         }
 
