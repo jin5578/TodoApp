@@ -11,6 +11,8 @@ import com.example.add_task.navigation.navigateAddTask
 import com.example.edit_task.navigation.navigateEditTask
 import com.example.manage_categories.navigation.navigateManageCategories
 import com.example.navigation.Route
+import com.example.setting.navigation.navigateSetting
+import com.example.tasks.navigation.navigateTasks
 import java.time.LocalDate
 
 internal class MainNavigator(
@@ -21,23 +23,21 @@ internal class MainNavigator(
 
     val startDestination = Route.Home
 
-    fun navigateCalendar() {
-
-    }
-
-    fun navigateSetting() {
-
-    }
-
-    fun navigateTasks(type: String) {
-
-    }
+    fun navigateSetting() =
+        navController.navigateSetting()
 
     fun navigateAddTask(date: LocalDate = LocalDate.now()) =
         navController.navigateAddTask(date = date)
 
     fun navigateEditTask(taskId: Long) =
         navController.navigateEditTask(taskId = taskId)
+
+    fun navigateTasks(type: String) =
+        navController.navigateTasks(type = type)
+
+    fun navigateCalendar() {
+
+    }
 
     fun navigateManageCategories() =
         navController.navigateManageCategories()

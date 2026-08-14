@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":feature:home"))
     implementation(project(":feature:manage-categories"))
     implementation(project(":feature:setting"))
+    implementation(project(":feature:tasks"))
 
     implementation(libs.kotlinx.coroutines.core)
 

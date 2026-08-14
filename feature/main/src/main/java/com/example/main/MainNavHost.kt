@@ -12,6 +12,7 @@ import com.example.edit_task.navigation.editTaskNavGraph
 import com.example.home.navigation.homeNavGraph
 import com.example.manage_categories.navigation.manageCategoriesNavGraph
 import com.example.setting.navigation.settingNavGraph
+import com.example.tasks.navigation.tasksNavGraph
 
 @Composable
 internal fun MainNavHost(
@@ -40,6 +41,11 @@ internal fun MainNavHost(
                 onShowErrorSnackbar = onShowErrorSnackbar,
                 onShowMessageSnackbar = onShowMessageSnackbar
             )
+            addTaskNavGraph(
+                popBackStack = navigator::popBackStackIfNotHome,
+                onShowErrorSnackbar = onShowErrorSnackbar,
+                onShowMessageSnackbar = onShowMessageSnackbar
+            )
             settingNavGraph(
                 navigateInfo = {},
                 navigateManageCategories = navigator::navigateManageCategories,
@@ -50,15 +56,16 @@ internal fun MainNavHost(
                 popBackStack = navigator::popBackStackIfNotHome,
                 onShowErrorSnackbar = onShowErrorSnackbar,
             )
-            addTaskNavGraph(
-                popBackStack = navigator::popBackStackIfNotHome,
-                onShowErrorSnackbar = onShowErrorSnackbar,
-                onShowMessageSnackbar = onShowMessageSnackbar
-            )
             editTaskNavGraph(
                 popBackStack = navigator::popBackStackIfNotHome,
                 onShowErrorSnackbar = onShowErrorSnackbar,
                 onShowMessageSnackbar = onShowMessageSnackbar
+            )
+            tasksNavGraph(
+                popBackStack = navigator::popBackStackIfNotHome,
+                navigateEditTask = navigator::navigateEditTask,
+                onShowErrorSnackBar = onShowErrorSnackbar,
+                onShowMessageSnackBar = onShowMessageSnackbar
             )
         }
     }
