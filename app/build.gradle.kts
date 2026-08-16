@@ -38,6 +38,8 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:domain"))
+    implementation(project(":core:model"))
     implementation(project(":feature:main"))
 
     implementation(platform(libs.androidx.compose.bom))
@@ -60,5 +62,4 @@ dependencies {
 
     ksp(libs.hilt.android.compiler)
     kspAndroidTest(libs.hilt.android.compiler)
-    ksp(libs.androidx.hilt.compiler)
 }

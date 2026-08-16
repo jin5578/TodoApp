@@ -6,8 +6,16 @@ import javax.inject.Inject
 
 class UpdateTaskUseCase @Inject constructor(
     private val taskRepository: TaskRepository,
+    private val scheduleNotificationWorkUseCase: ScheduleNotificationWorkUseCase,
+    private val cancelNotificationWorkUseCase: CancelNotificationWorkUseCase,
 ) {
     suspend operator fun invoke(task: Task) {
         taskRepository.updateTask(task)
+
+        cancelNotificationWorkUseCase(id = task.uuid)
+
+        if (task.isRemind && !task.isCompleted) {
+            scheduleNotificationWorkUseCase(task = task)
+        }
     }
 }

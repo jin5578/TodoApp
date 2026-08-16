@@ -37,4 +37,5 @@ dependencies {
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+    ksp(libs.androidx.hilt.compiler)
 }

@@ -29,11 +29,13 @@ dependencies {
     // Hilt 그래프가 app까지 전파되도록 필요
     implementation(project(":core:data"))
     implementation(project(":core:data-api"))
+    implementation(project(":core:database"))
     implementation(project(":core:datastore"))
     implementation(project(":core:design-system"))
     implementation(project(":core:domain"))
     implementation(project(":core:model"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:utils"))
 
     implementation(project(":feature:add-task"))
     implementation(project(":feature:calendar"))
@@ -61,7 +63,5 @@ dependencies {
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-
-    implementation(libs.androidx.compose.ui.tooling.preview)
 
 }
