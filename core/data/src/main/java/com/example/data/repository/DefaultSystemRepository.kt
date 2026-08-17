@@ -10,6 +10,7 @@ import com.example.model.addtask.AddTaskSystem
 import com.example.model.calendar.CalendarSystem
 import com.example.model.edittask.EditTaskSystem
 import com.example.model.home.HomeSystem
+import com.example.model.lock_setup.LockSetupSystem
 import com.example.model.setting.SettingSystem
 import com.example.model.tasks.TasksSystem
 import kotlinx.coroutines.flow.Flow
@@ -75,6 +76,13 @@ class DefaultSystemRepository @Inject constructor(
     override fun getTasksSystem(): Flow<TasksSystem> =
         systemDataSource.systemData.map { data ->
             TasksSystem(
+                locale = data.locale.toLocale()
+            )
+        }
+
+    override fun getLockSetupSystem(): Flow<LockSetupSystem> =
+        systemDataSource.systemData.map { data ->
+            LockSetupSystem(
                 locale = data.locale.toLocale()
             )
         }
