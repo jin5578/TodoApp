@@ -46,3 +46,4 @@ include(
     ":feature:tasks"
 )
 include(":feature:calendar")
+include(":feature:lock-setup")
