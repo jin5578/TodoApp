@@ -22,6 +22,11 @@ import javax.inject.Inject
 class DefaultSystemRepository @Inject constructor(
     private val systemDataSource: SystemPreferencesDataSource
 ) : SystemRepository {
+    override fun checkPassword(password: String): Flow<Boolean> =
+        systemDataSource.systemData.map { data ->
+            data.password == password
+        }
+
     override fun getThemeType(): Flow<ThemeType> =
         systemDataSource.systemData.map { data ->
             data.themeType.toThemeType()
@@ -83,6 +88,7 @@ class DefaultSystemRepository @Inject constructor(
     override fun getLockSetupSystem(): Flow<LockSetupSystem> =
         systemDataSource.systemData.map { data ->
             LockSetupSystem(
+                hasExistingPassword = data.password.isNotEmpty(),
                 locale = data.locale.toLocale()
             )
         }

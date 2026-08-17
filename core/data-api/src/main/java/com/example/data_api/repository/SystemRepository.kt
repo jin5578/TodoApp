@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.Flow
 import java.util.Locale
 
 interface SystemRepository {
+    fun checkPassword(password: String): Flow<Boolean>
     fun getThemeType(): Flow<ThemeType>
     fun getHomeSystem(): Flow<HomeSystem>
     fun getSettingSystem(): Flow<SettingSystem>
