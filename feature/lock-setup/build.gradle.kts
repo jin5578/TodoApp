@@ -26,6 +26,11 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:design-system"))
+    implementation(project(":core:domain"))
+    implementation(project(":core:model"))
+    implementation(project(":core:navigation"))
+
     implementation(libs.kotlinx.immutable)
     implementation(libs.kotlinx.coroutines.core)
 
@@ -41,6 +46,8 @@ dependencies {
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
+
+    implementation(libs.timber)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

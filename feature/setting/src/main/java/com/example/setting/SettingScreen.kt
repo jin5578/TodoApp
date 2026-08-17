@@ -61,6 +61,7 @@ internal fun SettingRoute(
     viewModel: SettingViewModel = hiltViewModel(),
     navigateInfo: () -> Unit,
     navigateManageCategories: () -> Unit,
+    navigateLockSetup: () -> Unit,
     popBackStack: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
 ) {
@@ -77,6 +78,7 @@ internal fun SettingRoute(
     SettingContent(
         uiState = uiState,
         navigateManageCategories = navigateManageCategories,
+        navigateLockSetup = navigateLockSetup,
         popBackStack = popBackStack,
         openUrl = { url -> openUrl(context = context, url = url) },
         onLanguageTypeChanged = viewModel::updateLanguageType,
@@ -89,6 +91,7 @@ internal fun SettingRoute(
 private fun SettingContent(
     uiState: SettingUiState,
     navigateManageCategories: () -> Unit,
+    navigateLockSetup: () -> Unit,
     popBackStack: () -> Unit,
     openUrl: (String) -> Unit,
     onLanguageTypeChanged: (LanguageType) -> Unit,
@@ -103,6 +106,7 @@ private fun SettingContent(
             timePickerType = uiState.timePickerType,
             buildVersion = uiState.buildVersion,
             navigateManageCategories = navigateManageCategories,
+            navigateLockSetup = navigateLockSetup,
             popBackStack = popBackStack,
             openUrl = openUrl,
             onLanguageTypeChanged = onLanguageTypeChanged,
@@ -121,6 +125,7 @@ private fun SettingScreen(
     timePickerType: TimePickerType,
     buildVersion: String,
     navigateManageCategories: () -> Unit,
+    navigateLockSetup: () -> Unit,
     popBackStack: () -> Unit,
     openUrl: (String) -> Unit,
     onLanguageTypeChanged: (LanguageType) -> Unit,
@@ -166,7 +171,12 @@ private fun SettingScreen(
         CategoryItemUiState(
             titleResId = DesignSystemR.string.category,
             iconResId = DesignSystemR.drawable.svg_category,
-            onClick = { navigateManageCategories() }
+            onClick = navigateManageCategories
+        ),
+        CategoryItemUiState(
+            titleResId = DesignSystemR.string.security,
+            iconResId = DesignSystemR.drawable.svg_key,
+            onClick = navigateLockSetup
         )
     )
 
@@ -270,6 +280,7 @@ private fun SettingScreenPreview() {
             timePickerType = TimePickerType.SCROLL_TIME_PICKER,
             buildVersion = "1.0.0",
             navigateManageCategories = {},
+            navigateLockSetup = {},
             popBackStack = {},
             openUrl = {},
             onLanguageTypeChanged = {},

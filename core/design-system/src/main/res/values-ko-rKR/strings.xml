@@ -59,4 +59,12 @@
     <string name="all">전체</string>
     <string name="today_tasks">오늘의 할 일</string>
     <string name="task_deleted">할 일이 삭제되었습니다</string>
+    <string name="enter_your_password_to_open_the_app">앱을 켜려면\n비밀번호를 눌러주세요</string>
+    <string name="password_setup_successfully">비밀번호 설정이 완료되었습니다.</string>
+    <string name="security">보안</string>
+    <string name="please_enter_your_current_password">지금 쓰고 있는 비밀번호를 눌러주세요.</string>
+    <string name="please_enter_your_new_password">새로운 비밀번호를 눌러주세요.</string>
+    <string name="please_enter_your_password_once_more">비밀번호를 한 번 더 눌러주세요.</string>
+    <string name="password_doesnt_match">비밀번호가 맞지 않아요.</string>
+    <string name="password_doesnt_match_new_password">처음 쓴 비밀번호와 달라요.\n비밀번호를 다시 확인해주세요.</string>
 </resources>

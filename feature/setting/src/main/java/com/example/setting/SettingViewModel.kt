@@ -35,10 +35,10 @@ class SettingViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
-        fetchSetting()
+        fetchSettingUiState()
     }
 
-    private fun fetchSetting() =
+    private fun fetchSettingUiState() =
         viewModelScope.launch {
             getSettingDataUseCase().map { settingSystem ->
                 SettingUiState.Success(

@@ -59,4 +59,12 @@
     <string name="all">All</string>
     <string name="today_tasks">Today Tasks</string>
     <string name="task_deleted">Task Deleted</string>
+    <string name="enter_your_password_to_open_the_app">Enter your password\nto open the app</string>
+    <string name="password_setup_successfully">Password setup successfully</string>
+    <string name="security">Security</string>
+    <string name="please_enter_your_current_password">Please enter your current password</string>
+    <string name="please_enter_your_new_password">Please enter your new password</string>
+    <string name="please_enter_your_password_once_more">Please enter your password once more</string>
+    <string name="password_doesnt_match">Password doesn’t\'t match</string>
+    <string name="password_doesnt_match_new_password">This doesn’t\'t match the password you entered first. Please check your password again.</string>
 </resources>

@@ -11,6 +11,7 @@ import com.example.add_task.navigation.addTaskNavGraph
 import com.example.calendar.navigation.calendarNavGraph
 import com.example.edit_task.navigation.editTaskNavGraph
 import com.example.home.navigation.homeNavGraph
+import com.example.lock_setup.navigation.lockSetupNavGraph
 import com.example.manage_categories.navigation.manageCategoriesNavGraph
 import com.example.setting.navigation.settingNavGraph
 import com.example.tasks.navigation.tasksNavGraph
@@ -50,6 +51,7 @@ internal fun MainNavHost(
             settingNavGraph(
                 navigateInfo = {},
                 navigateManageCategories = navigator::navigateManageCategories,
+                navigateLockSetup = navigator::navigateLockSetup,
                 popBackStack = navigator::popBackStackIfNotHome,
                 onShowErrorSnackbar = onShowErrorSnackbar,
             )
@@ -73,6 +75,11 @@ internal fun MainNavHost(
                 navigateEditTask = navigator::navigateEditTask,
                 popBackStack = navigator::popBackStackIfNotHome,
                 onShowErrorSnackBar = onShowErrorSnackbar
+            )
+            lockSetupNavGraph(
+                popBackStack = navigator::popBackStackIfNotHome,
+                onShowErrorSnackbar = onShowErrorSnackbar,
+                onShowMessageSnackbar = onShowMessageSnackbar
             )
         }
     }
