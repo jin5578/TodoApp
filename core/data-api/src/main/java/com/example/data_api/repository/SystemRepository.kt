@@ -26,4 +26,5 @@ interface SystemRepository {
     suspend fun updateLocale(locale: Locale)
     suspend fun updateThemeType(themeType: ThemeType)
     suspend fun updateTimePickerType(timePickerType: TimePickerType)
+    suspend fun updatePassword(password: String)
 }

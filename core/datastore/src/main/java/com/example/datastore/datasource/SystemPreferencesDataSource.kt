@@ -10,4 +10,5 @@ interface SystemPreferencesDataSource {
     suspend fun updateLocale(locale: String)
     suspend fun updateThemeType(themeType: String)
     suspend fun updateTimePickerType(timePickerType: String)
+    suspend fun updatePassword(password: String)
 }
