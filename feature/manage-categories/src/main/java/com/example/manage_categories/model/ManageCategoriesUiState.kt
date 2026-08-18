@@ -12,7 +12,7 @@ sealed interface ManageCategoriesUiState {
     data object Loading : ManageCategoriesUiState
 
     @Immutable
-    data class Success(
+    data class Screen(
         val categories: ImmutableList<Category> = persistentListOf()
     ) : ManageCategoriesUiState
 }

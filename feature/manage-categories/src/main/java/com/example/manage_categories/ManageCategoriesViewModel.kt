@@ -42,7 +42,7 @@ class ManageCategoriesViewModel @Inject constructor(
     private fun fetchManageCategories() =
         viewModelScope.launch {
             getAllCategoryUseCase().map { categories ->
-                ManageCategoriesUiState.Success(
+                ManageCategoriesUiState.Screen(
                     categories = categories.toPersistentList()
                 )
             }.catch { throwable ->
