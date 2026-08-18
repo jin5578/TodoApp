@@ -33,16 +33,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.add_task.model.AddTaskUiEffect
-import com.example.add_task.model.AddTaskUiState
-import com.example.design_system.component.Loading
 import com.example.design_system.component.dialog.date_picker.DatePickerDialog
 import com.example.design_system.component.dialog.time_picker.ClockTimePickerDialog
 import com.example.design_system.component.dialog.time_picker.ScrollTimePickerDialog
@@ -64,7 +58,6 @@ import com.example.utils.checkValidTask
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -72,73 +65,9 @@ import java.util.Locale
 import java.util.UUID
 import com.example.design_system.R as DesignSystemR
 
-@Composable
-internal fun AddTaskRoute(
-    viewModel: AddTaskViewModel = hiltViewModel(),
-    date: LocalDate,
-    popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    val context = LocalContext.current
-
-    LaunchedEffect(key1 = date) {
-        viewModel.fetchAddTaskUiState(date)
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
-        }
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.uiEffect.collectLatest { uiEffect ->
-            if (uiEffect is AddTaskUiEffect.SuccessInsertTask) {
-                val message = uiEffect.message
-                onShowMessageSnackbar(message)
-                popBackStack()
-            }
-        }
-    }
-
-    AddTaskContent(
-        uiState = uiState,
-        popBackStack = popBackStack,
-        onAddTaskClick = viewModel::insertTask,
-        onShowMessageSnackbar = onShowMessageSnackbar
-    )
-}
-
-@Composable
-private fun AddTaskContent(
-    uiState: AddTaskUiState,
-    popBackStack: () -> Unit,
-    onAddTaskClick: (Task) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
-) {
-    when (uiState) {
-        is AddTaskUiState.Loading ->
-            Loading()
-
-        is AddTaskUiState.Success ->
-            AddTaskScreen(
-                date = uiState.date,
-                locale = uiState.locale,
-                timePickerType = uiState.timePickerType,
-                categories = uiState.categories,
-                popBackStack = popBackStack,
-                onAddTaskClick = onAddTaskClick,
-                onShowMessageSnackbar = onShowMessageSnackbar
-            )
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun AddTaskScreen(
+internal fun AddTaskScreen(
     modifier: Modifier = Modifier,
     date: LocalDate,
     locale: Locale,

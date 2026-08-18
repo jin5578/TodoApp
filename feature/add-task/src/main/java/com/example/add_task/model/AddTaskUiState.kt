@@ -15,7 +15,7 @@ sealed interface AddTaskUiState {
     data object Loading : AddTaskUiState
 
     @Immutable
-    data class Success(
+    data class Screen(
         val date: LocalDate,
         val locale: Locale,
         val timePickerType: TimePickerType,

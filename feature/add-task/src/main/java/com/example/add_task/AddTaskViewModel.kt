@@ -39,7 +39,7 @@ class AddTaskViewModel @Inject constructor(
         viewModelScope.launch {
             getAddTaskDataUseCase(date).map { addTask ->
                 val addTaskSystem = addTask.addTaskSystem
-                AddTaskUiState.Success(
+                AddTaskUiState.Screen(
                     date = addTask.date,
                     locale = addTaskSystem.locale,
                     timePickerType = addTaskSystem.timePickerType,
