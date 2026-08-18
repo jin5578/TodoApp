@@ -38,12 +38,13 @@ include(
 )
 include(
     ":feature:add-task",
+    ":feature:calendar",
     ":feature:edit-task",
     ":feature:home",
+    ":feature:lock",
+    ":feature:lock-setup",
     ":feature:main",
     ":feature:manage-categories",
     ":feature:setting",
     ":feature:tasks"
 )
-include(":feature:calendar")
-include(":feature:lock-setup")
