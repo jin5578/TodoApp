@@ -59,7 +59,7 @@
     <string name="all">전체</string>
     <string name="today_tasks">오늘의 할 일</string>
     <string name="task_deleted">할 일이 삭제되었습니다</string>
-    <string name="enter_your_password_to_open_the_app">앱을 켜려면\n비밀번호를 눌러주세요</string>
+    <string name="enter_your_password_to_open_the_app">앱을 켜려면 비밀번호를 눌러주세요</string>
     <string name="password_setup_successfully">비밀번호 설정이 완료되었습니다.</string>
     <string name="security">보안</string>
     <string name="please_enter_your_current_password">지금 쓰고 있는 비밀번호를 눌러주세요.</string>

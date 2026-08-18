@@ -93,6 +93,11 @@ class DefaultSystemRepository @Inject constructor(
             )
         }
 
+    override fun hasExistingPassword(): Flow<Boolean> =
+        systemDataSource.systemData.map { data ->
+            data.password.isNotEmpty()
+        }
+
     override suspend fun updateSortTaskType(sortTaskType: SortTaskType) =
         systemDataSource.updateSortTaskType(sortTaskType = sortTaskType.key)
 

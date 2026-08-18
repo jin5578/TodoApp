@@ -24,6 +24,7 @@ interface SystemRepository {
     fun getCalendarSystem(): Flow<CalendarSystem>
     fun getTasksSystem(): Flow<TasksSystem>
     fun getLockSetupSystem(): Flow<LockSetupSystem>
+    fun hasExistingPassword(): Flow<Boolean>
     suspend fun updateSortTaskType(sortTaskType: SortTaskType)
     suspend fun updateLanguage(languageType: LanguageType)
     suspend fun updateLocale(locale: Locale)

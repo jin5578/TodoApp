@@ -1,7 +1,9 @@
 package com.example.main
 
+import android.app.Activity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
@@ -10,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.add_task.navigation.navigateAddTask
 import com.example.calendar.navigation.navigateCalendar
 import com.example.edit_task.navigation.navigateEditTask
+import com.example.home.navigation.navigateHome
 import com.example.lock_setup.navigation.navigateLockSetup
 import com.example.manage_categories.navigation.navigateManageCategories
 import com.example.navigation.Route
@@ -18,12 +21,16 @@ import com.example.tasks.navigation.navigateTasks
 import java.time.LocalDate
 
 internal class MainNavigator(
-    val navController: NavHostController
+    val navController: NavHostController,
+    private val activity: Activity,
 ) {
     private val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
     val startDestination = Route.Home
+
+    fun navigateHome() =
+        navController.navigateHome()
 
     fun navigateSetting() =
         navController.navigateSetting()
@@ -55,6 +62,9 @@ internal class MainNavigator(
         }
     }
 
+    fun exitApp() =
+        activity.finishAffinity()
+
     private inline fun <reified T : Route> isSameCurrentDestination(): Boolean =
         navController.currentDestination?.hasRoute<T>() == true
 }
@@ -62,6 +72,9 @@ internal class MainNavigator(
 @Composable
 internal fun rememberMainNavigator(
     navController: NavHostController = rememberNavController(),
-): MainNavigator = remember(key1 = navController) {
-    MainNavigator(navController = navController)
+): MainNavigator {
+    val activity = LocalContext.current as Activity
+    return remember(key1 = navController, key2 = activity) {
+        MainNavigator(navController = navController, activity = activity)
+    }
 }

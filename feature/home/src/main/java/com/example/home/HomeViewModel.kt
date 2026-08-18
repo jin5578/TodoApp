@@ -2,34 +2,37 @@ package com.example.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.CheckPasswordUseCase
 import com.example.domain.DeleteTaskUseCase
+import com.example.domain.GetHasExistingPasswordUseCase
 import com.example.domain.GetHomeDataUseCase
 import com.example.domain.GetTaskByIdUseCase
 import com.example.domain.UpdateSortTaskTypeUseCase
 import com.example.domain.UpdateTaskUseCase
 import com.example.home.model.HomeUiState
+import com.example.model.LockProcessType
 import com.example.model.SortTaskType
-import com.example.model.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.collections.copy
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val getHasExistingPasswordUseCase: GetHasExistingPasswordUseCase,
     private val getHomeDataUseCase: GetHomeDataUseCase,
     private val updateSortTaskTypeUseCase: UpdateSortTaskTypeUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
-    private val updateTaskUseCase: UpdateTaskUseCase
+    private val updateTaskUseCase: UpdateTaskUseCase,
+    private val checkPasswordUseCase: CheckPasswordUseCase
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -39,8 +42,20 @@ class HomeViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
-        fetchHome()
+        executeHomeProcess()
     }
+
+    private fun executeHomeProcess() =
+        viewModelScope.launch {
+            val hasExistingPassword = getHasExistingPasswordUseCase().first()
+            if (hasExistingPassword) {
+                _uiState.value = HomeUiState.Lock(
+                    lockProcessType = LockProcessType.ENTER_EXISTING_PASSWORD
+                )
+            } else {
+                fetchHome()
+            }
+        }
 
     private fun fetchHome() =
         viewModelScope.launch {
@@ -55,7 +70,7 @@ class HomeViewModel @Inject constructor(
 
                 val homeSystem = home.homeSystem
 
-                HomeUiState.Success(
+                HomeUiState.Screen(
                     completedTasks = completedTasks,
                     incompleteTasks = incompleteTasks,
                     categories = home.categories.toPersistentList(),
@@ -74,7 +89,7 @@ class HomeViewModel @Inject constructor(
 
     fun updateSortTaskType(sortTaskType: SortTaskType) {
         val state = _uiState.value
-        if (state !is HomeUiState.Success) return
+        if (state !is HomeUiState.Screen) return
 
         _uiState.value = state.copy(
             sortTaskType = sortTaskType
@@ -98,4 +113,19 @@ class HomeViewModel @Inject constructor(
             )
             updateTaskUseCase(task = task)
         }
+
+    fun checkPassword(password: String) = viewModelScope.launch {
+        val isPasswordMatched =
+            checkPasswordUseCase(password = password).first()
+        if (isPasswordMatched) {
+            fetchHome()
+        } else {
+            val state = _uiState.value
+            if (state !is HomeUiState.Lock) return@launch
+
+            _uiState.value = state.copy(
+                lockProcessType = LockProcessType.EXISTING_PASSWORD_MISMATCHED
+            )
+        }
+    }
 }

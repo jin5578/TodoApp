@@ -1,4 +1,4 @@
-package com.example.lock_setup.component
+package com.example.design_system.component
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -15,7 +15,7 @@ import androidx.compose.ui.unit.dp
 import com.example.design_system.theme.TodoTheme
 
 @Composable
-internal fun NumberPadButton(
+fun NumberPadButton(
     modifier: Modifier = Modifier,
     title: String,
     onNumberClick: (String) -> Unit,

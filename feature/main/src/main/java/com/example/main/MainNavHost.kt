@@ -32,6 +32,7 @@ internal fun MainNavHost(
             startDestination = navigator.startDestination
         ) {
             homeNavGraph(
+                exitApp = navigator::exitApp,
                 navigateCalendar = navigator::navigateCalendar,
                 navigateSetting = navigator::navigateSetting,
                 navigateAddTask = navigator::navigateAddTask,

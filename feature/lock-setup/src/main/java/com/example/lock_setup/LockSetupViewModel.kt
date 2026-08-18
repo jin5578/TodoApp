@@ -23,7 +23,7 @@ import javax.inject.Inject
 @HiltViewModel
 class LockSetupViewModel @Inject constructor(
     private val getLockSetupDataUseCase: GetLockSetupDataUseCase,
-    private val updatePasswordUsecase: UpdatePasswordUseCase,
+    private val updatePasswordUseCase: UpdatePasswordUseCase,
     private val checkPasswordUseCase: CheckPasswordUseCase
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
@@ -76,7 +76,7 @@ class LockSetupViewModel @Inject constructor(
 
     fun updatePassword(password: String) =
         viewModelScope.launch {
-            updatePasswordUsecase(password = password)
+            updatePasswordUseCase(password = password)
             _uiEffect.emit(value = LockSetupUiEffect.SuccessSetupPassword)
         }
 

@@ -1,4 +1,4 @@
-package com.example.lock_setup
+package com.example.home
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -19,7 +19,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,95 +30,27 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.CircleIndicator
-import com.example.design_system.component.Loading
 import com.example.design_system.component.NumberPadButton
 import com.example.design_system.theme.TodoTheme
-import com.example.lock_setup.model.LockSetupUiEffect
-import com.example.lock_setup.model.LockSetupUiState
-import com.example.model.LockSetupProcessType
+import com.example.model.LockProcessType
 import com.example.utils.randomNumberPadRows
-import kotlinx.coroutines.flow.collectLatest
 import com.example.design_system.R as DesignSystemR
 
 private const val PASSWORD_LENGTH = 6
 
-@Composable
-internal fun LockSetupRoute(
-    viewModel: LockSetupViewModel = hiltViewModel(),
-    popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val passwordSetupSuccessMessage =
-        stringResource(id = DesignSystemR.string.password_setup_successfully)
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
-        }
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.uiEffect.collectLatest { uiEffect ->
-            if (uiEffect is LockSetupUiEffect.SuccessSetupPassword) {
-                onShowMessageSnackbar(passwordSetupSuccessMessage)
-                popBackStack()
-            }
-        }
-    }
-
-    LockSetupContent(
-        uiState = uiState,
-        popBackStack = popBackStack,
-        onPasswordCheck = viewModel::checkPassword,
-        onNewInputPasswordCheck = viewModel::updateNewInputPassword,
-        onPasswordUpdate = viewModel::updatePassword
-    )
-}
-
-@Composable
-private fun LockSetupContent(
-    uiState: LockSetupUiState,
-    popBackStack: () -> Unit,
-    onPasswordCheck: (String) -> Unit,
-    onNewInputPasswordCheck: (String) -> Unit,
-    onPasswordUpdate: (String) -> Unit
-) {
-    when (uiState) {
-        is LockSetupUiState.Loading ->
-            Loading()
-
-        is LockSetupUiState.Success ->
-            LockSetupScreen(
-                lockSetupProcessType = uiState.lockSetupProcessType,
-                newInputPassword = uiState.newInputPassword,
-                popBackStack = popBackStack,
-                onPasswordCheck = onPasswordCheck,
-                onNewInputPasswordCheck = onNewInputPasswordCheck,
-                onPasswordUpdate = onPasswordUpdate,
-            )
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun LockSetupScreen(
+internal fun HomeLockScreen(
     modifier: Modifier = Modifier,
-    lockSetupProcessType: LockSetupProcessType,
-    newInputPassword: String,
-    popBackStack: () -> Unit,
+    lockProcessType: LockProcessType,
+    exitApp: () -> Unit,
     onPasswordCheck: (String) -> Unit,
-    onNewInputPasswordCheck: (String) -> Unit,
-    onPasswordUpdate: (String) -> Unit,
 ) {
     val numberPadRows = remember { randomNumberPadRows() }
     val inputPassword = remember { mutableStateListOf<String>() }
 
-    LaunchedEffect(key1 = lockSetupProcessType) {
+    LaunchedEffect(key1 = lockProcessType) {
         inputPassword.clear()
     }
 
@@ -131,7 +62,7 @@ private fun LockSetupScreen(
                 ),
                 title = {},
                 navigationIcon = {
-                    IconButton(onClick = popBackStack) {
+                    IconButton(onClick = exitApp) {
                         Icon(
                             modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
@@ -154,8 +85,7 @@ private fun LockSetupScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                val title =
-                    getTitle(lockSetupProcessType = lockSetupProcessType)
+                val title = getTitle(lockProcessType = lockProcessType)
                 Text(
                     text = title,
                     style = TodoTheme.typography.headlineSmall,
@@ -200,22 +130,7 @@ private fun LockSetupScreen(
                                     if (inputPassword.size == PASSWORD_LENGTH) {
                                         val password =
                                             inputPassword.joinToString(separator = "")
-                                        when (lockSetupProcessType) {
-                                            LockSetupProcessType.ENTER_EXISTING_PASSWORD,
-                                            LockSetupProcessType.EXISTING_PASSWORD_MISMATCHED ->
-                                                onPasswordCheck(password)
-
-                                            LockSetupProcessType.ENTER_NEW_PASSWORD -> {
-                                                onNewInputPasswordCheck(password)
-                                            }
-
-                                            LockSetupProcessType.CONFIRM_NEW_PASSWORD,
-                                            LockSetupProcessType.CONFIRM_NEW_PASSWORD_MISMATCHED -> {
-                                                if (newInputPassword == password) {
-                                                    onPasswordUpdate(password)
-                                                }
-                                            }
-                                        }
+                                        onPasswordCheck(password)
                                     }
                                 },
                                 onDeleteClick = {
@@ -231,28 +146,22 @@ private fun LockSetupScreen(
 }
 
 @Composable
-private fun getTitle(lockSetupProcessType: LockSetupProcessType): String {
-    val resId = when (lockSetupProcessType) {
-        LockSetupProcessType.ENTER_EXISTING_PASSWORD -> DesignSystemR.string.please_enter_your_current_password
-        LockSetupProcessType.EXISTING_PASSWORD_MISMATCHED -> DesignSystemR.string.password_doesnt_match
-        LockSetupProcessType.ENTER_NEW_PASSWORD -> DesignSystemR.string.please_enter_your_new_password
-        LockSetupProcessType.CONFIRM_NEW_PASSWORD -> DesignSystemR.string.please_enter_your_password_once_more
-        LockSetupProcessType.CONFIRM_NEW_PASSWORD_MISMATCHED -> DesignSystemR.string.password_doesnt_match_new_password
+private fun getTitle(lockProcessType: LockProcessType): String {
+    val resId = when (lockProcessType) {
+        LockProcessType.ENTER_EXISTING_PASSWORD -> DesignSystemR.string.enter_your_password_to_open_the_app
+        LockProcessType.EXISTING_PASSWORD_MISMATCHED -> DesignSystemR.string.password_doesnt_match
     }
     return stringResource(id = resId)
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun LockSetupScreenPreview() {
+private fun HomeLockScreenPreview() {
     TodoTheme {
-        LockSetupScreen(
-            lockSetupProcessType = LockSetupProcessType.ENTER_EXISTING_PASSWORD,
-            newInputPassword = "",
-            popBackStack = {},
-            onPasswordCheck = { _ -> },
-            onNewInputPasswordCheck = { _ -> },
-            onPasswordUpdate = { _ -> }
+        HomeLockScreen(
+            lockProcessType = LockProcessType.ENTER_EXISTING_PASSWORD,
+            exitApp = {},
+            onPasswordCheck = { _ -> }
         )
     }
 }

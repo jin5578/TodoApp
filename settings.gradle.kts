@@ -41,7 +41,6 @@ include(
     ":feature:calendar",
     ":feature:edit-task",
     ":feature:home",
-    ":feature:lock",
     ":feature:lock-setup",
     ":feature:main",
     ":feature:manage-categories",

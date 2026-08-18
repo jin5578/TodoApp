@@ -38,23 +38,18 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.EmptyContent
-import com.example.design_system.component.Loading
 import com.example.design_system.component.TaskCard
 import com.example.design_system.component.dialog.sort_task.SortTaskDialog
 import com.example.design_system.theme.TodoTheme
 import com.example.home.component.SwipeActionBox
 import com.example.home.component.TaskInfoCard
-import com.example.home.model.HomeUiState
 import com.example.model.Category
 import com.example.model.SortTaskType
 import com.example.model.Task
 import com.example.model.TasksType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.util.Locale
 import com.example.design_system.R as DesignSystemR
@@ -62,91 +57,9 @@ import com.example.design_system.R as DesignSystemR
 private const val SLIDE_DISTANCE = 600f
 private const val SLIDE_DURATION_MILLIS = 500
 
-@Composable
-internal fun HomeRoute(
-    viewModel: HomeViewModel = hiltViewModel(),
-    navigateCalendar: () -> Unit,
-    navigateSetting: () -> Unit,
-    navigateAddTask: () -> Unit,
-    navigateCompletedTask: (String) -> Unit,
-    navigateIncompleteTask: (String) -> Unit,
-    navigateThisWeekTask: (String) -> Unit,
-    navigateAllTask: (String) -> Unit,
-    navigateEditTask: (Long) -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
-        }
-    }
-
-    HomeContent(
-        uiState = uiState,
-        navigateCalendar = navigateCalendar,
-        navigateSetting = navigateSetting,
-        navigateAddTask = navigateAddTask,
-        navigateCompletedTask = navigateCompletedTask,
-        navigateIncompleteTask = navigateIncompleteTask,
-        navigateThisWeekTask = navigateThisWeekTask,
-        navigateAllTask = navigateAllTask,
-        navigateEditTask = navigateEditTask,
-        onSortTaskTypeChanged = viewModel::updateSortTaskType,
-        onTaskDelete = viewModel::deleteTask,
-        onTaskToggleCompletion = viewModel::toggleTaskCompletion,
-        onShowMessageSnackbar = onShowMessageSnackbar,
-    )
-}
-
-@Composable
-private fun HomeContent(
-    uiState: HomeUiState,
-    navigateCalendar: () -> Unit,
-    navigateSetting: () -> Unit,
-    navigateAddTask: () -> Unit,
-    navigateCompletedTask: (String) -> Unit,
-    navigateIncompleteTask: (String) -> Unit,
-    navigateThisWeekTask: (String) -> Unit,
-    navigateAllTask: (String) -> Unit,
-    navigateEditTask: (Long) -> Unit,
-    onSortTaskTypeChanged: (SortTaskType) -> Unit,
-    onTaskDelete: (Long) -> Unit,
-    onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
-) {
-    when (uiState) {
-        is HomeUiState.Loading ->
-            Loading()
-
-        is HomeUiState.Success ->
-            HomeScreen(
-                completedTasks = uiState.completedTasks,
-                incompleteTasks = uiState.incompleteTasks,
-                categories = uiState.categories,
-                sortTaskType = uiState.sortTaskType,
-                locale = uiState.locale,
-                navigateCalendar = navigateCalendar,
-                navigateSetting = navigateSetting,
-                navigateAddTask = navigateAddTask,
-                navigateCompletedTask = navigateCompletedTask,
-                navigateIncompleteTask = navigateIncompleteTask,
-                navigateThisWeekTask = navigateThisWeekTask,
-                navigateAllTask = navigateAllTask,
-                navigateEditTask = navigateEditTask,
-                onSortTaskTypeChanged = onSortTaskTypeChanged,
-                onTaskDelete = onTaskDelete,
-                onTaskToggleCompletion = onTaskToggleCompletion,
-                onShowMessageSnackbar = onShowMessageSnackbar
-            )
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeScreen(
+internal fun HomeScreen(
     modifier: Modifier = Modifier,
     completedTasks: ImmutableList<Task>,
     incompleteTasks: ImmutableList<Task>,

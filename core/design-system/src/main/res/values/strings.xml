@@ -59,7 +59,7 @@
     <string name="all">All</string>
     <string name="today_tasks">Today Tasks</string>
     <string name="task_deleted">Task Deleted</string>
-    <string name="enter_your_password_to_open_the_app">Enter your password\nto open the app</string>
+    <string name="enter_your_password_to_open_the_app">Enter your password to open the app</string>
     <string name="password_setup_successfully">Password setup successfully</string>
     <string name="security">Security</string>
     <string name="please_enter_your_current_password">Please enter your current password</string>
