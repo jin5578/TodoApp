@@ -13,7 +13,7 @@ sealed interface SettingUiState {
     data object Loading : SettingUiState
 
     @Immutable
-    data class Success(
+    data class Screen(
         val languageType: LanguageType,
         val themeType: ThemeType,
         val sleepTime: LocalTime,

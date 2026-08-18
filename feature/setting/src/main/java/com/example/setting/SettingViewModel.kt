@@ -41,7 +41,7 @@ class SettingViewModel @Inject constructor(
     private fun fetchSettingUiState() =
         viewModelScope.launch {
             getSettingDataUseCase().map { settingSystem ->
-                SettingUiState.Success(
+                SettingUiState.Screen(
                     languageType = settingSystem.languageType,
                     themeType = settingSystem.themeType,
                     sleepTime = settingSystem.sleepTime,

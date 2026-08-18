@@ -56,70 +56,9 @@ private const val ABOUT_URL =
     "https://intelligent-party-142.notion.site/TODO-1109ff809974806cb274f0b95d4a71d4?pvs=4"
 private const val GITHUB_URL = "https://github.com/jin5578"
 
-@Composable
-internal fun SettingRoute(
-    viewModel: SettingViewModel = hiltViewModel(),
-    navigateInfo: () -> Unit,
-    navigateManageCategories: () -> Unit,
-    navigateLockSetup: () -> Unit,
-    popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    val context = LocalContext.current
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
-        }
-    }
-
-    SettingContent(
-        uiState = uiState,
-        navigateManageCategories = navigateManageCategories,
-        navigateLockSetup = navigateLockSetup,
-        popBackStack = popBackStack,
-        openUrl = { url -> openUrl(context = context, url = url) },
-        onLanguageTypeChanged = viewModel::updateLanguageType,
-        onThemeTypeChanged = viewModel::updateThemeType,
-        onTimePickerTypeChanged = viewModel::updateTimePickerType,
-    )
-}
-
-@Composable
-private fun SettingContent(
-    uiState: SettingUiState,
-    navigateManageCategories: () -> Unit,
-    navigateLockSetup: () -> Unit,
-    popBackStack: () -> Unit,
-    openUrl: (String) -> Unit,
-    onLanguageTypeChanged: (LanguageType) -> Unit,
-    onThemeTypeChanged: (ThemeType) -> Unit,
-    onTimePickerTypeChanged: (TimePickerType) -> Unit,
-) {
-    when (uiState) {
-        is SettingUiState.Loading -> Loading()
-        is SettingUiState.Success -> SettingScreen(
-            languageType = uiState.languageType,
-            themeType = uiState.themeType,
-            timePickerType = uiState.timePickerType,
-            buildVersion = uiState.buildVersion,
-            hasExistingPassword = uiState.hasExistingPassword,
-            navigateManageCategories = navigateManageCategories,
-            navigateLockSetup = navigateLockSetup,
-            popBackStack = popBackStack,
-            openUrl = openUrl,
-            onLanguageTypeChanged = onLanguageTypeChanged,
-            onThemeTypeChanged = onThemeTypeChanged,
-            onTimePickerTypeChanged = onTimePickerTypeChanged,
-        )
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun SettingScreen(
+internal fun SettingScreen(
     modifier: Modifier = Modifier,
     languageType: LanguageType,
     themeType: ThemeType,
