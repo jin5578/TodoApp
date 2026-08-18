@@ -15,7 +15,7 @@ sealed interface CalendarUiState {
     data object Loading : CalendarUiState
 
     @Immutable
-    data class Success(
+    data class Screen(
         val tasks: ImmutableList<Task> = persistentListOf(),
         val categories: ImmutableList<Category> = persistentListOf(),
         val sortTaskType: SortTaskType,

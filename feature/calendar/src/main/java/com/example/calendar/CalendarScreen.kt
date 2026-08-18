@@ -64,59 +64,9 @@ import java.time.format.TextStyle
 import java.util.Locale
 import com.example.design_system.R as DesignSystemR
 
-@Composable
-internal fun CalendarRoute(
-    viewModel: CalendarViewModel = hiltViewModel(),
-    navigateAddTask: (LocalDate) -> Unit,
-    navigateEditTask: (Long) -> Unit,
-    popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
-        }
-    }
-
-    CalendarContent(
-        uiState = uiState,
-        navigateAddTask = navigateAddTask,
-        navigateEditTask = navigateEditTask,
-        popBackStack = popBackStack,
-        onTaskToggleCompletion = viewModel::toggleTaskCompletion,
-        onTaskDelete = viewModel::deleteTask
-    )
-}
-
-@Composable
-private fun CalendarContent(
-    uiState: CalendarUiState,
-    navigateAddTask: (LocalDate) -> Unit,
-    navigateEditTask: (Long) -> Unit,
-    popBackStack: () -> Unit,
-    onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
-    onTaskDelete: (Long) -> Unit,
-) {
-    when (uiState) {
-        is CalendarUiState.Loading -> Loading()
-        is CalendarUiState.Success -> CalendarScreen(
-            tasks = uiState.tasks,
-            categories = uiState.categories,
-            locale = uiState.locale,
-            navigateAddTask = navigateAddTask,
-            navigateEditTask = navigateEditTask,
-            popBackStack = popBackStack,
-            onTaskToggleCompletion = onTaskToggleCompletion,
-            onTaskDelete = onTaskDelete
-        )
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun CalendarScreen(
+internal fun CalendarScreen(
     modifier: Modifier = Modifier,
     tasks: ImmutableList<Task>,
     categories: ImmutableList<Category>,

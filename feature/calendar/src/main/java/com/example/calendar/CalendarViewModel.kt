@@ -40,7 +40,7 @@ class CalendarViewModel @Inject constructor(
         viewModelScope.launch {
             getCalendarDataUseCase().map { calendar ->
                 val calendarSystem = calendar.calendarSystem
-                CalendarUiState.Success(
+                CalendarUiState.Screen(
                     tasks = calendar.tasks.toPersistentList(),
                     categories = calendar.categories.toPersistentList(),
                     sortTaskType = calendarSystem.sortTaskType,
