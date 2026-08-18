@@ -42,7 +42,7 @@ class EditTaskViewModel @Inject constructor(
         viewModelScope.launch {
             getEditTaskDataUseCase(id = taskId).map { editTask ->
                 val editTaskSystem = editTask.editTaskSystem
-                EditTaskUiState.Success(
+                EditTaskUiState.Screen(
                     task = editTask.task,
                     locale = editTaskSystem.locale,
                     timePickerType = editTaskSystem.timePickerType,

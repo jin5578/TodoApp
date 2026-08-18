@@ -71,76 +71,9 @@ import java.time.LocalTime
 import java.util.Locale
 import com.example.design_system.R as DesignSystemR
 
-@Composable
-internal fun EditTaskRoute(
-    viewModel: EditTaskViewModel = hiltViewModel(),
-    taskId: Long,
-    popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    val context = LocalContext.current
-
-    LaunchedEffect(key1 = taskId) {
-        viewModel.fetchEditTask(taskId = taskId)
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
-        }
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.uiEffect.collectLatest { uiEffect ->
-            if (uiEffect is EditTaskUiEffect.SuccessEditTask) {
-                val message = uiEffect.message
-                onShowMessageSnackbar(message)
-                popBackStack()
-            }
-        }
-    }
-
-    EditTaskContent(
-        uiState = uiState,
-        popBackStack = popBackStack,
-        onUpdateTaskClick = viewModel::updateTask,
-        onTaskDelete = viewModel::deleteTask,
-        onShowMessageSnackbar = onShowMessageSnackbar
-    )
-}
-
-@Composable
-private fun EditTaskContent(
-    uiState: EditTaskUiState,
-    popBackStack: () -> Unit,
-    onUpdateTaskClick: (Task) -> Unit,
-    onTaskDelete: (id: Long, uuid: String) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit
-) {
-    when (uiState) {
-        is EditTaskUiState.Loading ->
-            Loading()
-
-        is EditTaskUiState.Success ->
-            EditTaskScreen(
-                task = uiState.task,
-                locale = uiState.locale,
-                timePickerType = uiState.timePickerType,
-                categories = uiState.categories,
-                popBackStack = popBackStack,
-                onUpdateTaskClick = onUpdateTaskClick,
-                onTaskDelete = onTaskDelete,
-                onShowMessageSnackbar = onShowMessageSnackbar
-            )
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun EditTaskScreen(
+internal fun EditTaskScreen(
     modifier: Modifier = Modifier,
     task: Task,
     locale: Locale,

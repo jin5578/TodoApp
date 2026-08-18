@@ -14,7 +14,7 @@ sealed interface EditTaskUiState {
     data object Loading : EditTaskUiState
 
     @Immutable
-    data class Success(
+    data class Screen(
         val task: Task,
         val locale: Locale,
         val timePickerType: TimePickerType,
