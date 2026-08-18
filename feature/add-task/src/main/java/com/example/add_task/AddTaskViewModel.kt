@@ -55,15 +55,6 @@ class AddTaskViewModel @Inject constructor(
     fun insertTask(task: Task) =
         viewModelScope.launch {
             insertTaskUseCase(task)
-            _uiEffect.emit(
-                value = AddTaskUiEffect.SuccessInsertTask(
-                    message = SUCCESSFULLY_ADDED_THE_SCHEDULE
-                )
-            )
+            _uiEffect.emit(value = AddTaskUiEffect.SuccessInsertTask)
         }
-
-    companion object {
-        private const val SUCCESSFULLY_ADDED_THE_SCHEDULE =
-            "Successfully added the schedule"
-    }
 }

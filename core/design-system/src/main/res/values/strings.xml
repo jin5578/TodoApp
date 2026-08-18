@@ -68,4 +68,7 @@
     <string name="please_enter_your_password_once_more">Please enter your password once more</string>
     <string name="password_doesnt_match">Password doesn’t\'t match</string>
     <string name="password_doesnt_match_new_password">This doesn’t\'t match the password you entered first. Please check your password again.</string>
+    <string name="successfully_added_the_schedule">Successfully added the schedule</string>
+    <string name="successfully_updated_the_schedule">Successfully updated the schedule</string>
+    <string name="successfully_deleted_the_schedule">Successfully deleted the schedule</string>
 </resources>

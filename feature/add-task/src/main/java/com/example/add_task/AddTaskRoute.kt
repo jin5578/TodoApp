@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.add_task.model.AddTaskUiEffect
@@ -12,6 +13,7 @@ import com.example.design_system.component.Loading
 import com.example.model.Task
 import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
+import com.example.design_system.R as DesignSystemR
 
 @Composable
 internal fun AddTaskRoute(
@@ -24,6 +26,9 @@ internal fun AddTaskRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
+
+    val addTaskSuccessMessage =
+        stringResource(id = DesignSystemR.string.successfully_added_the_schedule)
 
     LaunchedEffect(key1 = date) {
         viewModel.fetchAddTaskUiState(date)
@@ -38,8 +43,7 @@ internal fun AddTaskRoute(
     LaunchedEffect(key1 = Unit) {
         viewModel.uiEffect.collectLatest { uiEffect ->
             if (uiEffect is AddTaskUiEffect.SuccessInsertTask) {
-                val message = uiEffect.message
-                onShowMessageSnackbar(message)
+                onShowMessageSnackbar(addTaskSuccessMessage)
                 popBackStack()
             }
         }

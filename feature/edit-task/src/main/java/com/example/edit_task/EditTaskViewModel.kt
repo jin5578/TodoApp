@@ -59,9 +59,7 @@ class EditTaskViewModel @Inject constructor(
         viewModelScope.launch {
             updateTaskUseCase(task = task)
             _uiEffect.emit(
-                value = EditTaskUiEffect.SuccessEditTask(
-                    message = SUCCESSFULLY_UPDATED_THE_SCHEDULE
-                )
+                value = EditTaskUiEffect.SuccessEditTask
             )
         }
 
@@ -70,16 +68,7 @@ class EditTaskViewModel @Inject constructor(
             val task = getTaskByIdUseCase(id = taskId)
             deleteTaskUseCase(task = task)
             _uiEffect.emit(
-                value = EditTaskUiEffect.SuccessEditTask(
-                    message = SUCCESSFULLY_DELETED_THE_SCHEDULE
-                )
+                value = EditTaskUiEffect.SuccessDeleteTask
             )
         }
-
-    companion object {
-        private const val SUCCESSFULLY_UPDATED_THE_SCHEDULE =
-            "Successfully updated the schedule"
-        private const val SUCCESSFULLY_DELETED_THE_SCHEDULE =
-            "Successfully deleted the schedule"
-    }
 }
