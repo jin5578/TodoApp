@@ -50,7 +50,8 @@ class DefaultSystemRepository @Inject constructor(
                 themeType = data.themeType.toThemeType(),
                 sleepTime = LocalTime.parse(data.sleepTime),
                 timePickerType = data.timePickerType.toTimePickerType(),
-                buildVersion = data.buildVersion
+                buildVersion = data.buildVersion,
+                hasExistingPassword = data.password.isNotEmpty()
             )
         }
 
@@ -115,6 +116,9 @@ class DefaultSystemRepository @Inject constructor(
 
     override suspend fun updatePassword(password: String) =
         systemDataSource.updatePassword(password = password)
+
+    override suspend fun removePassword() =
+        systemDataSource.removePassword()
 
     private fun String.toLanguageType() = when (this) {
         LanguageType.KOREAN.key -> LanguageType.KOREAN

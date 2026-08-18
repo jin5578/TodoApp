@@ -31,4 +31,5 @@ interface SystemRepository {
     suspend fun updateThemeType(themeType: ThemeType)
     suspend fun updateTimePickerType(timePickerType: TimePickerType)
     suspend fun updatePassword(password: String)
+    suspend fun removePassword()
 }
