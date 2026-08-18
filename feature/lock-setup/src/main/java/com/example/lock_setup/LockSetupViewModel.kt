@@ -76,11 +76,22 @@ class LockSetupViewModel @Inject constructor(
         }
     }
 
-    fun updatePassword(password: String) =
-        viewModelScope.launch {
-            updatePasswordUseCase(password = password)
-            _uiEffect.emit(value = LockSetupUiEffect.SuccessSetupPassword)
+    fun updatePassword(password: String) {
+        val state = _uiState.value
+        if (state !is LockSetupUiState.Success) return
+
+        if (state.newInputPassword == password) {
+            viewModelScope.launch {
+                updatePasswordUseCase(password = password)
+                _uiEffect.emit(value = LockSetupUiEffect.SuccessSetupPassword)
+            }
+        } else {
+            _uiState.value = state.copy(
+                lockSetupProcessType = LockSetupProcessType.CONFIRM_NEW_PASSWORD_MISMATCHED
+            )
         }
+    }
+
 
     fun removePassword() =
         viewModelScope.launch {

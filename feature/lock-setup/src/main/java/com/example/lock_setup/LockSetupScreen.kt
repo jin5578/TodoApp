@@ -103,7 +103,6 @@ private fun LockSetupContent(
         is LockSetupUiState.Success ->
             LockSetupScreen(
                 lockSetupProcessType = uiState.lockSetupProcessType,
-                newInputPassword = uiState.newInputPassword,
                 popBackStack = popBackStack,
                 onPasswordCheck = onPasswordCheck,
                 onNewInputPasswordCheck = onNewInputPasswordCheck,
@@ -118,7 +117,6 @@ private fun LockSetupContent(
 private fun LockSetupScreen(
     modifier: Modifier = Modifier,
     lockSetupProcessType: LockSetupProcessType,
-    newInputPassword: String,
     popBackStack: () -> Unit,
     onPasswordCheck: (String) -> Unit,
     onNewInputPasswordCheck: (String) -> Unit,
@@ -226,16 +224,12 @@ private fun LockSetupScreen(
                                             LockSetupProcessType.EXISTING_PASSWORD_MISMATCHED ->
                                                 onPasswordCheck(password)
 
-                                            LockSetupProcessType.ENTER_NEW_PASSWORD -> {
+                                            LockSetupProcessType.ENTER_NEW_PASSWORD ->
                                                 onNewInputPasswordCheck(password)
-                                            }
 
                                             LockSetupProcessType.CONFIRM_NEW_PASSWORD,
-                                            LockSetupProcessType.CONFIRM_NEW_PASSWORD_MISMATCHED -> {
-                                                if (newInputPassword == password) {
-                                                    onPasswordUpdate(password)
-                                                }
-                                            }
+                                            LockSetupProcessType.CONFIRM_NEW_PASSWORD_MISMATCHED ->
+                                                onPasswordUpdate(password)
                                         }
                                     }
                                 },
@@ -269,7 +263,6 @@ private fun LockSetupScreenPreview() {
     TodoTheme {
         LockSetupScreen(
             lockSetupProcessType = LockSetupProcessType.ENTER_EXISTING_PASSWORD,
-            newInputPassword = "",
             popBackStack = {},
             onPasswordCheck = { _ -> },
             onNewInputPasswordCheck = { _ -> },
