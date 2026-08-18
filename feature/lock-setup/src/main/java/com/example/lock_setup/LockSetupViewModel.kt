@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.CheckPasswordUseCase
 import com.example.domain.GetLockSetupDataUseCase
+import com.example.domain.RemovePasswordUseCase
 import com.example.domain.UpdatePasswordUseCase
 import com.example.lock_setup.model.LockSetupUiEffect
 import com.example.lock_setup.model.LockSetupUiState
@@ -24,7 +25,8 @@ import javax.inject.Inject
 class LockSetupViewModel @Inject constructor(
     private val getLockSetupDataUseCase: GetLockSetupDataUseCase,
     private val updatePasswordUseCase: UpdatePasswordUseCase,
-    private val checkPasswordUseCase: CheckPasswordUseCase
+    private val checkPasswordUseCase: CheckPasswordUseCase,
+    private val removePasswordUseCase: RemovePasswordUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -78,6 +80,12 @@ class LockSetupViewModel @Inject constructor(
         viewModelScope.launch {
             updatePasswordUseCase(password = password)
             _uiEffect.emit(value = LockSetupUiEffect.SuccessSetupPassword)
+        }
+
+    fun removePassword() =
+        viewModelScope.launch {
+            removePasswordUseCase()
+            _uiEffect.emit(value = LockSetupUiEffect.SuccessRemovePassword)
         }
 
     fun checkPassword(password: String) =

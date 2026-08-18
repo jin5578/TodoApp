@@ -56,6 +56,8 @@ internal fun LockSetupRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
     val passwordSetupSuccessMessage =
         stringResource(id = DesignSystemR.string.password_setup_successfully)
+    val passwordRemoveSuccessMessage =
+        stringResource(id = DesignSystemR.string.password_remove_successfully)
 
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
@@ -68,6 +70,9 @@ internal fun LockSetupRoute(
             if (uiEffect is LockSetupUiEffect.SuccessSetupPassword) {
                 onShowMessageSnackbar(passwordSetupSuccessMessage)
                 popBackStack()
+            } else if (uiEffect is LockSetupUiEffect.SuccessRemovePassword) {
+                onShowMessageSnackbar(passwordRemoveSuccessMessage)
+                popBackStack()
             }
         }
     }
@@ -77,7 +82,8 @@ internal fun LockSetupRoute(
         popBackStack = popBackStack,
         onPasswordCheck = viewModel::checkPassword,
         onNewInputPasswordCheck = viewModel::updateNewInputPassword,
-        onPasswordUpdate = viewModel::updatePassword
+        onPasswordUpdate = viewModel::updatePassword,
+        onPasswordRemove = viewModel::removePassword
     )
 }
 
@@ -87,7 +93,8 @@ private fun LockSetupContent(
     popBackStack: () -> Unit,
     onPasswordCheck: (String) -> Unit,
     onNewInputPasswordCheck: (String) -> Unit,
-    onPasswordUpdate: (String) -> Unit
+    onPasswordUpdate: (String) -> Unit,
+    onPasswordRemove: () -> Unit
 ) {
     when (uiState) {
         is LockSetupUiState.Loading ->
@@ -101,6 +108,7 @@ private fun LockSetupContent(
                 onPasswordCheck = onPasswordCheck,
                 onNewInputPasswordCheck = onNewInputPasswordCheck,
                 onPasswordUpdate = onPasswordUpdate,
+                onPasswordRemove = onPasswordRemove
             )
     }
 }
@@ -115,6 +123,7 @@ private fun LockSetupScreen(
     onPasswordCheck: (String) -> Unit,
     onNewInputPasswordCheck: (String) -> Unit,
     onPasswordUpdate: (String) -> Unit,
+    onPasswordRemove: () -> Unit,
 ) {
     val numberPadRows = remember { randomNumberPadRows() }
     val inputPassword = remember { mutableStateListOf<String>() }
@@ -135,6 +144,18 @@ private fun LockSetupScreen(
                         Icon(
                             modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onSurface
+                        )
+                    }
+                },
+                actions = {
+                    IconButton(
+                        onClick = onPasswordRemove
+                    ) {
+                        Icon(
+                            modifier = modifier.size(size = 21.dp),
+                            imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_unlock),
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onSurface
                         )
@@ -252,7 +273,8 @@ private fun LockSetupScreenPreview() {
             popBackStack = {},
             onPasswordCheck = { _ -> },
             onNewInputPasswordCheck = { _ -> },
-            onPasswordUpdate = { _ -> }
+            onPasswordUpdate = { _ -> },
+            onPasswordRemove = {}
         )
     }
 }

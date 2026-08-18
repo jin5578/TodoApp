@@ -46,7 +46,8 @@ class SettingViewModel @Inject constructor(
                     themeType = settingSystem.themeType,
                     sleepTime = settingSystem.sleepTime,
                     timePickerType = settingSystem.timePickerType,
-                    buildVersion = settingSystem.buildVersion
+                    buildVersion = settingSystem.buildVersion,
+                    hasExistingPassword = settingSystem.hasExistingPassword
                 )
             }.catch { throwable ->
                 _errorFlow.emit(value = throwable)

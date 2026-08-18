@@ -11,4 +11,5 @@ data class SettingSystem(
     val sleepTime: LocalTime,
     val timePickerType: TimePickerType,
     val buildVersion: String,
+    val hasExistingPassword: Boolean,
 )

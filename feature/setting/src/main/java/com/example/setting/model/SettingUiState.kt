@@ -18,6 +18,7 @@ sealed interface SettingUiState {
         val themeType: ThemeType,
         val sleepTime: LocalTime,
         val timePickerType: TimePickerType,
-        val buildVersion: String
+        val buildVersion: String,
+        val hasExistingPassword: Boolean,
     ) : SettingUiState
 }

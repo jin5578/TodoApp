@@ -10,4 +10,7 @@ sealed interface LockSetupUiEffect {
 
     @Immutable
     data object SuccessSetupPassword : LockSetupUiEffect
+
+    @Immutable
+    data object SuccessRemovePassword : LockSetupUiEffect
 }

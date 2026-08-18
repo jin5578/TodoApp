@@ -61,6 +61,7 @@
     <string name="task_deleted">Task Deleted</string>
     <string name="enter_your_password_to_open_the_app">Enter your password to open the app</string>
     <string name="password_setup_successfully">Password setup successfully</string>
+    <string name="password_remove_successfully">Password remove successfully</string>
     <string name="security">Security</string>
     <string name="please_enter_your_current_password">Please enter your current password</string>
     <string name="please_enter_your_new_password">Please enter your new password</string>

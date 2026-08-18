@@ -105,6 +105,7 @@ private fun SettingContent(
             themeType = uiState.themeType,
             timePickerType = uiState.timePickerType,
             buildVersion = uiState.buildVersion,
+            hasExistingPassword = uiState.hasExistingPassword,
             navigateManageCategories = navigateManageCategories,
             navigateLockSetup = navigateLockSetup,
             popBackStack = popBackStack,
@@ -124,6 +125,7 @@ private fun SettingScreen(
     themeType: ThemeType,
     timePickerType: TimePickerType,
     buildVersion: String,
+    hasExistingPassword: Boolean,
     navigateManageCategories: () -> Unit,
     navigateLockSetup: () -> Unit,
     popBackStack: () -> Unit,
@@ -175,7 +177,9 @@ private fun SettingScreen(
         ),
         CategoryItemUiState(
             titleResId = DesignSystemR.string.security,
-            iconResId = DesignSystemR.drawable.svg_key,
+            iconResId =
+                if (hasExistingPassword) DesignSystemR.drawable.svg_lock
+                else DesignSystemR.drawable.svg_unlock,
             onClick = navigateLockSetup
         )
     )
@@ -279,6 +283,7 @@ private fun SettingScreenPreview() {
             themeType = ThemeType.SUN_RISE,
             timePickerType = TimePickerType.SCROLL_TIME_PICKER,
             buildVersion = "1.0.0",
+            hasExistingPassword = true,
             navigateManageCategories = {},
             navigateLockSetup = {},
             popBackStack = {},
