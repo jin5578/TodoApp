@@ -19,8 +19,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -28,91 +26,20 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.EmptyContent
-import com.example.design_system.component.Loading
 import com.example.design_system.component.TaskCard
 import com.example.design_system.theme.TodoTheme
 import com.example.model.Category
 import com.example.model.Task
 import com.example.model.TasksType
-import com.example.tasks.model.TasksUiState
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.flow.collectLatest
 import java.util.Locale
 import com.example.design_system.R as DesignSystemR
 
-@Composable
-internal fun TasksRoute(
-    viewModel: TasksViewModel = hiltViewModel(),
-    type: TasksType,
-    popBackStack: () -> Unit,
-    navigateEditTask: (Long) -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    LaunchedEffect(key1 = type) {
-        viewModel.fetchTasks(type = type)
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
-        }
-    }
-
-    TasksContent(
-        uiState = uiState,
-        type = type,
-        popBackStack = popBackStack,
-        navigateEditTask = navigateEditTask,
-        onTaskToggleCompletion = { taskId, isCompleted ->
-            viewModel.toggleTaskCompletion(
-                taskId = taskId,
-                isCompleted = isCompleted
-            )
-        },
-        onTaskDelete = viewModel::deleteTask,
-        onShowMessageSnackbar = onShowMessageSnackbar
-    )
-}
-
-@Composable
-private fun TasksContent(
-    uiState: TasksUiState,
-    type: TasksType,
-    popBackStack: () -> Unit,
-    navigateEditTask: (Long) -> Unit,
-    onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
-    onTaskDelete: (Long) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit
-) {
-    when (uiState) {
-        is TasksUiState.Loading ->
-            Loading()
-
-        is TasksUiState.Success ->
-            TasksScreen(
-                type = type,
-                tasks = uiState.tasks,
-                categories = uiState.categories,
-                locale = uiState.locale,
-                popBackStack = popBackStack,
-                navigateEditTask = navigateEditTask,
-                onTaskToggleCompletion = onTaskToggleCompletion,
-                onTaskDelete = onTaskDelete,
-                onShowMessageSnackbar = onShowMessageSnackbar
-            )
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TasksScreen(
+internal fun TasksScreen(
     modifier: Modifier = Modifier,
     type: TasksType,
     tasks: ImmutableList<Task>,

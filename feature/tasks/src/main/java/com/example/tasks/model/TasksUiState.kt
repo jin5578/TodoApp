@@ -14,7 +14,7 @@ sealed interface TasksUiState {
     data object Loading : TasksUiState
 
     @Immutable
-    data class Success(
+    data class Screen(
         val tasks: ImmutableList<Task> = persistentListOf(),
         val categories: ImmutableList<Category> = persistentListOf(),
         val locale: Locale,

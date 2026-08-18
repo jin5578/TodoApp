@@ -59,7 +59,7 @@ class TasksViewModel @Inject constructor(
     private fun fetchTasksByState(isCompleted: Boolean) =
         viewModelScope.launch {
             getTasksByStateUseCase(isCompleted = isCompleted).map {
-                TasksUiState.Success(
+                TasksUiState.Screen(
                     tasks = it.tasks.toPersistentList(),
                     categories = it.categories.toPersistentList(),
                     locale = it.tasksSystem.locale
@@ -77,7 +77,7 @@ class TasksViewModel @Inject constructor(
                 fromDate = fromDate,
                 toDate = toDate
             ).map {
-                TasksUiState.Success(
+                TasksUiState.Screen(
                     tasks = it.tasks.toPersistentList(),
                     categories = it.categories.toPersistentList(),
                     locale = it.tasksSystem.locale,
@@ -92,7 +92,7 @@ class TasksViewModel @Inject constructor(
     private fun fetchAllTasks() =
         viewModelScope.launch {
             getAllTaskUseCase().map {
-                TasksUiState.Success(
+                TasksUiState.Screen(
                     tasks = it.tasks.toPersistentList(),
                     categories = it.categories.toPersistentList(),
                     locale = it.tasksSystem.locale
