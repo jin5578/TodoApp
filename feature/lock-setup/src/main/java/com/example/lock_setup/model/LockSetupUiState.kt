@@ -11,7 +11,7 @@ sealed interface LockSetupUiState {
     data object Loading : LockSetupUiState
 
     @Immutable
-    data class Success(
+    data class Screen(
         val lockSetupProcessType: LockSetupProcessType,
         val newInputPassword: String,
         val locale: Locale

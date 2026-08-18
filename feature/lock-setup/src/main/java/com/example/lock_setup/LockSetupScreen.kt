@@ -46,75 +46,9 @@ import com.example.design_system.R as DesignSystemR
 
 private const val PASSWORD_LENGTH = 6
 
-@Composable
-internal fun LockSetupRoute(
-    viewModel: LockSetupViewModel = hiltViewModel(),
-    popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
-) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-    val passwordSetupSuccessMessage =
-        stringResource(id = DesignSystemR.string.password_setup_successfully)
-    val passwordRemoveSuccessMessage =
-        stringResource(id = DesignSystemR.string.password_remove_successfully)
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
-        }
-    }
-
-    LaunchedEffect(key1 = Unit) {
-        viewModel.uiEffect.collectLatest { uiEffect ->
-            if (uiEffect is LockSetupUiEffect.SuccessSetupPassword) {
-                onShowMessageSnackbar(passwordSetupSuccessMessage)
-                popBackStack()
-            } else if (uiEffect is LockSetupUiEffect.SuccessRemovePassword) {
-                onShowMessageSnackbar(passwordRemoveSuccessMessage)
-                popBackStack()
-            }
-        }
-    }
-
-    LockSetupContent(
-        uiState = uiState,
-        popBackStack = popBackStack,
-        onPasswordCheck = viewModel::checkPassword,
-        onNewInputPasswordCheck = viewModel::updateNewInputPassword,
-        onPasswordUpdate = viewModel::updatePassword,
-        onPasswordRemove = viewModel::removePassword
-    )
-}
-
-@Composable
-private fun LockSetupContent(
-    uiState: LockSetupUiState,
-    popBackStack: () -> Unit,
-    onPasswordCheck: (String) -> Unit,
-    onNewInputPasswordCheck: (String) -> Unit,
-    onPasswordUpdate: (String) -> Unit,
-    onPasswordRemove: () -> Unit
-) {
-    when (uiState) {
-        is LockSetupUiState.Loading ->
-            Loading()
-
-        is LockSetupUiState.Success ->
-            LockSetupScreen(
-                lockSetupProcessType = uiState.lockSetupProcessType,
-                popBackStack = popBackStack,
-                onPasswordCheck = onPasswordCheck,
-                onNewInputPasswordCheck = onNewInputPasswordCheck,
-                onPasswordUpdate = onPasswordUpdate,
-                onPasswordRemove = onPasswordRemove
-            )
-    }
-}
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun LockSetupScreen(
+internal fun LockSetupScreen(
     modifier: Modifier = Modifier,
     lockSetupProcessType: LockSetupProcessType,
     popBackStack: () -> Unit,
