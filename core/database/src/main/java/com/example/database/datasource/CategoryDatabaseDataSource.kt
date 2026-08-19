@@ -9,4 +9,5 @@ interface CategoryDatabaseDataSource {
     suspend fun insertCategory(entity: CategoryEntity)
     suspend fun updateCategory(entity: CategoryEntity)
     suspend fun deleteCategory(entity: CategoryEntity)
+    suspend fun deleteAllCategory()
 }

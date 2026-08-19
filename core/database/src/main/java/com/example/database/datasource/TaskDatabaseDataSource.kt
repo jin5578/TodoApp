@@ -19,4 +19,5 @@ interface TaskDatabaseDataSource {
     suspend fun insertTask(entity: TaskEntity)
     suspend fun updateTask(entity: TaskEntity)
     suspend fun deleteTask(entity: TaskEntity)
+    suspend fun deleteAllTask()
 }

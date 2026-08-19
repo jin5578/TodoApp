@@ -46,4 +46,7 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
 
     override suspend fun deleteTask(entity: TaskEntity) =
         taskDatabase.taskDao().deleteTask(entity = entity)
+
+    override suspend fun deleteAllTask() =
+        taskDatabase.taskDao().deleteAllTask()
 }

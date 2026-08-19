@@ -12,4 +12,5 @@ interface SystemPreferencesDataSource {
     suspend fun updateTimePickerType(timePickerType: String)
     suspend fun updatePassword(password: String)
     suspend fun removePassword()
+    suspend fun deleteAllData()
 }

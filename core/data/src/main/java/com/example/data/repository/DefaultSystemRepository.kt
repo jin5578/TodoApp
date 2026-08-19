@@ -120,6 +120,9 @@ class DefaultSystemRepository @Inject constructor(
     override suspend fun removePassword() =
         systemDataSource.removePassword()
 
+    override suspend fun deleteAllData() =
+        systemDataSource.deleteAllData()
+
     private fun String.toLanguageType() = when (this) {
         LanguageType.KOREAN.key -> LanguageType.KOREAN
         else -> LanguageType.ENGLISH

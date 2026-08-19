@@ -65,6 +65,9 @@ internal class DefaultTaskRepository @Inject constructor(
     override suspend fun deleteTask(task: Task) =
         taskDataSource.deleteTask(entity = task.toTaskEntity())
 
+    override suspend fun deleteAllTask() =
+        taskDataSource.deleteAllTask()
+
     private fun TaskEntity.toTask() = Task(
         id = this.id,
         uuid = this.uuid,

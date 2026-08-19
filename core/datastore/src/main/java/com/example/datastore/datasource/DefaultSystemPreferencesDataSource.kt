@@ -89,6 +89,19 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
         }
     }
 
+    override suspend fun deleteAllData() {
+        dataStore.edit {preferences ->
+            preferences[PreferencesKey.SLEEP_TIME_KEY] = DEFAULT_SLEEP_TIME
+            preferences[PreferencesKey.SORT_TASK_KEY] = DEFAULT_SORT_TASK
+            preferences[PreferencesKey.LANGUAGE_TYPE_KEY] = DEFAULT_LANGUAGE_TYPE
+            preferences[PreferencesKey.THEME_KEY] = DEFAULT_THEME
+            preferences[PreferencesKey.TIME_PICKER_KEY] = DEFAULT_TIME_PICKER
+            preferences[PreferencesKey.LOCALE_KEY] = DEFAULT_LOCALE
+            preferences[PreferencesKey.BUILD_VERSION_KEY] = DEFAULT_BUILD_VERSION
+            preferences[PreferencesKey.PASSWORD_KEY] = DEFAULT_PASSWORD
+        }
+    }
+
     companion object {
         private val DEFAULT_SLEEP_TIME = LocalTime.of(23, 59).toString()
         private const val DEFAULT_SORT_TASK = "byCreateTimeDescending"
