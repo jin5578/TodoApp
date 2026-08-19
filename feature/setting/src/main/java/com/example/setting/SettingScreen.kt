@@ -19,7 +19,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -28,14 +27,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.design_system.component.Loading
 import com.example.design_system.theme.TodoTheme
 import com.example.model.LanguageType
 import com.example.model.ThemeType
@@ -46,10 +41,7 @@ import com.example.setting.component.SettingThemeContent
 import com.example.setting.component.SettingTimePickerContent
 import com.example.setting.model.BottomSheetType
 import com.example.setting.model.CategoryItemUiState
-import com.example.setting.model.SettingUiState
-import com.example.utils.openUrl
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.flow.collectLatest
 import com.example.design_system.R as DesignSystemR
 
 private const val ABOUT_URL =
@@ -115,7 +107,7 @@ internal fun SettingScreen(
             onClick = navigateManageCategories
         ),
         CategoryItemUiState(
-            titleResId = DesignSystemR.string.security,
+            titleResId = DesignSystemR.string.password_and_security,
             iconResId =
                 if (hasExistingPassword) DesignSystemR.drawable.svg_lock
                 else DesignSystemR.drawable.svg_unlock,

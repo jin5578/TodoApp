@@ -44,6 +44,7 @@ include(
     ":feature:lock-setup",
     ":feature:main",
     ":feature:manage-categories",
+    ":feature:security",
     ":feature:setting",
     ":feature:tasks"
 )

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.lock_setup"
+    namespace = "com.example.security"
     compileSdk {
         version = release(37)
     }
@@ -32,6 +32,7 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:utils"))
 
+    implementation(libs.kotlinx.immutable)
     implementation(libs.kotlinx.coroutines.core)
 
     implementation(platform(libs.androidx.compose.bom))
@@ -40,6 +41,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.navigation)
+
+    implementation(libs.androidx.lifecycle.runtime.ktx)
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)

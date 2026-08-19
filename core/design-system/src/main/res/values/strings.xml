@@ -65,6 +65,7 @@
     <string name="password_setup_successfully">Password setup successfully</string>
     <string name="password_remove_successfully">Password remove successfully</string>
     <string name="security">Security</string>
+    <string name="password_and_security">Password • Security</string>
     <string name="please_enter_your_current_password">Please enter your current password</string>
     <string name="please_enter_your_current_password_to_unlock">Enter your current password to turn off the lock</string>
     <string name="please_enter_your_new_password">Please enter your new password</string>

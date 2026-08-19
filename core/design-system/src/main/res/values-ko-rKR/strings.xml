@@ -65,6 +65,7 @@
     <string name="password_setup_successfully">비밀번호 설정이 완료되었습니다.</string>
     <string name="password_remove_successfully">비밀번호 해제가 완료되었습니다.</string>
     <string name="security">보안</string>
+    <string name="password_and_security">패스워드 • 보안</string>
     <string name="please_enter_your_current_password">지금 쓰고 있는 비밀번호를 눌러주세요.</string>
     <string name="please_enter_your_current_password_to_unlock">비밀번호 잠금 해제를 위해 지금 쓰고 있는 비밀번호를 눌러주세요.</string>
     <string name="please_enter_your_new_password">새로운 비밀번호를 눌러주세요.</string>
