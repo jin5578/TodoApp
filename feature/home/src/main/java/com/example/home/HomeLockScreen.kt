@@ -1,6 +1,7 @@
 package com.example.home
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,9 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -19,8 +23,11 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -32,6 +39,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.component.CircleIndicator
 import com.example.design_system.component.NumberPadButton
+import com.example.design_system.component.dialog.forgot_password.ForgotPasswordDialog
 import com.example.design_system.theme.TodoTheme
 import com.example.model.LockProcessType
 import com.example.utils.randomNumberPadRows
@@ -46,9 +54,12 @@ internal fun HomeLockScreen(
     lockProcessType: LockProcessType,
     exitApp: () -> Unit,
     onPasswordCheck: (String) -> Unit,
+    onDeleteAllData: () -> Unit,
 ) {
     val numberPadRows = remember { randomNumberPadRows() }
     val inputPassword = remember { mutableStateListOf<String>() }
+
+    var isShowForgotPasswordDialog by remember { mutableStateOf(value = false) }
 
     LaunchedEffect(key1 = lockProcessType) {
         inputPassword.clear()
@@ -74,6 +85,13 @@ internal fun HomeLockScreen(
             )
         }
     ) { paddingValues ->
+        if (isShowForgotPasswordDialog) {
+            ForgotPasswordDialog(
+                onClose = { isShowForgotPasswordDialog = false },
+                onConfirm = onDeleteAllData
+            )
+        }
+
         Column(
             modifier = modifier.fillMaxSize()
                 .padding(paddingValues = paddingValues),
@@ -81,7 +99,7 @@ internal fun HomeLockScreen(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Column(
-                modifier = Modifier.weight(weight = 0.4f).fillMaxWidth(),
+                modifier = Modifier.weight(weight = 0.3f).fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
@@ -110,8 +128,8 @@ internal fun HomeLockScreen(
             }
 
             Column(
-                modifier = Modifier.weight(weight = 0.6f).fillMaxWidth(),
-                verticalArrangement = Arrangement.SpaceEvenly,
+                modifier = Modifier.weight(weight = 0.7f).fillMaxWidth(),
+                verticalArrangement = Arrangement.SpaceBetween,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 numberPadRows.forEach { row ->
@@ -140,6 +158,26 @@ internal fun HomeLockScreen(
                         }
                     }
                 }
+
+                Box(
+                    modifier = Modifier.padding(all = 20.dp)
+                ) {
+                    Button(
+                        modifier = Modifier.fillMaxWidth(),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary,
+                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
+                        shape = RoundedCornerShape(size = 16.dp),
+                        onClick = { isShowForgotPasswordDialog = true }
+                    ) {
+                        Text(
+                            modifier = Modifier.padding(all = 8.dp),
+                            text = stringResource(id = DesignSystemR.string.forgot_password),
+                            style = TodoTheme.typography.headlineSmall
+                        )
+                    }
+                }
             }
         }
     }
@@ -161,7 +199,8 @@ private fun HomeLockScreenPreview() {
         HomeLockScreen(
             lockProcessType = LockProcessType.ENTER_EXISTING_PASSWORD,
             exitApp = {},
-            onPasswordCheck = { _ -> }
+            onPasswordCheck = { _ -> },
+            onDeleteAllData = {},
         )
     }
 }

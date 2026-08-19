@@ -58,6 +58,8 @@
     <string name="this_week">This week</string>
     <string name="all">All</string>
     <string name="today_tasks">Today Tasks</string>
+    <string name="today_completed_tasks_count">Today %1$d Tasks</string>
+    <string name="today_incomplete_tasks_count">Today %1$d Tasks</string>
     <string name="task_deleted">Task Deleted</string>
     <string name="enter_your_password_to_open_the_app">Enter your password to open the app</string>
     <string name="password_setup_successfully">Password setup successfully</string>
@@ -71,4 +73,10 @@
     <string name="successfully_added_the_schedule">Successfully added the schedule</string>
     <string name="successfully_updated_the_schedule">Successfully updated the schedule</string>
     <string name="successfully_deleted_the_schedule">Successfully deleted the schedule</string>
+    <string name="forgot_password">I forgot my password</string>
+    <string name="forgot_password_dialog_title">Did you forget your password?</string>
+    <string name="forgot_password_dialog_message">To reset your password, all app data will be deleted.\nYour tasks, categories, and other saved information will be permanently lost and cannot be recovered.\nDo you still want to reset?</string>
+    <string name="reset">Reset</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 </resources>

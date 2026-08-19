@@ -184,7 +184,7 @@ internal fun HomeScreen(
                     },
                     tasksType = TasksType.COMPLETED,
                     icon = DesignSystemR.drawable.svg_completed,
-                    content = "Today ${completedTasks.size} Tasks",
+                    content = stringResource(id = DesignSystemR.string.today_completed_tasks_count, completedTasks.size),
                     backgroundColor = MaterialTheme.colorScheme.primaryContainer,
                     onClick = navigateCompletedTask
                 )
@@ -194,7 +194,7 @@ internal fun HomeScreen(
                         .graphicsLayer { translationX = rightTranslate.value },
                     tasksType = TasksType.INCOMPLETE,
                     icon = DesignSystemR.drawable.svg_incomplete,
-                    content = "Today ${incompleteTasks.size} Tasks",
+                    content = stringResource(id = DesignSystemR.string.today_incomplete_tasks_count, incompleteTasks.size),
                     backgroundColor = MaterialTheme.colorScheme.primaryContainer,
                     onClick = navigateIncompleteTask
                 )

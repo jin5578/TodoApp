@@ -3,6 +3,7 @@ package com.example.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.CheckPasswordUseCase
+import com.example.domain.DeleteAllDataUseCase
 import com.example.domain.DeleteTaskUseCase
 import com.example.domain.GetHasExistingPasswordUseCase
 import com.example.domain.GetHomeDataUseCase
@@ -32,7 +33,8 @@ class HomeViewModel @Inject constructor(
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val deleteTaskUseCase: DeleteTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
-    private val checkPasswordUseCase: CheckPasswordUseCase
+    private val checkPasswordUseCase: CheckPasswordUseCase,
+    private val deleteAllDataUseCase: DeleteAllDataUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -114,18 +116,25 @@ class HomeViewModel @Inject constructor(
             updateTaskUseCase(task = task)
         }
 
-    fun checkPassword(password: String) = viewModelScope.launch {
-        val isPasswordMatched =
-            checkPasswordUseCase(password = password).first()
-        if (isPasswordMatched) {
-            fetchHome()
-        } else {
-            val state = _uiState.value
-            if (state !is HomeUiState.Lock) return@launch
+    fun checkPassword(password: String) =
+        viewModelScope.launch {
+            val isPasswordMatched =
+                checkPasswordUseCase(password = password).first()
+            if (isPasswordMatched) {
+                fetchHome()
+            } else {
+                val state = _uiState.value
+                if (state !is HomeUiState.Lock) return@launch
 
-            _uiState.value = state.copy(
-                lockProcessType = LockProcessType.EXISTING_PASSWORD_MISMATCHED
-            )
+                _uiState.value = state.copy(
+                    lockProcessType = LockProcessType.EXISTING_PASSWORD_MISMATCHED
+                )
+            }
         }
-    }
+
+    fun deleteAllData() =
+        viewModelScope.launch {
+            deleteAllDataUseCase()
+            fetchHome()
+        }
 }

@@ -49,6 +49,7 @@ internal fun HomeRoute(
         onTaskDelete = viewModel::deleteTask,
         onTaskToggleCompletion = viewModel::toggleTaskCompletion,
         onShowMessageSnackbar = onShowMessageSnackbar,
+        onDeleteAllData = viewModel::deleteAllData
     )
 }
 
@@ -69,6 +70,7 @@ private fun HomeContent(
     onTaskDelete: (Long) -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
+    onDeleteAllData: () -> Unit,
 ) {
     when (uiState) {
         is HomeUiState.Loading ->
@@ -78,7 +80,8 @@ private fun HomeContent(
             HomeLockScreen(
                 lockProcessType = uiState.lockProcessType,
                 exitApp = exitApp,
-                onPasswordCheck = onPasswordCheck
+                onPasswordCheck = onPasswordCheck,
+                onDeleteAllData = onDeleteAllData
             )
 
         is HomeUiState.Screen ->
