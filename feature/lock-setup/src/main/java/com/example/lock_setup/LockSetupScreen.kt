@@ -19,7 +19,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -31,17 +30,11 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.CircleIndicator
-import com.example.design_system.component.Loading
 import com.example.design_system.component.NumberPadButton
 import com.example.design_system.theme.TodoTheme
-import com.example.lock_setup.model.LockSetupUiEffect
-import com.example.lock_setup.model.LockSetupUiState
 import com.example.model.LockSetupProcessType
 import com.example.utils.randomNumberPadRows
-import kotlinx.coroutines.flow.collectLatest
 import com.example.design_system.R as DesignSystemR
 
 private const val PASSWORD_LENGTH = 6
@@ -155,7 +148,8 @@ internal fun LockSetupScreen(
                                             inputPassword.joinToString(separator = "")
                                         when (lockSetupProcessType) {
                                             LockSetupProcessType.ENTER_EXISTING_PASSWORD,
-                                            LockSetupProcessType.EXISTING_PASSWORD_MISMATCHED ->
+                                            LockSetupProcessType.EXISTING_PASSWORD_MISMATCHED,
+                                            LockSetupProcessType.UNLOCK_PASSWORD ->
                                                 onPasswordCheck(password)
 
                                             LockSetupProcessType.ENTER_NEW_PASSWORD ->
@@ -187,6 +181,7 @@ private fun getTitle(lockSetupProcessType: LockSetupProcessType): String {
         LockSetupProcessType.ENTER_NEW_PASSWORD -> DesignSystemR.string.please_enter_your_new_password
         LockSetupProcessType.CONFIRM_NEW_PASSWORD -> DesignSystemR.string.please_enter_your_password_once_more
         LockSetupProcessType.CONFIRM_NEW_PASSWORD_MISMATCHED -> DesignSystemR.string.password_doesnt_match_new_password
+        LockSetupProcessType.UNLOCK_PASSWORD -> DesignSystemR.string.please_enter_your_current_password_to_unlock
     }
     return stringResource(id = resId)
 }

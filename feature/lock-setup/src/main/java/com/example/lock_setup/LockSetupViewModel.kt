@@ -92,28 +92,39 @@ class LockSetupViewModel @Inject constructor(
         }
     }
 
+    fun removePassword() {
+        val state = _uiState.value
+        if (state !is LockSetupUiState.Screen) return
 
-    fun removePassword() =
-        viewModelScope.launch {
-            removePasswordUseCase()
-            _uiEffect.emit(value = LockSetupUiEffect.SuccessRemovePassword)
-        }
+        _uiState.value = state.copy(
+            lockSetupProcessType = LockSetupProcessType.UNLOCK_PASSWORD
+        )
+    }
 
-    fun checkPassword(password: String) =
+    fun checkPassword(password: String) {
+        val state = _uiState.value
+        if (state !is LockSetupUiState.Screen) return
+
         viewModelScope.launch {
-            val isPasswordMatched =
-                checkPasswordUseCase(password = password).first()
-            _uiState.update { currentState ->
-                if (currentState is LockSetupUiState.Screen) {
-                    val lockSetupProcessType =
-                        if (isPasswordMatched)
-                            LockSetupProcessType.ENTER_NEW_PASSWORD
-                        else
-                            LockSetupProcessType.EXISTING_PASSWORD_MISMATCHED
-                    currentState.copy(lockSetupProcessType = lockSetupProcessType)
-                } else {
-                    currentState
+            if (state.lockSetupProcessType == LockSetupProcessType.UNLOCK_PASSWORD) {
+                removePasswordUseCase()
+                _uiEffect.emit(value = LockSetupUiEffect.SuccessRemovePassword)
+            } else {
+                val isPasswordMatched =
+                    checkPasswordUseCase(password = password).first()
+                _uiState.update { currentState ->
+                    if (currentState is LockSetupUiState.Screen) {
+                        val lockSetupProcessType =
+                            if (isPasswordMatched)
+                                LockSetupProcessType.ENTER_NEW_PASSWORD
+                            else
+                                LockSetupProcessType.EXISTING_PASSWORD_MISMATCHED
+                        currentState.copy(lockSetupProcessType = lockSetupProcessType)
+                    } else {
+                        currentState
+                    }
                 }
             }
         }
+    }
 }
