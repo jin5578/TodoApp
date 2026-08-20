@@ -2,6 +2,7 @@ package com.example.datastore.datasource
 
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.datastore.model.SystemData
@@ -15,14 +16,24 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
     @param:Named(value = "system") private val dataStore: DataStore<Preferences>
 ) : SystemPreferencesDataSource {
     object PreferencesKey {
-        val SLEEP_TIME_KEY = stringPreferencesKey(name = "sleep_time_key")
-        val SORT_TASK_KEY = stringPreferencesKey(name = "sort_task_key")
-        val LANGUAGE_TYPE_KEY = stringPreferencesKey(name = "language_type_key")
-        val THEME_KEY = stringPreferencesKey(name = "theme_key")
-        val TIME_PICKER_KEY = stringPreferencesKey(name = "time_picker_key")
-        val LOCALE_KEY = stringPreferencesKey(name = "locale_key")
-        val BUILD_VERSION_KEY = stringPreferencesKey(name = "build_version_key")
-        val PASSWORD_KEY = stringPreferencesKey(name = "password_key")
+        val SLEEP_TIME_KEY =
+            stringPreferencesKey(name = "sleep_time_key")
+        val SORT_TASK_KEY =
+            stringPreferencesKey(name = "sort_task_key")
+        val LANGUAGE_TYPE_KEY =
+            stringPreferencesKey(name = "language_type_key")
+        val THEME_KEY =
+            stringPreferencesKey(name = "theme_key")
+        val TIME_PICKER_KEY =
+            stringPreferencesKey(name = "time_picker_key")
+        val LOCALE_KEY =
+            stringPreferencesKey(name = "locale_key")
+        val BUILD_VERSION_KEY =
+            stringPreferencesKey(name = "build_version_key")
+        val PASSWORD_KEY =
+            stringPreferencesKey(name = "password_key")
+        val BIOMETRIC_ENABLED_KEY =
+            booleanPreferencesKey(name = "biometric_enabled_key")
     }
 
     override val systemData: Flow<SystemData> =
@@ -43,7 +54,9 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
                 buildVersion = preferences[PreferencesKey.BUILD_VERSION_KEY]
                     ?: DEFAULT_BUILD_VERSION,
                 password = preferences[PreferencesKey.PASSWORD_KEY]
-                    ?: DEFAULT_PASSWORD
+                    ?: DEFAULT_PASSWORD,
+                isBiometricEnabled = preferences[PreferencesKey.BIOMETRIC_ENABLED_KEY]
+                    ?: DEFAULT_BIOMETRIC_ENABLED
             )
         }
 
@@ -83,22 +96,32 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
         }
     }
 
-    override suspend fun removePassword() {
+    override suspend fun updateBiometricEnabled(enabled: Boolean) {
         dataStore.edit { preferences ->
-            preferences[PreferencesKey.PASSWORD_KEY] = ""
+            preferences[PreferencesKey.BIOMETRIC_ENABLED_KEY] = enabled
         }
     }
 
     override suspend fun deleteAllData() {
-        dataStore.edit {preferences ->
-            preferences[PreferencesKey.SLEEP_TIME_KEY] = DEFAULT_SLEEP_TIME
-            preferences[PreferencesKey.SORT_TASK_KEY] = DEFAULT_SORT_TASK
-            preferences[PreferencesKey.LANGUAGE_TYPE_KEY] = DEFAULT_LANGUAGE_TYPE
-            preferences[PreferencesKey.THEME_KEY] = DEFAULT_THEME
-            preferences[PreferencesKey.TIME_PICKER_KEY] = DEFAULT_TIME_PICKER
-            preferences[PreferencesKey.LOCALE_KEY] = DEFAULT_LOCALE
-            preferences[PreferencesKey.BUILD_VERSION_KEY] = DEFAULT_BUILD_VERSION
-            preferences[PreferencesKey.PASSWORD_KEY] = DEFAULT_PASSWORD
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.SLEEP_TIME_KEY] =
+                DEFAULT_SLEEP_TIME
+            preferences[PreferencesKey.SORT_TASK_KEY] =
+                DEFAULT_SORT_TASK
+            preferences[PreferencesKey.LANGUAGE_TYPE_KEY] =
+                DEFAULT_LANGUAGE_TYPE
+            preferences[PreferencesKey.THEME_KEY] =
+                DEFAULT_THEME
+            preferences[PreferencesKey.TIME_PICKER_KEY] =
+                DEFAULT_TIME_PICKER
+            preferences[PreferencesKey.LOCALE_KEY] =
+                DEFAULT_LOCALE
+            preferences[PreferencesKey.BUILD_VERSION_KEY] =
+                DEFAULT_BUILD_VERSION
+            preferences[PreferencesKey.PASSWORD_KEY] =
+                DEFAULT_PASSWORD
+            preferences[PreferencesKey.BIOMETRIC_ENABLED_KEY] =
+                DEFAULT_BIOMETRIC_ENABLED
         }
     }
 
@@ -111,5 +134,6 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
         private const val DEFAULT_LOCALE = "KR"
         private const val DEFAULT_BUILD_VERSION = "1.0.0"
         private const val DEFAULT_PASSWORD = ""
+        private const val DEFAULT_BIOMETRIC_ENABLED = false
     }
 }

@@ -11,6 +11,6 @@ interface SystemPreferencesDataSource {
     suspend fun updateThemeType(themeType: String)
     suspend fun updateTimePickerType(timePickerType: String)
     suspend fun updatePassword(password: String)
-    suspend fun removePassword()
+    suspend fun updateBiometricEnabled(enabled: Boolean)
     suspend fun deleteAllData()
 }

@@ -8,5 +8,6 @@ data class SystemData(
     val timePickerType: String,
     val locale: String,
     val buildVersion: String,
-    val password: String
+    val password: String,
+    val isBiometricEnabled: Boolean
 )

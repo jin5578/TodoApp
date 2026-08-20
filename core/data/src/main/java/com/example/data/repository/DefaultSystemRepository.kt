@@ -11,6 +11,7 @@ import com.example.model.calendar.CalendarSystem
 import com.example.model.edittask.EditTaskSystem
 import com.example.model.home.HomeSystem
 import com.example.model.lock_setup.LockSetupSystem
+import com.example.model.security.SecuritySystem
 import com.example.model.setting.SettingSystem
 import com.example.model.tasks.TasksSystem
 import kotlinx.coroutines.flow.Flow
@@ -94,9 +95,22 @@ class DefaultSystemRepository @Inject constructor(
             )
         }
 
+    override fun getSecuritySystem(): Flow<SecuritySystem> =
+        systemDataSource.systemData.map { data ->
+            SecuritySystem(
+                hasExistingPassword = data.password.isNotEmpty(),
+                hasBiometricEnabled = data.isBiometricEnabled
+            )
+        }
+
     override fun hasExistingPassword(): Flow<Boolean> =
         systemDataSource.systemData.map { data ->
             data.password.isNotEmpty()
+        }
+
+    override fun hasBiometricEnabled(): Flow<Boolean> =
+        systemDataSource.systemData.map { data ->
+            data.isBiometricEnabled
         }
 
     override suspend fun updateSortTaskType(sortTaskType: SortTaskType) =
@@ -116,6 +130,9 @@ class DefaultSystemRepository @Inject constructor(
 
     override suspend fun updatePassword(password: String) =
         systemDataSource.updatePassword(password = password)
+
+    override suspend fun updateBiometricEnabled(enabled: Boolean) =
+        systemDataSource.updateBiometricEnabled(enabled = enabled)
 
     override suspend fun deleteAllData() =
         systemDataSource.deleteAllData()

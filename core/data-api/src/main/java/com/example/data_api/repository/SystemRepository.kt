@@ -9,6 +9,7 @@ import com.example.model.calendar.CalendarSystem
 import com.example.model.edittask.EditTaskSystem
 import com.example.model.home.HomeSystem
 import com.example.model.lock_setup.LockSetupSystem
+import com.example.model.security.SecuritySystem
 import com.example.model.setting.SettingSystem
 import com.example.model.tasks.TasksSystem
 import kotlinx.coroutines.flow.Flow
@@ -24,12 +25,15 @@ interface SystemRepository {
     fun getCalendarSystem(): Flow<CalendarSystem>
     fun getTasksSystem(): Flow<TasksSystem>
     fun getLockSetupSystem(): Flow<LockSetupSystem>
+    fun getSecuritySystem(): Flow<SecuritySystem>
     fun hasExistingPassword(): Flow<Boolean>
+    fun hasBiometricEnabled(): Flow<Boolean>
     suspend fun updateSortTaskType(sortTaskType: SortTaskType)
     suspend fun updateLanguage(languageType: LanguageType)
     suspend fun updateLocale(locale: Locale)
     suspend fun updateThemeType(themeType: ThemeType)
     suspend fun updateTimePickerType(timePickerType: TimePickerType)
     suspend fun updatePassword(password: String)
+    suspend fun updateBiometricEnabled(enabled: Boolean)
     suspend fun deleteAllData()
 }
