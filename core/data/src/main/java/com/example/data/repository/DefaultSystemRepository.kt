@@ -117,9 +117,6 @@ class DefaultSystemRepository @Inject constructor(
     override suspend fun updatePassword(password: String) =
         systemDataSource.updatePassword(password = password)
 
-    override suspend fun removePassword() =
-        systemDataSource.removePassword()
-
     override suspend fun deleteAllData() =
         systemDataSource.deleteAllData()
 
