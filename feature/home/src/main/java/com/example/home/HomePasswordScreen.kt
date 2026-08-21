@@ -41,7 +41,7 @@ import com.example.design_system.component.CircleIndicator
 import com.example.design_system.component.NumberPadButton
 import com.example.design_system.component.dialog.forgot_password.ForgotPasswordDialog
 import com.example.design_system.theme.TodoTheme
-import com.example.model.LockProcessType
+import com.example.model.HomePasswordProcessType
 import com.example.utils.randomNumberPadRows
 import com.example.design_system.R as DesignSystemR
 
@@ -49,9 +49,9 @@ private const val PASSWORD_LENGTH = 6
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun HomeLockScreen(
+internal fun HomePasswordScreen(
     modifier: Modifier = Modifier,
-    lockProcessType: LockProcessType,
+    homePasswordProcessType: HomePasswordProcessType,
     exitApp: () -> Unit,
     onPasswordCheck: (String) -> Unit,
     onDeleteAllData: () -> Unit,
@@ -61,7 +61,7 @@ internal fun HomeLockScreen(
 
     var isShowForgotPasswordDialog by remember { mutableStateOf(value = false) }
 
-    LaunchedEffect(key1 = lockProcessType) {
+    LaunchedEffect(key1 = homePasswordProcessType) {
         inputPassword.clear()
     }
 
@@ -103,7 +103,7 @@ internal fun HomeLockScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                val title = getTitle(lockProcessType = lockProcessType)
+                val title = getTitle(homePasswordProcessType = homePasswordProcessType)
                 Text(
                     text = title,
                     style = TodoTheme.typography.headlineSmall,
@@ -184,20 +184,20 @@ internal fun HomeLockScreen(
 }
 
 @Composable
-private fun getTitle(lockProcessType: LockProcessType): String {
-    val resId = when (lockProcessType) {
-        LockProcessType.ENTER_EXISTING_PASSWORD -> DesignSystemR.string.enter_your_password_to_open_the_app
-        LockProcessType.EXISTING_PASSWORD_MISMATCHED -> DesignSystemR.string.password_doesnt_match
+private fun getTitle(homePasswordProcessType: HomePasswordProcessType): String {
+    val resId = when (homePasswordProcessType) {
+        HomePasswordProcessType.ENTER_EXISTING_PASSWORD -> DesignSystemR.string.enter_your_password_to_open_the_app
+        HomePasswordProcessType.EXISTING_PASSWORD_MISMATCHED -> DesignSystemR.string.password_doesnt_match
     }
     return stringResource(id = resId)
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun HomeLockScreenPreview() {
+private fun HomePasswordScreenPreview() {
     TodoTheme {
-        HomeLockScreen(
-            lockProcessType = LockProcessType.ENTER_EXISTING_PASSWORD,
+        HomePasswordScreen(
+            homePasswordProcessType = HomePasswordProcessType.ENTER_EXISTING_PASSWORD,
             exitApp = {},
             onPasswordCheck = { _ -> },
             onDeleteAllData = {},

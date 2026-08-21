@@ -3,7 +3,7 @@ package com.example.home.model
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import com.example.model.Category
-import com.example.model.LockProcessType
+import com.example.model.HomePasswordProcessType
 import com.example.model.SortTaskType
 import com.example.model.Task
 import com.example.model.ThemeType
@@ -18,8 +18,11 @@ sealed interface HomeUiState {
     data object Loading : HomeUiState
 
     @Immutable
-    data class Lock(
-        val lockProcessType: LockProcessType
+    data object Biometric : HomeUiState
+
+    @Immutable
+    data class Password(
+        val homePasswordProcessType: HomePasswordProcessType
     ) : HomeUiState
 
     @Immutable

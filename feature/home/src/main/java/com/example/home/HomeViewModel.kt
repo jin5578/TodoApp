@@ -5,13 +5,14 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.CheckPasswordUseCase
 import com.example.domain.DeleteAllDataUseCase
 import com.example.domain.DeleteTaskUseCase
+import com.example.domain.GetHasBiometricEnabledUseCase
 import com.example.domain.GetHasExistingPasswordUseCase
 import com.example.domain.GetHomeDataUseCase
 import com.example.domain.GetTaskByIdUseCase
 import com.example.domain.UpdateSortTaskTypeUseCase
 import com.example.domain.UpdateTaskUseCase
 import com.example.home.model.HomeUiState
-import com.example.model.LockProcessType
+import com.example.model.HomePasswordProcessType
 import com.example.model.SortTaskType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
@@ -27,6 +28,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class HomeViewModel @Inject constructor(
+    private val getHasBiometricEnabledUseCase: GetHasBiometricEnabledUseCase,
     private val getHasExistingPasswordUseCase: GetHasExistingPasswordUseCase,
     private val getHomeDataUseCase: GetHomeDataUseCase,
     private val updateSortTaskTypeUseCase: UpdateSortTaskTypeUseCase,
@@ -44,22 +46,29 @@ class HomeViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
-        executeHomeProcess()
+        executeLockProcess()
     }
 
-    private fun executeHomeProcess() =
+    private fun executeLockProcess() =
         viewModelScope.launch {
+            val hasBiometricEnabled = getHasBiometricEnabledUseCase().first()
+            if (hasBiometricEnabled) {
+                _uiState.value = HomeUiState.Biometric
+                return@launch
+            }
+
             val hasExistingPassword = getHasExistingPasswordUseCase().first()
             if (hasExistingPassword) {
-                _uiState.value = HomeUiState.Lock(
-                    lockProcessType = LockProcessType.ENTER_EXISTING_PASSWORD
+                _uiState.value = HomeUiState.Password(
+                    homePasswordProcessType = HomePasswordProcessType.ENTER_EXISTING_PASSWORD
                 )
-            } else {
-                fetchHome()
+                return@launch
             }
+
+            fetchHome()
         }
 
-    private fun fetchHome() =
+    fun fetchHome() =
         viewModelScope.launch {
             getHomeDataUseCase().map { home ->
                 val tasks = home.tasks
@@ -124,10 +133,10 @@ class HomeViewModel @Inject constructor(
                 fetchHome()
             } else {
                 val state = _uiState.value
-                if (state !is HomeUiState.Lock) return@launch
+                if (state !is HomeUiState.Password) return@launch
 
                 _uiState.value = state.copy(
-                    lockProcessType = LockProcessType.EXISTING_PASSWORD_MISMATCHED
+                    homePasswordProcessType = HomePasswordProcessType.EXISTING_PASSWORD_MISMATCHED
                 )
             }
         }
@@ -137,4 +146,10 @@ class HomeViewModel @Inject constructor(
             deleteAllDataUseCase()
             fetchHome()
         }
+
+    fun executePasswordAuth() {
+        _uiState.value = HomeUiState.Password(
+            homePasswordProcessType = HomePasswordProcessType.ENTER_EXISTING_PASSWORD
+        )
+    }
 }

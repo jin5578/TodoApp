@@ -49,7 +49,9 @@ internal fun HomeRoute(
         onTaskDelete = viewModel::deleteTask,
         onTaskToggleCompletion = viewModel::toggleTaskCompletion,
         onShowMessageSnackbar = onShowMessageSnackbar,
-        onDeleteAllData = viewModel::deleteAllData
+        onDeleteAllData = viewModel::deleteAllData,
+        onBiometricAuthSucceeded = viewModel::fetchHome,
+        onBiometricAuthError = viewModel::executePasswordAuth,
     )
 }
 
@@ -71,14 +73,22 @@ private fun HomeContent(
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
     onDeleteAllData: () -> Unit,
+    onBiometricAuthSucceeded: () -> Unit,
+    onBiometricAuthError: () -> Unit
 ) {
     when (uiState) {
         is HomeUiState.Loading ->
             Loading()
 
-        is HomeUiState.Lock ->
-            HomeLockScreen(
-                lockProcessType = uiState.lockProcessType,
+        is HomeUiState.Biometric ->
+            HomeBiometricScreen(
+                onBiometricAuthSucceeded = onBiometricAuthSucceeded,
+                onBiometricAuthError = onBiometricAuthError
+            )
+
+        is HomeUiState.Password ->
+            HomePasswordScreen(
+                homePasswordProcessType = uiState.homePasswordProcessType,
                 exitApp = exitApp,
                 onPasswordCheck = onPasswordCheck,
                 onDeleteAllData = onDeleteAllData
