@@ -66,6 +66,10 @@
     <string name="password_remove_successfully">비밀번호 해제가 완료되었습니다.</string>
     <string name="security">보안</string>
     <string name="password_and_security">패스워드 • 보안</string>
+    <string name="biometric_authentication_setting">생체 인증 설정</string>
+    <string name="please_authenticate_your_biometric_info">생체 정보를 인증해주세요</string>
+    <string name="please_enter_your_fingerprint">지문을 입력하세요.</string>
+    <string name="authenticate_with_password">비밀번호로 인증</string>
     <string name="please_enter_your_current_password">지금 쓰고 있는 비밀번호를 눌러주세요.</string>
     <string name="please_enter_your_current_password_to_unlock">비밀번호 잠금 해제를 위해 지금 쓰고 있는 비밀번호를 눌러주세요.</string>
     <string name="please_enter_your_new_password">새로운 비밀번호를 눌러주세요.</string>
@@ -81,4 +85,5 @@
     <string name="reset">초기화</string>
     <string name="yes">예</string>
     <string name="no">아니오</string>
+    <string name="password_setting">패스워드 설정</string>
 </resources>

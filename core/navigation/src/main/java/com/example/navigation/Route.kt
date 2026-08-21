@@ -32,4 +32,7 @@ sealed interface Route {
 
     @Serializable
     data object LockSetup : Route
+
+    @Serializable
+    data object Security
 }

@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.CheckPasswordUseCase
 import com.example.domain.GetLockSetupDataUseCase
+import com.example.domain.UpdateBiometricEnabledUseCase
 import com.example.domain.UpdatePasswordUseCase
 import com.example.lock_setup.model.LockSetupUiEffect
 import com.example.lock_setup.model.LockSetupUiState
@@ -24,6 +25,7 @@ import javax.inject.Inject
 class LockSetupViewModel @Inject constructor(
     private val getLockSetupDataUseCase: GetLockSetupDataUseCase,
     private val updatePasswordUseCase: UpdatePasswordUseCase,
+    private val updateBiometricEnabledUseCase: UpdateBiometricEnabledUseCase,
     private val checkPasswordUseCase: CheckPasswordUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
@@ -106,22 +108,22 @@ class LockSetupViewModel @Inject constructor(
         viewModelScope.launch {
             if (state.lockSetupProcessType == LockSetupProcessType.UNLOCK_PASSWORD) {
                 updatePasswordUseCase(password = "")
+                updateBiometricEnabledUseCase(enabled = false)
                 _uiEffect.emit(value = LockSetupUiEffect.SuccessRemovePassword)
             } else {
                 val isPasswordMatched =
                     checkPasswordUseCase(password = password).first()
-                _uiState.update { currentState ->
-                    if (currentState is LockSetupUiState.Screen) {
-                        val lockSetupProcessType =
-                            if (isPasswordMatched)
-                                LockSetupProcessType.ENTER_NEW_PASSWORD
-                            else
-                                LockSetupProcessType.EXISTING_PASSWORD_MISMATCHED
-                        currentState.copy(lockSetupProcessType = lockSetupProcessType)
-                    } else {
-                        currentState
-                    }
-                }
+
+                val state = _uiState.value
+                if (state !is LockSetupUiState.Screen) return@launch
+
+                val lockSetupProcessType =
+                    if (isPasswordMatched)
+                        LockSetupProcessType.ENTER_NEW_PASSWORD
+                    else
+                        LockSetupProcessType.EXISTING_PASSWORD_MISMATCHED
+                _uiState.value =
+                    state.copy(lockSetupProcessType = lockSetupProcessType)
             }
         }
     }

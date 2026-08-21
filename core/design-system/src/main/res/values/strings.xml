@@ -66,6 +66,10 @@
     <string name="password_remove_successfully">Password remove successfully</string>
     <string name="security">Security</string>
     <string name="password_and_security">Password • Security</string>
+    <string name="biometric_authentication_setting">Biometric Authentication</string>
+    <string name="please_authenticate_your_biometric_info">Please authenticate\nyour biometric information</string>
+    <string name="please_enter_your_fingerprint">Enter your fingerprint.</string>
+    <string name="authenticate_with_password">Authenticate with password</string>
     <string name="please_enter_your_current_password">Please enter your current password</string>
     <string name="please_enter_your_current_password_to_unlock">Enter your current password to turn off the lock</string>
     <string name="please_enter_your_new_password">Please enter your new password</string>
@@ -81,4 +85,5 @@
     <string name="reset">Reset</string>
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="password_setting">Password setting</string>
 </resources>

@@ -19,7 +19,7 @@ internal fun SettingRoute(
     viewModel: SettingViewModel = hiltViewModel(),
     navigateInfo: () -> Unit,
     navigateManageCategories: () -> Unit,
-    navigateLockSetup: () -> Unit,
+    navigateSecurity: () -> Unit,
     popBackStack: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
 ) {
@@ -36,7 +36,7 @@ internal fun SettingRoute(
     SettingContent(
         uiState = uiState,
         navigateManageCategories = navigateManageCategories,
-        navigateLockSetup = navigateLockSetup,
+        navigateSecurity = navigateSecurity,
         popBackStack = popBackStack,
         openUrl = { url -> openUrl(context = context, url = url) },
         onLanguageTypeChanged = viewModel::updateLanguageType,
@@ -49,7 +49,7 @@ internal fun SettingRoute(
 private fun SettingContent(
     uiState: SettingUiState,
     navigateManageCategories: () -> Unit,
-    navigateLockSetup: () -> Unit,
+    navigateSecurity: () -> Unit,
     popBackStack: () -> Unit,
     openUrl: (String) -> Unit,
     onLanguageTypeChanged: (LanguageType) -> Unit,
@@ -65,7 +65,7 @@ private fun SettingContent(
             buildVersion = uiState.buildVersion,
             hasExistingPassword = uiState.hasExistingPassword,
             navigateManageCategories = navigateManageCategories,
-            navigateLockSetup = navigateLockSetup,
+            navigateSecurity = navigateSecurity,
             popBackStack = popBackStack,
             openUrl = openUrl,
             onLanguageTypeChanged = onLanguageTypeChanged,

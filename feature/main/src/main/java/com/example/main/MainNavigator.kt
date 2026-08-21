@@ -16,6 +16,7 @@ import com.example.home.navigation.navigateHome
 import com.example.lock_setup.navigation.navigateLockSetup
 import com.example.manage_categories.navigation.navigateManageCategories
 import com.example.navigation.Route
+import com.example.security.navigation.navigateSecurity
 import com.example.setting.navigation.navigateSetting
 import com.example.tasks.navigation.navigateTasks
 import java.time.LocalDate
@@ -52,6 +53,9 @@ internal class MainNavigator(
 
     fun navigateLockSetup() =
         navController.navigateLockSetup()
+
+    fun navigateSecurity() =
+        navController.navigateSecurity()
 
     private fun popBackStack() =
         navController.popBackStack()

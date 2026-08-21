@@ -58,7 +58,7 @@ internal fun SettingScreen(
     buildVersion: String,
     hasExistingPassword: Boolean,
     navigateManageCategories: () -> Unit,
-    navigateLockSetup: () -> Unit,
+    navigateSecurity: () -> Unit,
     popBackStack: () -> Unit,
     openUrl: (String) -> Unit,
     onLanguageTypeChanged: (LanguageType) -> Unit,
@@ -111,7 +111,7 @@ internal fun SettingScreen(
             iconResId =
                 if (hasExistingPassword) DesignSystemR.drawable.svg_lock
                 else DesignSystemR.drawable.svg_unlock,
-            onClick = navigateLockSetup
+            onClick = navigateSecurity
         )
     )
 
@@ -216,7 +216,7 @@ private fun SettingScreenPreview() {
             buildVersion = "1.0.0",
             hasExistingPassword = true,
             navigateManageCategories = {},
-            navigateLockSetup = {},
+            navigateSecurity = {},
             popBackStack = {},
             openUrl = {},
             onLanguageTypeChanged = {},

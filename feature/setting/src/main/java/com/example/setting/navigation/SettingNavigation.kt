@@ -9,14 +9,14 @@ import com.example.setting.SettingRoute
 fun NavGraphBuilder.settingNavGraph(
     navigateInfo: () -> Unit,
     navigateManageCategories: () -> Unit,
-    navigateLockSetup: () -> Unit,
+    navigateSecurity: () -> Unit,
     popBackStack: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
 ) = composable<Route.Setting> {
     SettingRoute(
         navigateInfo = navigateInfo,
         navigateManageCategories = navigateManageCategories,
-        navigateLockSetup = navigateLockSetup,
+        navigateSecurity = navigateSecurity,
         popBackStack = popBackStack,
         onShowErrorSnackbar = onShowErrorSnackbar
     )

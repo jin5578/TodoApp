@@ -25,6 +25,7 @@ espressoCore = "3.7.0"
 lifecycleRuntimeKtx = "2.11.0"
 composeBom = "2026.02.01"
 material = "1.14.0"
+androidxBiometric = "1.1.0"
 
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
@@ -78,6 +79,8 @@ timber = { module = "com.jakewharton.timber:timber", version.ref = "timber" }
 
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+
+androidx-biometric = { group = "androidx.biometric", name = "biometric", version.ref = "androidxBiometric" }
 
 [plugins]
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
