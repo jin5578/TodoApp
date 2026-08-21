@@ -28,7 +28,7 @@ internal fun ScrollTimePicker(
             timeFormat = TimeFormat.AM_PM,
             startTime = initTime,
             textColor = MaterialTheme.colorScheme.onSecondaryContainer,
-            textStyle = TodoTheme.typography.taskTextStyle,
+            textStyle = TodoTheme.typography.medium_16,
             onSnappedTime = onSelect
         )
     }

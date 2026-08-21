@@ -25,7 +25,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.design_system.theme.TodoTheme
 import com.example.model.LanguageType
 import com.example.design_system.R as DesignSystemR
@@ -44,7 +43,7 @@ internal fun SettingLanguageContent(
     ) {
         Text(
             text = stringResource(id = DesignSystemR.string.choose_language),
-            style = TodoTheme.typography.headlineSmall,
+            style = TodoTheme.typography.bold_18,
             color = MaterialTheme.colorScheme.onSecondaryContainer,
         )
 
@@ -96,7 +95,7 @@ private fun SettingLanguageItem(
                     vertical = 16.dp,
                 ),
                 text = languageType.title,
-                style = TodoTheme.typography.infoTextStyle.copy(fontSize = 16.sp),
+                style = TodoTheme.typography.medium_14,
                 color =
                     if (isSelected) MaterialTheme.colorScheme.onPrimary
                     else MaterialTheme.colorScheme.onSurface

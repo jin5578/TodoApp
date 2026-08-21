@@ -21,7 +21,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.design_system.theme.TodoTheme
 import com.example.model.CategoryColorType
 import com.example.design_system.R as DesignSystemR
@@ -58,7 +57,7 @@ internal fun CategoryCard(
         Text(
             modifier = Modifier.weight(weight = 1f),
             text = title,
-            style = TodoTheme.typography.infoTextStyle.copy(fontSize = 16.sp),
+            style = TodoTheme.typography.medium_16,
             color = MaterialTheme.colorScheme.onSurface
         )
 

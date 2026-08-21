@@ -33,14 +33,10 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.design_system.component.Loading
 import com.example.design_system.component.dialog.date_picker.DatePickerDialog
 import com.example.design_system.component.dialog.time_picker.ClockTimePickerDialog
 import com.example.design_system.component.dialog.time_picker.ScrollTimePickerDialog
@@ -53,8 +49,6 @@ import com.example.design_system.component.input.InputTaskTime
 import com.example.design_system.component.input.InputTaskTitle
 import com.example.design_system.theme.TodoTheme
 import com.example.design_system.theme.priorityColors
-import com.example.edit_task.model.EditTaskUiEffect
-import com.example.edit_task.model.EditTaskUiState
 import com.example.model.Category
 import com.example.model.PriorityType
 import com.example.model.ReminderTimeType
@@ -64,7 +58,6 @@ import com.example.utils.checkValidTask
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalTime
@@ -122,7 +115,7 @@ internal fun EditTaskScreen(
                 title = {
                     Text(
                         text = stringResource(id = DesignSystemR.string.edit_task),
-                        style = TodoTheme.typography.headlineMedium,
+                        style = TodoTheme.typography.bold_20,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                 },
@@ -297,7 +290,7 @@ internal fun EditTaskScreen(
                     Text(
                         modifier = Modifier.padding(all = 8.dp),
                         text = stringResource(id = DesignSystemR.string.edit_task),
-                        style = TodoTheme.typography.headlineSmall,
+                        style = TodoTheme.typography.bold_14,
                     )
                 }
             }

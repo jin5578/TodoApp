@@ -23,7 +23,6 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.R
@@ -74,7 +73,7 @@ fun InputTaskTime(
         ) {
             Text(
                 text = stringResource(id = R.string.time),
-                style = TodoTheme.typography.headlineMedium,
+                style = TodoTheme.typography.bold_18,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
@@ -92,7 +91,7 @@ fun InputTaskTime(
 
                 Text(
                     text = time.format(timeFormat),
-                    style = TodoTheme.typography.infoDescTextStyle,
+                    style = TodoTheme.typography.medium_16,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }
@@ -165,9 +164,9 @@ private fun InputTaskTimeItem(
             text = stringResource(id = resId),
             color = MaterialTheme.colorScheme.onSecondaryContainer,
             style = if (isSelected)
-                TodoTheme.typography.infoDescTextStyle.copy(fontWeight = FontWeight.Bold)
+                TodoTheme.typography.bold_14
             else
-                TodoTheme.typography.infoDescTextStyle,
+                TodoTheme.typography.medium_14,
         )
     }
 }

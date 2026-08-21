@@ -53,7 +53,7 @@ internal fun TaskInfoCard(
             val titleResId = tasksType.getTitleResId()
             Text(
                 text = stringResource(id = titleResId),
-                style = TodoTheme.typography.infoTextStyle,
+                style = TodoTheme.typography.bold_16,
                 color = MaterialTheme.colorScheme.onPrimaryContainer,
             )
 
@@ -74,7 +74,7 @@ internal fun TaskInfoCard(
                     if (content != null) {
                         Text(
                             text = content,
-                            style = TodoTheme.typography.infoDescTextStyle,
+                            style = TodoTheme.typography.regular_12,
                             color = MaterialTheme.colorScheme.onPrimaryContainer
                         )
                     }

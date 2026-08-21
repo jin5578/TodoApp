@@ -17,7 +17,6 @@ import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
@@ -30,21 +29,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.EmptyContent
-import com.example.design_system.component.Loading
 import com.example.design_system.theme.TodoTheme
 import com.example.manage_categories.component.AddCategoryBottomSheetContent
 import com.example.manage_categories.component.CategoryCard
 import com.example.manage_categories.component.EditCategoryBottomSheetContent
 import com.example.manage_categories.model.BottomSheetType
-import com.example.manage_categories.model.ManageCategoriesUiState
 import com.example.model.Category
 import com.example.model.CategoryColorType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.flow.collectLatest
 import com.example.design_system.R as DesignSystemR
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -72,7 +66,7 @@ internal fun ManageCategoriesScreen(
                 title = {
                     Text(
                         text = stringResource(id = DesignSystemR.string.category),
-                        style = TodoTheme.typography.headlineMedium,
+                        style = TodoTheme.typography.bold_20,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                 },

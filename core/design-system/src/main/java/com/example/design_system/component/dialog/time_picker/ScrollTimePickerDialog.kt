@@ -60,7 +60,7 @@ fun ScrollTimePickerDialog(
                             onClose(selectedTime)
                         },
                     text = stringResource(id = R.string.done),
-                    style = TodoTheme.typography.headlineSmall,
+                    style = TodoTheme.typography.bold_14,
                     color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
             }

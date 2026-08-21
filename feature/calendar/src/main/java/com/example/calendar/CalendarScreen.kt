@@ -24,7 +24,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -37,14 +36,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.calendar.component.WeekendDay
-import com.example.calendar.model.CalendarUiState
-import com.example.design_system.R
 import com.example.design_system.component.EmptyContent
-import com.example.design_system.component.Loading
 import com.example.design_system.component.TaskCard
 import com.example.design_system.theme.TodoTheme
 import com.example.model.Category
@@ -55,7 +48,6 @@ import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
-import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.YearMonth
@@ -106,7 +98,7 @@ internal fun CalendarScreen(
                             TextStyle.FULL,
                             locale
                         ),
-                        style = TodoTheme.typography.headlineMedium,
+                        style = TodoTheme.typography.bold_20,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 },
@@ -145,9 +137,7 @@ internal fun CalendarScreen(
                                     vertical = 4.dp
                                 ),
                                 text = currentDate.format(dateFormat),
-                                style = TodoTheme.typography.infoTextStyle.copy(
-                                    fontSize = 14.sp
-                                )
+                                style = TodoTheme.typography.bold_16
                             )
                         }
                     }

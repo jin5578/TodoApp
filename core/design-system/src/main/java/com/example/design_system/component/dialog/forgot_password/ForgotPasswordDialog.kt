@@ -54,13 +54,13 @@ private fun ForgotPasswordDialogContent(
         ) {
             Text(
                 text = stringResource(id = DesignSystemR.string.forgot_password_dialog_title),
-                style = TodoTheme.typography.headlineSmall,
+                style = TodoTheme.typography.bold_18,
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
             )
 
             Text(
                 text = stringResource(id = DesignSystemR.string.forgot_password_dialog_message),
-                style = TodoTheme.typography.taskDescTextStyle,
+                style = TodoTheme.typography.medium_14,
                 textAlign = TextAlign.Center
             )
 

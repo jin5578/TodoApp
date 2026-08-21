@@ -86,4 +86,5 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="password_setting">Password setting</string>
+    <string name="version">Version %1$s</string>
 </resources>

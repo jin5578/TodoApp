@@ -104,7 +104,7 @@ internal fun AddTaskScreen(
                 title = {
                     Text(
                         text = stringResource(id = DesignSystemR.string.add_task),
-                        style = TodoTheme.typography.headlineMedium,
+                        style = TodoTheme.typography.bold_20,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                 },
@@ -270,7 +270,7 @@ internal fun AddTaskScreen(
                     Text(
                         modifier = Modifier.padding(all = 8.dp),
                         text = stringResource(id = DesignSystemR.string.add_task),
-                        style = TodoTheme.typography.headlineSmall
+                        style = TodoTheme.typography.bold_14
                     )
                 }
             }

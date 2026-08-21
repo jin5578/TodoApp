@@ -104,7 +104,7 @@ internal fun LockSetupScreen(
                     getTitle(lockSetupProcessType = lockSetupProcessType)
                 Text(
                     text = title,
-                    style = TodoTheme.typography.headlineSmall,
+                    style = TodoTheme.typography.bold_16,
                     color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center
                 )

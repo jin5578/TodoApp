@@ -82,13 +82,13 @@ fun DatePickerDialog(
                 ) {
                     Text(
                         text = stringResource(id = R.string.calendar),
-                        style = TodoTheme.typography.headlineSmall,
+                        style = TodoTheme.typography.bold_18,
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                     )
 
                     Text(
                         text = selectedDay.format(dateFormat),
-                        style = TodoTheme.typography.infoDescTextStyle,
+                        style = TodoTheme.typography.bold_18,
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                     )
                 }
@@ -174,7 +174,7 @@ fun DatePickerDialog(
                                 onClose(selectedDay)
                             },
                         text = stringResource(id = R.string.done),
-                        style = TodoTheme.typography.headlineSmall,
+                        style = TodoTheme.typography.bold_14,
                         color = MaterialTheme.colorScheme.onSecondaryContainer,
                     )
                 }

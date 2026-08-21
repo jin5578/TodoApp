@@ -43,7 +43,7 @@ fun InputTaskPriority(
     ) {
         Text(
             text = stringResource(id = R.string.priority),
-            style = TodoTheme.typography.headlineMedium,
+            style = TodoTheme.typography.bold_18,
             color = MaterialTheme.colorScheme.onSurface,
         )
 
@@ -99,7 +99,7 @@ private fun InputTaskPriorityItem(
                     vertical = 16.dp
                 ),
                 text = title,
-                style = TodoTheme.typography.headlineSmall,
+                style = TodoTheme.typography.medium_14,
                 color = textColor,
             )
         }

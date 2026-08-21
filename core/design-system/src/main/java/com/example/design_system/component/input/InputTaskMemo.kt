@@ -39,7 +39,7 @@ fun InputTaskMemo(
     ) {
         Text(
             text = stringResource(id = R.string.memo),
-            style = TodoTheme.typography.headlineMedium,
+            style = TodoTheme.typography.bold_18,
             color = MaterialTheme.colorScheme.onSurface
         )
 
@@ -56,13 +56,13 @@ fun InputTaskMemo(
                 focusedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 cursorColor = MaterialTheme.colorScheme.onSecondaryContainer,
             ),
-            textStyle = TodoTheme.typography.taskTextStyle,
+            textStyle = TodoTheme.typography.medium_14,
             onValueChange = { onValueChange(it) },
             placeholder = {
                 Text(
                     text = stringResource(id = R.string.please_enter_a_note),
                     color = MaterialTheme.colorScheme.onSecondaryContainer,
-                    style = TodoTheme.typography.taskTextStyle
+                    style = TodoTheme.typography.medium_14
                 )
             },
             shape = RoundedCornerShape(size = 8.dp),

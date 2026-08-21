@@ -1,9 +1,7 @@
 package com.example.security
 
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -12,8 +10,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -25,7 +21,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -68,18 +63,18 @@ internal fun SecurityScreen(
         Column(
             modifier = modifier.fillMaxSize()
                 .padding(paddingValues = paddingValues)
-                .padding(vertical = 20.dp),
+                .padding(top = 40.dp, bottom = 20.dp),
         ) {
             Text(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                 text = stringResource(
                     id = DesignSystemR.string.security
                 ),
-                style = TodoTheme.typography.headlineMedium,
+                style = TodoTheme.typography.bold_22,
                 color = MaterialTheme.colorScheme.onSurface
             )
 
-            Spacer(modifier = Modifier.height(height = 20.dp))
+            Spacer(modifier = Modifier.height(height = 40.dp))
 
             val lockIconResId =
                 if (hasExistingPassword) DesignSystemR.drawable.svg_lock
@@ -118,28 +113,20 @@ private fun SecurityItem(
     Row(
         modifier = Modifier.fillMaxWidth()
             .clickable { onClick() }
-            .padding(all = 16.dp),
+            .padding(horizontal = 20.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(space = 10.dp)
     ) {
-        Box(
-            modifier = Modifier.wrapContentSize()
-                .clip(shape = RoundedCornerShape(size = 10.dp))
-                .background(color = MaterialTheme.colorScheme.tertiaryContainer)
-                .padding(all = 4.dp),
-            contentAlignment = Alignment.Center
-        ) {
-            Icon(
-                modifier = Modifier.size(size = 18.dp),
-                imageVector = ImageVector.vectorResource(id = iconResId),
-                contentDescription = null,
-                tint = iconColor,
-            )
-        }
+        Icon(
+            modifier = Modifier.size(size = 18.dp),
+            imageVector = ImageVector.vectorResource(id = iconResId),
+            contentDescription = null,
+            tint = iconColor,
+        )
 
         Text(
             text = title,
-            style = TodoTheme.typography.infoDescTextStyle,
+            style = TodoTheme.typography.medium_16,
             color = MaterialTheme.colorScheme.onSurface,
         )
     }

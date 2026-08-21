@@ -50,7 +50,7 @@ fun SortTaskDialog(
                     bottom = 16.dp
                 ),
                 text = stringResource(id = R.string.sort_tasks_by),
-                style = TodoTheme.typography.headlineMedium,
+                style = TodoTheme.typography.bold_18,
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
 
@@ -69,7 +69,7 @@ fun SortTaskDialog(
                 ).clickable { onSelectClick(selectedSortTaskType) }
                     .align(alignment = Alignment.End),
                 text = stringResource(id = R.string.select),
-                style = TodoTheme.typography.headlineSmall,
+                style = TodoTheme.typography.bold_14,
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
         }
@@ -94,7 +94,7 @@ private fun CustomRadioButton(
         )
         Text(
             text = label,
-            style = TodoTheme.typography.taskTextStyle,
+            style = TodoTheme.typography.medium_16,
             color = MaterialTheme.colorScheme.onSecondaryContainer,
         )
     }

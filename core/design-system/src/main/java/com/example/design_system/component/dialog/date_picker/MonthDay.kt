@@ -70,7 +70,7 @@ fun MonthDay(
     ) {
         Text(
             text = day.date.dayOfMonth.toString(),
-            style = TodoTheme.typography.taskDescTextStyle,
+            style = TodoTheme.typography.bold_14,
             color = textColor
         )
     }

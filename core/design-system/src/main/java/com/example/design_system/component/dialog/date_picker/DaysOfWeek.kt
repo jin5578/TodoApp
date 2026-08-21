@@ -25,7 +25,7 @@ fun DaysOfWeek(
                 modifier = Modifier.weight(1f),
                 text = dayOfWeek.getDisplayName(TextStyle.SHORT, locale),
                 textAlign = TextAlign.Center,
-                style = TodoTheme.typography.infoDescTextStyle,
+                style = TodoTheme.typography.bold_14,
                 color = MaterialTheme.colorScheme.onSecondaryContainer
             )
         }

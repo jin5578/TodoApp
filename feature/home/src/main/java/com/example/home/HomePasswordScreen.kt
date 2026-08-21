@@ -106,7 +106,7 @@ internal fun HomePasswordScreen(
                 val title = getTitle(homePasswordProcessType = homePasswordProcessType)
                 Text(
                     text = title,
-                    style = TodoTheme.typography.headlineSmall,
+                    style = TodoTheme.typography.bold_16,
                     color = MaterialTheme.colorScheme.onSurface,
                     textAlign = TextAlign.Center
                 )
@@ -174,7 +174,7 @@ internal fun HomePasswordScreen(
                         Text(
                             modifier = Modifier.padding(all = 8.dp),
                             text = stringResource(id = DesignSystemR.string.forgot_password),
-                            style = TodoTheme.typography.headlineSmall
+                            style = TodoTheme.typography.bold_14
                         )
                     }
                 }

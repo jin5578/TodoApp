@@ -108,7 +108,7 @@ internal fun HomeScreen(
                 title = {
                     Text(
                         text = stringResource(id = DesignSystemR.string.app_name),
-                        style = TodoTheme.typography.headlineLarge,
+                        style = TodoTheme.typography.bold_20,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 },
@@ -184,7 +184,10 @@ internal fun HomeScreen(
                     },
                     tasksType = TasksType.COMPLETED,
                     icon = DesignSystemR.drawable.svg_completed,
-                    content = stringResource(id = DesignSystemR.string.today_completed_tasks_count, completedTasks.size),
+                    content = stringResource(
+                        id = DesignSystemR.string.today_completed_tasks_count,
+                        completedTasks.size
+                    ),
                     backgroundColor = MaterialTheme.colorScheme.primaryContainer,
                     onClick = navigateCompletedTask
                 )
@@ -194,7 +197,10 @@ internal fun HomeScreen(
                         .graphicsLayer { translationX = rightTranslate.value },
                     tasksType = TasksType.INCOMPLETE,
                     icon = DesignSystemR.drawable.svg_incomplete,
-                    content = stringResource(id = DesignSystemR.string.today_incomplete_tasks_count, incompleteTasks.size),
+                    content = stringResource(
+                        id = DesignSystemR.string.today_incomplete_tasks_count,
+                        incompleteTasks.size
+                    ),
                     backgroundColor = MaterialTheme.colorScheme.primaryContainer,
                     onClick = navigateIncompleteTask
                 )
@@ -238,7 +244,7 @@ internal fun HomeScreen(
                     Text(
                         modifier = Modifier.padding(all = 16.dp),
                         text = stringResource(id = DesignSystemR.string.today_tasks),
-                        style = TodoTheme.typography.headlineMedium,
+                        style = TodoTheme.typography.bold_18,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
 

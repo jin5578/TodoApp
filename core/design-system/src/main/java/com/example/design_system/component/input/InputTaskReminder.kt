@@ -63,7 +63,7 @@ fun InputTaskReminder(
         Text(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.reminder),
-            style = TodoTheme.typography.headlineMedium,
+            style = TodoTheme.typography.bold_18,
             color = MaterialTheme.colorScheme.onSurface
         )
 
@@ -90,7 +90,7 @@ fun InputTaskReminder(
                 InputTaskReminderItem(
                     modifier = Modifier.weight(weight = 1f),
                     title = stringResource(id = option.title),
-                    textStyle = TodoTheme.typography.infoDescTextStyle,
+                    textStyle = TodoTheme.typography.medium_14,
                     isSelected = isSelected,
                     shape = shape,
                     onReminderChanged = { onReminderChanged(option.isRemind) }
@@ -135,7 +135,7 @@ fun InputTaskReminder(
                     InputTaskReminderItem(
                         modifier = Modifier.weight(weight = 1f),
                         title = stringResource(id = titleResId),
-                        textStyle = TodoTheme.typography.taskDescTextStyle,
+                        textStyle = TodoTheme.typography.medium_12,
                         isSelected = reminderTimeType == type,
                         shape = shape,
                         onReminderChanged = { onReminderTimeTypeChanged(type) }

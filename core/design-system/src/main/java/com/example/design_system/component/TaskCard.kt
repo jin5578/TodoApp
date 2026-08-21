@@ -110,7 +110,7 @@ fun TaskCard(
                 Text(
                     modifier = Modifier.fillMaxWidth().basicMarquee(),
                     text = task.title,
-                    style = TodoTheme.typography.headlineMedium,
+                    style = TodoTheme.typography.bold_14,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
 
@@ -121,7 +121,7 @@ fun TaskCard(
                         modifier = Modifier.fillMaxWidth().padding(end = 10.dp)
                             .basicMarquee(),
                         text = task.memo,
-                        style = TodoTheme.typography.infoTextStyle,
+                        style = TodoTheme.typography.medium_14,
                         color = MaterialTheme.colorScheme.onSurface
                     )
 
@@ -225,7 +225,7 @@ private fun ExtraInfo(
 
         Text(
             text = title,
-            style = TodoTheme.typography.taskDescTextStyle,
+            style = TodoTheme.typography.regular_12,
             color = textColor,
         )
     }
@@ -256,7 +256,7 @@ private fun CategoryInfo(
 
         Text(
             text = title,
-            style = TodoTheme.typography.taskDescTextStyle,
+            style = TodoTheme.typography.regular_12,
             color = MaterialTheme.colorScheme.onSurface
         )
     }

@@ -60,7 +60,7 @@ internal fun TasksScreen(
                 title = {
                     Text(
                         text = type.title,
-                        style = TodoTheme.typography.headlineMedium,
+                        style = TodoTheme.typography.bold_20,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                 },

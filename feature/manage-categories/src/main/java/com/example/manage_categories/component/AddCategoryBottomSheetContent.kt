@@ -34,7 +34,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.design_system.theme.TodoTheme
 import com.example.model.CategoryColorType
 import com.example.design_system.R as DesignSystemR
@@ -63,7 +62,7 @@ internal fun AddCategoryBottomSheetContent(
     ) {
         Text(
             text = stringResource(id = DesignSystemR.string.new_category),
-            style = TodoTheme.typography.headlineSmall,
+            style = TodoTheme.typography.bold_18,
             color = MaterialTheme.colorScheme.onSecondaryContainer
         )
 
@@ -82,13 +81,13 @@ internal fun AddCategoryBottomSheetContent(
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,
                 cursorColor = MaterialTheme.colorScheme.onSurface,
             ),
-            textStyle = TodoTheme.typography.taskTextStyle,
+            textStyle = TodoTheme.typography.medium_14,
             onValueChange = { categoryTitle = it },
             placeholder = {
                 Text(
                     text = stringResource(id = DesignSystemR.string.please_enter_the_category_you_want_to_add),
                     color = MaterialTheme.colorScheme.onSurface,
-                    style = TodoTheme.typography.taskTextStyle,
+                    style = TodoTheme.typography.medium_14,
                 )
             },
             shape = RoundedCornerShape(size = 8.dp),
@@ -137,7 +136,7 @@ internal fun AddCategoryBottomSheetContent(
                         vertical = 16.dp,
                     ),
                     text = stringResource(id = DesignSystemR.string.cancel),
-                    style = TodoTheme.typography.infoTextStyle.copy(fontSize = 16.sp),
+                    style = TodoTheme.typography.bold_14,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
@@ -164,7 +163,7 @@ internal fun AddCategoryBottomSheetContent(
                         vertical = 16.dp
                     ),
                     text = stringResource(id = DesignSystemR.string.create),
-                    style = TodoTheme.typography.infoTextStyle.copy(fontSize = 16.sp),
+                    style = TodoTheme.typography.bold_14,
                     color = MaterialTheme.colorScheme.onSecondary,
                 )
             }
