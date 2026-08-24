@@ -9,11 +9,13 @@ import com.example.domain.GetHasBiometricEnabledUseCase
 import com.example.domain.GetHasExistingPasswordUseCase
 import com.example.domain.GetHomeDataUseCase
 import com.example.domain.GetTaskByIdUseCase
+import com.example.domain.InsertTaskUseCase
 import com.example.domain.UpdateSortTaskTypeUseCase
 import com.example.domain.UpdateTaskUseCase
 import com.example.home.model.HomeUiState
 import com.example.model.HomePasswordProcessType
 import com.example.model.SortTaskType
+import com.example.model.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -37,6 +39,7 @@ class HomeViewModel @Inject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val checkPasswordUseCase: CheckPasswordUseCase,
     private val deleteAllDataUseCase: DeleteAllDataUseCase,
+    private val insertTaskUseCase: InsertTaskUseCase
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -89,7 +92,8 @@ class HomeViewModel @Inject constructor(
                     sortTaskType = homeSystem.sortTaskType,
                     themeType = homeSystem.themeType,
                     buildVersion = homeSystem.buildVersion,
-                    locale = homeSystem.locale
+                    locale = homeSystem.locale,
+                    timePickerType = homeSystem.timePickerType
                 )
             }.catch { throwable ->
                 _errorFlow.emit(value = throwable)
@@ -152,4 +156,10 @@ class HomeViewModel @Inject constructor(
             homePasswordProcessType = HomePasswordProcessType.ENTER_EXISTING_PASSWORD
         )
     }
+
+    fun insertTask(task: Task) =
+        viewModelScope.launch {
+            insertTaskUseCase(task)
+            fetchHome()
+        }
 }

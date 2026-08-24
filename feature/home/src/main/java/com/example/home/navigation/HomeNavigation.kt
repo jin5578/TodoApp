@@ -16,6 +16,7 @@ fun NavGraphBuilder.homeNavGraph(
     navigateThisWeekTask: (String) -> Unit,
     navigateAllTask: (String) -> Unit,
     navigateEditTask: (Long) -> Unit,
+    navigateManageCategories: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
     onShowMessageSnackbar: (String) -> Unit
 ) = composable<Route.Home> {
@@ -23,12 +24,12 @@ fun NavGraphBuilder.homeNavGraph(
         exitApp = exitApp,
         navigateCalendar = navigateCalendar,
         navigateSetting = navigateSetting,
-        navigateAddTask = navigateAddTask,
         navigateCompletedTask = navigateCompletedTask,
         navigateIncompleteTask = navigateIncompleteTask,
         navigateThisWeekTask = navigateThisWeekTask,
         navigateAllTask = navigateAllTask,
         navigateEditTask = navigateEditTask,
+        navigateManageCategories = navigateManageCategories,
         onShowErrorSnackbar = onShowErrorSnackbar,
         onShowMessageSnackbar = onShowMessageSnackbar,
     )

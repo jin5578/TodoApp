@@ -7,6 +7,7 @@ import com.example.model.HomePasswordProcessType
 import com.example.model.SortTaskType
 import com.example.model.Task
 import com.example.model.ThemeType
+import com.example.model.TimePickerType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalTime
@@ -35,5 +36,6 @@ sealed interface HomeUiState {
         val themeType: ThemeType,
         val buildVersion: String,
         val locale: Locale,
+        val timePickerType: TimePickerType,
     ) : HomeUiState
 }

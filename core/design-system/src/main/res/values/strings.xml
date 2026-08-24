@@ -87,4 +87,6 @@
     <string name="no">No</string>
     <string name="password_setting">Password setting</string>
     <string name="version">Version %1$s</string>
+    <string name="no_category">No category</string>
+    <string name="create_new">Create new</string>
 </resources>

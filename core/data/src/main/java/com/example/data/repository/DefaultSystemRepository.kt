@@ -41,6 +41,7 @@ class DefaultSystemRepository @Inject constructor(
                 themeType = data.themeType.toThemeType(),
                 buildVersion = data.buildVersion,
                 locale = data.locale.toLocale(),
+                timePickerType = data.timePickerType.toTimePickerType(),
             )
         }
 

@@ -42,6 +42,7 @@ internal fun MainNavHost(
                 navigateThisWeekTask = navigator::navigateTasks,
                 navigateAllTask = navigator::navigateTasks,
                 navigateEditTask = navigator::navigateEditTask,
+                navigateManageCategories = navigator::navigateManageCategories,
                 onShowErrorSnackbar = onShowErrorSnackbar,
                 onShowMessageSnackbar = onShowMessageSnackbar
             )

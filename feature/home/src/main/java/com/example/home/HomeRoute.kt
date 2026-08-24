@@ -8,6 +8,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.Loading
 import com.example.home.model.HomeUiState
 import com.example.model.SortTaskType
+import com.example.model.Task
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -16,12 +17,12 @@ internal fun HomeRoute(
     exitApp: () -> Unit,
     navigateCalendar: () -> Unit,
     navigateSetting: () -> Unit,
-    navigateAddTask: () -> Unit,
     navigateCompletedTask: (String) -> Unit,
     navigateIncompleteTask: (String) -> Unit,
     navigateThisWeekTask: (String) -> Unit,
     navigateAllTask: (String) -> Unit,
     navigateEditTask: (Long) -> Unit,
+    navigateManageCategories: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) {
@@ -38,12 +39,12 @@ internal fun HomeRoute(
         exitApp = exitApp,
         navigateCalendar = navigateCalendar,
         navigateSetting = navigateSetting,
-        navigateAddTask = navigateAddTask,
         navigateCompletedTask = navigateCompletedTask,
         navigateIncompleteTask = navigateIncompleteTask,
         navigateThisWeekTask = navigateThisWeekTask,
         navigateAllTask = navigateAllTask,
         navigateEditTask = navigateEditTask,
+        navigateManageCategories = navigateManageCategories,
         onPasswordCheck = viewModel::checkPassword,
         onSortTaskTypeChanged = viewModel::updateSortTaskType,
         onTaskDelete = viewModel::deleteTask,
@@ -52,6 +53,7 @@ internal fun HomeRoute(
         onDeleteAllData = viewModel::deleteAllData,
         onBiometricAuthSucceeded = viewModel::fetchHome,
         onBiometricAuthError = viewModel::executePasswordAuth,
+        onAddTask = viewModel::insertTask
     )
 }
 
@@ -61,12 +63,12 @@ private fun HomeContent(
     exitApp: () -> Unit,
     navigateCalendar: () -> Unit,
     navigateSetting: () -> Unit,
-    navigateAddTask: () -> Unit,
     navigateCompletedTask: (String) -> Unit,
     navigateIncompleteTask: (String) -> Unit,
     navigateThisWeekTask: (String) -> Unit,
     navigateAllTask: (String) -> Unit,
     navigateEditTask: (Long) -> Unit,
+    navigateManageCategories: () -> Unit,
     onPasswordCheck: (String) -> Unit,
     onSortTaskTypeChanged: (SortTaskType) -> Unit,
     onTaskDelete: (Long) -> Unit,
@@ -74,7 +76,8 @@ private fun HomeContent(
     onShowMessageSnackbar: (String) -> Unit,
     onDeleteAllData: () -> Unit,
     onBiometricAuthSucceeded: () -> Unit,
-    onBiometricAuthError: () -> Unit
+    onBiometricAuthError: () -> Unit,
+    onAddTask: (Task) -> Unit,
 ) {
     when (uiState) {
         is HomeUiState.Loading ->
@@ -101,17 +104,19 @@ private fun HomeContent(
                 categories = uiState.categories,
                 sortTaskType = uiState.sortTaskType,
                 locale = uiState.locale,
+                timePickerType = uiState.timePickerType,
                 navigateCalendar = navigateCalendar,
                 navigateSetting = navigateSetting,
-                navigateAddTask = navigateAddTask,
                 navigateCompletedTask = navigateCompletedTask,
                 navigateIncompleteTask = navigateIncompleteTask,
                 navigateThisWeekTask = navigateThisWeekTask,
                 navigateAllTask = navigateAllTask,
                 navigateEditTask = navigateEditTask,
+                navigateManageCategories = navigateManageCategories,
                 onSortTaskTypeChanged = onSortTaskTypeChanged,
                 onTaskDelete = onTaskDelete,
                 onTaskToggleCompletion = onTaskToggleCompletion,
+                onAddTaskClick = onAddTask,
                 onShowMessageSnackbar = onShowMessageSnackbar
             )
     }

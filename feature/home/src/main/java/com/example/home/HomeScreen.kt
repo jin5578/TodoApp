@@ -19,10 +19,12 @@ import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -44,10 +46,13 @@ import com.example.design_system.component.dialog.sort_task.SortTaskDialog
 import com.example.design_system.theme.TodoTheme
 import com.example.home.component.SwipeActionBox
 import com.example.home.component.TaskInfoCard
+import com.example.home.component.bottom_sheet.AddTaskBottomSheetContent
+import com.example.home.model.BottomSheetType
 import com.example.model.Category
 import com.example.model.SortTaskType
 import com.example.model.Task
 import com.example.model.TasksType
+import com.example.model.TimePickerType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -66,17 +71,19 @@ internal fun HomeScreen(
     categories: ImmutableList<Category>,
     sortTaskType: SortTaskType,
     locale: Locale,
+    timePickerType: TimePickerType,
     navigateCalendar: () -> Unit,
     navigateSetting: () -> Unit,
-    navigateAddTask: () -> Unit,
     navigateCompletedTask: (String) -> Unit,
     navigateIncompleteTask: (String) -> Unit,
     navigateThisWeekTask: (String) -> Unit,
     navigateAllTask: (String) -> Unit,
     navigateEditTask: (Long) -> Unit,
+    navigateManageCategories: () -> Unit,
     onSortTaskTypeChanged: (SortTaskType) -> Unit,
     onTaskDelete: (Long) -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
+    onAddTaskClick: (Task) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) {
     val leftTranslate = remember { Animatable(initialValue = -SLIDE_DISTANCE) }
@@ -98,6 +105,9 @@ internal fun HomeScreen(
     }
 
     var isShowSortTaskDialog by remember { mutableStateOf(value = false) }
+
+    val bottomSheetState = rememberModalBottomSheetState()
+    var showAddTaskBottomSheet by remember { mutableStateOf(value = BottomSheetType.IDLE) }
 
     Scaffold(
         topBar = {
@@ -145,7 +155,9 @@ internal fun HomeScreen(
             FloatingActionButton(
                 containerColor = MaterialTheme.colorScheme.tertiary,
                 contentColor = MaterialTheme.colorScheme.surface,
-                onClick = navigateAddTask
+                onClick = {
+                    showAddTaskBottomSheet = BottomSheetType.ADD_TASK
+                }
             ) {
                 Icon(
                     modifier = modifier.size(size = 32.dp),
@@ -164,6 +176,29 @@ internal fun HomeScreen(
                     isShowSortTaskDialog = false
                 }
             )
+        }
+
+        if (showAddTaskBottomSheet == BottomSheetType.ADD_TASK) {
+            ModalBottomSheet(
+                onDismissRequest = { showAddTaskBottomSheet = BottomSheetType.IDLE },
+                sheetState = bottomSheetState,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            ) {
+                AddTaskBottomSheetContent(
+                    locale = locale,
+                    categories = categories,
+                    timePickerType = timePickerType,
+                    navigateManageCategories = {
+                        showAddTaskBottomSheet = BottomSheetType.IDLE
+                        navigateManageCategories()
+                    },
+                    onAddTaskClick = { task ->
+                        onAddTaskClick(task)
+                        showAddTaskBottomSheet = BottomSheetType.IDLE
+                    },
+                    onShowMessageSnackbar = onShowMessageSnackbar
+                )
+            }
         }
 
         Column(
@@ -364,17 +399,19 @@ private fun HomeScreenPreview() {
             categories = persistentListOf(),
             sortTaskType = SortTaskType.BY_CREATE_TIME_ASCENDING,
             locale = Locale.KOREA,
+            timePickerType = TimePickerType.SCROLL_TIME_PICKER,
             navigateCalendar = {},
             navigateSetting = {},
-            navigateAddTask = {},
             navigateCompletedTask = {},
             navigateIncompleteTask = {},
             navigateThisWeekTask = {},
             navigateAllTask = {},
             navigateEditTask = { _ -> },
+            navigateManageCategories = {},
             onSortTaskTypeChanged = {},
             onTaskDelete = { _ -> },
             onTaskToggleCompletion = { _, _ -> },
+            onAddTaskClick = {},
             onShowMessageSnackbar = {}
         )
     }

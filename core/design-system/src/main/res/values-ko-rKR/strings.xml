@@ -87,4 +87,6 @@
     <string name="no">아니오</string>
     <string name="password_setting">패스워드 설정</string>
     <string name="version">버전 %1$s</string>
+    <string name="no_category">카테고리 없음</string>
+    <string name="create_new">새로 만들기</string>
 </resources>
