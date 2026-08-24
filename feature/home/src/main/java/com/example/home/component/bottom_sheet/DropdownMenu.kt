@@ -26,6 +26,23 @@ import kotlinx.collections.immutable.persistentListOf
 import com.example.design_system.R as DesignSystemR
 
 @Composable
+private fun BasicDropdownMenuItem(
+    title: String,
+    onClick: () -> Unit
+) {
+    DropdownMenuItem(
+        text = {
+            Text(
+                text = title,
+                style = TodoTheme.typography.medium_10,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+        },
+        onClick = onClick
+    )
+}
+
+@Composable
 internal fun CategoryDropdownMenu(
     categories: ImmutableList<Category>,
     isShowCategoryMenu: Boolean,
@@ -38,14 +55,8 @@ internal fun CategoryDropdownMenu(
         onDismissRequest = onCloseClick
     ) {
         categories.forEach { category ->
-            DropdownMenuItem(
-                text = {
-                    Text(
-                        text = category.title,
-                        style = TodoTheme.typography.medium_10,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                },
+            BasicDropdownMenuItem(
+                title = category.title,
                 onClick = { onCategoryClick(category.id) }
             )
         }
@@ -86,14 +97,8 @@ internal fun PriorityDropdownMenu(
     ) {
         PriorityType.entries.forEach { priority ->
             val titleResId = priority.getTitleResId()
-            DropdownMenuItem(
-                text = {
-                    Text(
-                        text = stringResource(id = titleResId),
-                        style = TodoTheme.typography.medium_10,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                },
+            BasicDropdownMenuItem(
+                title = stringResource(id = titleResId),
                 onClick = { onPriorityTypeClick(priority) }
             )
         }
@@ -113,27 +118,26 @@ internal fun ReminderDropdownMenu(
     ) {
         ReminderTimeType.entries.forEach { type ->
             val titleResId = type.getTitleResId()
-            DropdownMenuItem(
-                text = {
-                    Text(
-                        text = stringResource(id = titleResId),
-                        style = TodoTheme.typography.medium_10,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-                },
+            BasicDropdownMenuItem(
+                title = stringResource(id = titleResId),
                 onClick = { onReminderTimeTypeClick(type) }
             )
         }
 
-        DropdownMenuItem(
-            text = {
-                Text(
-                    text = "OFF",
-                    style = TodoTheme.typography.medium_10,
-                    color = MaterialTheme.colorScheme.onSurface
-                )
-            },
+        BasicDropdownMenuItem(
+            title = stringResource(id = DesignSystemR.string.off),
             onClick = onReminderOffClick
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun BasicDropdownMenuItemPreview() {
+    TodoTheme {
+        BasicDropdownMenuItem(
+            title = "Title",
+            onClick = {}
         )
     }
 }
