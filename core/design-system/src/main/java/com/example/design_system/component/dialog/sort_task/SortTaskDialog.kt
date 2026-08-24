@@ -43,12 +43,7 @@ fun SortTaskDialog(
             )
         ) {
             Text(
-                modifier = Modifier.padding(
-                    start = 16.dp,
-                    top = 24.dp,
-                    end = 16.dp,
-                    bottom = 16.dp
-                ),
+                modifier = Modifier.padding(all = 20.dp),
                 text = stringResource(id = R.string.sort_tasks_by),
                 style = TodoTheme.typography.bold_18,
                 color = MaterialTheme.colorScheme.onSecondaryContainer

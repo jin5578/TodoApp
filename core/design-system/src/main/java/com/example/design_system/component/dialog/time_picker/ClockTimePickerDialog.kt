@@ -3,8 +3,8 @@ package com.example.design_system.component.dialog.time_picker
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -40,7 +40,7 @@ fun ClockTimePickerDialog(
         onDismissRequest = { onClose(initTime) }
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.wrapContentWidth(),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer

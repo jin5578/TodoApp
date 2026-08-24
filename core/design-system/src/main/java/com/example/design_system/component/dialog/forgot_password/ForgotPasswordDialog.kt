@@ -42,6 +42,7 @@ private fun ForgotPasswordDialogContent(
     onConfirm: () -> Unit,
 ) {
     Card(
+        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
         shape = RoundedCornerShape(size = 16.dp),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.secondaryContainer,
