@@ -61,7 +61,7 @@ fun TaskCard(
     Box(
         modifier = modifier.fillMaxWidth()
             .background(
-                color = MaterialTheme.colorScheme.surfaceContainer,
+                color = MaterialTheme.colorScheme.primaryContainer,
                 shape = RoundedCornerShape(size = 8.dp)
             ).clickable(enabled = !isAvailableSwipe) {
                 onTaskEdit?.invoke(task.id)
@@ -86,14 +86,14 @@ fun TaskCard(
                         modifier = Modifier.size(21.dp),
                         painter = painterResource(id = R.drawable.svg_check_circle),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer
                     )
                 } else {
                     Box(
                         modifier = Modifier.size(size = 20.dp)
                             .border(
                                 width = 2.dp,
-                                color = MaterialTheme.colorScheme.primary,
+                                color = MaterialTheme.colorScheme.onPrimaryContainer,
                                 shape = CircleShape
                             ),
                         contentAlignment = Alignment.Center,
@@ -111,7 +111,7 @@ fun TaskCard(
                     modifier = Modifier.fillMaxWidth().basicMarquee(),
                     text = task.title,
                     style = TodoTheme.typography.bold_14,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
 
                 Spacer(modifier = Modifier.height(height = 8.dp))
@@ -122,7 +122,7 @@ fun TaskCard(
                             .basicMarquee(),
                         text = task.memo,
                         style = TodoTheme.typography.medium_14,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
 
                     Spacer(modifier = Modifier.height(height = 8.dp))
@@ -142,7 +142,7 @@ fun TaskCard(
 
                     if (category != null) {
                         CategoryInfo(
-                            color = androidx.compose.ui.graphics.Color(category.colorValue),
+                            color = Color(category.colorValue),
                             title = category.title
                         )
                     }
@@ -152,15 +152,15 @@ fun TaskCard(
                     ExtraInfo(
                         painter = painterResource(id = R.drawable.svg_clock),
                         title = task.time.format(timeFormat),
-                        textColor = MaterialTheme.colorScheme.onSurface,
-                        tintColor = MaterialTheme.colorScheme.onSurface,
+                        textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        tintColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
 
                     ExtraInfo(
                         painter = painterResource(id = R.drawable.svg_calendar),
                         title = task.date.toString(),
-                        textColor = MaterialTheme.colorScheme.onSurface,
-                        tintColor = MaterialTheme.colorScheme.onSurface,
+                        textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        tintColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
 
                     val notificationIcon: Int
@@ -178,8 +178,8 @@ fun TaskCard(
                     ExtraInfo(
                         painter = painterResource(id = notificationIcon),
                         title = notificationText,
-                        textColor = MaterialTheme.colorScheme.onSurface,
-                        tintColor = MaterialTheme.colorScheme.onSurface,
+                        textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        tintColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
                 }
             }
@@ -192,7 +192,7 @@ fun TaskCard(
                     Icon(
                         modifier = Modifier.size(size = 18.dp),
                         imageVector = ImageVector.vectorResource(id = R.drawable.svg_trash),
-                        tint = MaterialTheme.colorScheme.primary,
+                        tint = MaterialTheme.colorScheme.onPrimaryContainer,
                         contentDescription = null
                     )
                 }
@@ -210,7 +210,7 @@ private fun ExtraInfo(
 ) {
     Row(
         modifier = Modifier.background(
-            color = MaterialTheme.colorScheme.surfaceDim,
+            color = MaterialTheme.colorScheme.surface,
             shape = RoundedCornerShape(size = 8.dp),
         ).padding(all = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(space = 4.dp),
@@ -238,7 +238,7 @@ private fun CategoryInfo(
 ) {
     Row(
         modifier = Modifier.background(
-            color = MaterialTheme.colorScheme.surfaceDim,
+            color = MaterialTheme.colorScheme.surface,
             shape = RoundedCornerShape(size = 8.dp),
         ).padding(all = 4.dp),
         horizontalArrangement = Arrangement.spacedBy(space = 4.dp),

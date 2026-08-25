@@ -42,7 +42,7 @@ fun InputTaskTitle(
         Text(
             text = stringResource(id = R.string.title),
             style = TodoTheme.typography.bold_18,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onBackground
         )
         TextField(
             modifier = Modifier.fillMaxWidth()
@@ -55,20 +55,20 @@ fun InputTaskTitle(
             value = title,
             singleLine = true,
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedIndicatorColor = Color.Transparent,
-                unfocusedContainerColor = MaterialTheme.colorScheme.secondaryContainer,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 unfocusedIndicatorColor = Color.Transparent,
-                disabledContainerColor = MaterialTheme.colorScheme.secondaryContainer,
-                focusedTextColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                cursorColor = MaterialTheme.colorScheme.onSecondaryContainer,
+                disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+                focusedTextColor = MaterialTheme.colorScheme.onSurface,
+                cursorColor = MaterialTheme.colorScheme.onSurface,
             ),
             textStyle = TodoTheme.typography.medium_14,
             onValueChange = { onValueChange(it) },
             placeholder = {
                 Text(
                     text = stringResource(id = R.string.please_enter_what_you_need_to_do),
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    color = MaterialTheme.colorScheme.onSurface,
                     style = TodoTheme.typography.medium_14
                 )
             },

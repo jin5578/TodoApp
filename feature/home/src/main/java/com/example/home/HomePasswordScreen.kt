@@ -69,7 +69,7 @@ internal fun HomePasswordScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.background
                 ),
                 title = {},
                 navigationIcon = {
@@ -78,7 +78,7 @@ internal fun HomePasswordScreen(
                             modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -103,11 +103,12 @@ internal fun HomePasswordScreen(
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                val title = getTitle(homePasswordProcessType = homePasswordProcessType)
+                val title =
+                    getTitle(homePasswordProcessType = homePasswordProcessType)
                 Text(
                     text = title,
                     style = TodoTheme.typography.bold_16,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Center
                 )
 
@@ -165,8 +166,8 @@ internal fun HomePasswordScreen(
                     Button(
                         modifier = Modifier.fillMaxWidth(),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = MaterialTheme.colorScheme.primary,
-                            contentColor = MaterialTheme.colorScheme.onPrimary,
+                            containerColor = MaterialTheme.colorScheme.primaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         ),
                         shape = RoundedCornerShape(size = 16.dp),
                         onClick = { isShowForgotPasswordDialog = true }

@@ -39,7 +39,7 @@ fun ScrollTimePickerDialog(
             modifier = Modifier.wrapContentWidth(),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                containerColor = MaterialTheme.colorScheme.surface,
             )
         ) {
             Column(
@@ -63,7 +63,7 @@ fun ScrollTimePickerDialog(
                         },
                     text = stringResource(id = R.string.done),
                     style = TodoTheme.typography.bold_14,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                    color = MaterialTheme.colorScheme.onSurface
                 )
             }
         }

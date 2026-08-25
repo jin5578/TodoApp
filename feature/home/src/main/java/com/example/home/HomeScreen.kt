@@ -33,7 +33,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
@@ -113,13 +112,13 @@ internal fun HomeScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.background
                 ),
                 title = {
                     Text(
                         text = stringResource(id = DesignSystemR.string.app_name),
                         style = TodoTheme.typography.bold_20,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 actions = {
@@ -132,7 +131,7 @@ internal fun HomeScreen(
                                 id = DesignSystemR.drawable.svg_calendar
                             ),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface,
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
 
@@ -145,7 +144,7 @@ internal fun HomeScreen(
                                 id = DesignSystemR.drawable.svg_setting
                             ),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -153,8 +152,8 @@ internal fun HomeScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                containerColor = MaterialTheme.colorScheme.tertiary,
-                contentColor = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 onClick = {
                     showAddTaskBottomSheet = BottomSheetType.ADD_TASK
                 }
@@ -180,9 +179,11 @@ internal fun HomeScreen(
 
         if (showAddTaskBottomSheet == BottomSheetType.ADD_TASK) {
             ModalBottomSheet(
-                onDismissRequest = { showAddTaskBottomSheet = BottomSheetType.IDLE },
+                onDismissRequest = {
+                    showAddTaskBottomSheet = BottomSheetType.IDLE
+                },
                 sheetState = bottomSheetState,
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                containerColor = MaterialTheme.colorScheme.surface,
             ) {
                 AddTaskBottomSheetContent(
                     locale = locale,
@@ -280,7 +281,7 @@ internal fun HomeScreen(
                         modifier = Modifier.padding(all = 16.dp),
                         text = stringResource(id = DesignSystemR.string.today_tasks),
                         style = TodoTheme.typography.bold_18,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
 
                     IconButton(onClick = { isShowSortTaskDialog = true }) {
@@ -290,7 +291,7 @@ internal fun HomeScreen(
                                 id = DesignSystemR.drawable.svg_sort
                             ),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }

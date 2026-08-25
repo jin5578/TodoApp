@@ -32,18 +32,18 @@ fun MonthDay(
     onShowMessageSnackbar: (String) -> Unit,
 ) {
     val backgroundColor =
-        if (isSelected) MaterialTheme.colorScheme.secondary
+        if (isSelected) MaterialTheme.colorScheme.surface
         else Color.Transparent
     val borderWidth =
         if (day.date == LocalDate.now()) 1.dp
         else (-1).dp
     val textColor =
-        if (isSelected) MaterialTheme.colorScheme.onSecondary
+        if (isSelected) MaterialTheme.colorScheme.error
         else {
             if (day.position == DayPosition.MonthDate) {
-                MaterialTheme.colorScheme.onSecondaryContainer
+                MaterialTheme.colorScheme.onSurface
             } else {
-                MaterialTheme.colorScheme.outline
+                MaterialTheme.colorScheme.inverseOnSurface
             }
         }
 
@@ -56,7 +56,7 @@ fun MonthDay(
             .background(backgroundColor)
             .border(
                 width = borderWidth,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                color = MaterialTheme.colorScheme.onSurface,
                 shape = RoundedCornerShape(size = 8.dp)
             )
             .clickable {

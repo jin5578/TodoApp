@@ -49,12 +49,12 @@ internal fun WeekendDay(
     val dateFormat = DateTimeFormatter.ofPattern("dd")
 
     val textColor = if (isSelected) {
-        MaterialTheme.colorScheme.onSecondary
+        MaterialTheme.colorScheme.onPrimary
     } else {
         if (day.date == LocalDate.now())
             Green
         else
-            MaterialTheme.colorScheme.outline
+            MaterialTheme.colorScheme.onBackground
     }
 
     Box(
@@ -63,7 +63,7 @@ internal fun WeekendDay(
             .clip(shape = RoundedCornerShape(size = 8.dp))
             .background(
                 color = if (isSelected)
-                    MaterialTheme.colorScheme.secondary
+                    MaterialTheme.colorScheme.primary
                 else
                     Color.Transparent
             )

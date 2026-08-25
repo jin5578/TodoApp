@@ -151,11 +151,11 @@ class DefaultSystemRepository @Inject constructor(
     private fun String.toThemeType() = when (this) {
         ThemeType.SYSTEM.key -> ThemeType.SYSTEM
         ThemeType.SUN_RISE.key -> ThemeType.SUN_RISE
-        ThemeType.SKY_BLUE.key -> ThemeType.SKY_BLUE
-        ThemeType.MIST_GRAY.key -> ThemeType.MIST_GRAY
-        ThemeType.MIDNIGHT_BLUE.key -> ThemeType.MIDNIGHT_BLUE
-        ThemeType.CHARCOAL_BLACK.key -> ThemeType.CHARCOAL_BLACK
-        else -> ThemeType.DEEP_FOREST_GREEN
+        ThemeType.OCEAN.key -> ThemeType.OCEAN
+        ThemeType.MEADOW.key -> ThemeType.MEADOW
+        ThemeType.MIDNIGHT.key -> ThemeType.MIDNIGHT
+        ThemeType.DEEP_SPACE.key -> ThemeType.DEEP_SPACE
+        else -> ThemeType.EMBER
     }
 
     private fun String.toSortTaskType() = when (this) {

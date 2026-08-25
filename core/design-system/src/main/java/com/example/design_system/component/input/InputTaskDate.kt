@@ -73,7 +73,7 @@ fun InputTaskDate(
             Text(
                 text = stringResource(id = R.string.date),
                 style = TodoTheme.typography.bold_18,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             Row(
@@ -85,7 +85,7 @@ fun InputTaskDate(
                     modifier = Modifier.size(size = 14.dp),
                     imageVector = ImageVector.vectorResource(id = R.drawable.svg_calendar),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
 
                 val dateFormat = DateTimeFormatter.ofPattern(
@@ -95,7 +95,7 @@ fun InputTaskDate(
                 Text(
                     text = date.format(dateFormat),
                     style = TodoTheme.typography.medium_14,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }
@@ -104,7 +104,7 @@ fun InputTaskDate(
             modifier = Modifier.fillMaxWidth()
                 .border(
                     width = 1.dp,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    color = MaterialTheme.colorScheme.outline,
                     shape = RoundedCornerShape(size = 8.dp)
                 ),
             horizontalArrangement = Arrangement.Center,
@@ -142,9 +142,9 @@ private fun InputTaskDateItem(
     onDateChange: () -> Unit
 ) {
     val bgColor = if (isSelected)
-        MaterialTheme.colorScheme.secondaryContainer
+        MaterialTheme.colorScheme.surfaceDim
     else
-        MaterialTheme.colorScheme.surface
+        MaterialTheme.colorScheme.background
 
     Box(
         modifier = modifier.fillMaxWidth()
@@ -158,7 +158,7 @@ private fun InputTaskDateItem(
     ) {
         Text(
             text = stringResource(id = resId),
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.onBackground,
             style = if (isSelected)
                 TodoTheme.typography.bold_14
             else

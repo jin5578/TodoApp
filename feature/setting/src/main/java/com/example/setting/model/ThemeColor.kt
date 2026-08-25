@@ -1,21 +1,21 @@
 package com.example.setting.model
 
 import androidx.compose.ui.graphics.Color
-import com.example.design_system.theme.onPrimaryCharcoalBlack
-import com.example.design_system.theme.onPrimaryDeepForestGreen
-import com.example.design_system.theme.onPrimaryMidnightBlue
-import com.example.design_system.theme.onPrimaryMistGray
-import com.example.design_system.theme.onPrimarySkyBlue
+import com.example.design_system.theme.onPrimaryDeepSpace
+import com.example.design_system.theme.onPrimaryEmber
+import com.example.design_system.theme.onPrimaryMeadow
+import com.example.design_system.theme.onPrimaryMidnight
+import com.example.design_system.theme.onPrimaryOcean
 import com.example.design_system.theme.onPrimarySunRise
-import com.example.design_system.theme.onSurfaceMidnightBlue
+import com.example.design_system.theme.onSurfaceMidnight
 import com.example.design_system.theme.onSurfaceSunRise
-import com.example.design_system.theme.primaryCharcoalBlack
-import com.example.design_system.theme.primaryDeepForestGreen
-import com.example.design_system.theme.primaryMidnightBlue
-import com.example.design_system.theme.primaryMistGray
-import com.example.design_system.theme.primarySkyBlue
+import com.example.design_system.theme.primaryDeepSpace
+import com.example.design_system.theme.primaryEmber
+import com.example.design_system.theme.primaryMeadow
+import com.example.design_system.theme.primaryMidnight
+import com.example.design_system.theme.primaryOcean
 import com.example.design_system.theme.primarySunRise
-import com.example.design_system.theme.surfaceMidnightBlue
+import com.example.design_system.theme.surfaceMidnight
 import com.example.design_system.theme.surfaceSunRise
 
 enum class ThemeColor(
@@ -33,34 +33,34 @@ enum class ThemeColor(
         textColor = onPrimarySunRise,
         dividerColor = primarySunRise,
     ),
-    SKY_BLUE_THEME(
-        backgroundColor = primarySkyBlue,
-        textColor = onPrimarySkyBlue,
-        dividerColor = primarySkyBlue,
+    OCEAN_THEME(
+        backgroundColor = primaryOcean,
+        textColor = onPrimaryOcean,
+        dividerColor = primaryOcean,
     ),
-    MIST_GRAY_THEME(
-        backgroundColor = primaryMistGray,
-        textColor = onPrimaryMistGray,
-        dividerColor = primaryMistGray,
+    MEADOW_THEME(
+        backgroundColor = primaryMeadow,
+        textColor = onPrimaryMeadow,
+        dividerColor = primaryMeadow,
     ),
-    MIDNIGHT_BLUE_THEME(
-        backgroundColor = primaryMidnightBlue,
-        textColor = onPrimaryMidnightBlue,
-        dividerColor = primaryMidnightBlue,
+    MIDNIGHT_THEME(
+        backgroundColor = primaryMidnight,
+        textColor = onPrimaryMidnight,
+        dividerColor = primaryMidnight,
     ),
-    CHARCOAL_BLACK_THEME(
-        backgroundColor = primaryCharcoalBlack,
-        textColor = onPrimaryCharcoalBlack,
-        dividerColor = primaryCharcoalBlack,
+    DEEP_SPACE_THEME(
+        backgroundColor = primaryDeepSpace,
+        textColor = onPrimaryDeepSpace,
+        dividerColor = primaryDeepSpace,
     ),
-    DEEP_FOREST_GREEN_THEME(
-        backgroundColor = primaryDeepForestGreen,
-        textColor = onPrimaryDeepForestGreen,
-        dividerColor = primaryDeepForestGreen,
+    EMBER_THEME(
+        backgroundColor = primaryEmber,
+        textColor = onPrimaryEmber,
+        dividerColor = primaryEmber,
     ),
     DARK_SYSTEM_THEME(
-        backgroundColor = surfaceMidnightBlue,
-        textColor = onSurfaceMidnightBlue,
-        dividerColor = primaryMidnightBlue,
+        backgroundColor = surfaceMidnight,
+        textColor = onSurfaceMidnight,
+        dividerColor = primaryMidnight,
     ),
 }

@@ -34,7 +34,6 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.design_system.theme.TodoTheme
 import com.example.model.CategoryColorType
 import com.example.design_system.R as DesignSystemR
@@ -67,7 +66,7 @@ internal fun EditCategoryBottomSheetContent(
         Text(
             text = stringResource(id = DesignSystemR.string.edit_category),
             style = TodoTheme.typography.bold_18,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         TextField(
@@ -77,11 +76,11 @@ internal fun EditCategoryBottomSheetContent(
             value = categoryTitle,
             singleLine = true,
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.surfaceDim,
+                focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedIndicatorColor = Color.Transparent,
-                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceDim,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 unfocusedIndicatorColor = Color.Transparent,
-                disabledContainerColor = MaterialTheme.colorScheme.surfaceDim,
+                disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,
                 cursorColor = MaterialTheme.colorScheme.onSurface,
             ),
@@ -123,13 +122,9 @@ internal fun EditCategoryBottomSheetContent(
             Box(
                 modifier = Modifier.weight(weight = 1f)
                     .clickable { onCancelClick() }
-                    .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(size = 8.dp)
-                    )
                     .border(
                         width = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.tertiary,
                         shape = RoundedCornerShape(8.dp)
                     ),
                 contentAlignment = Alignment.Center
@@ -141,7 +136,7 @@ internal fun EditCategoryBottomSheetContent(
                     ),
                     text = stringResource(id = DesignSystemR.string.cancel),
                     style = TodoTheme.typography.bold_14,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.tertiary,
                 )
             }
             Box(
@@ -156,7 +151,7 @@ internal fun EditCategoryBottomSheetContent(
                         }
                     }
                     .background(
-                        color = MaterialTheme.colorScheme.secondary,
+                        color = MaterialTheme.colorScheme.primary,
                         shape = RoundedCornerShape(size = 8.dp)
                     ),
                 contentAlignment = Alignment.Center
@@ -168,7 +163,7 @@ internal fun EditCategoryBottomSheetContent(
                     ),
                     text = stringResource(id = DesignSystemR.string.create),
                     style = TodoTheme.typography.bold_14,
-                    color = MaterialTheme.colorScheme.onSecondary,
+                    color = MaterialTheme.colorScheme.onPrimary,
                 )
             }
         }

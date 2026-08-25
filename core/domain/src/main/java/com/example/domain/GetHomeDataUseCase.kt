@@ -6,7 +6,6 @@ import com.example.data_api.repository.TaskRepository
 import com.example.model.home.Home
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
-import java.time.LocalDate
 import javax.inject.Inject
 
 class GetHomeDataUseCase @Inject constructor(
@@ -16,7 +15,7 @@ class GetHomeDataUseCase @Inject constructor(
 ) {
     operator fun invoke(): Flow<Home> =
         combine(
-            flow = taskRepository.getTasksByDate(date = LocalDate.now()),
+            flow = taskRepository.getAllTask(),
             flow2 = categoryRepository.getAllCategory(),
             flow3 = systemRepository.getHomeSystem()
         ) { tasks, categories, homeSystem ->

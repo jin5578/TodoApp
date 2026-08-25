@@ -23,7 +23,7 @@ fun ForgotPasswordTextButton(
     TextButton(
         modifier = modifier,
         onClick = onClick,
-        shape = RoundedCornerShape(size = 16.dp),
+        shape = RoundedCornerShape(size = 8.dp),
         colors = ButtonDefaults.textButtonColors(
             containerColor = backgroundColor
         )

@@ -58,7 +58,7 @@ internal fun CategoryCard(
             modifier = Modifier.weight(weight = 1f),
             text = title,
             style = TodoTheme.typography.medium_16,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         IconButton(
@@ -68,7 +68,7 @@ internal fun CategoryCard(
             Icon(
                 modifier = Modifier.size(size = 21.dp),
                 imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_cancel_small),
-                tint = MaterialTheme.colorScheme.onSurface,
+                tint = MaterialTheme.colorScheme.onBackground,
                 contentDescription = null
             )
         }

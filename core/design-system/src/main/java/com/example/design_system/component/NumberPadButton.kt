@@ -44,7 +44,7 @@ fun NumberPadButton(
             Text(
                 text = title,
                 style = TodoTheme.typography.bold_20,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }

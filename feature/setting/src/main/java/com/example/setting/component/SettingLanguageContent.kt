@@ -44,7 +44,7 @@ internal fun SettingLanguageContent(
         Text(
             text = stringResource(id = DesignSystemR.string.choose_language),
             style = TodoTheme.typography.bold_18,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.onSurface,
         )
 
         Row(

@@ -56,6 +56,7 @@ internal fun AddCategoryBottomSheetContent(
 
     Column(
         modifier = modifier.fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.surface)
             .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(space = 30.dp),
@@ -63,7 +64,7 @@ internal fun AddCategoryBottomSheetContent(
         Text(
             text = stringResource(id = DesignSystemR.string.new_category),
             style = TodoTheme.typography.bold_18,
-            color = MaterialTheme.colorScheme.onSecondaryContainer
+            color = MaterialTheme.colorScheme.onSurface
         )
 
         TextField(
@@ -73,11 +74,11 @@ internal fun AddCategoryBottomSheetContent(
             value = categoryTitle,
             singleLine = true,
             colors = TextFieldDefaults.colors(
-                focusedContainerColor = MaterialTheme.colorScheme.surfaceDim,
+                focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedIndicatorColor = Color.Transparent,
-                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceDim,
+                unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 unfocusedIndicatorColor = Color.Transparent,
-                disabledContainerColor = MaterialTheme.colorScheme.surfaceDim,
+                disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,
                 cursorColor = MaterialTheme.colorScheme.onSurface,
             ),
@@ -119,13 +120,9 @@ internal fun AddCategoryBottomSheetContent(
             Box(
                 modifier = Modifier.weight(weight = 1f)
                     .clickable { onCancelClick() }
-                    .background(
-                        color = MaterialTheme.colorScheme.surface,
-                        shape = RoundedCornerShape(size = 8.dp)
-                    )
                     .border(
                         width = 1.dp,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.tertiary,
                         shape = RoundedCornerShape(size = 8.dp)
                     ),
                 contentAlignment = Alignment.Center
@@ -137,7 +134,7 @@ internal fun AddCategoryBottomSheetContent(
                     ),
                     text = stringResource(id = DesignSystemR.string.cancel),
                     style = TodoTheme.typography.bold_14,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.tertiary,
                 )
             }
 
@@ -152,7 +149,7 @@ internal fun AddCategoryBottomSheetContent(
                         }
                     }
                     .background(
-                        color = MaterialTheme.colorScheme.secondary,
+                        color = MaterialTheme.colorScheme.primary,
                         shape = RoundedCornerShape(size = 8.dp)
                     ),
                 contentAlignment = Alignment.Center
@@ -164,7 +161,7 @@ internal fun AddCategoryBottomSheetContent(
                     ),
                     text = stringResource(id = DesignSystemR.string.create),
                     style = TodoTheme.typography.bold_14,
-                    color = MaterialTheme.colorScheme.onSecondary,
+                    color = MaterialTheme.colorScheme.onPrimary,
                 )
             }
         }

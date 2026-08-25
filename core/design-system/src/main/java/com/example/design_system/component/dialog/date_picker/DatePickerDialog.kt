@@ -71,7 +71,7 @@ fun DatePickerDialog(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.secondaryContainer
+                containerColor = MaterialTheme.colorScheme.surface
             )
         ) {
             Column {
@@ -83,13 +83,13 @@ fun DatePickerDialog(
                     Text(
                         text = stringResource(id = R.string.calendar),
                         style = TodoTheme.typography.bold_18,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
 
                     Text(
                         text = selectedDay.format(dateFormat),
                         style = TodoTheme.typography.bold_18,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 }
 
@@ -125,7 +125,7 @@ fun DatePickerDialog(
                                 .padding(all = 8.dp),
                             imageVector = ImageVector.vectorResource(id = R.drawable.svg_calendar_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSecondaryContainer
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
 
                         Icon(
@@ -142,7 +142,7 @@ fun DatePickerDialog(
                                 }.padding(all = 8.dp),
                             imageVector = ImageVector.vectorResource(id = R.drawable.svg_calendar_arrow_right),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSecondaryContainer
+                            tint = MaterialTheme.colorScheme.onSurface
                         )
                     }
 
@@ -175,7 +175,7 @@ fun DatePickerDialog(
                             },
                         text = stringResource(id = R.string.done),
                         style = TodoTheme.typography.bold_14,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        color = MaterialTheme.colorScheme.onSurface,
                     )
                 }
             }

@@ -44,7 +44,7 @@ fun InputTaskPriority(
         Text(
             text = stringResource(id = R.string.priority),
             style = TodoTheme.typography.bold_18,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Row(
@@ -78,12 +78,12 @@ private fun InputTaskPriorityItem(
         verticalArrangement = Arrangement.spacedBy(space = 4.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        var bgColor = MaterialTheme.colorScheme.secondaryContainer
-        var textColor = MaterialTheme.colorScheme.onSecondaryContainer
+        var bgColor = MaterialTheme.colorScheme.surfaceDim
+        var textColor = MaterialTheme.colorScheme.onSurface
 
         if (isSelected) {
             bgColor = backgroundColor
-            textColor = MaterialTheme.colorScheme.surface
+            textColor = MaterialTheme.colorScheme.onSurface
         }
 
         Box(

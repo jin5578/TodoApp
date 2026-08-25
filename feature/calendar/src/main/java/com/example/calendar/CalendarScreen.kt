@@ -90,7 +90,7 @@ internal fun CalendarScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent,
+                    containerColor = MaterialTheme.colorScheme.background
                 ),
                 title = {
                     Text(
@@ -99,7 +99,7 @@ internal fun CalendarScreen(
                             locale
                         ),
                         style = TodoTheme.typography.bold_20,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 },
                 navigationIcon = {
@@ -110,7 +110,7 @@ internal fun CalendarScreen(
                                 id = DesignSystemR.drawable.svg_arrow_left
                             ),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface,
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
                 },
@@ -127,7 +127,7 @@ internal fun CalendarScreen(
                             }
                                 .border(
                                     width = 2.dp,
-                                    color = MaterialTheme.colorScheme.primary,
+                                    color = MaterialTheme.colorScheme.outline,
                                     shape = RoundedCornerShape(size = 8.dp)
                                 )
                         ) {
@@ -147,8 +147,8 @@ internal fun CalendarScreen(
         },
         floatingActionButton = {
             FloatingActionButton(
-                containerColor = MaterialTheme.colorScheme.tertiary,
-                contentColor = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
                 onClick = { navigateAddTask(selectedDay) },
             ) {
                 Icon(

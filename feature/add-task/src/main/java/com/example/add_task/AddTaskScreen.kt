@@ -99,13 +99,13 @@ internal fun AddTaskScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.background
                 ),
                 title = {
                     Text(
                         text = stringResource(id = DesignSystemR.string.add_task),
                         style = TodoTheme.typography.bold_20,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 },
                 navigationIcon = {
@@ -116,7 +116,7 @@ internal fun AddTaskScreen(
                                 id = DesignSystemR.drawable.svg_arrow_left
                             ),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -163,7 +163,7 @@ internal fun AddTaskScreen(
             modifier = modifier.fillMaxSize()
                 .padding(paddingValues = paddingValues)
                 .verticalScroll(state = scrollState)
-                .background(color = MaterialTheme.colorScheme.surface),
+                .background(color = MaterialTheme.colorScheme.background),
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.SpaceBetween
         ) {
@@ -242,8 +242,8 @@ internal fun AddTaskScreen(
                 Button(
                     modifier = Modifier.fillMaxWidth(),
                     colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
+                        containerColor = MaterialTheme.colorScheme.primaryContainer,
+                        contentColor = MaterialTheme.colorScheme.onPrimaryContainer
                     ),
                     shape = RoundedCornerShape(size = 16.dp),
                     onClick = {

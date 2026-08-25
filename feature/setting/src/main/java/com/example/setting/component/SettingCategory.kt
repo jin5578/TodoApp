@@ -42,7 +42,7 @@ internal fun SettingCategory(
             modifier = Modifier.padding(horizontal = 20.dp),
             text = stringResource(id = titleResId),
             style = TodoTheme.typography.bold_18,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Column {
@@ -77,21 +77,21 @@ private fun SettingCategoryItem(
             modifier = Modifier.size(size = 18.dp),
             painter = painterResource(id = iconResId),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurface,
+            tint = MaterialTheme.colorScheme.onBackground,
         )
 
         Text(
             modifier = Modifier.weight(weight = 1f),
             text = stringResource(id = titleResId),
             style = TodoTheme.typography.medium_16,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Icon(
             modifier = Modifier.size(size = 18.dp),
             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_right_twin),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurface
+            tint = MaterialTheme.colorScheme.onBackground
         )
     }
 }

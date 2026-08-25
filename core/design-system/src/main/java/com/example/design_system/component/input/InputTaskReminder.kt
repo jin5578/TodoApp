@@ -64,7 +64,7 @@ fun InputTaskReminder(
             modifier = Modifier.fillMaxWidth(),
             text = stringResource(id = R.string.reminder),
             style = TodoTheme.typography.bold_18,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Spacer(modifier = Modifier.height(height = 20.dp))
@@ -73,7 +73,7 @@ fun InputTaskReminder(
             modifier = Modifier.fillMaxWidth()
                 .border(
                     width = 1.dp,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer,
+                    color = MaterialTheme.colorScheme.outline,
                     shape = RoundedCornerShape(size = 8.dp)
                 ),
             horizontalArrangement = Arrangement.Center,
@@ -109,7 +109,7 @@ fun InputTaskReminder(
                 modifier = Modifier.fillMaxWidth()
                     .border(
                         width = 1.dp,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
+                        color = MaterialTheme.colorScheme.outline,
                         shape = RoundedCornerShape(size = 8.dp),
                     ),
                 horizontalArrangement = Arrangement.Center,
@@ -156,9 +156,9 @@ fun InputTaskReminderItem(
     onReminderChanged: () -> Unit
 ) {
     val bgColor = if (isSelected)
-        MaterialTheme.colorScheme.secondaryContainer
+        MaterialTheme.colorScheme.surfaceDim
     else
-        MaterialTheme.colorScheme.surface
+        MaterialTheme.colorScheme.background
 
     Box(
         modifier = modifier.fillMaxWidth()
@@ -172,7 +172,7 @@ fun InputTaskReminderItem(
     ) {
         Text(
             text = title,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.onBackground,
             textAlign = TextAlign.Center,
             style = if (isSelected)
                 textStyle.copy(fontWeight = FontWeight.Bold)

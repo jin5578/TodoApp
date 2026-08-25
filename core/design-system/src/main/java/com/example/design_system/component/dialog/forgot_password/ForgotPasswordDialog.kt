@@ -42,10 +42,10 @@ private fun ForgotPasswordDialogContent(
     onConfirm: () -> Unit,
 ) {
     Card(
-        modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+        modifier = Modifier.fillMaxWidth(fraction = 1f),
         shape = RoundedCornerShape(size = 16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            containerColor = MaterialTheme.colorScheme.surface,
         )
     ) {
         Column(
@@ -56,7 +56,7 @@ private fun ForgotPasswordDialogContent(
             Text(
                 text = stringResource(id = DesignSystemR.string.forgot_password_dialog_title),
                 style = TodoTheme.typography.bold_18,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                color = MaterialTheme.colorScheme.onSurface,
             )
 
             Text(
@@ -79,8 +79,8 @@ private fun ForgotPasswordDialogContent(
 
                 ForgotPasswordTextButton(
                     modifier = Modifier.weight(weight = 1f),
-                    backgroundColor = MaterialTheme.colorScheme.error,
-                    textColor = MaterialTheme.colorScheme.onError,
+                    backgroundColor = MaterialTheme.colorScheme.primary,
+                    textColor = MaterialTheme.colorScheme.onPrimary,
                     title = stringResource(id = DesignSystemR.string.yes),
                     onClick = onConfirm
                 )

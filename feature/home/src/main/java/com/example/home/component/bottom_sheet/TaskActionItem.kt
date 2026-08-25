@@ -47,7 +47,7 @@ internal fun TaskActionCategoryItem(
                     size = 16.dp
                 )
             )
-                .background(color = MaterialTheme.colorScheme.tertiaryContainer)
+                .background(color = MaterialTheme.colorScheme.surfaceDim)
                 .padding(all = 8.dp)
                 .clickable { onOpenClick() }
         ) {
@@ -55,7 +55,7 @@ internal fun TaskActionCategoryItem(
                 text = categories.firstOrNull { it.id == taskCategory }?.title
                     ?: stringResource(id = DesignSystemR.string.no_category),
                 style = TodoTheme.typography.medium_10,
-                color = MaterialTheme.colorScheme.tertiary
+                color = MaterialTheme.colorScheme.onSurface
             )
         }
 

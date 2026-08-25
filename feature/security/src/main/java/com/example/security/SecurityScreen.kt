@@ -44,7 +44,7 @@ internal fun SecurityScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.background
                 ),
                 title = {},
                 navigationIcon = {
@@ -53,7 +53,7 @@ internal fun SecurityScreen(
                             modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -71,7 +71,7 @@ internal fun SecurityScreen(
                     id = DesignSystemR.string.security
                 ),
                 style = TodoTheme.typography.bold_22,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             Spacer(modifier = Modifier.height(height = 40.dp))
@@ -81,7 +81,7 @@ internal fun SecurityScreen(
                 else DesignSystemR.drawable.svg_unlock
             SecurityItem(
                 iconResId = lockIconResId,
-                iconColor = MaterialTheme.colorScheme.onSurface,
+                iconColor = MaterialTheme.colorScheme.onBackground,
                 title = stringResource(
                     id = DesignSystemR.string.password_setting
                 ),
@@ -90,7 +90,7 @@ internal fun SecurityScreen(
 
             if (hasExistingPassword) {
                 val fingerPrintIconColor =
-                    if (hasBiometricEnabled) MaterialTheme.colorScheme.onSurface
+                    if (hasBiometricEnabled) MaterialTheme.colorScheme.onBackground
                     else MaterialTheme.colorScheme.error
                 SecurityItem(
                     iconResId = DesignSystemR.drawable.svg_fingerprint,
@@ -127,7 +127,7 @@ private fun SecurityItem(
         Text(
             text = title,
             style = TodoTheme.typography.medium_16,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }

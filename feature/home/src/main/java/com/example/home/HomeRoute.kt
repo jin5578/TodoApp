@@ -98,7 +98,7 @@ private fun HomeContent(
             )
 
         is HomeUiState.Screen ->
-            HomeScreen(
+            /*HomeScreen(
                 completedTasks = uiState.completedTasks,
                 incompleteTasks = uiState.incompleteTasks,
                 categories = uiState.categories,
@@ -118,6 +118,10 @@ private fun HomeContent(
                 onTaskToggleCompletion = onTaskToggleCompletion,
                 onAddTaskClick = onAddTask,
                 onShowMessageSnackbar = onShowMessageSnackbar
+            )*/
+            HomeRefScreen(
+                categories = uiState.categories,
+                navigateSetting = navigateSetting
             )
     }
 }

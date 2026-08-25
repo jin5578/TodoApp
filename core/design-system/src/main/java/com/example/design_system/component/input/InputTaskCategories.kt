@@ -50,7 +50,7 @@ fun InputTaskCategories(
                 .padding(horizontal = 20.dp),
             text = stringResource(id = R.string.category),
             style = TodoTheme.typography.bold_18,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Row(
@@ -83,16 +83,16 @@ private fun CategoryItem(
 ) {
     val bgColor =
         if (isSelected)
-            MaterialTheme.colorScheme.secondaryContainer
+            MaterialTheme.colorScheme.surfaceDim
         else
-            MaterialTheme.colorScheme.surface
+            MaterialTheme.colorScheme.background
 
     Row(
         modifier = modifier.fillMaxWidth()
             .clip(shape = RoundedCornerShape(size = 8.dp))
             .border(
                 width = 1.dp,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                color = MaterialTheme.colorScheme.outline,
                 shape = RoundedCornerShape(size = 8.dp),
             )
             .background(color = bgColor)
@@ -112,7 +112,7 @@ private fun CategoryItem(
         )
         Text(
             text = title,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.onSurface,
             style =
                 if (isSelected)
                     TodoTheme.typography.medium_14.copy(fontWeight = FontWeight.Bold)
@@ -127,6 +127,10 @@ private fun CategoryItem(
 private fun InputTaskCategoriesPreview() {
     TodoTheme {
         val categories = persistentListOf(
+            Category(
+                title = "solum",
+                colorValue = Red.value.toLong()
+            ),
             Category(
                 title = "solum",
                 colorValue = Red.value.toLong()

@@ -61,13 +61,13 @@ internal fun ManageCategoriesScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.background
                 ),
                 title = {
                     Text(
                         text = stringResource(id = DesignSystemR.string.category),
                         style = TodoTheme.typography.bold_20,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 },
                 navigationIcon = {
@@ -76,7 +76,7 @@ internal fun ManageCategoriesScreen(
                             modifier = Modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface,
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
                 },
@@ -90,7 +90,7 @@ internal fun ManageCategoriesScreen(
                             modifier = Modifier.size(size = 21.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_add_category),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -101,7 +101,7 @@ internal fun ManageCategoriesScreen(
             ModalBottomSheet(
                 onDismissRequest = { showBottomSheet = BottomSheetType.IDLE },
                 sheetState = bottomSheetState,
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                containerColor = MaterialTheme.colorScheme.surface,
             ) {
                 Box() {
                     when (showBottomSheet) {
