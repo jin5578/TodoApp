@@ -15,4 +15,5 @@ data class Task(
     val priority: Int = 0,
     val categoryId: Long = -1L,
     val reminderTime: Int = 0,
+    val symbol: Int = -1,
 )

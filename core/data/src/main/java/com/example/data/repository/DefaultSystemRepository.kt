@@ -36,10 +36,7 @@ class DefaultSystemRepository @Inject constructor(
     override fun getHomeSystem(): Flow<HomeSystem> =
         systemDataSource.systemData.map { data ->
             HomeSystem(
-                sleepTime = LocalTime.parse(data.sleepTime),
                 sortTaskType = data.sortTaskType.toSortTaskType(),
-                themeType = data.themeType.toThemeType(),
-                buildVersion = data.buildVersion,
                 locale = data.locale.toLocale(),
                 timePickerType = data.timePickerType.toTimePickerType(),
             )

@@ -1,5 +1,6 @@
 package com.example.home.utils
 
+import com.example.home.model.TaskState
 import com.example.model.PriorityType
 import com.example.model.ReminderTimeType
 import com.example.design_system.R as DesignSystemR
@@ -17,4 +18,10 @@ internal fun ReminderTimeType.getTitleResId(): Int =
         ReminderTimeType.TEN_MINUTES_BEFORE -> DesignSystemR.string.ten_minutes_before
         ReminderTimeType.THIRTY_MINUTES_BEFORE -> DesignSystemR.string.thirty_minutes_before
         ReminderTimeType.ONE_HOUR_BEFORE -> DesignSystemR.string.one_hour_before
+    }
+
+internal fun TaskState.getTitleResId(): Int =
+    when (this) {
+        TaskState.INCOMPLETE -> DesignSystemR.string.incomplete_tasks
+        TaskState.COMPLETED -> DesignSystemR.string.completed_tasks
     }

@@ -89,4 +89,13 @@
     <string name="version">버전 %1$s</string>
     <string name="no_category">카테고리 없음</string>
     <string name="create_new">새로 만들기</string>
+    <string name="entire">전체</string>
+    <string name="completed_tasks">완료된 할 일</string>
+    <string name="incomplete_tasks">할 일</string>
+    <string name="marked_with_a_symbol">기호로 표시</string>
+    <string name="delete">지우기</string>
+    <string name="flag">플래그</string>
+    <string name="number">숫자</string>
+    <string name="progress">진행 상황</string>
+    <string name="mood">기분</string>
 </resources>

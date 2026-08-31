@@ -36,7 +36,6 @@ internal fun MainNavHost(
                 exitApp = navigator::exitApp,
                 navigateCalendar = navigator::navigateCalendar,
                 navigateSetting = navigator::navigateSetting,
-                navigateAddTask = navigator::navigateAddTask,
                 navigateCompletedTask = navigator::navigateTasks,
                 navigateIncompleteTask = navigator::navigateTasks,
                 navigateThisWeekTask = navigator::navigateTasks,

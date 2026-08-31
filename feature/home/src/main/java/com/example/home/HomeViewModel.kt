@@ -11,12 +11,16 @@ import com.example.domain.GetHomeDataUseCase
 import com.example.domain.GetTaskByIdUseCase
 import com.example.domain.InsertTaskUseCase
 import com.example.domain.UpdateSortTaskTypeUseCase
+import com.example.domain.UpdateTaskSymbolUseCase
 import com.example.domain.UpdateTaskUseCase
 import com.example.home.model.HomeUiState
+import com.example.home.model.TaskState
+import com.example.home.model.TaskStateGroup
 import com.example.model.HomePasswordProcessType
 import com.example.model.SortTaskType
 import com.example.model.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -39,7 +43,8 @@ class HomeViewModel @Inject constructor(
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val checkPasswordUseCase: CheckPasswordUseCase,
     private val deleteAllDataUseCase: DeleteAllDataUseCase,
-    private val insertTaskUseCase: InsertTaskUseCase
+    private val insertTaskUseCase: InsertTaskUseCase,
+    private val updateTaskSymbolUseCase: UpdateTaskSymbolUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -71,9 +76,9 @@ class HomeViewModel @Inject constructor(
             fetchHome()
         }
 
-    fun fetchHome() =
+    fun fetchHome(categoryId: Long = -1L) =
         viewModelScope.launch {
-            getHomeDataUseCase().map { home ->
+            getHomeDataUseCase(categoryId = categoryId).map { home ->
                 val tasks = home.tasks
                 val completedTasks = tasks.filter { task ->
                     task.isCompleted
@@ -82,16 +87,14 @@ class HomeViewModel @Inject constructor(
                     !task.isCompleted
                 }.toPersistentList()
 
+                val taskStateGroups = tasks.toTaskStateGroups()
+
                 val homeSystem = home.homeSystem
 
                 HomeUiState.Screen(
-                    completedTasks = completedTasks,
-                    incompleteTasks = incompleteTasks,
+                    taskStateGroups = taskStateGroups,
                     categories = home.categories.toPersistentList(),
-                    sleepTime = homeSystem.sleepTime,
                     sortTaskType = homeSystem.sortTaskType,
-                    themeType = homeSystem.themeType,
-                    buildVersion = homeSystem.buildVersion,
                     locale = homeSystem.locale,
                     timePickerType = homeSystem.timePickerType
                 )
@@ -162,4 +165,26 @@ class HomeViewModel @Inject constructor(
             insertTaskUseCase(task)
             fetchHome()
         }
+
+    fun updateTaskSymbol(taskId: Long, symbolId: Int) =
+        viewModelScope.launch {
+            updateTaskSymbolUseCase(
+                taskId = taskId,
+                symbolId = symbolId
+            )
+            fetchHome()
+        }
+
+    private fun List<Task>.toTaskStateGroups(): ImmutableList<TaskStateGroup> =
+        groupBy { task -> task.isCompleted }
+            .toSortedMap()
+            .map { (isCompleted, tasks) ->
+                val taskState =
+                    if (isCompleted) TaskState.COMPLETED else TaskState.INCOMPLETE
+                TaskStateGroup(
+                    taskState = taskState,
+                    tasks = tasks.toPersistentList()
+                )
+            }.toPersistentList()
 }
+

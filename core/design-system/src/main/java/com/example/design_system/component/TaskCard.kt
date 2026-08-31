@@ -9,9 +9,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -104,7 +102,7 @@ fun TaskCard(
 
             Column(
                 modifier = Modifier.weight(weight = 0.8f),
-                verticalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.spacedBy(space = 8.dp),
                 horizontalAlignment = Alignment.Start
             ) {
                 Text(
@@ -114,8 +112,6 @@ fun TaskCard(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
 
-                Spacer(modifier = Modifier.height(height = 8.dp))
-
                 if (task.memo.isNotEmpty()) {
                     Text(
                         modifier = Modifier.fillMaxWidth().padding(end = 10.dp)
@@ -124,8 +120,6 @@ fun TaskCard(
                         style = TodoTheme.typography.medium_14,
                         color = MaterialTheme.colorScheme.onPrimaryContainer
                     )
-
-                    Spacer(modifier = Modifier.height(height = 8.dp))
                 }
 
                 Row(
@@ -134,7 +128,7 @@ fun TaskCard(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     ExtraInfo(
-                        painter = painterResource(id = R.drawable.svg_flag),
+                        painter = painterResource(id = R.drawable.svg_flag_stroke),
                         title = PriorityType.entries[task.priority].title,
                         textColor = priorityColors[task.priority],
                         tintColor = priorityColors[task.priority],

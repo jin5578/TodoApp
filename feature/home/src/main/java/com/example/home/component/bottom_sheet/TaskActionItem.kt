@@ -98,7 +98,6 @@ internal fun TaskActionItem(
 
 @Composable
 internal fun TaskActionPriorityItem(
-    modifier: Modifier = Modifier,
     priorityType: PriorityType,
     isShowPriorityMenu: Boolean,
     onOpenClick: () -> Unit,
@@ -123,7 +122,6 @@ internal fun TaskActionPriorityItem(
 
 @Composable
 internal fun TaskActionReminderItem(
-    modifier: Modifier = Modifier,
     taskReminder: Boolean,
     reminderTimeType: ReminderTimeType,
     isShowReminderMenu: Boolean,

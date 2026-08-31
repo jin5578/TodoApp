@@ -239,3 +239,17 @@ val priorityColors = listOf(
     Orange,
     Red,
 )
+
+val Crimson = Color(0xFFF01F55)
+val Cobalt = Color(0xFF1F4DF0)
+val Emerald = Color(0xFF1FF03D)
+val Amber = Color(0xFFF0B81F)
+val Mauve = Color(0xFF9B485C)
+
+val flagColors = listOf(
+    Crimson,
+    Cobalt,
+    Emerald,
+    Amber,
+    Mauve,
+)

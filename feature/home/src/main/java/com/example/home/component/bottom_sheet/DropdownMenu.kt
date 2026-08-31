@@ -16,6 +16,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.design_system.component.BasicDropdownMenuItem
 import com.example.design_system.theme.TodoTheme
 import com.example.home.utils.getTitleResId
 import com.example.model.Category
@@ -25,22 +26,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import com.example.design_system.R as DesignSystemR
 
-@Composable
-private fun BasicDropdownMenuItem(
-    title: String,
-    onClick: () -> Unit
-) {
-    DropdownMenuItem(
-        text = {
-            Text(
-                text = title,
-                style = TodoTheme.typography.medium_10,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        },
-        onClick = onClick
-    )
-}
 
 @Composable
 internal fun CategoryDropdownMenu(
@@ -51,6 +36,7 @@ internal fun CategoryDropdownMenu(
     onCreateNewCategoryClick: () -> Unit,
 ) {
     DropdownMenu(
+        containerColor = MaterialTheme.colorScheme.surface,
         expanded = isShowCategoryMenu,
         onDismissRequest = onCloseClick
     ) {
@@ -92,6 +78,7 @@ internal fun PriorityDropdownMenu(
     onPriorityTypeClick: (PriorityType) -> Unit,
 ) {
     DropdownMenu(
+        containerColor = MaterialTheme.colorScheme.surface,
         expanded = isShowPriorityMenu,
         onDismissRequest = onCloseClick
     ) {
@@ -113,6 +100,7 @@ internal fun ReminderDropdownMenu(
     onReminderOffClick: () -> Unit,
 ) {
     DropdownMenu(
+        containerColor = MaterialTheme.colorScheme.surface,
         expanded = isShowReminderMenu,
         onDismissRequest = onCloseClick
     ) {
@@ -127,17 +115,6 @@ internal fun ReminderDropdownMenu(
         BasicDropdownMenuItem(
             title = stringResource(id = DesignSystemR.string.off),
             onClick = onReminderOffClick
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun BasicDropdownMenuItemPreview() {
-    TodoTheme {
-        BasicDropdownMenuItem(
-            title = "Title",
-            onClick = {}
         )
     }
 }

@@ -10,7 +10,6 @@ fun NavGraphBuilder.homeNavGraph(
     exitApp: () -> Unit,
     navigateCalendar: () -> Unit,
     navigateSetting: () -> Unit,
-    navigateAddTask: () -> Unit,
     navigateCompletedTask: (String) -> Unit,
     navigateIncompleteTask: (String) -> Unit,
     navigateThisWeekTask: (String) -> Unit,

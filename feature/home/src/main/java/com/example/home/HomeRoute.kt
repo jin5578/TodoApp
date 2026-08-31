@@ -46,14 +46,16 @@ internal fun HomeRoute(
         navigateEditTask = navigateEditTask,
         navigateManageCategories = navigateManageCategories,
         onPasswordCheck = viewModel::checkPassword,
+        onCategoryChanged = viewModel::fetchHome,
         onSortTaskTypeChanged = viewModel::updateSortTaskType,
         onTaskDelete = viewModel::deleteTask,
-        onTaskToggleCompletion = viewModel::toggleTaskCompletion,
+        onTaskToggleChanged = viewModel::toggleTaskCompletion,
         onShowMessageSnackbar = onShowMessageSnackbar,
         onDeleteAllData = viewModel::deleteAllData,
         onBiometricAuthSucceeded = viewModel::fetchHome,
         onBiometricAuthError = viewModel::executePasswordAuth,
-        onAddTask = viewModel::insertTask
+        onAddTask = viewModel::insertTask,
+        onTaskSymbolChanged = viewModel::updateTaskSymbol
     )
 }
 
@@ -70,14 +72,16 @@ private fun HomeContent(
     navigateEditTask: (Long) -> Unit,
     navigateManageCategories: () -> Unit,
     onPasswordCheck: (String) -> Unit,
+    onCategoryChanged: (Long) -> Unit,
     onSortTaskTypeChanged: (SortTaskType) -> Unit,
     onTaskDelete: (Long) -> Unit,
-    onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
+    onTaskToggleChanged: (id: Long, isCompleted: Boolean) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
     onDeleteAllData: () -> Unit,
     onBiometricAuthSucceeded: () -> Unit,
     onBiometricAuthError: () -> Unit,
     onAddTask: (Task) -> Unit,
+    onTaskSymbolChanged: (taskId: Long, symbolId: Int) -> Unit,
 ) {
     when (uiState) {
         is HomeUiState.Loading ->
@@ -98,30 +102,25 @@ private fun HomeContent(
             )
 
         is HomeUiState.Screen ->
-            /*HomeScreen(
-                completedTasks = uiState.completedTasks,
-                incompleteTasks = uiState.incompleteTasks,
+            HomeScreen(
                 categories = uiState.categories,
-                sortTaskType = uiState.sortTaskType,
+                taskStateGroups = uiState.taskStateGroups,
                 locale = uiState.locale,
                 timePickerType = uiState.timePickerType,
-                navigateCalendar = navigateCalendar,
-                navigateSetting = navigateSetting,
-                navigateCompletedTask = navigateCompletedTask,
-                navigateIncompleteTask = navigateIncompleteTask,
-                navigateThisWeekTask = navigateThisWeekTask,
-                navigateAllTask = navigateAllTask,
-                navigateEditTask = navigateEditTask,
                 navigateManageCategories = navigateManageCategories,
-                onSortTaskTypeChanged = onSortTaskTypeChanged,
-                onTaskDelete = onTaskDelete,
-                onTaskToggleCompletion = onTaskToggleCompletion,
+                onSettingClick = navigateSetting,
+                onCategoryClick = onCategoryChanged,
+                onTaskToggleClick = onTaskToggleChanged,
+                onTaskEditClick = navigateEditTask,
+                onDeleteSymbolClick = { taskId ->
+                    onTaskSymbolChanged(
+                        taskId,
+                        -1
+                    )
+                },
+                onSymbolClick = onTaskSymbolChanged,
                 onAddTaskClick = onAddTask,
                 onShowMessageSnackbar = onShowMessageSnackbar
-            )*/
-            HomeRefScreen(
-                categories = uiState.categories,
-                navigateSetting = navigateSetting
             )
     }
 }
