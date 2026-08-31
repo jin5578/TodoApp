@@ -48,6 +48,14 @@ internal class DefaultTaskRepository @Inject constructor(
                 }
             }
 
+    override fun getTasksByCategory(categoryId: Long): Flow<List<Task>> =
+        taskDataSource.getTasksByCategory(categoryId = categoryId)
+            .map { entities ->
+                entities.map { entity ->
+                    entity.toTask()
+                }
+            }
+
     override fun getFlowTaskById(id: Long): Flow<Task> =
         taskDataSource.getFlowTaskById(id = id).map { entity ->
             entity.toTask()
@@ -61,6 +69,9 @@ internal class DefaultTaskRepository @Inject constructor(
 
     override suspend fun updateTask(task: Task) =
         taskDataSource.updateTask(entity = task.toTaskEntity())
+
+    override suspend fun updateTaskSymbol(taskId: Long, symbolId: Int) =
+        taskDataSource.updateTaskSymbol(taskId = taskId, symbolId = symbolId)
 
     override suspend fun deleteTask(task: Task) =
         taskDataSource.deleteTask(entity = task.toTaskEntity())
@@ -79,7 +90,8 @@ internal class DefaultTaskRepository @Inject constructor(
         memo = this.memo,
         priority = this.priority,
         categoryId = this.categoryId,
-        reminderTime = this.reminderTime
+        reminderTime = this.reminderTime,
+        symbol = this.symbol
     )
 
     private fun Task.toTaskEntity() = TaskEntity(
@@ -95,5 +107,6 @@ internal class DefaultTaskRepository @Inject constructor(
         priority = this.priority,
         categoryId = this.categoryId,
         reminderTime = this.reminderTime,
+        symbol = this.symbol
     )
 }

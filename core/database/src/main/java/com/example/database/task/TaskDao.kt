@@ -16,6 +16,9 @@ interface TaskDao {
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateTask(entity: TaskEntity)
 
+    @Query("UPDATE task SET symbol = :symbolId WHERE id = :taskId")
+    suspend fun updateTaskSymbol(taskId: Long, symbolId: Int)
+
     @Delete
     suspend fun deleteTask(entity: TaskEntity)
 
@@ -33,6 +36,9 @@ interface TaskDao {
 
     @Query("SELECT * FROM task WHERE isCompleted = :isCompleted ORDER BY date ASC")
     fun getTasksByState(isCompleted: Boolean): Flow<List<TaskEntity>>
+
+    @Query("SELECT * FROM task WHERE categoryId = :categoryId ORDER BY date ASC")
+    fun getTasksByCategory(categoryId: Long): Flow<List<TaskEntity>>
 
     @Query("SELECT * FROM task WHERE id=:id")
     fun getFlowTaskById(id: Long): Flow<TaskEntity>

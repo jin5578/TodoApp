@@ -40,4 +40,6 @@ data class TaskEntity(
     val categoryId: Long = -1L,
     @ColumnInfo(name = "reminderTime")
     val reminderTime: Int = 0,
+    @ColumnInfo(name = "symbol")
+    val symbol: Int = -1,
 )

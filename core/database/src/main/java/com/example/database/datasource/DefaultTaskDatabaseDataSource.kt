@@ -32,6 +32,9 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
     override fun getTasksByState(isCompleted: Boolean): Flow<List<TaskEntity>> =
         taskDatabase.taskDao().getTasksByState(isCompleted = isCompleted)
 
+    override fun getTasksByCategory(categoryId: Long): Flow<List<TaskEntity>> =
+        taskDatabase.taskDao().getTasksByCategory(categoryId)
+
     override fun getFlowTaskById(id: Long): Flow<TaskEntity> =
         taskDatabase.taskDao().getFlowTaskById(id = id)
 
@@ -43,6 +46,12 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
 
     override suspend fun updateTask(entity: TaskEntity) =
         taskDatabase.taskDao().updateTask(entity = entity)
+
+    override suspend fun updateTaskSymbol(taskId: Long, symbolId: Int) =
+        taskDatabase.taskDao().updateTaskSymbol(
+            taskId = taskId,
+            symbolId = symbolId
+        )
 
     override suspend fun deleteTask(entity: TaskEntity) =
         taskDatabase.taskDao().deleteTask(entity = entity)

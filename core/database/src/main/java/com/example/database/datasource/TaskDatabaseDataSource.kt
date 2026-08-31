@@ -14,10 +14,12 @@ interface TaskDatabaseDataSource {
     ): Flow<List<TaskEntity>>
 
     fun getTasksByState(isCompleted: Boolean): Flow<List<TaskEntity>>
+    fun getTasksByCategory(categoryId: Long): Flow<List<TaskEntity>>
     fun getFlowTaskById(id: Long): Flow<TaskEntity>
     suspend fun getTaskById(id: Long): TaskEntity
     suspend fun insertTask(entity: TaskEntity)
     suspend fun updateTask(entity: TaskEntity)
+    suspend fun updateTaskSymbol(taskId: Long, symbolId: Int)
     suspend fun deleteTask(entity: TaskEntity)
     suspend fun deleteAllTask()
 }

@@ -14,10 +14,12 @@ interface TaskRepository {
     ): Flow<List<Task>>
 
     fun getTasksByState(isCompleted: Boolean): Flow<List<Task>>
+    fun getTasksByCategory(categoryId: Long): Flow<List<Task>>
     fun getFlowTaskById(id: Long): Flow<Task>
     suspend fun getTaskById(id: Long): Task
     suspend fun insertTask(task: Task)
     suspend fun updateTask(task: Task)
+    suspend fun updateTaskSymbol(taskId: Long, symbolId: Int)
     suspend fun deleteTask(task: Task)
     suspend fun deleteAllTask()
 }
