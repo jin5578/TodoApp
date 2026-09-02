@@ -264,7 +264,9 @@ internal fun AddTaskScreen(
                             time = taskTime,
                             date = taskDate,
                             reminderTime = LocalDateTime.now(),
-                            memo = taskMemo,
+                            memoTitle = taskMemo,
+                            memoContent = "",
+                            memoUpdatedAt = LocalDateTime.now(),
                             priority = taskPriorityType.ordinal,
                             categoryId = taskCategory,
                         )

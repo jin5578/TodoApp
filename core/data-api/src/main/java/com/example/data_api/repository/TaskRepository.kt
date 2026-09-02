@@ -20,6 +20,12 @@ interface TaskRepository {
     suspend fun insertTask(task: Task)
     suspend fun updateTask(task: Task)
     suspend fun updateTaskSymbol(taskId: Long, symbolId: Int)
+    suspend fun updateTaskMemo(
+        taskId: Long,
+        memoTitle: String,
+        memoContent: String
+    )
+
     suspend fun deleteTask(task: Task)
     suspend fun deleteAllTask()
 }

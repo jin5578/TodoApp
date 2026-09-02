@@ -35,4 +35,9 @@ sealed interface Route {
 
     @Serializable
     data object Security
+
+    @Serializable
+    data class Memo(
+        val taskId: Long
+    )
 }

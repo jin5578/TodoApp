@@ -20,7 +20,7 @@ internal fun EditTaskRoute(
     taskId: Long,
     popBackStack: () -> Unit,
     navigateManageCategories: () -> Unit,
-    navigateMemo: () -> Unit,
+    navigateMemo: (Long) -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) {
@@ -71,7 +71,7 @@ private fun EditTaskContent(
     uiState: EditTaskUiState,
     popBackStack: () -> Unit,
     navigateManageCategories: () -> Unit,
-    navigateMemo: () -> Unit,
+    navigateMemo: (Long) -> Unit,
     onUpdateTaskClick: (Task) -> Unit,
     onTaskDelete: (id: Long, uuid: String) -> Unit,
     onShowMessageSnackbar: (String) -> Unit

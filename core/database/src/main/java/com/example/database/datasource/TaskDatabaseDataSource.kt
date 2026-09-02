@@ -20,6 +20,7 @@ interface TaskDatabaseDataSource {
     suspend fun insertTask(entity: TaskEntity)
     suspend fun updateTask(entity: TaskEntity)
     suspend fun updateTaskSymbol(taskId: Long, symbolId: Int)
+    suspend fun updateTaskMemo(taskId: Long, memoTitle: String, memoContent: String)
     suspend fun deleteTask(entity: TaskEntity)
     suspend fun deleteAllTask()
 }

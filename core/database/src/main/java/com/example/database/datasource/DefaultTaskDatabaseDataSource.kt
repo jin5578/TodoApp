@@ -5,6 +5,7 @@ import com.example.database.task.TaskEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 class DefaultTaskDatabaseDataSource @Inject constructor(
@@ -52,6 +53,17 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
             taskId = taskId,
             symbolId = symbolId
         )
+
+    override suspend fun updateTaskMemo(
+        taskId: Long,
+        memoTitle: String,
+        memoContent: String,
+    ) = taskDatabase.taskDao().updateTaskMemo(
+        taskId = taskId,
+        memoTitle = memoTitle,
+        memoContent = memoContent,
+        memoUpdatedAt = LocalDateTime.now()
+    )
 
     override suspend fun deleteTask(entity: TaskEntity) =
         taskDatabase.taskDao().deleteTask(entity = entity)

@@ -23,7 +23,6 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -44,6 +43,7 @@ import com.example.design_system.R as DesignSystemR
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ManageCategoriesScreen(
+    modifier: Modifier = Modifier,
     categories: ImmutableList<Category>,
     popBackStack: () -> Unit,
     onCategoryAdd: (title: String, type: CategoryColorType) -> Unit,
@@ -73,7 +73,7 @@ internal fun ManageCategoriesScreen(
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
                         Icon(
-                            modifier = Modifier.size(size = 24.dp),
+                            modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground,
@@ -87,7 +87,7 @@ internal fun ManageCategoriesScreen(
                         }
                     ) {
                         Icon(
-                            modifier = Modifier.size(size = 21.dp),
+                            modifier = modifier.size(size = 21.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_add_category),
                             contentDescription = null,
                             tint = MaterialTheme.colorScheme.onBackground
@@ -142,12 +142,12 @@ internal fun ManageCategoriesScreen(
 
         if (categories.isEmpty()) {
             EmptyContent(
-                modifier = Modifier.fillMaxSize(),
+                modifier = modifier.fillMaxSize(),
                 title = stringResource(id = DesignSystemR.string.no_categories)
             )
         } else {
             LazyColumn(
-                modifier = Modifier.fillMaxSize()
+                modifier = modifier.fillMaxSize()
                     .padding(paddingValues = paddingValues)
             ) {
                 itemsIndexed(

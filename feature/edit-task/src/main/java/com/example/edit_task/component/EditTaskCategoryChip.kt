@@ -18,12 +18,66 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.component.CategoryDropdownMenu
 import com.example.design_system.theme.TodoTheme
 import com.example.model.Category
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import com.example.design_system.R as DesignSystemR
 
+@Composable
+internal fun EditTaskCategoryChip(
+    modifier: Modifier = Modifier,
+    categories: ImmutableList<Category>,
+    taskCategoryId: Long,
+    isShowCategoryMenu: Boolean,
+    onOpenClick: () -> Unit,
+    onCloseClick: () -> Unit,
+    onCategoryClick: (Long) -> Unit,
+    onCreateNewCategoryClick: () -> Unit,
+) {
+    Box {
+        Box(
+            modifier = modifier.wrapContentSize()
+                .padding(start = 16.dp)
+                .clickable {
+                    onOpenClick()
+                }
+                .background(
+                    color = MaterialTheme.colorScheme.surfaceDim,
+                    shape = RoundedCornerShape(size = 16.dp)
+                )
+                .padding(
+                    horizontal = 12.dp,
+                    vertical = 8.dp,
+                )
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(space = 4.dp),
+            ) {
+                Text(
+                    text = categories.firstOrNull { it.id == taskCategoryId }?.title
+                        ?: stringResource(id = DesignSystemR.string.no_category),
+                    style = TodoTheme.typography.medium_10,
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+                Icon(
+                    modifier = Modifier.size(size = 8.dp),
+                    imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_down),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSurface
+                )
+            }
+        }
+
+        CategoryDropdownMenu(
+            categories = categories,
+            isShowCategoryMenu = isShowCategoryMenu,
+            onCloseClick = onCloseClick,
+            onCategoryClick = onCategoryClick,
+            onCreateNewCategoryClick = onCreateNewCategoryClick
+        )
+    }
+
+}

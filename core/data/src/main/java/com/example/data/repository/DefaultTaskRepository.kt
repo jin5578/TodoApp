@@ -73,6 +73,16 @@ internal class DefaultTaskRepository @Inject constructor(
     override suspend fun updateTaskSymbol(taskId: Long, symbolId: Int) =
         taskDataSource.updateTaskSymbol(taskId = taskId, symbolId = symbolId)
 
+    override suspend fun updateTaskMemo(
+        taskId: Long,
+        memoTitle: String,
+        memoContent: String
+    ) = taskDataSource.updateTaskMemo(
+        taskId = taskId,
+        memoTitle = memoTitle,
+        memoContent = memoContent
+    )
+
     override suspend fun deleteTask(task: Task) =
         taskDataSource.deleteTask(entity = task.toTaskEntity())
 
@@ -88,7 +98,9 @@ internal class DefaultTaskRepository @Inject constructor(
         date = this.date,
         time = this.time,
         reminderTime = this.reminderTime,
-        memo = this.memo,
+        memoTitle = this.memoTitle,
+        memoContent = this.memoContent,
+        memoUpdatedAt = this.memoUpdatedAt,
         priority = this.priority,
         categoryId = this.categoryId,
         symbol = this.symbol
@@ -104,7 +116,9 @@ internal class DefaultTaskRepository @Inject constructor(
         time = this.time,
         reminderTime = this.reminderTime,
         epochDay = this.date.toEpochDay(),
-        memo = this.memo,
+        memoTitle = this.memoTitle,
+        memoContent = this.memoContent,
+        memoUpdatedAt = this.memoUpdatedAt,
         priority = this.priority,
         categoryId = this.categoryId,
         symbol = this.symbol

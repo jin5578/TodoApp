@@ -15,6 +15,7 @@ import com.example.edit_task.navigation.navigateEditTask
 import com.example.home.navigation.navigateHome
 import com.example.lock_setup.navigation.navigateLockSetup
 import com.example.manage_categories.navigation.navigateManageCategories
+import com.example.memo.navigation.navigateMemo
 import com.example.navigation.Route
 import com.example.security.navigation.navigateSecurity
 import com.example.setting.navigation.navigateSetting
@@ -51,9 +52,8 @@ internal class MainNavigator(
     fun navigateManageCategories() =
         navController.navigateManageCategories()
 
-    fun navigateMemo() {
-
-    }
+    fun navigateMemo(taskId: Long) =
+        navController.navigateMemo(taskId = taskId)
 
     fun navigateLockSetup() =
         navController.navigateLockSetup()

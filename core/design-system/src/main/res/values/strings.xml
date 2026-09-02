@@ -82,6 +82,7 @@
     <string name="successfully_added_the_schedule">Successfully added the schedule</string>
     <string name="successfully_updated_the_schedule">Successfully updated the schedule</string>
     <string name="successfully_deleted_the_schedule">Successfully deleted the schedule</string>
+    <string name="successfully_updated_the_memo">Successfully updated the memo</string>
     <string name="forgot_password">I forgot my password</string>
     <string name="forgot_password_dialog_title">Did you forget your password?</string>
     <string name="forgot_password_dialog_message">To reset your password, all app data will be deleted.\nYour tasks, categories, and other saved information will be permanently lost and cannot be recovered.\nDo you still want to reset?</string>
@@ -126,4 +127,6 @@
     <string name="time_and_reminder">Time &amp; Reminder</string>
     <string name="reminder_at">Reminder at</string>
     <string name="edit">Edit</string>
+    <string name="last_update_time">Last update time : %1$s</string>
+    <string name="content">Content</string>
 </resources>

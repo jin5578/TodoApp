@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -36,12 +35,15 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.component.BasicDropdownMenuItem
-import com.example.design_system.component.CategoryDropdownMenu
 import com.example.design_system.component.dialog.calendar.CalendarDialog
 import com.example.design_system.component.dialog.reminder.ReminderDialog
 import com.example.design_system.component.dialog.time_picker.TimePickerDialog
 import com.example.design_system.theme.TodoTheme
-import com.example.edit_task.component.EditTaskTitle
+import com.example.edit_task.component.EditTaskCategoryChip
+import com.example.edit_task.component.EditTaskDateRow
+import com.example.edit_task.component.EditTaskMemoRow
+import com.example.edit_task.component.EditTaskTimeRow
+import com.example.edit_task.component.EditTaskTitleTextField
 import com.example.model.Category
 import com.example.model.PriorityType
 import com.example.model.Task
@@ -49,7 +51,6 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.format.DateTimeFormatter
 import java.util.Locale
 import com.example.design_system.R as DesignSystemR
 
@@ -61,7 +62,7 @@ internal fun EditTaskRefScreen(
     task: Task,
     locale: Locale,
     navigateManageCategories: () -> Unit,
-    navigateMemo: () -> Unit,
+    navigateMemo: (Long) -> Unit,
     popBackStack: () -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) {
@@ -76,6 +77,8 @@ internal fun EditTaskRefScreen(
     var taskDate by remember { mutableStateOf(value = task.date) }
     var taskTime by remember { mutableStateOf(value = task.time) }
     var taskReminderTime by remember { mutableStateOf(value = task.reminderTime) }
+    var taskMemoTitle by remember { mutableStateOf(value = task.memoTitle) }
+    var taskMemoContent by remember { mutableStateOf(value = task.memoContent) }
 
     Scaffold(
         topBar = {
@@ -150,21 +153,31 @@ internal fun EditTaskRefScreen(
                 },
             )
 
-            EditTaskTitle(
+            EditTaskTitleTextField(
                 title = taskTitle,
                 onValueChange = { title -> taskTitle = title }
             )
 
-            val dateFormat = DateTimeFormatter.ofPattern(
-                "yyyy/MM/dd", locale
+            EditTaskDateRow(
+                date = taskDate,
+                locale = locale,
+                onClick = { isShowCalendarDialog = true }
             )
-            EditTaskActionRow(
-                iconResId = DesignSystemR.drawable.svg_calendar,
-                titleResId = DesignSystemR.string.due_date,
-                content = taskDate.format(dateFormat),
-                contentBgColor = MaterialTheme.colorScheme.surfaceContainer,
-                onClick = {
-                    isShowCalendarDialog = true
+
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.surfaceDim
+            )
+
+            EditTaskTimeRow(
+                locale = locale,
+                time = taskTime,
+                reminderTime = taskReminderTime,
+                onTimeClick = {
+                    isShowTimePickerDialog = true
+                },
+                onReminderTimeClick = {
+                    isShowReminderDialog = true
                 }
             )
 
@@ -173,47 +186,11 @@ internal fun EditTaskRefScreen(
                 color = MaterialTheme.colorScheme.surfaceDim
             )
 
-            Column(
-                modifier = Modifier.fillMaxWidth().padding(bottom = 16.dp),
-            ) {
-                val timeFormat =
-                    DateTimeFormatter.ofPattern("hh:mm a", locale)
-                val timeContent = taskTime?.format(timeFormat)
-                    ?: stringResource(id = DesignSystemR.string.no)
-                EditTaskActionRow(
-                    iconResId = DesignSystemR.drawable.svg_clock,
-                    titleResId = DesignSystemR.string.time_and_reminder,
-                    content = timeContent,
-                    contentBgColor = MaterialTheme.colorScheme.surfaceContainer,
-                    onClick = {
-                        isShowTimePickerDialog = true
-                    }
-                )
-
-                if (taskTime != null) {
-                    val reminderContent = taskReminderTime?.format(timeFormat)
-                        ?: stringResource(id = DesignSystemR.string.no)
-                    EditTaskActionChildElementRow(
-                        titleResId = DesignSystemR.string.reminder_at,
-                        content = reminderContent,
-                        onClick = {
-                            isShowReminderDialog = true
-                        }
-                    )
-                }
-            }
-
-            HorizontalDivider(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.surfaceDim
-            )
-
-            EditTaskActionRow(
-                iconResId = DesignSystemR.drawable.svg_comment,
-                titleResId = DesignSystemR.string.memo,
-                content = stringResource(id = DesignSystemR.string.edit),
-                contentBgColor = null,
-                onClick = navigateMemo
+            EditTaskMemoRow(
+                id = task.id,
+                memoTitle = task.memoTitle,
+                memoContent = task.memoContent,
+                navigateMemo = navigateMemo
             )
         }
     }
@@ -272,7 +249,7 @@ private fun EditTaskTopAppBar(
     )
 }
 
-@Composable
+/*@Composable
 private fun EditTaskCategoryChip(
     modifier: Modifier = Modifier,
     categories: ImmutableList<Category>,
@@ -324,7 +301,7 @@ private fun EditTaskCategoryChip(
         onCategoryClick = onCategoryClick,
         onCreateNewCategoryClick = onCreateNewCategoryClick
     )
-}
+}*/
 
 @Composable
 private fun EditTaskActionRow(
@@ -426,7 +403,9 @@ private fun EditTaskRefScreenPreview() {
             date = LocalDate.now(),
             time = LocalDateTime.now(),
             reminderTime = LocalDateTime.now(),
-            memo = "",
+            memoTitle = "",
+            memoContent = "",
+            memoUpdatedAt = LocalDateTime.now(),
             priority = PriorityType.LOW.ordinal,
             categoryId = 0,
         )

@@ -9,6 +9,7 @@ import com.example.model.calendar.CalendarSystem
 import com.example.model.edittask.EditTaskSystem
 import com.example.model.home.HomeSystem
 import com.example.model.lock_setup.LockSetupSystem
+import com.example.model.memo.MemoSystem
 import com.example.model.security.SecuritySystem
 import com.example.model.setting.SettingSystem
 import com.example.model.tasks.TasksSystem
@@ -22,6 +23,7 @@ interface SystemRepository {
     fun getSettingSystem(): Flow<SettingSystem>
     fun getAddTaskSystem(): Flow<AddTaskSystem>
     fun getEditTaskSystem(): Flow<EditTaskSystem>
+    fun getMemoSystem(): Flow<MemoSystem>
     fun getCalendarSystem(): Flow<CalendarSystem>
     fun getTasksSystem(): Flow<TasksSystem>
     fun getLockSetupSystem(): Flow<LockSetupSystem>

@@ -82,6 +82,7 @@
     <string name="successfully_added_the_schedule">일정이 성공적으로 추가되었습니다.</string>
     <string name="successfully_updated_the_schedule">일정이 성공적으로 수정되었습니다.</string>
     <string name="successfully_deleted_the_schedule">일정이 성공적으로 삭제되었습니다.</string>
+    <string name="successfully_updated_the_memo">메모가 성공적으로 수정되었습니다.</string>
     <string name="forgot_password">비밀번호를 몰라요</string>
     <string name="forgot_password_dialog_title">비밀번호를 잊으셨나요?</string>
     <string name="forgot_password_dialog_message">비밀번호를 초기화하려면 앱의 모든 데이터가 삭제돼요.\n할 일, 카테고리 등 저장된 정보가\n모두 사라지며 복구할 수 없어요.\n그래도 초기화할까요?</string>
@@ -126,4 +127,6 @@
     <string name="time_and_reminder">시간 &amp; 알림</string>
     <string name="reminder_at">알림 시간</string>
     <string name="edit">수정</string>
+    <string name="last_update_time">마지막 업데이트 시간 : %1$s</string>
+    <string name="content">내용</string>
 </resources>

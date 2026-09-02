@@ -19,7 +19,7 @@ import com.example.design_system.R
 import com.example.design_system.theme.TodoTheme
 
 @Composable
-internal fun EditTaskTitle(
+internal fun EditTaskTitleTextField(
     modifier: Modifier = Modifier,
     title: String,
     onValueChange: (String) -> Unit,
@@ -51,15 +51,14 @@ internal fun EditTaskTitle(
             capitalization = KeyboardCapitalization.Sentences,
             imeAction = ImeAction.Done
         ),
-
-        )
+    )
 }
 
 @Preview(showBackground = true)
 @Composable
-private fun EditTaskTitlePreview() {
+private fun EditTaskTitleTextFieldPreview() {
     TodoTheme {
-        EditTaskTitle(
+        EditTaskTitleTextField(
             title = "Title",
             onValueChange = {}
         )

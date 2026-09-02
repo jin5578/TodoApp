@@ -10,7 +10,7 @@ import com.example.navigation.Route
 fun NavGraphBuilder.editTaskNavGraph(
     popBackStack: () -> Unit,
     navigateManageCategories: () -> Unit,
-    navigateMemo: () -> Unit,
+    navigateMemo: (Long) -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) = composable<Route.EditTask> { navBackStackEntry ->

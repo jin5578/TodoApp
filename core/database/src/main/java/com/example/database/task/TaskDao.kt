@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDateTime
 
 @Dao
 interface TaskDao {
@@ -18,6 +19,14 @@ interface TaskDao {
 
     @Query("UPDATE task SET symbol = :symbolId WHERE id = :taskId")
     suspend fun updateTaskSymbol(taskId: Long, symbolId: Int)
+
+    @Query("UPDATE task SET memoTitle = :memoTitle, memoContent = :memoContent, memoUpdatedAt = :memoUpdatedAt WHERE id = :taskId")
+    suspend fun updateTaskMemo(
+        taskId: Long,
+        memoTitle: String,
+        memoContent: String,
+        memoUpdatedAt: LocalDateTime?
+    )
 
     @Delete
     suspend fun deleteTask(entity: TaskEntity)

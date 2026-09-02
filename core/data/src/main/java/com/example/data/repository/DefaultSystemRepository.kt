@@ -11,6 +11,7 @@ import com.example.model.calendar.CalendarSystem
 import com.example.model.edittask.EditTaskSystem
 import com.example.model.home.HomeSystem
 import com.example.model.lock_setup.LockSetupSystem
+import com.example.model.memo.MemoSystem
 import com.example.model.security.SecuritySystem
 import com.example.model.setting.SettingSystem
 import com.example.model.tasks.TasksSystem
@@ -67,6 +68,13 @@ class DefaultSystemRepository @Inject constructor(
             EditTaskSystem(
                 locale = data.locale.toLocale(),
                 timePickerType = data.timePickerType.toTimePickerType()
+            )
+        }
+
+    override fun getMemoSystem(): Flow<MemoSystem> =
+        systemDataSource.systemData.map { data ->
+            MemoSystem(
+                locale = data.locale.toLocale(),
             )
         }
 

@@ -114,10 +114,10 @@ internal fun TaskCard(
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
 
-                if (task.memo.isNotEmpty()) {
+                if (task.memoTitle.isNotEmpty()) {
                     Text(
                         modifier = Modifier.fillMaxWidth().basicMarquee(),
-                        text = task.memo,
+                        text = task.memoTitle,
                         style = TodoTheme.typography.medium_12,
                         color = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
@@ -344,7 +344,9 @@ private fun TaskCardPreview() {
             time = LocalDateTime.now(),
             date = LocalDate.now(),
             reminderTime = /*ReminderTimeType.ON_TIME.ordinal*/LocalDateTime.now(),
-            memo = "memo",
+            memoTitle = "memo",
+            memoContent = "",
+            memoUpdatedAt = LocalDateTime.now(),
             priority = 2,
             categoryId = -1L,
         )

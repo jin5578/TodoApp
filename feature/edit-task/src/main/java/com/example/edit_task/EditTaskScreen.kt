@@ -96,7 +96,7 @@ internal fun EditTaskScreen(
                 ?: PriorityType.LOW
         )
     }
-    var taskMemo by remember { mutableStateOf(value = task.memo) }
+    var taskMemo by remember { mutableStateOf(value = task.memoTitle) }
     var taskReminder by remember { mutableStateOf(value = task.isRemind) }
     var reminderTimeType by remember {
         mutableStateOf(
@@ -266,7 +266,9 @@ internal fun EditTaskScreen(
                             isRemind = task.isRemind,
                             time = taskTime,
                             date = taskDate,
-                            memo = taskMemo,
+                            memoTitle = taskMemo,
+                            memoContent = "",
+                            memoUpdatedAt = LocalDateTime.now(),
                             priority = taskPriorityType.ordinal,
                             categoryId = taskCategoryId,
                             reminderTime = /*reminderTimeType.ordinal*/LocalDateTime.now(),
@@ -310,7 +312,9 @@ private fun EditTaskScreenPreview() {
             isRemind = true,
             time = /*LocalTime.now()*/LocalDateTime.now(),
             date = LocalDate.now(),
-            memo = "",
+            memoTitle = "",
+            memoContent = "",
+            memoUpdatedAt = LocalDateTime.now(),
             priority = PriorityType.LOW.ordinal,
             categoryId = 0,
             reminderTime = /*ReminderTimeType.ON_TIME.ordinal*/LocalDateTime.now()
