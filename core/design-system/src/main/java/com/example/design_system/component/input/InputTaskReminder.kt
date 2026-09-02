@@ -31,7 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.R
 import com.example.design_system.theme.TodoTheme
-import com.example.model.ReminderOption
+import com.example.model.ReminderrOption
 import com.example.model.ReminderTimeType
 import kotlinx.collections.immutable.persistentListOf
 
@@ -44,12 +44,12 @@ fun InputTaskReminder(
     onReminderTimeTypeChanged: (ReminderTimeType) -> Unit,
 ) {
     val options = persistentListOf(
-        ReminderOption(
+        ReminderrOption(
             title = R.string.on,
             isRemind = true,
             onClick = { onReminderChanged(true) }
         ),
-        ReminderOption(
+        ReminderrOption(
             title = R.string.off,
             isRemind = false,
             onClick = { onReminderChanged(false) }

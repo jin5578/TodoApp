@@ -9,6 +9,8 @@ import com.example.navigation.Route
 
 fun NavGraphBuilder.editTaskNavGraph(
     popBackStack: () -> Unit,
+    navigateManageCategories: () -> Unit,
+    navigateMemo: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) = composable<Route.EditTask> { navBackStackEntry ->
@@ -16,6 +18,8 @@ fun NavGraphBuilder.editTaskNavGraph(
     EditTaskRoute(
         taskId = taskId,
         popBackStack = popBackStack,
+        navigateManageCategories = navigateManageCategories,
+        navigateMemo = navigateMemo,
         onShowErrorSnackbar = onShowErrorSnackbar,
         onShowMessageSnackbar = onShowMessageSnackbar
     )

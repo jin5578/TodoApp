@@ -29,6 +29,7 @@ import com.example.design_system.R
 import com.example.design_system.theme.TodoTheme
 import com.example.model.TimeOption
 import kotlinx.collections.immutable.persistentListOf
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -38,24 +39,24 @@ fun InputTaskTime(
     modifier: Modifier = Modifier,
     time: LocalTime,
     locale: Locale,
-    onTimeChange: (LocalTime) -> Unit,
+    onTimeChange: (LocalDateTime) -> Unit,
     onShowTimePickerDialog: () -> Unit,
 ) {
     val options = persistentListOf(
         TimeOption(
             resId = R.string.now,
-            time = LocalTime.now(),
-            onClick = { onTimeChange(it) }
+            time = LocalDateTime.now(),
+            onClick = { /*onTimeChange(it)*/ }
         ),
         TimeOption(
             resId = R.string.in_1_hour,
-            time = LocalTime.now().plusHours(1),
-            onClick = { onTimeChange(it) }
+            time = LocalDateTime.now().plusHours(1),
+            onClick = { /*onTimeChange(it)*/ }
         ),
         TimeOption(
             resId = R.string.in_2_hours,
-            time = LocalTime.now().plusHours(2),
-            onClick = { onTimeChange(it) }
+            time = LocalDateTime.now().plusHours(2),
+            onClick = { /*onTimeChange(it)*/ }
         )
     )
 
@@ -122,15 +123,15 @@ fun InputTaskTime(
                     else -> RectangleShape
                 }
 
-                val isSelected =
-                    time.format(timeFormat) == option.time.format(timeFormat)
+                val isSelected = false
+                    /*time.format(timeFormat) == option.time.format(timeFormat)*/
 
                 InputTaskTimeItem(
                     modifier = Modifier.weight(weight = 1f),
                     resId = option.resId,
                     isSelected = isSelected,
                     shape = shape,
-                    onTimeChange = { onTimeChange(option.time) }
+                    onTimeChange = { /*onTimeChange(option.time)*/ }
                 )
             }
         }

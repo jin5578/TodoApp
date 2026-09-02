@@ -19,6 +19,8 @@ internal fun EditTaskRoute(
     viewModel: EditTaskViewModel = hiltViewModel(),
     taskId: Long,
     popBackStack: () -> Unit,
+    navigateManageCategories: () -> Unit,
+    navigateMemo: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) {
@@ -56,6 +58,8 @@ internal fun EditTaskRoute(
     EditTaskContent(
         uiState = uiState,
         popBackStack = popBackStack,
+        navigateManageCategories = navigateManageCategories,
+        navigateMemo = navigateMemo,
         onUpdateTaskClick = viewModel::updateTask,
         onTaskDelete = viewModel::deleteTask,
         onShowMessageSnackbar = onShowMessageSnackbar
@@ -66,6 +70,8 @@ internal fun EditTaskRoute(
 private fun EditTaskContent(
     uiState: EditTaskUiState,
     popBackStack: () -> Unit,
+    navigateManageCategories: () -> Unit,
+    navigateMemo: () -> Unit,
     onUpdateTaskClick: (Task) -> Unit,
     onTaskDelete: (id: Long, uuid: String) -> Unit,
     onShowMessageSnackbar: (String) -> Unit
@@ -75,7 +81,7 @@ private fun EditTaskContent(
             Loading()
 
         is EditTaskUiState.Screen ->
-            EditTaskScreen(
+            /*EditTaskScreen(
                 task = uiState.task,
                 locale = uiState.locale,
                 timePickerType = uiState.timePickerType,
@@ -83,6 +89,15 @@ private fun EditTaskContent(
                 popBackStack = popBackStack,
                 onUpdateTaskClick = onUpdateTaskClick,
                 onTaskDelete = onTaskDelete,
+                onShowMessageSnackbar = onShowMessageSnackbar
+            )*/
+            EditTaskRefScreen(
+                popBackStack = popBackStack,
+                categories = uiState.categories,
+                task = uiState.task,
+                locale = uiState.locale,
+                navigateManageCategories = navigateManageCategories,
+                navigateMemo = navigateMemo,
                 onShowMessageSnackbar = onShowMessageSnackbar
             )
     }

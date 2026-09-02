@@ -1,7 +1,7 @@
 package com.example.model
 
 import java.time.LocalDate
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 data class Task(
     val id: Long = 0L,
@@ -9,11 +9,11 @@ data class Task(
     val title: String,
     val isCompleted: Boolean,
     val isRemind: Boolean,
-    val time: LocalTime,
     val date: LocalDate,
+    val time: LocalDateTime?,
+    val reminderTime: LocalDateTime?,
     val memo: String,
     val priority: Int = 0,
     val categoryId: Long = -1L,
-    val reminderTime: Int = 0,
     val symbol: Int = -1,
 )

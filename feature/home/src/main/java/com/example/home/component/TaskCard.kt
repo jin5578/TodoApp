@@ -42,6 +42,7 @@ import com.example.home.model.TaskSymbolType
 import com.example.model.ReminderTimeType
 import com.example.model.Task
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
@@ -142,7 +143,9 @@ internal fun TaskCard(
                             val timeFormat =
                                 DateTimeFormatter.ofPattern("hh:mm a", locale)
                             Text(
-                                text = task.time.format(timeFormat),
+                                text = /*(task.time ?: LocalTime.now()).format(
+                                    timeFormat
+                                )*/"",
                                 style = TodoTheme.typography.regular_10,
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
@@ -190,10 +193,8 @@ internal fun TaskCard(
 
                 DropdownMenu(
                     modifier = Modifier.wrapContentSize().padding(
-                        start = 10.dp,
-                        top = 2.dp,
-                        end = 10.dp,
-                        bottom = 2.dp
+                        horizontal = 10.dp,
+                        vertical = 2.dp,
                     ),
                     containerColor = MaterialTheme.colorScheme.surface,
                     expanded = isShowFlagMenu,
@@ -340,12 +341,12 @@ private fun TaskCardPreview() {
             title = "inceptos",
             isCompleted = false,
             isRemind = true,
-            time = LocalTime.now(),
+            time = LocalDateTime.now(),
             date = LocalDate.now(),
+            reminderTime = /*ReminderTimeType.ON_TIME.ordinal*/LocalDateTime.now(),
             memo = "memo",
             priority = 2,
             categoryId = -1L,
-            reminderTime = ReminderTimeType.ON_TIME.ordinal,
         )
         TaskCard(
             task = task,

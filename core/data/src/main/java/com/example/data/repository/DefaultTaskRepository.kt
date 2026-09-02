@@ -85,12 +85,12 @@ internal class DefaultTaskRepository @Inject constructor(
         title = this.title,
         isCompleted = this.isCompleted,
         isRemind = this.isRemind,
-        time = this.time,
         date = this.date,
+        time = this.time,
+        reminderTime = this.reminderTime,
         memo = this.memo,
         priority = this.priority,
         categoryId = this.categoryId,
-        reminderTime = this.reminderTime,
         symbol = this.symbol
     )
 
@@ -100,13 +100,13 @@ internal class DefaultTaskRepository @Inject constructor(
         title = this.title,
         isCompleted = this.isCompleted,
         isRemind = this.isRemind,
-        time = this.time,
         date = this.date,
+        time = this.time,
+        reminderTime = this.reminderTime,
         epochDay = this.date.toEpochDay(),
         memo = this.memo,
         priority = this.priority,
         categoryId = this.categoryId,
-        reminderTime = this.reminderTime,
         symbol = this.symbol
     )
 }

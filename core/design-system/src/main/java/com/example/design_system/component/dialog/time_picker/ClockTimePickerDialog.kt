@@ -27,7 +27,7 @@ import java.time.LocalTime
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ClockTimePickerDialog(
-    initTime: LocalTime = LocalTime.now(),
+    initTime: LocalTime,
     onClose: (LocalTime) -> Unit,
 ) {
     val timePickerState = rememberTimePickerState(

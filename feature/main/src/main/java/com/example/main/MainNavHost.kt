@@ -63,6 +63,8 @@ internal fun MainNavHost(
             )
             editTaskNavGraph(
                 popBackStack = navigator::popBackStackIfNotHome,
+                navigateManageCategories = navigator::navigateManageCategories,
+                navigateMemo = navigator::navigateMemo,
                 onShowErrorSnackbar = onShowErrorSnackbar,
                 onShowMessageSnackbar = onShowMessageSnackbar
             )

@@ -15,19 +15,16 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.component.dialog.date_picker.DatePickerDialog
-import com.example.design_system.component.dialog.time_picker.ClockTimePickerDialog
-import com.example.design_system.component.dialog.time_picker.ScrollTimePickerDialog
 import com.example.design_system.theme.TodoTheme
 import com.example.model.Category
 import com.example.model.PriorityType
-import com.example.model.ReminderTimeType
 import com.example.model.Task
 import com.example.model.TimePickerType
 import com.example.utils.checkValidTask
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
-import java.time.LocalTime
+import java.time.LocalDateTime
 import java.util.Locale
 import java.util.UUID
 
@@ -44,7 +41,7 @@ internal fun AddTaskBottomSheetContent(
 ) {
     var isShowDatePickerDialog by remember { mutableStateOf(value = false) }
     var isShowTimePickerDialog by remember { mutableStateOf(value = false) }
-    
+
     var isShowCategoryMenu by remember { mutableStateOf(value = false) }
     var isShowPriorityMenu by remember { mutableStateOf(value = false) }
     var isShowReminderMenu by remember { mutableStateOf(value = false) }
@@ -52,10 +49,9 @@ internal fun AddTaskBottomSheetContent(
     var taskTitle by remember { mutableStateOf(value = "") }
     var taskCategory by remember { mutableLongStateOf(value = -1L) }
     var taskDate by remember { mutableStateOf(value = LocalDate.now()) }
-    var taskTime by remember { mutableStateOf(value = LocalTime.now()) }
+    var taskTime: LocalDateTime? by remember { mutableStateOf(value = null) }
+    var taskReminderTime: LocalDateTime? by remember { mutableStateOf(value = null) }
     var taskPriorityType by remember { mutableStateOf(value = PriorityType.LOW) }
-    var taskReminder by remember { mutableStateOf(value = true) }
-    var reminderTimeType by remember { mutableStateOf(value = ReminderTimeType.ON_TIME) }
 
     Column(
         modifier = modifier.fillMaxWidth()
@@ -75,11 +71,11 @@ internal fun AddTaskBottomSheetContent(
         }
 
         if (isShowTimePickerDialog) {
-            if (timePickerType == TimePickerType.SCROLL_TIME_PICKER) {
+            /*if (timePickerType == TimePickerType.SCROLL_TIME_PICKER) {
                 ScrollTimePickerDialog(
-                    initTime = taskTime,
+                    initTime = *//*taskTime*//*LocalDateTime.now(),
                     onClose = {
-                        taskTime = it
+                        *//*taskTime = it*//*
                         isShowTimePickerDialog = false
                     }
                 )
@@ -91,7 +87,7 @@ internal fun AddTaskBottomSheetContent(
                         isShowTimePickerDialog = false
                     }
                 )
-            }
+            }*/
         }
 
         TaskTitleTextField(
@@ -104,9 +100,8 @@ internal fun AddTaskBottomSheetContent(
             taskCategory = taskCategory,
             taskDate = taskDate,
             taskTime = taskTime,
+            taskReminderTime = taskReminderTime,
             taskPriorityType = taskPriorityType,
-            taskReminder = taskReminder,
-            reminderTimeType = reminderTimeType,
             locale = locale,
             isShowCategoryMenu = isShowCategoryMenu,
             isShowPriorityMenu = isShowPriorityMenu,
@@ -130,10 +125,12 @@ internal fun AddTaskBottomSheetContent(
                 isShowReminderMenu = state
             },
             onReminderTimeTypeClick = { type ->
-                taskReminder = true
-                reminderTimeType = type
+                /*taskReminder = true*/
+                /*
+                                reminderTimeType = type
+                */
             },
-            onReminderOffClick = { taskReminder = false },
+            onReminderOffClick = { /*taskReminder = false*/ },
             onDateClick = { isShowDatePickerDialog = true },
             onTimeClick = { isShowTimePickerDialog = true },
             onAddTaskClick = {
@@ -141,13 +138,13 @@ internal fun AddTaskBottomSheetContent(
                     uuid = UUID.randomUUID().toString(),
                     title = taskTitle.trim(),
                     isCompleted = false,
-                    isRemind = taskReminder,
-                    time = taskTime,
+                    isRemind = /*taskReminder*/true,
+                    time = /*taskTime*/LocalDateTime.now(),
                     date = taskDate,
                     memo = "",
                     priority = taskPriorityType.ordinal,
                     categoryId = taskCategory,
-                    reminderTime = reminderTimeType.ordinal,
+                    reminderTime = /*reminderTimeType.ordinal*/LocalDateTime.now(),
                 )
 
                 val (isValid, errorMessage) = checkValidTask(task = task)

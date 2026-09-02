@@ -31,7 +31,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -60,6 +59,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.Locale
 import java.util.UUID
@@ -89,7 +89,7 @@ internal fun AddTaskScreen(
     var taskTitle by remember { mutableStateOf(value = "") }
     var taskCategory by remember { mutableLongStateOf(value = -1L) }
     var taskDate by remember { mutableStateOf(value = date) }
-    var taskTime by remember { mutableStateOf(value = LocalTime.now()) }
+    var taskTime by remember { mutableStateOf(value = LocalDateTime.now()) }
     var taskPriorityType by remember { mutableStateOf(value = PriorityType.LOW) }
     var taskMemo by remember { mutableStateOf(value = "") }
     var taskReminder by remember { mutableStateOf(value = true) }
@@ -138,7 +138,10 @@ internal fun AddTaskScreen(
         if (isShowTimePickerDialog) {
             if (timePickerType == TimePickerType.SCROLL_TIME_PICKER) {
                 ScrollTimePickerDialog(
-                    initTime = taskTime,
+                    initTime = LocalDateTime.of(
+                        taskDate,
+                        taskTime.toLocalTime(),
+                    ),
                     onClose = {
                         taskTime = it
                         isShowTimePickerDialog = false
@@ -146,9 +149,12 @@ internal fun AddTaskScreen(
                 )
             } else {
                 ClockTimePickerDialog(
-                    initTime = taskTime,
+                    initTime = taskTime.toLocalTime(),
                     onClose = {
-                        taskTime = it
+                        taskTime = LocalDateTime.of(
+                            taskDate,
+                            it
+                        )
                         isShowTimePickerDialog = false
                     }
                 )
@@ -195,9 +201,12 @@ internal fun AddTaskScreen(
                 )
 
                 InputTaskTime(
-                    time = taskTime,
+                    time = taskTime.toLocalTime(),
                     locale = locale,
-                    onTimeChange = { taskTime = it },
+                    onTimeChange = {
+                        taskTime =
+                            LocalDateTime.of(taskDate, /*it*/LocalTime.now())
+                    },
                     onShowTimePickerDialog = { isShowTimePickerDialog = true }
                 )
 
@@ -254,10 +263,10 @@ internal fun AddTaskScreen(
                             isRemind = taskReminder,
                             time = taskTime,
                             date = taskDate,
+                            reminderTime = LocalDateTime.now(),
                             memo = taskMemo,
                             priority = taskPriorityType.ordinal,
                             categoryId = taskCategory,
-                            reminderTime = reminderTimeType.ordinal,
                         )
 
                         val (isValid, errorMessage) = checkValidTask(task = task)

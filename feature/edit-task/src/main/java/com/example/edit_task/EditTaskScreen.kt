@@ -59,6 +59,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import java.time.LocalTime
 import java.util.Locale
 import com.example.design_system.R as DesignSystemR
@@ -100,7 +101,7 @@ internal fun EditTaskScreen(
     var reminderTimeType by remember {
         mutableStateOf(
             value = ReminderTimeType.entries.getOrNull(
-                index = task.reminderTime
+                index = 0
             ) ?: ReminderTimeType.ON_TIME
         )
     }
@@ -158,7 +159,7 @@ internal fun EditTaskScreen(
         if (isShowTimePickerDialog) {
             if (timePickerType == TimePickerType.SCROLL_TIME_PICKER) {
                 ScrollTimePickerDialog(
-                    initTime = taskTime,
+                    initTime = taskTime ?: LocalDateTime.now(),
                     onClose = {
                         taskTime = it
                         isShowTimePickerDialog = false
@@ -166,9 +167,9 @@ internal fun EditTaskScreen(
                 )
             } else {
                 ClockTimePickerDialog(
-                    initTime = taskTime,
+                    initTime = /*taskTime ?: LocalTime.now()*/LocalTime.now(),
                     onClose = {
-                        taskTime = it
+                        /*taskTime = it*/
                         isShowTimePickerDialog = false
                     }
                 )
@@ -215,9 +216,9 @@ internal fun EditTaskScreen(
                 )
 
                 InputTaskTime(
-                    time = taskTime,
+                    time = /*taskTime ?: LocalTime.now()*/LocalTime.now(),
                     locale = locale,
-                    onTimeChange = { taskTime = it },
+                    onTimeChange = { /*taskTime = it*/ },
                     onShowTimePickerDialog = { isShowTimePickerDialog = true }
                 )
 
@@ -268,7 +269,7 @@ internal fun EditTaskScreen(
                             memo = taskMemo,
                             priority = taskPriorityType.ordinal,
                             categoryId = taskCategoryId,
-                            reminderTime = reminderTimeType.ordinal,
+                            reminderTime = /*reminderTimeType.ordinal*/LocalDateTime.now(),
                         )
 
                         val (isValid, errorMessage) = checkValidTask(
@@ -307,12 +308,12 @@ private fun EditTaskScreenPreview() {
             title = "",
             isCompleted = true,
             isRemind = true,
-            time = LocalTime.now(),
+            time = /*LocalTime.now()*/LocalDateTime.now(),
             date = LocalDate.now(),
             memo = "",
             priority = PriorityType.LOW.ordinal,
             categoryId = 0,
-            reminderTime = ReminderTimeType.ON_TIME.ordinal
+            reminderTime = /*ReminderTimeType.ON_TIME.ordinal*/LocalDateTime.now()
         )
         EditTaskScreen(
             task = task,

@@ -20,6 +20,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.design_system.component.CategoryDropdownMenu
 import com.example.design_system.theme.TodoTheme
 import com.example.home.utils.getTitleResId
 import com.example.model.Category
@@ -40,33 +41,31 @@ internal fun TaskActionCategoryItem(
     onCategoryClick: (Long) -> Unit,
     onCreateNewCategoryClick: () -> Unit,
 ) {
-    Box {
-        Box(
-            modifier = modifier.clip(
-                shape = RoundedCornerShape(
-                    size = 16.dp
-                )
+    Box(
+        modifier = modifier.clip(
+            shape = RoundedCornerShape(
+                size = 16.dp
             )
-                .background(color = MaterialTheme.colorScheme.surfaceDim)
-                .padding(all = 8.dp)
-                .clickable { onOpenClick() }
-        ) {
-            Text(
-                text = categories.firstOrNull { it.id == taskCategory }?.title
-                    ?: stringResource(id = DesignSystemR.string.no_category),
-                style = TodoTheme.typography.medium_10,
-                color = MaterialTheme.colorScheme.onSurface
-            )
-        }
-
-        CategoryDropdownMenu(
-            categories = categories,
-            isShowCategoryMenu = isShowCategoryMenu,
-            onCloseClick = onCloseClick,
-            onCategoryClick = onCategoryClick,
-            onCreateNewCategoryClick = onCreateNewCategoryClick
+        )
+            .background(color = MaterialTheme.colorScheme.surfaceDim)
+            .padding(all = 8.dp)
+            .clickable { onOpenClick() }
+    ) {
+        Text(
+            text = categories.firstOrNull { it.id == taskCategory }?.title
+                ?: stringResource(id = DesignSystemR.string.no_category),
+            style = TodoTheme.typography.medium_10,
+            color = MaterialTheme.colorScheme.onSurface
         )
     }
+
+    CategoryDropdownMenu(
+        categories = categories,
+        isShowCategoryMenu = isShowCategoryMenu,
+        onCloseClick = onCloseClick,
+        onCategoryClick = onCategoryClick,
+        onCreateNewCategoryClick = onCreateNewCategoryClick
+    )
 }
 
 @Composable

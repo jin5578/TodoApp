@@ -23,12 +23,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.design_system.R
 import com.example.design_system.theme.TodoTheme
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 @Composable
 fun ScrollTimePickerDialog(
-    initTime: LocalTime = LocalTime.now(),
-    onClose: (LocalTime) -> Unit,
+    initTime: LocalDateTime,
+    onClose: (LocalDateTime) -> Unit,
 ) {
     var selectedTime by remember { mutableStateOf(value = initTime) }
 
@@ -48,8 +48,8 @@ fun ScrollTimePickerDialog(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 ScrollTimePicker(
-                    initTime = initTime,
-                    onSelect = { selectedTime = it }
+                    initTime = initTime.toLocalTime(),
+                    onSelect = { /*selectedTime = LocalDateTime.of()*/ }
                 )
                 Text(
                     modifier = Modifier
@@ -75,7 +75,7 @@ fun ScrollTimePickerDialog(
 private fun ScrollTimePickerDialogPreview() {
     TodoTheme {
         ScrollTimePickerDialog(
-            initTime = LocalTime.now(),
+            initTime = LocalDateTime.now(),
             onClose = {}
         )
     }

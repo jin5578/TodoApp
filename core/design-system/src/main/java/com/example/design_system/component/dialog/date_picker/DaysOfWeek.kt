@@ -1,5 +1,6 @@
 package com.example.design_system.component.dialog.date_picker
 
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material3.MaterialTheme
@@ -19,13 +20,16 @@ fun DaysOfWeek(
     daysOfWeek: List<DayOfWeek>,
     locale: Locale
 ) {
-    Row(modifier = modifier.fillMaxWidth()) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
         for (dayOfWeek in daysOfWeek) {
             Text(
                 modifier = Modifier.weight(1f),
                 text = dayOfWeek.getDisplayName(TextStyle.SHORT, locale),
                 textAlign = TextAlign.Center,
-                style = TodoTheme.typography.bold_14,
+                style = TodoTheme.typography.medium_14,
                 color = MaterialTheme.colorScheme.onSurface
             )
         }

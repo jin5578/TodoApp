@@ -5,14 +5,16 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
 import com.example.database.utils.LocalDateConverter
+import com.example.database.utils.LocalDateTimeConverter
 import com.example.database.utils.LocalTimeConverter
 import java.time.LocalDate
-import java.time.LocalTime
+import java.time.LocalDateTime
 
 @Entity(tableName = "task")
 @TypeConverters(
     LocalTimeConverter::class,
-    LocalDateConverter::class
+    LocalDateConverter::class,
+    LocalDateTimeConverter::class
 )
 data class TaskEntity(
     @PrimaryKey(autoGenerate = true)
@@ -26,10 +28,12 @@ data class TaskEntity(
     val isCompleted: Boolean = false,
     @ColumnInfo(name = "isRemind")
     val isRemind: Boolean = false,
-    @ColumnInfo(name = "time")
-    val time: LocalTime = LocalTime.now(),
     @ColumnInfo(name = "date")
     val date: LocalDate = LocalDate.now(),
+    @ColumnInfo(name = "time")
+    val time: LocalDateTime?,
+    @ColumnInfo(name = "reminderTime")
+    val reminderTime: LocalDateTime?,
     @ColumnInfo(name = "epochDay")
     val epochDay: Long = LocalDate.now().toEpochDay(),
     @ColumnInfo(name = "memo")
@@ -38,8 +42,6 @@ data class TaskEntity(
     val priority: Int = 0,
     @ColumnInfo(name = "categoryId")
     val categoryId: Long = -1L,
-    @ColumnInfo(name = "reminderTime")
-    val reminderTime: Int = 0,
     @ColumnInfo(name = "symbol")
     val symbol: Int = -1,
 )

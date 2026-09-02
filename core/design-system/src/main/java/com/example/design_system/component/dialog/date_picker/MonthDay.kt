@@ -32,20 +32,16 @@ fun MonthDay(
     onShowMessageSnackbar: (String) -> Unit,
 ) {
     val backgroundColor =
-        if (isSelected) MaterialTheme.colorScheme.surface
+        if (isSelected) MaterialTheme.colorScheme.primaryContainer
         else Color.Transparent
-    val borderWidth =
-        if (day.date == LocalDate.now()) 1.dp
-        else (-1).dp
+    val borderWidth = if (isSelected) 1.dp else (-1).dp
     val textColor =
-        if (isSelected) MaterialTheme.colorScheme.error
-        else {
-            if (day.position == DayPosition.MonthDate) {
-                MaterialTheme.colorScheme.onSurface
-            } else {
-                MaterialTheme.colorScheme.inverseOnSurface
-            }
-        }
+        if (day.date == LocalDate.now()) MaterialTheme.colorScheme.error
+        else if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
+        else MaterialTheme.colorScheme.onSurface
+    val fontStyle =
+        if (isSelected) TodoTheme.typography.bold_14
+        else TodoTheme.typography.medium_14
 
     val message = stringResource(R.string.cannot_be_selected_of_day)
 
@@ -70,7 +66,7 @@ fun MonthDay(
     ) {
         Text(
             text = day.date.dayOfMonth.toString(),
-            style = TodoTheme.typography.bold_14,
+            style = fontStyle,
             color = textColor
         )
     }

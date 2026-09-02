@@ -37,7 +37,7 @@ import com.example.model.PriorityType
 import com.example.model.ReminderTimeType
 import com.example.model.Task
 import java.time.LocalDate
-import java.time.LocalTime
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 
@@ -65,7 +65,7 @@ fun TaskCard(
                 onTaskEdit?.invoke(task.id)
             }.padding(
                 horizontal = 8.dp,
-                vertical = 10.dp
+                vertical = 12.dp
             )
     ) {
         Row(
@@ -141,14 +141,16 @@ fun TaskCard(
                         )
                     }
 
-                    val timeFormat =
-                        DateTimeFormatter.ofPattern("hh:mm a", locale)
-                    ExtraInfo(
-                        painter = painterResource(id = R.drawable.svg_clock),
-                        title = task.time.format(timeFormat),
-                        textColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                        tintColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    )
+                    task.time?.let { time ->
+                        val timeFormat =
+                            DateTimeFormatter.ofPattern("hh:mm a", locale)
+                        ExtraInfo(
+                            painter = painterResource(id = R.drawable.svg_clock),
+                            title = time.format(timeFormat),
+                            textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            tintColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        )
+                    }
 
                     ExtraInfo(
                         painter = painterResource(id = R.drawable.svg_calendar),
@@ -163,7 +165,7 @@ fun TaskCard(
                         notificationIcon =
                             R.drawable.svg_notification
                         notificationText =
-                            ReminderTimeType.entries[task.reminderTime].subtitle
+                            ReminderTimeType.entries[0].subtitle
                     } else {
                         notificationIcon =
                             R.drawable.svg_notification_slash
@@ -266,12 +268,12 @@ private fun TaskCardPreview() {
             title = "inceptos",
             isCompleted = false,
             isRemind = true,
-            time = LocalTime.now(),
             date = LocalDate.now(),
+            time = LocalDateTime.now(),
+            reminderTime = LocalDateTime.now(),
             memo = "memo",
             priority = 2,
             categoryId = -1L,
-            reminderTime = ReminderTimeType.ON_TIME.ordinal,
         )
         TaskCard(
             task = task,

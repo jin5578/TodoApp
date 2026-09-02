@@ -1,0 +1,67 @@
+package com.example.edit_task.component
+
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.material3.TextFieldDefaults
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.design_system.R
+import com.example.design_system.theme.TodoTheme
+
+@Composable
+internal fun EditTaskTitle(
+    modifier: Modifier = Modifier,
+    title: String,
+    onValueChange: (String) -> Unit,
+) {
+    TextField(
+        modifier = modifier.fillMaxWidth()
+            .padding(horizontal = 4.dp, vertical = 16.dp),
+        value = title,
+        singleLine = true,
+        colors = TextFieldDefaults.colors(
+            focusedContainerColor = Color.Transparent,
+            focusedIndicatorColor = Color.Transparent,
+            unfocusedContainerColor = Color.Transparent,
+            unfocusedIndicatorColor = Color.Transparent,
+            disabledContainerColor = Color.Transparent,
+            focusedTextColor = MaterialTheme.colorScheme.onBackground,
+            cursorColor = MaterialTheme.colorScheme.onBackground,
+        ),
+        textStyle = TodoTheme.typography.bold_20,
+        onValueChange = { onValueChange(it) },
+        placeholder = {
+            Text(
+                text = stringResource(id = R.string.please_enter_what_you_need_to_do),
+                color = MaterialTheme.colorScheme.onBackground,
+                style = TodoTheme.typography.bold_20
+            )
+        },
+        keyboardOptions = KeyboardOptions(
+            capitalization = KeyboardCapitalization.Sentences,
+            imeAction = ImeAction.Done
+        ),
+
+        )
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EditTaskTitlePreview() {
+    TodoTheme {
+        EditTaskTitle(
+            title = "Title",
+            onValueChange = {}
+        )
+    }
+}

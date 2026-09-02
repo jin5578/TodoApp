@@ -46,4 +46,6 @@ dependencies {
     androidTestImplementation(libs.androidx.junit)
 
     debugImplementation(libs.androidx.compose.ui.tooling)
+
+    implementation(libs.timber)
 }

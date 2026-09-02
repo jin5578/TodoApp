@@ -38,7 +38,7 @@ import java.util.Locale
 fun InputTaskDate(
     modifier: Modifier = Modifier,
     date: LocalDate,
-    locale: java.util.Locale,
+    locale: Locale,
     onDateChange: (LocalDate) -> Unit,
     onShowDatePickerDialog: () -> Unit,
 ) {

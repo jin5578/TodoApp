@@ -24,7 +24,7 @@ import com.example.model.ReminderTimeType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
-import java.time.LocalTime
+import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import com.example.design_system.R as DesignSystemR
@@ -35,10 +35,9 @@ internal fun TaskActionRow(
     categories: ImmutableList<Category>,
     taskCategory: Long,
     taskDate: LocalDate,
-    taskTime: LocalTime,
+    taskTime: LocalDateTime?,
+    taskReminderTime: LocalDateTime?,
     taskPriorityType: PriorityType,
-    taskReminder: Boolean,
-    reminderTimeType: ReminderTimeType,
     locale: Locale,
     isShowCategoryMenu: Boolean,
     isShowPriorityMenu: Boolean,
@@ -68,23 +67,21 @@ internal fun TaskActionRow(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(space = 10.dp)
         ) {
-            if (categories.isNotEmpty()) {
-                TaskActionCategoryItem(
-                    categories = categories,
-                    taskCategory = taskCategory,
-                    isShowCategoryMenu = isShowCategoryMenu,
-                    onOpenClick = { onCategoryMenuStateChanged(true) },
-                    onCloseClick = { onCategoryMenuStateChanged(false) },
-                    onCategoryClick = { id ->
-                        onCategoryClick(id)
-                        onCategoryMenuStateChanged(false)
-                    },
-                    onCreateNewCategoryClick = {
-                        onCreateNewCategoryClick()
-                        onCategoryMenuStateChanged(false)
-                    }
-                )
-            }
+            TaskActionCategoryItem(
+                categories = categories,
+                taskCategory = taskCategory,
+                isShowCategoryMenu = isShowCategoryMenu,
+                onOpenClick = { onCategoryMenuStateChanged(true) },
+                onCloseClick = { onCategoryMenuStateChanged(false) },
+                onCategoryClick = { id ->
+                    onCategoryClick(id)
+                    onCategoryMenuStateChanged(false)
+                },
+                onCreateNewCategoryClick = {
+                    onCreateNewCategoryClick()
+                    onCategoryMenuStateChanged(false)
+                }
+            )
 
             val dateFormat = DateTimeFormatter.ofPattern(
                 DateFormat.getBestDateTimePattern(locale, "MMMMd"),
@@ -96,13 +93,15 @@ internal fun TaskActionRow(
                 onClick = onDateClick
             )
 
-            val timeFormat =
-                DateTimeFormatter.ofPattern("hh : mm a", locale)
-            TaskActionItem(
-                iconResId = DesignSystemR.drawable.svg_clock,
-                title = taskTime.format(timeFormat),
-                onClick = onTimeClick
-            )
+            if (taskTime != null) {
+                val timeFormat =
+                    DateTimeFormatter.ofPattern("hh : mm a", locale)
+                TaskActionItem(
+                    iconResId = DesignSystemR.drawable.svg_clock,
+                    title = taskTime.format(timeFormat),
+                    onClick = onTimeClick
+                )
+            }
 
             TaskActionPriorityItem(
                 priorityType = taskPriorityType,
@@ -115,7 +114,7 @@ internal fun TaskActionRow(
                 }
             )
 
-            TaskActionReminderItem(
+            /*TaskActionReminderItem(
                 taskReminder = taskReminder,
                 reminderTimeType = reminderTimeType,
                 isShowReminderMenu = isShowReminderMenu,
@@ -129,7 +128,7 @@ internal fun TaskActionRow(
                     onReminderOffClick()
                     onReminderMenuStateChanged(false)
                 },
-            )
+            )*/
         }
 
         IconButton(onClick = onAddTaskClick) {
@@ -152,10 +151,9 @@ private fun TaskActionRowPreview() {
             categories = persistentListOf(),
             taskCategory = 1L,
             taskDate = LocalDate.now(),
-            taskTime = LocalTime.now(),
+            taskTime = LocalDateTime.now(),
+            taskReminderTime = LocalDateTime.now(),
             taskPriorityType = PriorityType.LOW,
-            taskReminder = false,
-            reminderTimeType = ReminderTimeType.ON_TIME,
             locale = Locale.KOREA,
             isShowCategoryMenu = false,
             isShowPriorityMenu = false,

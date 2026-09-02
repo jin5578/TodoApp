@@ -51,6 +51,10 @@ internal class MainNavigator(
     fun navigateManageCategories() =
         navController.navigateManageCategories()
 
+    fun navigateMemo() {
+
+    }
+
     fun navigateLockSetup() =
         navController.navigateLockSetup()
 
