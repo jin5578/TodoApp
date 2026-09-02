@@ -7,6 +7,7 @@ import com.example.model.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 internal class DefaultTaskRepository @Inject constructor(
@@ -73,15 +74,62 @@ internal class DefaultTaskRepository @Inject constructor(
     override suspend fun updateTaskSymbol(taskId: Long, symbolId: Int) =
         taskDataSource.updateTaskSymbol(taskId = taskId, symbolId = symbolId)
 
-    override suspend fun updateTaskMemo(
-        taskId: Long,
+    override suspend fun updateTaskMemoTitle(
+        id: Long,
         memoTitle: String,
-        memoContent: String
-    ) = taskDataSource.updateTaskMemo(
-        taskId = taskId,
+    ) = taskDataSource.updateTaskMemoTitle(
+        id = id,
         memoTitle = memoTitle,
+    )
+
+    override suspend fun updateTaskMemoContent(
+        id: Long,
+        memoContent: String
+    ) = taskDataSource.updateTaskMemoContent(
+        id = id,
         memoContent = memoContent
     )
+
+    override suspend fun updateTaskCategory(taskId: Long, categoryId: Long) =
+        taskDataSource.updateTaskCategory(
+            taskId = taskId,
+            categoryId = categoryId
+        )
+
+    override suspend fun updateTaskTitle(id: Long, title: String) =
+        taskDataSource.updateTaskTitle(id = id, title = title)
+
+    override suspend fun updateTaskDate(id: Long, date: LocalDate) =
+        taskDataSource.updateTaskDate(id = id, date = date)
+
+    override suspend fun updateTaskTime(id: Long, time: LocalDateTime) =
+        taskDataSource.updateTaskTime(id = id, time = time)
+
+    override suspend fun updateTaskReminderTime(
+        id: Long,
+        reminderTime: LocalDateTime
+    ) = taskDataSource.updateTaskReminderTime(
+        id = id,
+        reminderTime = reminderTime
+    )
+
+    override suspend fun updateTaskDateTime(
+        id: Long,
+        date: LocalDate,
+        time: LocalDateTime?,
+        reminderTime: LocalDateTime?
+    ) = taskDataSource.updateTaskDateTime(
+        id = id,
+        date = date,
+        time = time,
+        reminderTime = reminderTime
+    )
+
+    override suspend fun updateTaskCompleted(id: Long, isCompleted: Boolean) =
+        taskDataSource.updateTaskCompleted(
+            id = id,
+            isCompleted = isCompleted
+        )
 
     override suspend fun deleteTask(task: Task) =
         taskDataSource.deleteTask(entity = task.toTaskEntity())

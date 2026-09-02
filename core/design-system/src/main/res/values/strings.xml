@@ -129,4 +129,6 @@
     <string name="edit">Edit</string>
     <string name="last_update_time">Last update time : %1$s</string>
     <string name="content">Content</string>
+    <string name="mark_as_done">Mark as Done</string>
+    <string name="mark_as_undone">Mark as Undone</string>
 </resources>

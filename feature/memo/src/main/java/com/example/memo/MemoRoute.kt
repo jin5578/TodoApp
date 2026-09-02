@@ -7,12 +7,9 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.design_system.R
 import com.example.design_system.component.Loading
-import com.example.memo.model.MemoUiEffect
 import com.example.memo.model.MemoUiState
 import kotlinx.coroutines.flow.collectLatest
-import java.time.LocalDateTime
 import java.util.Locale
 import com.example.design_system.R as DesignSystemR
 
@@ -41,19 +38,12 @@ internal fun MemoRoute(
         }
     }
 
-    LaunchedEffect(key1 = Unit) {
-        viewModel.uiEffect.collectLatest { uiEffect ->
-            if (uiEffect is MemoUiEffect.SuccessUpdateMemo) {
-                onShowMessageSnackbar(updateMemoSuccessMessage)
-                popBackStack()
-            }
-        }
-    }
-
     MemoContent(
         taskId = taskId,
         uiState = uiState,
-        popBackStack = viewModel::updateTaskMemo
+        titleUpdate = viewModel::updateTitle,
+        contentUpdate = viewModel::updateContent,
+        popBackStack = popBackStack
     )
 }
 
@@ -61,7 +51,9 @@ internal fun MemoRoute(
 private fun MemoContent(
     taskId: Long,
     uiState: MemoUiState,
-    popBackStack: (taskId: Long, memoTitle: String, memoContent: String) -> Unit,
+    titleUpdate: (taskId: Long, memoTitle: String) -> Unit,
+    contentUpdate: (taskId: Long, memoContent: String) -> Unit,
+    popBackStack: () -> Unit,
 ) {
     when (uiState) {
         is MemoUiState.Loading ->
@@ -74,6 +66,8 @@ private fun MemoContent(
                 content = uiState.memoContent,
                 updatedAt = uiState.memoUpdatedAt,
                 locale = Locale.KOREA,
+                onTitleValueChanged = titleUpdate,
+                onContentValueChanged = contentUpdate,
                 popBackStack = popBackStack,
             )
     }

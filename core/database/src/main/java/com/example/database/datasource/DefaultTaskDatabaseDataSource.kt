@@ -54,16 +54,65 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
             symbolId = symbolId
         )
 
-    override suspend fun updateTaskMemo(
-        taskId: Long,
+    override suspend fun updateTaskMemoTitle(
+        id: Long,
         memoTitle: String,
-        memoContent: String,
-    ) = taskDatabase.taskDao().updateTaskMemo(
-        taskId = taskId,
+    ) = taskDatabase.taskDao().updateTaskMemoTitle(
+        id = id,
         memoTitle = memoTitle,
+        memoUpdatedAt = LocalDateTime.now()
+    )
+
+    override suspend fun updateTaskMemoContent(
+        id: Long,
+        memoContent: String
+    ) = taskDatabase.taskDao().updateTaskMemoContent(
+        id = id,
         memoContent = memoContent,
         memoUpdatedAt = LocalDateTime.now()
     )
+
+    override suspend fun updateTaskCategory(taskId: Long, categoryId: Long) =
+        taskDatabase.taskDao()
+            .updateTaskCategory(taskId = taskId, categoryId = categoryId)
+
+    override suspend fun updateTaskTitle(id: Long, title: String) =
+        taskDatabase.taskDao()
+            .updateTaskTitle(id = id, title = title)
+
+    override suspend fun updateTaskDate(id: Long, date: LocalDate) =
+        taskDatabase.taskDao()
+            .updateTaskDate(id = id, date = date)
+
+    override suspend fun updateTaskTime(id: Long, time: LocalDateTime) =
+        taskDatabase.taskDao()
+            .updateTaskTime(id = id, time = time)
+
+    override suspend fun updateTaskReminderTime(
+        id: Long,
+        reminderTime: LocalDateTime
+    ) = taskDatabase.taskDao().updateTaskReminderTime(
+        id = id,
+        reminderTime = reminderTime
+    )
+
+    override suspend fun updateTaskDateTime(
+        id: Long,
+        date: LocalDate,
+        time: LocalDateTime?,
+        reminderTime: LocalDateTime?
+    ) = taskDatabase.taskDao().updateTaskDateTime(
+        id = id,
+        date = date,
+        time = time,
+        reminderTime = reminderTime
+    )
+
+    override suspend fun updateTaskCompleted(id: Long, isCompleted: Boolean) =
+        taskDatabase.taskDao().updateTaskCompleted(
+            id = id,
+            isCompleted = isCompleted
+        )
 
     override suspend fun deleteTask(entity: TaskEntity) =
         taskDatabase.taskDao().deleteTask(entity = entity)

@@ -97,7 +97,7 @@
     <string name="completed_tasks">완료된 할 일</string>
     <string name="incomplete_tasks">할 일</string>
     <string name="marked_with_a_symbol">기호로 표시</string>
-    <string name="delete">지우기</string>
+    <string name="delete">삭제</string>
     <string name="flag">플래그</string>
     <string name="number">숫자</string>
     <string name="progress">진행 상황</string>
@@ -129,4 +129,6 @@
     <string name="edit">수정</string>
     <string name="last_update_time">마지막 업데이트 시간 : %1$s</string>
     <string name="content">내용</string>
+    <string name="mark_as_done">완료로 표시</string>
+    <string name="mark_as_undone">실행 취소로 표시</string>
 </resources>

@@ -39,11 +39,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.theme.TodoTheme
 import com.example.home.model.TaskSymbolType
-import com.example.model.ReminderTimeType
 import com.example.model.Task
 import java.time.LocalDate
 import java.time.LocalDateTime
-import java.time.LocalTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import com.example.design_system.R as DesignSystemR
@@ -255,7 +253,7 @@ private fun DropdownMenuElement(
         verticalArrangement = Arrangement.spacedBy(space = 10.dp)
     ) {
         Text(
-            text = stringResource(id = taskSymbolType.title),
+            text = stringResource(id = taskSymbolType.titleResId),
             style = TodoTheme.typography.medium_10,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )

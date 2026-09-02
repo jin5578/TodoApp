@@ -7,11 +7,11 @@ import kotlinx.collections.immutable.persistentListOf
 import com.example.design_system.R as DesignSystemR
 
 enum class TaskSymbolType(
-    val title: Int,
+    val titleResId: Int,
     val taskSymbols: ImmutableList<TaskSymbol>
 ) {
     FLAG(
-        title = DesignSystemR.string.flag,
+        titleResId = DesignSystemR.string.flag,
         taskSymbols = persistentListOf(
             TaskSymbol(
                 id = 0,
@@ -51,7 +51,7 @@ enum class TaskSymbolType(
         )
     ),
     NUMBER(
-        title = DesignSystemR.string.number,
+        titleResId = DesignSystemR.string.number,
         taskSymbols = persistentListOf(
             TaskSymbol(
                 id = 5,
@@ -91,7 +91,7 @@ enum class TaskSymbolType(
         )
     ),
     PROGRESS(
-        title = DesignSystemR.string.progress,
+        titleResId = DesignSystemR.string.progress,
         taskSymbols = persistentListOf(
             TaskSymbol(
                 id = 10,
@@ -131,7 +131,7 @@ enum class TaskSymbolType(
         )
     ),
     MOOD(
-        title = DesignSystemR.string.mood,
+        titleResId = DesignSystemR.string.mood,
         taskSymbols = persistentListOf(
             TaskSymbol(
                 id = 15,

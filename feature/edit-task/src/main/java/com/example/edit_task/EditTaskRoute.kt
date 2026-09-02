@@ -12,6 +12,8 @@ import com.example.edit_task.model.EditTaskUiEffect
 import com.example.edit_task.model.EditTaskUiState
 import com.example.model.Task
 import kotlinx.coroutines.flow.collectLatest
+import java.time.LocalDate
+import java.time.LocalDateTime
 import com.example.design_system.R as DesignSystemR
 
 @Composable
@@ -61,7 +63,11 @@ internal fun EditTaskRoute(
         navigateManageCategories = navigateManageCategories,
         navigateMemo = navigateMemo,
         onUpdateTaskClick = viewModel::updateTask,
-        onTaskDelete = viewModel::deleteTask,
+        categoryUpdate = viewModel::updateCategory,
+        titleUpdate = viewModel::updateTitle,
+        dateTimeUpdate = viewModel::updateDateTime,
+        completedUpdate = viewModel::updateCompleted,
+        taskDelete = viewModel::deleteTask,
         onShowMessageSnackbar = onShowMessageSnackbar
     )
 }
@@ -73,7 +79,11 @@ private fun EditTaskContent(
     navigateManageCategories: () -> Unit,
     navigateMemo: (Long) -> Unit,
     onUpdateTaskClick: (Task) -> Unit,
-    onTaskDelete: (id: Long, uuid: String) -> Unit,
+    categoryUpdate: (taskId: Long, categoryId: Long) -> Unit,
+    titleUpdate: (taskId: Long, title: String) -> Unit,
+    dateTimeUpdate: (taskId: Long, date: LocalDate, time: LocalDateTime?, reminderTime: LocalDateTime?) -> Unit,
+    completedUpdate: (taskId: Long, isCompleted: Boolean) -> Unit,
+    taskDelete: (Long) -> Unit,
     onShowMessageSnackbar: (String) -> Unit
 ) {
     when (uiState) {
@@ -81,16 +91,6 @@ private fun EditTaskContent(
             Loading()
 
         is EditTaskUiState.Screen ->
-            /*EditTaskScreen(
-                task = uiState.task,
-                locale = uiState.locale,
-                timePickerType = uiState.timePickerType,
-                categories = uiState.categories,
-                popBackStack = popBackStack,
-                onUpdateTaskClick = onUpdateTaskClick,
-                onTaskDelete = onTaskDelete,
-                onShowMessageSnackbar = onShowMessageSnackbar
-            )*/
             EditTaskRefScreen(
                 popBackStack = popBackStack,
                 categories = uiState.categories,
@@ -98,6 +98,11 @@ private fun EditTaskContent(
                 locale = uiState.locale,
                 navigateManageCategories = navigateManageCategories,
                 navigateMemo = navigateMemo,
+                onCategoryClick = categoryUpdate,
+                onTitleValueChanged = titleUpdate,
+                onDateTimeChanged = dateTimeUpdate,
+                onCompletedChanged = completedUpdate,
+                onDeleteClick = taskDelete,
                 onShowMessageSnackbar = onShowMessageSnackbar
             )
     }

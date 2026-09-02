@@ -39,7 +39,7 @@ internal fun EditTaskTitleTextField(
             cursorColor = MaterialTheme.colorScheme.onBackground,
         ),
         textStyle = TodoTheme.typography.bold_20,
-        onValueChange = { onValueChange(it) },
+        onValueChange = onValueChange,
         placeholder = {
             Text(
                 text = stringResource(id = R.string.please_enter_what_you_need_to_do),

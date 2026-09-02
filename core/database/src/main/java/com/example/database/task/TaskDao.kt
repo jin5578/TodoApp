@@ -7,30 +7,16 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
+import java.time.LocalDate
 import java.time.LocalDateTime
 
 @Dao
 interface TaskDao {
+    /* UPDATE */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(entity: TaskEntity)
 
-    @Update(onConflict = OnConflictStrategy.REPLACE)
-    suspend fun updateTask(entity: TaskEntity)
-
-    @Query("UPDATE task SET symbol = :symbolId WHERE id = :taskId")
-    suspend fun updateTaskSymbol(taskId: Long, symbolId: Int)
-
-    @Query("UPDATE task SET memoTitle = :memoTitle, memoContent = :memoContent, memoUpdatedAt = :memoUpdatedAt WHERE id = :taskId")
-    suspend fun updateTaskMemo(
-        taskId: Long,
-        memoTitle: String,
-        memoContent: String,
-        memoUpdatedAt: LocalDateTime?
-    )
-
-    @Delete
-    suspend fun deleteTask(entity: TaskEntity)
-
+    /* SELECT */
     @Query(value = "SELECT * FROM task ORDER BY date ASC")
     fun getAllTask(): Flow<List<TaskEntity>>
 
@@ -55,6 +41,57 @@ interface TaskDao {
     @Query("SELECT * FROM task WHERE id=:id")
     suspend fun getTaskById(id: Long): TaskEntity
 
+    /* Update */
+    @Update(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun updateTask(entity: TaskEntity)
+
+    @Query("UPDATE task SET symbol = :symbolId WHERE id = :taskId")
+    suspend fun updateTaskSymbol(taskId: Long, symbolId: Int)
+
+    @Query("UPDATE task SET memoTitle = :memoTitle, memoUpdatedAt = :memoUpdatedAt WHERE id = :id")
+    suspend fun updateTaskMemoTitle(
+        id: Long,
+        memoTitle: String,
+        memoUpdatedAt: LocalDateTime?
+    )
+
+    @Query("UPDATE task SET memoContent = :memoContent, memoUpdatedAt = :memoUpdatedAt WHERE id = :id")
+    suspend fun updateTaskMemoContent(
+        id: Long,
+        memoContent: String,
+        memoUpdatedAt: LocalDateTime?
+    )
+
+    @Query("UPDATE task SET categoryId = :categoryId WHERE id = :taskId")
+    suspend fun updateTaskCategory(taskId: Long, categoryId: Long)
+
+    @Query("UPDATE task SET title = :title WHERE id = :id")
+    suspend fun updateTaskTitle(id: Long, title: String)
+
+    @Query("UPDATE task SET date = :date WHERE id = :id")
+    suspend fun updateTaskDate(id: Long, date: LocalDate)
+
+    @Query("UPDATE task SET time = :time WHERE id = :id")
+    suspend fun updateTaskTime(id: Long, time: LocalDateTime)
+
+    @Query("UPDATE task SET reminderTime = :reminderTime WHERE id = :id")
+    suspend fun updateTaskReminderTime(id: Long, reminderTime: LocalDateTime)
+
+    @Query("UPDATE task SET date = :date, time = :time, reminderTime = :reminderTime WHERE id = :id")
+    suspend fun updateTaskDateTime(
+        id: Long,
+        date: LocalDate,
+        time: LocalDateTime?,
+        reminderTime: LocalDateTime?
+    )
+
+    @Query("UPDATE task SET isCompleted = :isCompleted WHERE id = :id")
+    suspend fun updateTaskCompleted(id: Long, isCompleted: Boolean)
+
+    /* Delete */
     @Query(value = "DELETE FROM task")
     suspend fun deleteAllTask()
+
+    @Delete
+    suspend fun deleteTask(entity: TaskEntity)
 }

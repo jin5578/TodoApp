@@ -46,7 +46,9 @@ internal fun MemoScreen(
     content: String,
     updatedAt: LocalDateTime?,
     locale: Locale,
-    popBackStack: (taskId: Long, memoTitle: String, memoContent: String) -> Unit,
+    onTitleValueChanged: (taskId: Long, title: String) -> Unit,
+    onContentValueChanged: (taskId: Long, content: String) -> Unit,
+    popBackStack: () -> Unit,
 ) {
     var memoTitle by remember { mutableStateOf(value = title) }
     var memoContent by remember { mutableStateOf(value = content) }
@@ -60,9 +62,7 @@ internal fun MemoScreen(
                 title = {},
                 navigationIcon = {
                     IconButton(
-                        onClick = {
-                            popBackStack(taskId, memoTitle, memoContent)
-                        }
+                        onClick = popBackStack
                     ) {
                         Icon(
                             modifier = Modifier.size(size = 24.dp),
@@ -83,7 +83,10 @@ internal fun MemoScreen(
                 text = memoTitle,
                 hintTextResId = DesignSystemR.string.title,
                 textStyle = TodoTheme.typography.medium_18,
-                onValueChange = { title -> memoTitle = title }
+                onValueChange = { title ->
+                    memoTitle = title
+                    onTitleValueChanged(taskId, title)
+                }
             )
 
             if (updatedAt != null) {
@@ -104,7 +107,10 @@ internal fun MemoScreen(
                 text = memoContent,
                 hintTextResId = DesignSystemR.string.content,
                 textStyle = TodoTheme.typography.medium_14,
-                onValueChange = { content -> memoContent = content }
+                onValueChange = { content ->
+                    memoContent = content
+                    onContentValueChanged(taskId, content)
+                }
             )
         }
     }
@@ -156,7 +162,9 @@ private fun MemoScreenPreview() {
             content = "",
             updatedAt = LocalDateTime.now(),
             locale = Locale.KOREA,
-            popBackStack = { _, _, _ -> }
+            onTitleValueChanged = { _, _ -> },
+            onContentValueChanged = { _, _ -> },
+            popBackStack = { }
         )
     }
 }
