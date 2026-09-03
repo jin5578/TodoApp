@@ -3,30 +3,21 @@ package com.example.memo
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.Loading
 import com.example.memo.model.MemoUiState
 import kotlinx.coroutines.flow.collectLatest
 import java.util.Locale
-import com.example.design_system.R as DesignSystemR
 
 @Composable
 internal fun MemoRoute(
     viewModel: MemoViewModel = hiltViewModel(),
-    taskId: Long,
     popBackStack: () -> Unit,
+    taskId: Long,
     onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
-
-    val context = LocalContext.current
-
-    val updateMemoSuccessMessage =
-        stringResource(id = DesignSystemR.string.successfully_updated_the_memo)
 
     LaunchedEffect(key1 = taskId) {
         viewModel.fetchMemo(taskId = taskId)
@@ -39,21 +30,21 @@ internal fun MemoRoute(
     }
 
     MemoContent(
+        popBackStack = popBackStack,
         taskId = taskId,
         uiState = uiState,
         titleUpdate = viewModel::updateTitle,
         contentUpdate = viewModel::updateContent,
-        popBackStack = popBackStack
     )
 }
 
 @Composable
 private fun MemoContent(
+    popBackStack: () -> Unit,
     taskId: Long,
     uiState: MemoUiState,
     titleUpdate: (taskId: Long, memoTitle: String) -> Unit,
     contentUpdate: (taskId: Long, memoContent: String) -> Unit,
-    popBackStack: () -> Unit,
 ) {
     when (uiState) {
         is MemoUiState.Loading ->
@@ -61,6 +52,7 @@ private fun MemoContent(
 
         is MemoUiState.Screen ->
             MemoScreen(
+                popBackStack = popBackStack,
                 taskId = taskId,
                 title = uiState.memoTitle,
                 content = uiState.memoContent,
@@ -68,7 +60,6 @@ private fun MemoContent(
                 locale = Locale.KOREA,
                 onTitleValueChanged = titleUpdate,
                 onContentValueChanged = contentUpdate,
-                popBackStack = popBackStack,
             )
     }
 

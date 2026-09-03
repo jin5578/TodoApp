@@ -95,7 +95,6 @@ internal fun MainNavHost(
             memoNavGraph(
                 popBackStack = navigator::popBackStackIfNotHome,
                 onShowErrorSnackbar = onShowErrorSnackbar,
-                onShowMessageSnackbar = onShowMessageSnackbar
             )
         }
     }
