@@ -34,8 +34,10 @@ interface TaskRepository {
         time: LocalDateTime?,
         reminderTime: LocalDateTime?
     )
+
     suspend fun updateTaskCompleted(id: Long, isCompleted: Boolean)
 
-    suspend fun deleteTask(task: Task)
     suspend fun deleteAllTask()
+    suspend fun deleteTaskById(id: Long)
+    suspend fun deleteTaskByTask(task: Task)
 }

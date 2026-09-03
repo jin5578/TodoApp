@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.CheckPasswordUseCase
 import com.example.domain.DeleteAllDataUseCase
-import com.example.domain.DeleteTaskUseCase
+import com.example.domain.DeleteTaskByTaskUseCase
 import com.example.domain.GetHasBiometricEnabledUseCase
 import com.example.domain.GetHasExistingPasswordUseCase
 import com.example.domain.GetHomeDataUseCase
@@ -39,7 +39,7 @@ class HomeViewModel @Inject constructor(
     private val getHomeDataUseCase: GetHomeDataUseCase,
     private val updateSortTaskTypeUseCase: UpdateSortTaskTypeUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val deleteTaskByTaskUseCase: DeleteTaskByTaskUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val checkPasswordUseCase: CheckPasswordUseCase,
     private val deleteAllDataUseCase: DeleteAllDataUseCase,
@@ -121,7 +121,7 @@ class HomeViewModel @Inject constructor(
     fun deleteTask(id: Long) =
         viewModelScope.launch {
             val task = getTaskByIdUseCase(id = id)
-            deleteTaskUseCase(task = task)
+            deleteTaskByTaskUseCase(task = task)
         }
 
     fun toggleTaskCompletion(id: Long, isCompleted: Boolean) =

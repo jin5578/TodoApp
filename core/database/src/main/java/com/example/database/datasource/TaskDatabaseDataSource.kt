@@ -34,8 +34,10 @@ interface TaskDatabaseDataSource {
         time: LocalDateTime?,
         reminderTime: LocalDateTime?
     )
+
     suspend fun updateTaskCompleted(id: Long, isCompleted: Boolean)
 
-    suspend fun deleteTask(entity: TaskEntity)
     suspend fun deleteAllTask()
+    suspend fun deleteTaskById(id: Long)
+    suspend fun deleteTaskByEntity(entity: TaskEntity)
 }

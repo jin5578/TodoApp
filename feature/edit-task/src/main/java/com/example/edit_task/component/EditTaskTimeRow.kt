@@ -43,8 +43,6 @@ internal fun EditTaskTimeRow(
     ) {
         val timeFormat =
             DateTimeFormatter.ofPattern("hh:mm a", locale)
-        val timeContent = time?.format(timeFormat)
-            ?: stringResource(id = DesignSystemR.string.no)
         Row(
             modifier = modifier.fillMaxWidth()
                 .clickable { onTimeClick() }
@@ -75,6 +73,8 @@ internal fun EditTaskTimeRow(
                     vertical = 8.dp
                 )
             ) {
+                val timeContent = time?.format(timeFormat)
+                    ?: stringResource(id = DesignSystemR.string.no)
                 Text(
                     text = timeContent,
                     style = TodoTheme.typography.medium_14,
@@ -84,8 +84,6 @@ internal fun EditTaskTimeRow(
         }
 
         if (time != null) {
-            val reminderContent = reminderTime?.format(timeFormat)
-                ?: stringResource(id = DesignSystemR.string.no)
             Row(
                 modifier = modifier.fillMaxWidth()
                     .clickable { onReminderTimeClick() }
@@ -108,6 +106,8 @@ internal fun EditTaskTimeRow(
                         vertical = 8.dp
                     )
                 ) {
+                    val reminderContent = reminderTime?.format(timeFormat)
+                        ?: stringResource(id = DesignSystemR.string.no)
                     Text(
                         text = reminderContent,
                         style = TodoTheme.typography.medium_14,

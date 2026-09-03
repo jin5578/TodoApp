@@ -3,7 +3,7 @@ package com.example.calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.calendar.model.CalendarUiState
-import com.example.domain.DeleteTaskUseCase
+import com.example.domain.DeleteTaskByTaskUseCase
 import com.example.domain.GetCalendarDataUseCase
 import com.example.domain.GetTaskByIdUseCase
 import com.example.domain.UpdateTaskUseCase
@@ -23,7 +23,7 @@ class CalendarViewModel @Inject constructor(
     private val getCalendarDataUseCase: GetCalendarDataUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
-    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val deleteTaskByTaskUseCase: DeleteTaskByTaskUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -63,6 +63,6 @@ class CalendarViewModel @Inject constructor(
     fun deleteTask(taskId: Long) =
         viewModelScope.launch {
             val task = getTaskByIdUseCase(id = taskId)
-            deleteTaskUseCase(task = task)
+            deleteTaskByTaskUseCase(task = task)
         }
 }

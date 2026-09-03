@@ -2,7 +2,7 @@ package com.example.tasks
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.DeleteTaskUseCase
+import com.example.domain.DeleteTaskByTaskUseCase
 import com.example.domain.GetAllTaskUseCase
 import com.example.domain.GetTaskByIdUseCase
 import com.example.domain.GetTasksByDateRangeUseCase
@@ -30,7 +30,7 @@ class TasksViewModel @Inject constructor(
     private val getAllTaskUseCase: GetAllTaskUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
-    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val deleteTaskByTaskUseCase: DeleteTaskByTaskUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -114,6 +114,6 @@ class TasksViewModel @Inject constructor(
     fun deleteTask(taskId: Long) =
         viewModelScope.launch {
             val task = getTaskByIdUseCase(id = taskId)
-            deleteTaskUseCase(task = task)
+            deleteTaskByTaskUseCase(task = task)
         }
 }

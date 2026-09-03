@@ -26,8 +26,8 @@ import com.example.design_system.R as DesignSystemR
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun EditTaskTopAppBar(
-    popBackStack: () -> Unit,
     modifier: Modifier = Modifier,
+    popBackStack: () -> Unit,
     isCompleted: Boolean,
     onCompletedChanged: (isCompleted: Boolean) -> Unit,
     onDeleteClick: () -> Unit,
@@ -38,9 +38,7 @@ internal fun EditTaskTopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background
         ),
-        title = {
-
-        },
+        title = {},
         navigationIcon = {
             IconButton(onClick = popBackStack) {
                 Icon(
@@ -58,7 +56,7 @@ internal fun EditTaskTopAppBar(
                 }
             ) {
                 Icon(
-                    modifier = Modifier.size(size = 20.dp),
+                    modifier = modifier.size(size = 20.dp),
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_menu_dots),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onBackground

@@ -2,17 +2,14 @@ package com.example.edit_task
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.DeleteTaskUseCase
+import com.example.domain.DeleteTaskByIdUseCase
 import com.example.domain.GetEditTaskDataUseCase
-import com.example.domain.GetTaskByIdUseCase
 import com.example.domain.UpdateTaskCategoryUseCase
 import com.example.domain.UpdateTaskCompletedUseCase
 import com.example.domain.UpdateTaskDateTimeUseCase
 import com.example.domain.UpdateTaskTitleUseCase
-import com.example.domain.UpdateTaskUseCase
 import com.example.edit_task.model.EditTaskUiEffect
 import com.example.edit_task.model.EditTaskUiState
-import com.example.model.Task
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.FlowPreview
@@ -37,13 +34,11 @@ import javax.inject.Inject
 @HiltViewModel
 class EditTaskViewModel @Inject constructor(
     private val getEditTaskDataUseCase: GetEditTaskDataUseCase,
-    private val updateTaskUseCase: UpdateTaskUseCase,
     private val updateTaskCategoryUseCase: UpdateTaskCategoryUseCase,
     private val updateTaskTitleUseCase: UpdateTaskTitleUseCase,
     private val updateTaskDateTimeUseCase: UpdateTaskDateTimeUseCase,
     private val updateTaskCompletedUseCase: UpdateTaskCompletedUseCase,
-    private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val deleteTaskByIdUseCase: DeleteTaskByIdUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -92,14 +87,6 @@ class EditTaskViewModel @Inject constructor(
         }
     }
 
-    fun updateTask(task: Task) =
-        viewModelScope.launch {
-            updateTaskUseCase(task = task)
-            _uiEffect.emit(
-                value = EditTaskUiEffect.SuccessEditTask
-            )
-        }
-
     fun updateCategory(taskId: Long, categoryId: Long) =
         viewModelScope.launch {
             updateTaskCategoryUseCase(taskId = taskId, categoryId = categoryId)
@@ -130,11 +117,10 @@ class EditTaskViewModel @Inject constructor(
             )
         }
 
-    fun deleteTask(taskId: Long) =
+    fun deleteTask(taskId: Long, uuid: String) =
         viewModelScope.launch {
             fetchEditTaskJob?.cancelAndJoin()
-            val task = getTaskByIdUseCase(id = taskId)
-            deleteTaskUseCase(task = task)
+            deleteTaskByIdUseCase(id = taskId, uuid = uuid)
             _uiEffect.emit(
                 value = EditTaskUiEffect.SuccessDeleteTask
             )

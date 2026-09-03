@@ -3,14 +3,12 @@ package com.example.edit_task
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.Loading
 import com.example.edit_task.model.EditTaskUiEffect
 import com.example.edit_task.model.EditTaskUiState
-import com.example.model.Task
 import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -28,13 +26,6 @@ internal fun EditTaskRoute(
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
-    val context = LocalContext.current
-
-    val editTaskSuccessMessage =
-        stringResource(id = DesignSystemR.string.successfully_updated_the_schedule)
-    val deleteTaskSuccessMessage =
-        stringResource(id = DesignSystemR.string.successfully_deleted_the_schedule)
-
     LaunchedEffect(key1 = taskId) {
         viewModel.fetchEditTask(taskId = taskId)
     }
@@ -45,12 +36,12 @@ internal fun EditTaskRoute(
         }
     }
 
+    val deleteTaskSuccessMessage =
+        stringResource(id = DesignSystemR.string.successfully_deleted_the_schedule)
+
     LaunchedEffect(key1 = Unit) {
         viewModel.uiEffect.collectLatest { uiEffect ->
-            if (uiEffect is EditTaskUiEffect.SuccessEditTask) {
-                onShowMessageSnackbar(editTaskSuccessMessage)
-                popBackStack()
-            } else if (uiEffect is EditTaskUiEffect.SuccessDeleteTask) {
+            if (uiEffect is EditTaskUiEffect.SuccessDeleteTask) {
                 onShowMessageSnackbar(deleteTaskSuccessMessage)
                 popBackStack()
             }
@@ -62,7 +53,6 @@ internal fun EditTaskRoute(
         popBackStack = popBackStack,
         navigateManageCategories = navigateManageCategories,
         navigateMemo = navigateMemo,
-        onUpdateTaskClick = viewModel::updateTask,
         categoryUpdate = viewModel::updateCategory,
         titleUpdate = viewModel::updateTitle,
         dateTimeUpdate = viewModel::updateDateTime,
@@ -78,12 +68,11 @@ private fun EditTaskContent(
     popBackStack: () -> Unit,
     navigateManageCategories: () -> Unit,
     navigateMemo: (Long) -> Unit,
-    onUpdateTaskClick: (Task) -> Unit,
     categoryUpdate: (taskId: Long, categoryId: Long) -> Unit,
     titleUpdate: (taskId: Long, title: String) -> Unit,
     dateTimeUpdate: (taskId: Long, date: LocalDate, time: LocalDateTime?, reminderTime: LocalDateTime?) -> Unit,
     completedUpdate: (taskId: Long, isCompleted: Boolean) -> Unit,
-    taskDelete: (Long) -> Unit,
+    taskDelete: (id: Long, uuid: String) -> Unit,
     onShowMessageSnackbar: (String) -> Unit
 ) {
     when (uiState) {
@@ -91,13 +80,13 @@ private fun EditTaskContent(
             Loading()
 
         is EditTaskUiState.Screen ->
-            EditTaskRefScreen(
+            EditTaskScreen(
                 popBackStack = popBackStack,
+                navigateManageCategories = navigateManageCategories,
+                navigateMemo = navigateMemo,
                 categories = uiState.categories,
                 task = uiState.task,
                 locale = uiState.locale,
-                navigateManageCategories = navigateManageCategories,
-                navigateMemo = navigateMemo,
                 onCategoryClick = categoryUpdate,
                 onTitleValueChanged = titleUpdate,
                 onDateTimeChanged = dateTimeUpdate,

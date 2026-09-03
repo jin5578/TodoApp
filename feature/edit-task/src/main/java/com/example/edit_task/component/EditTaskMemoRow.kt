@@ -71,9 +71,9 @@ internal fun EditTaskMemoRow(
                 style = TodoTheme.typography.regular_12,
                 color = MaterialTheme.colorScheme.onBackground
             )
-        }
 
-        Spacer(modifier = Modifier.height(height = 4.dp))
+            Spacer(modifier = Modifier.height(height = 4.dp))
+        }
 
         if (memoContent.isNotEmpty()) {
             Text(
