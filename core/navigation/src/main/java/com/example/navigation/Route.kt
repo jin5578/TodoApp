@@ -13,11 +13,6 @@ sealed interface Route {
     data object ManageCategories : Route
 
     @Serializable
-    data class AddTask(
-        val date: String,
-    ) : Route
-
-    @Serializable
     data class EditTask(
         val taskId: Long
     ) : Route

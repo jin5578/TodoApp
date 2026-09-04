@@ -9,7 +9,6 @@ import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.add_task.navigation.navigateAddTask
 import com.example.calendar.navigation.navigateCalendar
 import com.example.edit_task.navigation.navigateEditTask
 import com.example.home.navigation.navigateHome
@@ -20,7 +19,6 @@ import com.example.navigation.Route
 import com.example.security.navigation.navigateSecurity
 import com.example.setting.navigation.navigateSetting
 import com.example.tasks.navigation.navigateTasks
-import java.time.LocalDate
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -36,9 +34,6 @@ internal class MainNavigator(
 
     fun navigateSetting() =
         navController.navigateSetting()
-
-    fun navigateAddTask(date: LocalDate = LocalDate.now()) =
-        navController.navigateAddTask(date = date)
 
     fun navigateEditTask(taskId: Long) =
         navController.navigateEditTask(taskId = taskId)

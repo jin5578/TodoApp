@@ -37,7 +37,6 @@ include(
     ":core:utils"
 )
 include(
-    ":feature:add-task",
     ":feature:calendar",
     ":feature:edit-task",
     ":feature:home",

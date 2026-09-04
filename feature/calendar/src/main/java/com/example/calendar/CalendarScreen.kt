@@ -30,7 +30,6 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -63,7 +62,6 @@ internal fun CalendarScreen(
     tasks: ImmutableList<Task>,
     categories: ImmutableList<Category>,
     locale: Locale,
-    navigateAddTask: (LocalDate) -> Unit,
     navigateEditTask: (Long) -> Unit,
     popBackStack: () -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
@@ -149,7 +147,7 @@ internal fun CalendarScreen(
             FloatingActionButton(
                 containerColor = MaterialTheme.colorScheme.secondaryContainer,
                 contentColor = MaterialTheme.colorScheme.onSecondaryContainer,
-                onClick = { navigateAddTask(selectedDay) },
+                onClick = { },
             ) {
                 Icon(
                     modifier = Modifier.size(size = 32.dp),
@@ -220,7 +218,6 @@ private fun CalendarScreenPreview() {
             tasks = persistentListOf(),
             categories = persistentListOf(),
             locale = Locale.KOREA,
-            navigateAddTask = {},
             navigateEditTask = {},
             popBackStack = {},
             onTaskToggleCompletion = { _, _ -> },

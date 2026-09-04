@@ -13,7 +13,6 @@ import java.time.LocalDate
 @Composable
 internal fun CalendarRoute(
     viewModel: CalendarViewModel = hiltViewModel(),
-    navigateAddTask: (LocalDate) -> Unit,
     navigateEditTask: (Long) -> Unit,
     popBackStack: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
@@ -28,7 +27,6 @@ internal fun CalendarRoute(
 
     CalendarContent(
         uiState = uiState,
-        navigateAddTask = navigateAddTask,
         navigateEditTask = navigateEditTask,
         popBackStack = popBackStack,
         onTaskToggleCompletion = viewModel::toggleTaskCompletion,
@@ -39,7 +37,6 @@ internal fun CalendarRoute(
 @Composable
 private fun CalendarContent(
     uiState: CalendarUiState,
-    navigateAddTask: (LocalDate) -> Unit,
     navigateEditTask: (Long) -> Unit,
     popBackStack: () -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
@@ -51,7 +48,6 @@ private fun CalendarContent(
             tasks = uiState.tasks,
             categories = uiState.categories,
             locale = uiState.locale,
-            navigateAddTask = navigateAddTask,
             navigateEditTask = navigateEditTask,
             popBackStack = popBackStack,
             onTaskToggleCompletion = onTaskToggleCompletion,
