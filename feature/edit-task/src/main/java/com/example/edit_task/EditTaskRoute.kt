@@ -9,6 +9,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.Loading
 import com.example.edit_task.model.EditTaskUiEffect
 import com.example.edit_task.model.EditTaskUiState
+import com.example.model.SubTask
 import kotlinx.coroutines.flow.collectLatest
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -58,6 +59,7 @@ internal fun EditTaskRoute(
         dateTimeUpdate = viewModel::updateDateTime,
         completedUpdate = viewModel::updateCompleted,
         taskDelete = viewModel::deleteTask,
+        subTasksSync = viewModel::syncSubTasks,
         onShowMessageSnackbar = onShowMessageSnackbar
     )
 }
@@ -73,6 +75,7 @@ private fun EditTaskContent(
     dateTimeUpdate: (taskId: Long, date: LocalDate, time: LocalDateTime?, reminderTime: LocalDateTime?) -> Unit,
     completedUpdate: (taskId: Long, isCompleted: Boolean) -> Unit,
     taskDelete: (id: Long, uuid: String) -> Unit,
+    subTasksSync: (parentId: Long, List<SubTask>) -> Unit,
     onShowMessageSnackbar: (String) -> Unit
 ) {
     when (uiState) {
@@ -86,12 +89,14 @@ private fun EditTaskContent(
                 navigateMemo = navigateMemo,
                 categories = uiState.categories,
                 task = uiState.task,
+                subTasks = uiState.subTasks,
                 locale = uiState.locale,
                 onCategoryClick = categoryUpdate,
                 onTitleValueChanged = titleUpdate,
                 onDateTimeChanged = dateTimeUpdate,
                 onCompletedChanged = completedUpdate,
                 onDeleteClick = taskDelete,
+                onSubTasksSync = subTasksSync,
                 onShowMessageSnackbar = onShowMessageSnackbar
             )
     }

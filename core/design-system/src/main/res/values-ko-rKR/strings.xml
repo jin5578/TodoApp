@@ -131,4 +131,6 @@
     <string name="content">내용</string>
     <string name="mark_as_done">완료로 표시</string>
     <string name="mark_as_undone">실행 취소로 표시</string>
+    <string name="add_subtask">하위 작업 추가</string>
+    <string name="input_the_subtask">하위 작업을 입력하세요</string>
 </resources>

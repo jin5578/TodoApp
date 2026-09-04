@@ -4,12 +4,15 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.DeleteTaskByIdUseCase
 import com.example.domain.GetEditTaskDataUseCase
+import com.example.domain.SyncSubTasksUseCase
+import com.example.domain.UpdateSubTaskCompletedUseCase
 import com.example.domain.UpdateTaskCategoryUseCase
 import com.example.domain.UpdateTaskCompletedUseCase
 import com.example.domain.UpdateTaskDateTimeUseCase
 import com.example.domain.UpdateTaskTitleUseCase
 import com.example.edit_task.model.EditTaskUiEffect
 import com.example.edit_task.model.EditTaskUiState
+import com.example.model.SubTask
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.FlowPreview
@@ -26,6 +29,7 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -39,6 +43,7 @@ class EditTaskViewModel @Inject constructor(
     private val updateTaskDateTimeUseCase: UpdateTaskDateTimeUseCase,
     private val updateTaskCompletedUseCase: UpdateTaskCompletedUseCase,
     private val deleteTaskByIdUseCase: DeleteTaskByIdUseCase,
+    private val syncSubTasksUseCase: SyncSubTasksUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -75,6 +80,7 @@ class EditTaskViewModel @Inject constructor(
                 val editTaskSystem = editTask.editTaskSystem
                 EditTaskUiState.Screen(
                     task = editTask.task,
+                    subTasks = editTask.subTasks.toPersistentList(),
                     locale = editTaskSystem.locale,
                     timePickerType = editTaskSystem.timePickerType,
                     categories = editTask.categories.toPersistentList()
@@ -124,5 +130,10 @@ class EditTaskViewModel @Inject constructor(
             _uiEffect.emit(
                 value = EditTaskUiEffect.SuccessDeleteTask
             )
+        }
+
+    fun syncSubTasks(parentId: Long, subTasks: List<SubTask>) =
+        viewModelScope.launch {
+            syncSubTasksUseCase(parentId = parentId, subTasks = subTasks)
         }
 }

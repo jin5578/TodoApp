@@ -131,4 +131,6 @@
     <string name="content">Content</string>
     <string name="mark_as_done">Mark as Done</string>
     <string name="mark_as_undone">Mark as Undone</string>
+    <string name="add_subtask">Add Subtask</string>
+    <string name="input_the_subtask">Input the subtask</string>
 </resources>

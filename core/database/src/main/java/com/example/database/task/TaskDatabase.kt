@@ -7,7 +7,11 @@ import com.example.database.utils.LocalDateConverter
 import com.example.database.utils.LocalDateTimeConverter
 import com.example.database.utils.LocalTimeConverter
 
-@Database(entities = [TaskEntity::class], version = 1, exportSchema = false)
+@Database(
+    entities = [TaskEntity::class, SubTaskEntity::class],
+    version = 2,
+    exportSchema = false
+)
 @TypeConverters(
     LocalTimeConverter::class,
     LocalDateConverter::class,
@@ -15,4 +19,5 @@ import com.example.database.utils.LocalTimeConverter
 )
 abstract class TaskDatabase : RoomDatabase() {
     abstract fun taskDao(): TaskDao
+    abstract fun subTaskDao(): SubTaskDao
 }

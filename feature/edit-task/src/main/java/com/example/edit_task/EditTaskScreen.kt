@@ -3,6 +3,8 @@ package com.example.edit_task
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.MaterialTheme
@@ -22,11 +24,13 @@ import com.example.design_system.theme.TodoTheme
 import com.example.edit_task.component.EditTaskCategoryChip
 import com.example.edit_task.component.EditTaskDateRow
 import com.example.edit_task.component.EditTaskMemoRow
+import com.example.edit_task.component.EditTaskSubTask
 import com.example.edit_task.component.EditTaskTimeRow
 import com.example.edit_task.component.EditTaskTitleTextField
 import com.example.edit_task.component.EditTaskTopAppBar
 import com.example.model.Category
 import com.example.model.PriorityType
+import com.example.model.SubTask
 import com.example.model.Task
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -43,14 +47,18 @@ internal fun EditTaskScreen(
     navigateMemo: (Long) -> Unit,
     categories: ImmutableList<Category>,
     task: Task,
+    subTasks: ImmutableList<SubTask>,
     locale: Locale,
     onCategoryClick: (taskId: Long, categoryId: Long) -> Unit,
     onTitleValueChanged: (taskId: Long, title: String) -> Unit,
     onDateTimeChanged: (taskId: Long, date: LocalDate, time: LocalDateTime?, reminderTime: LocalDateTime?) -> Unit,
     onCompletedChanged: (taskId: Long, isCompleted: Boolean) -> Unit,
     onDeleteClick: (id: Long, uuid: String) -> Unit,
+    onSubTasksSync: (parentId: Long, List<SubTask>) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) {
+    val scrollState = rememberScrollState()
+
     var isShowCalendarDialog by remember { mutableStateOf(value = false) }
     var isShowTimePickerDialog by remember { mutableStateOf(value = false) }
     var isShowReminderDialog by remember { mutableStateOf(value = false) }
@@ -122,7 +130,10 @@ internal fun EditTaskScreen(
             )
         }
 
-        Column(modifier = modifier.padding(paddingValues = paddingValues)) {
+        Column(
+            modifier = modifier.padding(paddingValues = paddingValues)
+                .verticalScroll(state = scrollState)
+        ) {
             EditTaskCategoryChip(
                 categories = categories,
                 taskCategoryId = task.categoryId,
@@ -145,6 +156,17 @@ internal fun EditTaskScreen(
                     taskTitle = title
                     onTitleValueChanged(task.id, title)
                 }
+            )
+
+            EditTaskSubTask(
+                subTasks = subTasks,
+                parentId = task.id,
+                onSubTasksSync = onSubTasksSync,
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.surfaceDim
             )
 
             EditTaskDateRow(
@@ -209,6 +231,7 @@ private fun EditTaskScreenPreview() {
             popBackStack = {},
             categories = persistentListOf(),
             task = task,
+            subTasks = persistentListOf(),
             locale = Locale.KOREA,
             navigateManageCategories = {},
             navigateMemo = {},
@@ -217,6 +240,7 @@ private fun EditTaskScreenPreview() {
             onDateTimeChanged = { _, _, _, _ -> },
             onCompletedChanged = { _, _ -> },
             onDeleteClick = { _, _ -> },
+            onSubTasksSync = { _, _ -> },
             onShowMessageSnackbar = {}
         )
     }
