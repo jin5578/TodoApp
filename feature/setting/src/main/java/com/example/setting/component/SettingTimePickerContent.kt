@@ -44,7 +44,7 @@ internal fun SettingTimePickerContent(
         Text(
             text = stringResource(id = DesignSystemR.string.choose_time_picker_style),
             style = TodoTheme.typography.bold_20,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Row(
@@ -98,7 +98,7 @@ private fun SettingTimePickerItem(
                 style = TodoTheme.typography.medium_16,
                 color =
                     if (isSelected) MaterialTheme.colorScheme.onPrimary
-                    else MaterialTheme.colorScheme.onSurface
+                    else MaterialTheme.colorScheme.onBackground
             )
         }
 

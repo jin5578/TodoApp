@@ -56,7 +56,7 @@ private fun ForgotPasswordDialogContent(
             Text(
                 text = stringResource(id = DesignSystemR.string.forgot_password_dialog_title),
                 style = TodoTheme.typography.bold_20,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             Text(

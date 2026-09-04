@@ -206,7 +206,7 @@ internal fun TaskCard(
                         Text(
                             text = stringResource(id = DesignSystemR.string.marked_with_a_symbol),
                             style = TodoTheme.typography.medium_12,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onBackground
                         )
 
                         Text(

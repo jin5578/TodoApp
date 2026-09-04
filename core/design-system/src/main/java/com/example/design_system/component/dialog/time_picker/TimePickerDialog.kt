@@ -232,7 +232,7 @@ private fun TimeOptionItem(
         Text(
             text = stringResource(id = timeOption.resId),
             style = TodoTheme.typography.medium_12,
-            color = if (isClicked) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+            color = if (isClicked) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onBackground,
         )
     }
 }

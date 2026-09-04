@@ -36,15 +36,15 @@ internal fun TaskTitleTextField(
             unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
             unfocusedIndicatorColor = Color.Transparent,
             disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-            focusedTextColor = MaterialTheme.colorScheme.onSurface,
-            cursorColor = MaterialTheme.colorScheme.onSurface,
+            focusedTextColor = MaterialTheme.colorScheme.onBackground,
+            cursorColor = MaterialTheme.colorScheme.onBackground,
         ),
         textStyle = TodoTheme.typography.medium_16,
         onValueChange = onValueChange,
         placeholder = {
             Text(
                 text = stringResource(id = DesignSystemR.string.please_enter_what_you_need_to_do),
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onBackground,
                 style = TodoTheme.typography.medium_16,
             )
         },

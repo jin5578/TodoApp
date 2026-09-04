@@ -86,9 +86,9 @@ internal fun EditTaskSubTask(
                     draftSubTasks =
                         draftSubTasks.plus(subTask).toImmutableList()
                 }
-                .padding(horizontal = 34.dp, vertical = 24.dp),
+                .padding(horizontal = 26.dp, vertical = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(space = 20.dp)
+            horizontalArrangement = Arrangement.spacedBy(space = 17.dp)
         ) {
             Icon(
                 modifier = Modifier.size(size = 16.dp),
@@ -121,7 +121,7 @@ private fun EditTaskSubTaskItem(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         IconButton(
-            modifier = Modifier.size(size = 32.dp),
+            modifier = Modifier.size(size = 18.dp),
             onClick = {
                 val updatedSubTask =
                     subTask.copy(isCompleted = !subTask.isCompleted)
@@ -133,14 +133,14 @@ private fun EditTaskSubTaskItem(
                     modifier = Modifier.size(18.dp),
                     painter = painterResource(id = R.drawable.svg_check_circle),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    tint = MaterialTheme.colorScheme.primary
                 )
             } else {
                 Box(
                     modifier = Modifier.size(size = 17.dp)
                         .border(
                             width = 2.dp,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            color = MaterialTheme.colorScheme.onBackground,
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center,
@@ -196,7 +196,7 @@ private fun EditTaskSubTaskItem(
                     modifier = Modifier.size(20.dp),
                     painter = painterResource(id = R.drawable.svg_cross_small),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         }

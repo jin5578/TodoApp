@@ -51,13 +51,13 @@ fun CategoryDropdownMenu(
                         modifier = Modifier.size(size = 12.dp),
                         imageVector = ImageVector.vectorResource(id = R.drawable.svg_plus_small),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onSurface
+                        tint = MaterialTheme.colorScheme.onBackground
                     )
 
                     Text(
                         text = stringResource(id = R.string.create_new),
                         style = TodoTheme.typography.medium_12,
-                        color = MaterialTheme.colorScheme.onSurface
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
             },

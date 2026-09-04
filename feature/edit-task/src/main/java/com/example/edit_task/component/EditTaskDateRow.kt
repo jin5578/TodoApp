@@ -70,7 +70,7 @@ internal fun EditTaskDateRow(
             Text(
                 text = dateContent,
                 style = TodoTheme.typography.medium_16,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
     }

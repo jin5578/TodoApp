@@ -52,7 +52,7 @@ fun MonthDay(
             .background(backgroundColor)
             .border(
                 width = borderWidth,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onBackground,
                 shape = RoundedCornerShape(size = 8.dp)
             )
             .clickable {

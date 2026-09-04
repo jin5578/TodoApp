@@ -78,7 +78,7 @@ internal fun EditTaskTimeRow(
                 Text(
                     text = timeContent,
                     style = TodoTheme.typography.medium_16,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }
@@ -111,7 +111,7 @@ internal fun EditTaskTimeRow(
                     Text(
                         text = reminderContent,
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
             }

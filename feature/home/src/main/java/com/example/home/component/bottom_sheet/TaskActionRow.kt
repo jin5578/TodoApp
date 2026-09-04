@@ -136,7 +136,7 @@ internal fun TaskActionRow(
                 modifier = Modifier.size(size = 20.dp),
                 imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_paper_plane),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSurface
+                tint = MaterialTheme.colorScheme.onBackground
             )
         }
     }

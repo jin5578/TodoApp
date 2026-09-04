@@ -83,13 +83,13 @@ fun DatePickerDialog(
                     Text(
                         text = stringResource(id = R.string.calendar),
                         style = TodoTheme.typography.bold_20,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
 
                     Text(
                         text = selectedDay.format(dateFormat),
                         style = TodoTheme.typography.bold_16,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
 
@@ -125,7 +125,7 @@ fun DatePickerDialog(
                                 .padding(all = 8.dp),
                             imageVector = ImageVector.vectorResource(id = R.drawable.svg_calendar_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
 
                         Icon(
@@ -142,7 +142,7 @@ fun DatePickerDialog(
                                 }.padding(all = 8.dp),
                             imageVector = ImageVector.vectorResource(id = R.drawable.svg_calendar_arrow_right),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
 
@@ -175,7 +175,7 @@ fun DatePickerDialog(
                             },
                         text = stringResource(id = R.string.done),
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
             }

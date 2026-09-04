@@ -44,13 +44,10 @@ internal fun EditTaskCategoryChip(
                     onOpenClick()
                 }
                 .background(
-                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    color = MaterialTheme.colorScheme.surfaceContainer,
                     shape = RoundedCornerShape(size = 16.dp)
                 )
-                .padding(
-                    horizontal = 12.dp,
-                    vertical = 8.dp,
-                )
+                .padding(all = 8.dp)
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -60,13 +57,13 @@ internal fun EditTaskCategoryChip(
                     text = categories.firstOrNull { it.id == taskCategoryId }?.title
                         ?: stringResource(id = DesignSystemR.string.no_category),
                     style = TodoTheme.typography.medium_12,
-                    color = MaterialTheme.colorScheme.onSecondaryContainer
+                    color = MaterialTheme.colorScheme.onBackground
                 )
                 Icon(
                     modifier = Modifier.size(size = 8.dp),
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_down),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSurface
+                    tint = MaterialTheme.colorScheme.onBackground
                 )
             }
         }

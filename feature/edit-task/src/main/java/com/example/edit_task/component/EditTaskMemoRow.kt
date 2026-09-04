@@ -62,20 +62,20 @@ internal fun EditTaskMemoRow(
             )
         }
 
-        Spacer(modifier = Modifier.height(height = 8.dp))
-
         if (memoTitle.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(height = 8.dp))
+
             Text(
                 modifier = Modifier.padding(start = 24.dp, end = 30.dp),
                 text = memoTitle,
                 style = TodoTheme.typography.regular_12,
                 color = MaterialTheme.colorScheme.onBackground
             )
-
-            Spacer(modifier = Modifier.height(height = 4.dp))
         }
 
         if (memoContent.isNotEmpty()) {
+            Spacer(modifier = Modifier.height(height = 4.dp))
+
             Text(
                 modifier = Modifier.padding(start = 24.dp, end = 30.dp),
                 text = memoContent,

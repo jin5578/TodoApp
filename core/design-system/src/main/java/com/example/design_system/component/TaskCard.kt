@@ -253,7 +253,7 @@ private fun CategoryInfo(
         Text(
             text = title,
             style = TodoTheme.typography.regular_12,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 }

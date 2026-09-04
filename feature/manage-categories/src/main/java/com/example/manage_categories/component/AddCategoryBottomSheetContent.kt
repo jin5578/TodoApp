@@ -64,7 +64,7 @@ internal fun AddCategoryBottomSheetContent(
         Text(
             text = stringResource(id = DesignSystemR.string.new_category),
             style = TodoTheme.typography.bold_20,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         TextField(
@@ -79,15 +79,15 @@ internal fun AddCategoryBottomSheetContent(
                 unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
                 unfocusedIndicatorColor = Color.Transparent,
                 disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
-                focusedTextColor = MaterialTheme.colorScheme.onSurface,
-                cursorColor = MaterialTheme.colorScheme.onSurface,
+                focusedTextColor = MaterialTheme.colorScheme.onBackground,
+                cursorColor = MaterialTheme.colorScheme.onBackground,
             ),
             textStyle = TodoTheme.typography.medium_16,
             onValueChange = { categoryTitle = it },
             placeholder = {
                 Text(
                     text = stringResource(id = DesignSystemR.string.please_enter_the_category_you_want_to_add),
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onBackground,
                     style = TodoTheme.typography.medium_16,
                 )
             },

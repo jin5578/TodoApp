@@ -55,7 +55,7 @@ internal fun TaskActionCategoryItem(
             text = categories.firstOrNull { it.id == taskCategory }?.title
                 ?: stringResource(id = DesignSystemR.string.no_category),
             style = TodoTheme.typography.medium_12,
-            color = MaterialTheme.colorScheme.onSurface
+            color = MaterialTheme.colorScheme.onBackground
         )
     }
 
@@ -84,13 +84,13 @@ internal fun TaskActionItem(
             modifier = Modifier.size(size = 20.dp),
             imageVector = ImageVector.vectorResource(id = iconResId),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSurface
+            tint = MaterialTheme.colorScheme.onBackground
         )
 
         Text(
             text = title,
             style = TodoTheme.typography.medium_12,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }

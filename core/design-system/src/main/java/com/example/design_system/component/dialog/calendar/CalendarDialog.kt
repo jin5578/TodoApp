@@ -336,7 +336,9 @@ private fun DateOptionItem(
 ) {
     Box(
         modifier = modifier.background(
-            color = if (isClicked) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceContainer,
+            color =
+                if (isClicked) MaterialTheme.colorScheme.secondaryContainer
+                else MaterialTheme.colorScheme.surfaceContainer,
             shape = RoundedCornerShape(size = 8.dp)
         ).clickable {
             onClick(dateOption.date)
@@ -347,7 +349,9 @@ private fun DateOptionItem(
         Text(
             text = stringResource(id = dateOption.resId),
             style = TodoTheme.typography.medium_12,
-            color = if (isClicked) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
+            color =
+                if (isClicked) MaterialTheme.colorScheme.onSecondaryContainer
+                else MaterialTheme.colorScheme.onBackground,
         )
     }
 }
@@ -389,14 +393,14 @@ private fun CalendarActionRow(
                 color = MaterialTheme.colorScheme.surfaceContainer,
                 shape = RoundedCornerShape(size = 8.dp)
             ).padding(
-                horizontal = 12.dp,
+                horizontal = 8.dp,
                 vertical = 8.dp
             )
         ) {
             Text(
                 text = content,
                 style = TodoTheme.typography.medium_16,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
     }

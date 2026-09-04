@@ -46,7 +46,7 @@ fun SortTaskDialog(
                 modifier = Modifier.padding(all = 20.dp),
                 text = stringResource(id = R.string.sort_tasks_by),
                 style = TodoTheme.typography.bold_20,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onBackground
             )
 
             SortTaskType.entries.forEach { type ->
@@ -65,7 +65,7 @@ fun SortTaskDialog(
                     .align(alignment = Alignment.End),
                 text = stringResource(id = R.string.select),
                 style = TodoTheme.typography.medium_16,
-                color = MaterialTheme.colorScheme.onSurface
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }
@@ -90,7 +90,7 @@ private fun CustomRadioButton(
         Text(
             text = label,
             style = TodoTheme.typography.medium_16,
-            color = MaterialTheme.colorScheme.onSurface,
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }

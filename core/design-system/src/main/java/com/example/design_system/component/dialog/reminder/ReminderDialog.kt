@@ -24,6 +24,7 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -31,6 +32,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.example.design_system.R
 import com.example.design_system.theme.TodoTheme
 import com.example.model.ReminderOption
 import kotlinx.collections.immutable.persistentListOf
@@ -168,27 +170,29 @@ private fun ReminderOptionItem(
         ) {
             if (isClicked) {
                 Icon(
-                    modifier = Modifier.size(size = 21.dp),
-                    imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_check_circle),
+                    modifier = Modifier.size(18.dp),
+                    painter = painterResource(id = R.drawable.svg_check_circle),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             } else {
                 Box(
-                    modifier = Modifier.size(size = 20.dp)
+                    modifier = Modifier.size(size = 17.dp)
                         .border(
                             width = 2.dp,
-                            color = MaterialTheme.colorScheme.outline,
+                            color = MaterialTheme.colorScheme.onPrimaryContainer,
                             shape = CircleShape
-                        )
+                        ),
+                    contentAlignment = Alignment.Center,
+                    content = {}
                 )
             }
         }
 
         Text(
             text = stringResource(id = reminderOption.resId),
-            style = TodoTheme.typography.medium_12,
-            color = MaterialTheme.colorScheme.onSurface,
+            style = TodoTheme.typography.medium_16,
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }

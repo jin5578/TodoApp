@@ -56,7 +56,7 @@ internal fun EditTaskTopAppBar(
                 }
             ) {
                 Icon(
-                    modifier = modifier.size(size = 20.dp),
+                    modifier = modifier.size(size = 18.dp),
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_menu_dots),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onBackground

@@ -74,7 +74,7 @@ fun ClockTimePickerDialog(
                         },
                     text = stringResource(id = R.string.done),
                     style = TodoTheme.typography.medium_16,
-                    color = MaterialTheme.colorScheme.onSurface
+                    color = MaterialTheme.colorScheme.onBackground
                 )
             }
         }
