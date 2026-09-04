@@ -41,7 +41,7 @@ fun InputTaskTitle(
     ) {
         Text(
             text = stringResource(id = R.string.title),
-            style = TodoTheme.typography.bold_18,
+            style = TodoTheme.typography.bold_16,
             color = MaterialTheme.colorScheme.onBackground
         )
         TextField(
@@ -63,13 +63,13 @@ fun InputTaskTitle(
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,
                 cursorColor = MaterialTheme.colorScheme.onSurface,
             ),
-            textStyle = TodoTheme.typography.medium_14,
+            textStyle = TodoTheme.typography.medium_16,
             onValueChange = { onValueChange(it) },
             placeholder = {
                 Text(
                     text = stringResource(id = R.string.please_enter_what_you_need_to_do),
                     color = MaterialTheme.colorScheme.onSurface,
-                    style = TodoTheme.typography.medium_14
+                    style = TodoTheme.typography.medium_16
                 )
             },
             shape = RoundedCornerShape(size = 8.dp),

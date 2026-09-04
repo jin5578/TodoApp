@@ -16,8 +16,8 @@ fun BasicDropdownMenuItem(
         text = {
             Text(
                 text = title,
-                style = TodoTheme.typography.medium_10,
-                color = MaterialTheme.colorScheme.onSurface
+                style = TodoTheme.typography.medium_12,
+                color = MaterialTheme.colorScheme.onBackground
             )
         },
         onClick = onClick

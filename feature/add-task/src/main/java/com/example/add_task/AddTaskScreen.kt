@@ -281,7 +281,7 @@ internal fun AddTaskScreen(
                     Text(
                         modifier = Modifier.padding(all = 8.dp),
                         text = stringResource(id = DesignSystemR.string.add_task),
-                        style = TodoTheme.typography.bold_14
+                        style = TodoTheme.typography.medium_16
                     )
                 }
             }

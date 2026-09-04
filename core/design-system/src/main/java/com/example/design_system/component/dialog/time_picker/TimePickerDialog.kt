@@ -121,7 +121,7 @@ fun TimePickerDialog(
                 .padding(horizontal = 16.dp),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
+                containerColor = MaterialTheme.colorScheme.background
             )
         ) {
             Column(
@@ -137,7 +137,7 @@ fun TimePickerDialog(
                         .padding(horizontal = 16.dp),
                     text = stringResource(id = DesignSystemR.string.set_time),
                     style = TodoTheme.typography.bold_20,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Start
                 )
 
@@ -221,7 +221,7 @@ private fun TimeOptionItem(
 ) {
     Box(
         modifier = modifier.background(
-            color = if (isClicked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainer,
+            color = if (isClicked) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceContainer,
             shape = RoundedCornerShape(size = 8.dp)
         ).clickable {
             onClick(timeOption.time)
@@ -231,8 +231,8 @@ private fun TimeOptionItem(
     ) {
         Text(
             text = stringResource(id = timeOption.resId),
-            style = TodoTheme.typography.medium_14,
-            color = MaterialTheme.colorScheme.onSurface,
+            style = TodoTheme.typography.medium_12,
+            color = if (isClicked) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
         )
     }
 }

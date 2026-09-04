@@ -41,7 +41,7 @@ internal fun SettingCategory(
         Text(
             modifier = Modifier.padding(horizontal = 20.dp),
             text = stringResource(id = titleResId),
-            style = TodoTheme.typography.bold_18,
+            style = TodoTheme.typography.bold_20,
             color = MaterialTheme.colorScheme.onBackground
         )
 

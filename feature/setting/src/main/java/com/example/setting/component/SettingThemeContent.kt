@@ -49,8 +49,8 @@ internal fun SettingThemeContent(
     ) {
         Text(
             text = stringResource(id = DesignSystemR.string.choose_theme_style),
-            style = TodoTheme.typography.bold_18,
-            color = MaterialTheme.colorScheme.onSurface,
+            style = TodoTheme.typography.bold_20,
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Row(
@@ -101,7 +101,7 @@ private fun SettingThemeItem(
                     vertical = 16.dp,
                 ),
                 text = title,
-                style = TodoTheme.typography.medium_14,
+                style = TodoTheme.typography.medium_16,
                 color = themeColor.textColor
             )
         }

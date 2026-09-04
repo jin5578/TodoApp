@@ -56,14 +56,14 @@ internal fun AddCategoryBottomSheetContent(
 
     Column(
         modifier = modifier.fillMaxWidth()
-            .background(color = MaterialTheme.colorScheme.surface)
+            .background(color = MaterialTheme.colorScheme.background)
             .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(space = 30.dp),
     ) {
         Text(
             text = stringResource(id = DesignSystemR.string.new_category),
-            style = TodoTheme.typography.bold_18,
+            style = TodoTheme.typography.bold_20,
             color = MaterialTheme.colorScheme.onSurface
         )
 
@@ -82,13 +82,13 @@ internal fun AddCategoryBottomSheetContent(
                 focusedTextColor = MaterialTheme.colorScheme.onSurface,
                 cursorColor = MaterialTheme.colorScheme.onSurface,
             ),
-            textStyle = TodoTheme.typography.medium_14,
+            textStyle = TodoTheme.typography.medium_16,
             onValueChange = { categoryTitle = it },
             placeholder = {
                 Text(
                     text = stringResource(id = DesignSystemR.string.please_enter_the_category_you_want_to_add),
                     color = MaterialTheme.colorScheme.onSurface,
-                    style = TodoTheme.typography.medium_14,
+                    style = TodoTheme.typography.medium_16,
                 )
             },
             shape = RoundedCornerShape(size = 8.dp),
@@ -133,7 +133,7 @@ internal fun AddCategoryBottomSheetContent(
                         vertical = 16.dp,
                     ),
                     text = stringResource(id = DesignSystemR.string.cancel),
-                    style = TodoTheme.typography.bold_14,
+                    style = TodoTheme.typography.medium_16,
                     color = MaterialTheme.colorScheme.tertiary,
                 )
             }
@@ -160,7 +160,7 @@ internal fun AddCategoryBottomSheetContent(
                         vertical = 16.dp
                     ),
                     text = stringResource(id = DesignSystemR.string.create),
-                    style = TodoTheme.typography.bold_14,
+                    style = TodoTheme.typography.medium_16,
                     color = MaterialTheme.colorScheme.onPrimary,
                 )
             }

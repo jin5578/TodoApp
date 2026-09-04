@@ -137,7 +137,7 @@ fun CalendarDialog(
                 .padding(horizontal = 16.dp),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
+                containerColor = MaterialTheme.colorScheme.background
             )
         ) {
             Column(
@@ -150,7 +150,7 @@ fun CalendarDialog(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     text = stringResource(id = DesignSystemR.string.due_date),
                     style = TodoTheme.typography.bold_20,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
 
                 Spacer(modifier = Modifier.height(height = 16.dp))
@@ -185,8 +185,8 @@ fun CalendarDialog(
                                 )
                             )
                         },
-                        style = TodoTheme.typography.medium_18,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        style = TodoTheme.typography.bold_16,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
 
                     Spacer(modifier = Modifier.width(width = 16.dp))
@@ -250,9 +250,9 @@ fun CalendarDialog(
                     ?: stringResource(id = DesignSystemR.string.no)
                 CalendarActionRow(
                     iconResId = DesignSystemR.drawable.svg_clock,
-                    iconColor = MaterialTheme.colorScheme.onSurface,
+                    iconColor = MaterialTheme.colorScheme.onBackground,
                     titleResId = DesignSystemR.string.time,
-                    titleColor = MaterialTheme.colorScheme.onSurface,
+                    titleColor = MaterialTheme.colorScheme.onBackground,
                     content = timeContent,
                     enabled = true,
                     onClick = onTimeClick
@@ -262,9 +262,9 @@ fun CalendarDialog(
                     ?: stringResource(id = DesignSystemR.string.no)
                 CalendarActionRow(
                     iconResId = DesignSystemR.drawable.svg_reminder,
-                    iconColor = MaterialTheme.colorScheme.onSurface,
+                    iconColor = MaterialTheme.colorScheme.onBackground,
                     titleResId = DesignSystemR.string.reminder,
-                    titleColor = MaterialTheme.colorScheme.onSurface,
+                    titleColor = MaterialTheme.colorScheme.onBackground,
                     content = reminderContent,
                     enabled = selectedTaskTime != null,
                     onClick = onReminderClick,
@@ -317,13 +317,13 @@ private fun CalendarArrowIcon(
     onClick: () -> Unit,
 ) {
     Icon(
-        modifier = modifier.size(size = 32.dp)
+        modifier = modifier.size(size = 28.dp)
             .clip(shape = CircleShape)
             .clickable { onClick() }
-            .padding(all = 8.dp),
+            .padding(all = 4.dp),
         imageVector = ImageVector.vectorResource(id = iconResId),
         contentDescription = null,
-        tint = MaterialTheme.colorScheme.onSurface
+        tint = MaterialTheme.colorScheme.onBackground
     )
 }
 
@@ -336,7 +336,7 @@ private fun DateOptionItem(
 ) {
     Box(
         modifier = modifier.background(
-            color = if (isClicked) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.surfaceContainer,
+            color = if (isClicked) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.surfaceContainer,
             shape = RoundedCornerShape(size = 8.dp)
         ).clickable {
             onClick(dateOption.date)
@@ -346,8 +346,8 @@ private fun DateOptionItem(
     ) {
         Text(
             text = stringResource(id = dateOption.resId),
-            style = TodoTheme.typography.medium_14,
-            color = MaterialTheme.colorScheme.onSurface,
+            style = TodoTheme.typography.medium_12,
+            color = if (isClicked) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.onSurface,
         )
     }
 }
@@ -380,7 +380,7 @@ private fun CalendarActionRow(
         Text(
             modifier = Modifier.weight(weight = 1f),
             text = stringResource(id = titleResId),
-            style = TodoTheme.typography.medium_14,
+            style = TodoTheme.typography.medium_16,
             color = titleColor,
         )
 
@@ -395,7 +395,7 @@ private fun CalendarActionRow(
         ) {
             Text(
                 text = content,
-                style = TodoTheme.typography.medium_14,
+                style = TodoTheme.typography.medium_16,
                 color = MaterialTheme.colorScheme.onSurface,
             )
         }

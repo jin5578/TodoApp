@@ -113,7 +113,7 @@ private fun CategoryItem(
     ) {
         Text(
             text = title,
-            style = TodoTheme.typography.bold_14,
+            style = TodoTheme.typography.bold_16,
             color = MaterialTheme.colorScheme.onPrimary
         )
     }

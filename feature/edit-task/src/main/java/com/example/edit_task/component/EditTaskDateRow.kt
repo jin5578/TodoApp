@@ -50,7 +50,7 @@ internal fun EditTaskDateRow(
         Text(
             modifier = Modifier.weight(weight = 1f),
             text = stringResource(id = DesignSystemR.string.due_date),
-            style = TodoTheme.typography.medium_14,
+            style = TodoTheme.typography.medium_16,
             color = MaterialTheme.colorScheme.onBackground,
         )
 
@@ -69,7 +69,7 @@ internal fun EditTaskDateRow(
         ) {
             Text(
                 text = dateContent,
-                style = TodoTheme.typography.medium_14,
+                style = TodoTheme.typography.medium_16,
                 color = MaterialTheme.colorScheme.onSurface,
             )
         }

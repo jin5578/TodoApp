@@ -49,7 +49,7 @@ fun InputTaskCategories(
             modifier = Modifier.fillMaxWidth()
                 .padding(horizontal = 20.dp),
             text = stringResource(id = R.string.category),
-            style = TodoTheme.typography.bold_18,
+            style = TodoTheme.typography.bold_16,
             color = MaterialTheme.colorScheme.onBackground,
         )
 
@@ -115,9 +115,9 @@ private fun CategoryItem(
             color = MaterialTheme.colorScheme.onSurface,
             style =
                 if (isSelected)
-                    TodoTheme.typography.medium_14.copy(fontWeight = FontWeight.Bold)
+                    TodoTheme.typography.bold_16.copy(fontWeight = FontWeight.Bold)
                 else
-                    TodoTheme.typography.regular_14
+                    TodoTheme.typography.medium_16
         )
     }
 }

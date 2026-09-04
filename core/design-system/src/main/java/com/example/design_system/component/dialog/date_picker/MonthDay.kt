@@ -38,10 +38,10 @@ fun MonthDay(
     val textColor =
         if (day.date == LocalDate.now()) MaterialTheme.colorScheme.error
         else if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
-        else MaterialTheme.colorScheme.onSurface
+        else MaterialTheme.colorScheme.onBackground
     val fontStyle =
-        if (isSelected) TodoTheme.typography.bold_14
-        else TodoTheme.typography.medium_14
+        if (isSelected) TodoTheme.typography.bold_12
+        else TodoTheme.typography.medium_12
 
     val message = stringResource(R.string.cannot_be_selected_of_day)
 

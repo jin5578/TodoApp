@@ -50,7 +50,7 @@ internal fun MemoScreen(
             MemoTextField(
                 text = memoTitle,
                 hintTextResId = DesignSystemR.string.title,
-                textStyle = TodoTheme.typography.medium_18,
+                textStyle = TodoTheme.typography.medium_16,
                 onValueChange = { title ->
                     memoTitle = title
                     onTitleValueChanged(taskId, title)
@@ -74,7 +74,7 @@ internal fun MemoScreen(
             MemoTextField(
                 text = memoContent,
                 hintTextResId = DesignSystemR.string.content,
-                textStyle = TodoTheme.typography.medium_14,
+                textStyle = TodoTheme.typography.medium_12,
                 onValueChange = { content ->
                     memoContent = content
                     onContentValueChanged(taskId, content)

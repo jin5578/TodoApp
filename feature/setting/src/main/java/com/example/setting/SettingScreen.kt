@@ -139,7 +139,7 @@ internal fun SettingScreen(
             ModalBottomSheet(
                 onDismissRequest = { showBottomSheet = BottomSheetType.IDLE },
                 sheetState = bottomSheetState,
-                containerColor = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.background,
             ) {
                 Box() {
                     when (showBottomSheet) {
@@ -179,7 +179,7 @@ internal fun SettingScreen(
                 text = stringResource(
                     id = DesignSystemR.string.settings
                 ),
-                style = TodoTheme.typography.bold_22,
+                style = TodoTheme.typography.bold_20,
                 color = MaterialTheme.colorScheme.onBackground
             )
 

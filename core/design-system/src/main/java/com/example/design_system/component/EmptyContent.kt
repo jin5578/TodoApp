@@ -38,7 +38,7 @@ fun EmptyContent(
             )
             Text(
                 text = title,
-                style = TodoTheme.typography.bold_22,
+                style = TodoTheme.typography.bold_20,
                 color = MaterialTheme.colorScheme.primary
             )
         }

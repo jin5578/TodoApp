@@ -70,7 +70,7 @@ internal fun SecurityScreen(
                 text = stringResource(
                     id = DesignSystemR.string.security
                 ),
-                style = TodoTheme.typography.bold_22,
+                style = TodoTheme.typography.bold_20,
                 color = MaterialTheme.colorScheme.onBackground
             )
 

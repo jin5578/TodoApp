@@ -77,7 +77,7 @@ internal fun WeekendDay(
         ) {
             Text(
                 text = dateFormat.format(day.date),
-                style = TodoTheme.typography.bold_14,
+                style = TodoTheme.typography.bold_12,
                 color = textColor
             )
 
@@ -86,7 +86,7 @@ internal fun WeekendDay(
                     TextStyle.SHORT,
                     locale
                 ),
-                style = TodoTheme.typography.bold_14,
+                style = TodoTheme.typography.bold_12,
                 color = textColor,
             )
 

@@ -71,7 +71,7 @@ fun DatePickerDialog(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
+                containerColor = MaterialTheme.colorScheme.background
             )
         ) {
             Column {
@@ -82,13 +82,13 @@ fun DatePickerDialog(
                 ) {
                     Text(
                         text = stringResource(id = R.string.calendar),
-                        style = TodoTheme.typography.bold_18,
+                        style = TodoTheme.typography.bold_20,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
 
                     Text(
                         text = selectedDay.format(dateFormat),
-                        style = TodoTheme.typography.bold_18,
+                        style = TodoTheme.typography.bold_16,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                 }
@@ -174,7 +174,7 @@ fun DatePickerDialog(
                                 onClose(selectedDay)
                             },
                         text = stringResource(id = R.string.done),
-                        style = TodoTheme.typography.bold_14,
+                        style = TodoTheme.typography.medium_16,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                 }

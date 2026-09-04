@@ -74,7 +74,7 @@ fun InputTaskTime(
         ) {
             Text(
                 text = stringResource(id = R.string.time),
-                style = TodoTheme.typography.bold_18,
+                style = TodoTheme.typography.bold_16,
                 color = MaterialTheme.colorScheme.onBackground
             )
 
@@ -165,9 +165,9 @@ private fun InputTaskTimeItem(
             text = stringResource(id = resId),
             color = MaterialTheme.colorScheme.onBackground,
             style = if (isSelected)
-                TodoTheme.typography.bold_14
+                TodoTheme.typography.bold_16
             else
-                TodoTheme.typography.medium_14,
+                TodoTheme.typography.medium_16,
         )
     }
 }

@@ -44,7 +44,7 @@ internal fun EditTaskCategoryChip(
                     onOpenClick()
                 }
                 .background(
-                    color = MaterialTheme.colorScheme.surfaceDim,
+                    color = MaterialTheme.colorScheme.secondaryContainer,
                     shape = RoundedCornerShape(size = 16.dp)
                 )
                 .padding(
@@ -59,8 +59,8 @@ internal fun EditTaskCategoryChip(
                 Text(
                     text = categories.firstOrNull { it.id == taskCategoryId }?.title
                         ?: stringResource(id = DesignSystemR.string.no_category),
-                    style = TodoTheme.typography.medium_10,
-                    color = MaterialTheme.colorScheme.onSurface
+                    style = TodoTheme.typography.medium_12,
+                    color = MaterialTheme.colorScheme.onSecondaryContainer
                 )
                 Icon(
                     modifier = Modifier.size(size = 8.dp),

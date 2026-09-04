@@ -108,7 +108,7 @@ internal fun TaskCard(
                 Text(
                     modifier = Modifier.fillMaxWidth().basicMarquee(),
                     text = task.title,
-                    style = TodoTheme.typography.bold_14,
+                    style = TodoTheme.typography.bold_16,
                     color = MaterialTheme.colorScheme.onPrimaryContainer,
                 )
 
@@ -129,7 +129,7 @@ internal fun TaskCard(
                         DateTimeFormatter.ofPattern("MM-dd", locale)
                     Text(
                         text = task.date.format(dateFormat),
-                        style = TodoTheme.typography.medium_10,
+                        style = TodoTheme.typography.medium_12,
                         color = MaterialTheme.colorScheme.primary,
                     )
 
@@ -144,7 +144,7 @@ internal fun TaskCard(
                                 text = /*(task.time ?: LocalTime.now()).format(
                                     timeFormat
                                 )*/"",
-                                style = TodoTheme.typography.regular_10,
+                                style = TodoTheme.typography.regular_12,
                                 color = MaterialTheme.colorScheme.onPrimaryContainer
                             )
                             Icon(
@@ -194,7 +194,7 @@ internal fun TaskCard(
                         horizontal = 10.dp,
                         vertical = 2.dp,
                     ),
-                    containerColor = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.background,
                     expanded = isShowFlagMenu,
                     onDismissRequest = { isShowFlagMenu = false }
                 ) {
@@ -254,7 +254,7 @@ private fun DropdownMenuElement(
     ) {
         Text(
             text = stringResource(id = taskSymbolType.titleResId),
-            style = TodoTheme.typography.medium_10,
+            style = TodoTheme.typography.medium_12,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
 

@@ -31,7 +31,7 @@ fun CategoryDropdownMenu(
     onCreateNewCategoryClick: () -> Unit,
 ) {
     DropdownMenu(
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.background,
         expanded = isShowCategoryMenu,
         onDismissRequest = onCloseClick
     ) {
@@ -56,7 +56,7 @@ fun CategoryDropdownMenu(
 
                     Text(
                         text = stringResource(id = R.string.create_new),
-                        style = TodoTheme.typography.medium_10,
+                        style = TodoTheme.typography.medium_12,
                         color = MaterialTheme.colorScheme.onSurface
                     )
                 }

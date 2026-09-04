@@ -60,7 +60,7 @@ internal fun EditTaskTimeRow(
             Text(
                 modifier = Modifier.weight(weight = 1f),
                 text = stringResource(id = DesignSystemR.string.time_and_reminder),
-                style = TodoTheme.typography.medium_14,
+                style = TodoTheme.typography.medium_16,
                 color = MaterialTheme.colorScheme.onBackground,
             )
 
@@ -77,7 +77,7 @@ internal fun EditTaskTimeRow(
                     ?: stringResource(id = DesignSystemR.string.no)
                 Text(
                     text = timeContent,
-                    style = TodoTheme.typography.medium_14,
+                    style = TodoTheme.typography.medium_16,
                     color = MaterialTheme.colorScheme.onSurface,
                 )
             }
@@ -93,7 +93,7 @@ internal fun EditTaskTimeRow(
                 Text(
                     modifier = Modifier.weight(weight = 1f),
                     text = stringResource(id = DesignSystemR.string.reminder_at),
-                    style = TodoTheme.typography.medium_14,
+                    style = TodoTheme.typography.medium_16,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
 
@@ -110,7 +110,7 @@ internal fun EditTaskTimeRow(
                         ?: stringResource(id = DesignSystemR.string.no)
                     Text(
                         text = reminderContent,
-                        style = TodoTheme.typography.medium_14,
+                        style = TodoTheme.typography.medium_16,
                         color = MaterialTheme.colorScheme.onSurface,
                     )
                 }

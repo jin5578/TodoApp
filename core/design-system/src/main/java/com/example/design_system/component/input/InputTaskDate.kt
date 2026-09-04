@@ -72,7 +72,7 @@ fun InputTaskDate(
         ) {
             Text(
                 text = stringResource(id = R.string.date),
-                style = TodoTheme.typography.bold_18,
+                style = TodoTheme.typography.bold_16,
                 color = MaterialTheme.colorScheme.onBackground,
             )
 
@@ -94,7 +94,7 @@ fun InputTaskDate(
                 )
                 Text(
                     text = date.format(dateFormat),
-                    style = TodoTheme.typography.medium_14,
+                    style = TodoTheme.typography.medium_16,
                     color = MaterialTheme.colorScheme.onBackground,
                 )
             }
@@ -160,9 +160,9 @@ private fun InputTaskDateItem(
             text = stringResource(id = resId),
             color = MaterialTheme.colorScheme.onBackground,
             style = if (isSelected)
-                TodoTheme.typography.bold_14
+                TodoTheme.typography.bold_16
             else
-                TodoTheme.typography.medium_14
+                TodoTheme.typography.medium_16
         )
     }
 }

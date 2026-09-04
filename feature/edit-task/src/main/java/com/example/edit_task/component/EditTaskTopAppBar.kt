@@ -63,7 +63,7 @@ internal fun EditTaskTopAppBar(
                 )
 
                 DropdownMenu(
-                    containerColor = MaterialTheme.colorScheme.surface,
+                    containerColor = MaterialTheme.colorScheme.background,
                     expanded = isShowDropdownMenu,
                     onDismissRequest = { isShowDropdownMenu = false }
                 ) {

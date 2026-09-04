@@ -43,7 +43,7 @@ fun ClockTimePickerDialog(
             modifier = Modifier.wrapContentWidth(),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.background,
             )
         ) {
             Column(
@@ -73,7 +73,7 @@ fun ClockTimePickerDialog(
                             onClose(selectedTime)
                         },
                     text = stringResource(id = R.string.done),
-                    style = TodoTheme.typography.bold_14,
+                    style = TodoTheme.typography.medium_16,
                     color = MaterialTheme.colorScheme.onSurface
                 )
             }

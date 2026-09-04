@@ -86,9 +86,9 @@ internal fun EditTaskSubTask(
                     draftSubTasks =
                         draftSubTasks.plus(subTask).toImmutableList()
                 }
-                .padding(horizontal = 24.dp, vertical = 24.dp),
+                .padding(horizontal = 34.dp, vertical = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+            horizontalArrangement = Arrangement.spacedBy(space = 20.dp)
         ) {
             Icon(
                 modifier = Modifier.size(size = 16.dp),
@@ -99,7 +99,7 @@ internal fun EditTaskSubTask(
 
             Text(
                 text = stringResource(id = DesignSystemR.string.add_subtask),
-                style = TodoTheme.typography.medium_14,
+                style = TodoTheme.typography.medium_16,
                 color = MaterialTheme.colorScheme.onBackground,
             )
         }
@@ -130,14 +130,14 @@ private fun EditTaskSubTaskItem(
         ) {
             if (subTask.isCompleted) {
                 Icon(
-                    modifier = Modifier.size(16.dp),
+                    modifier = Modifier.size(18.dp),
                     painter = painterResource(id = R.drawable.svg_check_circle),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onPrimaryContainer
                 )
             } else {
                 Box(
-                    modifier = Modifier.size(size = 15.dp)
+                    modifier = Modifier.size(size = 17.dp)
                         .border(
                             width = 2.dp,
                             color = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -156,7 +156,7 @@ private fun EditTaskSubTaskItem(
                     isFocused = focusState.isFocused
                 },
             value = subTask.title,
-            singleLine = true,
+            singleLine = false,
             colors = TextFieldDefaults.colors(
                 focusedContainerColor = Color.Transparent,
                 focusedIndicatorColor = Color.Transparent,
@@ -166,7 +166,7 @@ private fun EditTaskSubTaskItem(
                 focusedTextColor = MaterialTheme.colorScheme.onBackground,
                 cursorColor = MaterialTheme.colorScheme.onBackground,
             ),
-            textStyle = TodoTheme.typography.medium_14,
+            textStyle = TodoTheme.typography.medium_16,
             onValueChange = {
                 val updatedSubTask = subTask.copy(title = it)
                 onUpdate(updatedSubTask)
@@ -175,7 +175,7 @@ private fun EditTaskSubTaskItem(
                 Text(
                     text = stringResource(id = R.string.input_the_subtask),
                     color = MaterialTheme.colorScheme.onBackground,
-                    style = TodoTheme.typography.medium_14
+                    style = TodoTheme.typography.medium_16
                 )
             },
             keyboardOptions = KeyboardOptions(

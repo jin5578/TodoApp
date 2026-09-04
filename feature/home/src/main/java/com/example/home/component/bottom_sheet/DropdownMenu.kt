@@ -19,7 +19,7 @@ internal fun PriorityDropdownMenu(
     onPriorityTypeClick: (PriorityType) -> Unit,
 ) {
     DropdownMenu(
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.background,
         expanded = isShowPriorityMenu,
         onDismissRequest = onCloseClick
     ) {
@@ -41,7 +41,7 @@ internal fun ReminderDropdownMenu(
     onReminderOffClick: () -> Unit,
 ) {
     DropdownMenu(
-        containerColor = MaterialTheme.colorScheme.surface,
+        containerColor = MaterialTheme.colorScheme.background,
         expanded = isShowReminderMenu,
         onDismissRequest = onCloseClick
     ) {

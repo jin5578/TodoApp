@@ -101,7 +101,7 @@ internal fun ManageCategoriesScreen(
             ModalBottomSheet(
                 onDismissRequest = { showBottomSheet = BottomSheetType.IDLE },
                 sheetState = bottomSheetState,
-                containerColor = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.background,
             ) {
                 Box() {
                     when (showBottomSheet) {

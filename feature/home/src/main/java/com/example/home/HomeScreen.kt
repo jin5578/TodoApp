@@ -86,7 +86,7 @@ internal fun HomeScreen(
                     showAddTaskBottomSheet = BottomSheetType.IDLE
                 },
                 sheetState = bottomSheetState,
-                containerColor = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.background,
             ) {
                 AddTaskBottomSheetContent(
                     locale = locale,

@@ -51,13 +51,13 @@ internal fun EditTaskMemoRow(
             Text(
                 modifier = Modifier.weight(weight = 1f),
                 text = stringResource(id = DesignSystemR.string.memo),
-                style = TodoTheme.typography.medium_14,
+                style = TodoTheme.typography.medium_16,
                 color = MaterialTheme.colorScheme.onBackground,
             )
 
             Text(
                 text = stringResource(id = DesignSystemR.string.edit),
-                style = TodoTheme.typography.medium_14,
+                style = TodoTheme.typography.medium_16,
                 color = MaterialTheme.colorScheme.onBackground,
             )
         }

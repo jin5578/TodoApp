@@ -43,8 +43,8 @@ internal fun SettingLanguageContent(
     ) {
         Text(
             text = stringResource(id = DesignSystemR.string.choose_language),
-            style = TodoTheme.typography.bold_18,
-            color = MaterialTheme.colorScheme.onSurface,
+            style = TodoTheme.typography.bold_20,
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Row(
@@ -84,7 +84,7 @@ private fun SettingLanguageItem(
                 .background(
                     color =
                         if (isSelected) MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.surface
+                        else MaterialTheme.colorScheme.background
                 )
                 .clickable { onClick() },
             contentAlignment = Alignment.Center
@@ -95,10 +95,10 @@ private fun SettingLanguageItem(
                     vertical = 16.dp,
                 ),
                 text = languageType.title,
-                style = TodoTheme.typography.medium_14,
+                style = TodoTheme.typography.medium_16,
                 color =
                     if (isSelected) MaterialTheme.colorScheme.onPrimary
-                    else MaterialTheme.colorScheme.onSurface
+                    else MaterialTheme.colorScheme.onBackground
             )
         }
 

@@ -54,7 +54,7 @@ internal fun TaskActionCategoryItem(
         Text(
             text = categories.firstOrNull { it.id == taskCategory }?.title
                 ?: stringResource(id = DesignSystemR.string.no_category),
-            style = TodoTheme.typography.medium_10,
+            style = TodoTheme.typography.medium_12,
             color = MaterialTheme.colorScheme.onSurface
         )
     }
@@ -89,7 +89,7 @@ internal fun TaskActionItem(
 
         Text(
             text = title,
-            style = TodoTheme.typography.medium_10,
+            style = TodoTheme.typography.medium_12,
             color = MaterialTheme.colorScheme.onSurface,
         )
     }

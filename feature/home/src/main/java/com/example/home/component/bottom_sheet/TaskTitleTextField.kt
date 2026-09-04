@@ -39,13 +39,13 @@ internal fun TaskTitleTextField(
             focusedTextColor = MaterialTheme.colorScheme.onSurface,
             cursorColor = MaterialTheme.colorScheme.onSurface,
         ),
-        textStyle = TodoTheme.typography.medium_14,
+        textStyle = TodoTheme.typography.medium_16,
         onValueChange = onValueChange,
         placeholder = {
             Text(
                 text = stringResource(id = DesignSystemR.string.please_enter_what_you_need_to_do),
                 color = MaterialTheme.colorScheme.onSurface,
-                style = TodoTheme.typography.medium_14,
+                style = TodoTheme.typography.medium_16,
             )
         },
         shape = RoundedCornerShape(size = 8.dp),

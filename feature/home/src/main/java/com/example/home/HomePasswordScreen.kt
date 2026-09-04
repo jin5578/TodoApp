@@ -175,7 +175,7 @@ internal fun HomePasswordScreen(
                         Text(
                             modifier = Modifier.padding(all = 8.dp),
                             text = stringResource(id = DesignSystemR.string.forgot_password),
-                            style = TodoTheme.typography.bold_14
+                            style = TodoTheme.typography.bold_16
                         )
                     }
                 }

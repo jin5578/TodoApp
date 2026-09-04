@@ -84,7 +84,7 @@ fun ReminderDialog(
                 .padding(horizontal = 16.dp),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface
+                containerColor = MaterialTheme.colorScheme.background
             )
         ) {
             Column(
@@ -100,7 +100,7 @@ fun ReminderDialog(
                         .padding(horizontal = 16.dp),
                     text = stringResource(id = DesignSystemR.string.reminder),
                     style = TodoTheme.typography.bold_20,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Start
                 )
 
@@ -187,7 +187,7 @@ private fun ReminderOptionItem(
 
         Text(
             text = stringResource(id = reminderOption.resId),
-            style = TodoTheme.typography.medium_14,
+            style = TodoTheme.typography.medium_12,
             color = MaterialTheme.colorScheme.onSurface,
         )
     }

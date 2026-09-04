@@ -30,7 +30,7 @@ fun ForgotPasswordTextButton(
     ) {
         Text(
             text = title,
-            style = TodoTheme.typography.bold_14,
+            style = TodoTheme.typography.medium_16,
             color = textColor,
         )
     }
