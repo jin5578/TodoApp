@@ -38,6 +38,7 @@ include(
 )
 include(
     ":feature:calendar",
+    ":feature:completed-tasks",
     ":feature:edit-task",
     ":feature:home",
     ":feature:lock-setup",
