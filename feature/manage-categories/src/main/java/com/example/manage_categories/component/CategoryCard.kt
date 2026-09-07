@@ -5,9 +5,11 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -31,6 +33,7 @@ internal fun CategoryCard(
     id: Long,
     title: String,
     type: CategoryColorType,
+    taskCount: Int,
     onEditClick: (id: Long, title: String, type: CategoryColorType) -> Unit,
     onDeleteClick: (id: Long) -> Unit
 ) {
@@ -38,11 +41,11 @@ internal fun CategoryCard(
         modifier = modifier.fillMaxWidth()
             .clickable { onEditClick(id, title, type) }
             .padding(
-                horizontal = 20.dp,
+                horizontal = 16.dp,
                 vertical = 16.dp
             ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(space = 10.dp)
+        horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
     ) {
         Box(
             modifier = Modifier.size(size = 20.dp)
@@ -54,19 +57,40 @@ internal fun CategoryCard(
             content = {}
         )
 
-        Text(
-            modifier = Modifier.weight(weight = 1f),
-            text = title,
-            style = TodoTheme.typography.medium_16,
-            color = MaterialTheme.colorScheme.onBackground
-        )
+        Row(
+            Modifier.weight(weight = 1f),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = title,
+                style = TodoTheme.typography.medium_16,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+
+            Spacer(modifier = Modifier.width(width = 8.dp))
+
+            Icon(
+                modifier = Modifier.size(size = 12.dp),
+                imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_link),
+                tint = MaterialTheme.colorScheme.onBackground,
+                contentDescription = null,
+            )
+
+            Spacer(modifier = Modifier.width(width = 4.dp))
+
+            Text(
+                text = taskCount.toString(),
+                style = TodoTheme.typography.medium_12,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
 
         IconButton(
             modifier = Modifier.size(size = 20.dp),
             onClick = { onDeleteClick(id) },
         ) {
             Icon(
-                modifier = Modifier.size(size = 21.dp),
+                modifier = Modifier.size(size = 20.dp),
                 imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_cancel_small),
                 tint = MaterialTheme.colorScheme.onBackground,
                 contentDescription = null
@@ -83,6 +107,7 @@ private fun CategoryCardPreview() {
             id = 0L,
             title = "Red",
             type = CategoryColorType.RED,
+            taskCount = 3,
             onEditClick = { _, _, _ -> },
             onDeleteClick = {}
         )

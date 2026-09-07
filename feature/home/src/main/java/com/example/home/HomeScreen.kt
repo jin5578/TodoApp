@@ -41,6 +41,7 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.component.EmptyContent
+import com.example.design_system.component.dialog.category.CategoryDialog
 import com.example.design_system.theme.TodoTheme
 import com.example.home.component.bottom_sheet.AddTaskBottomSheetContent
 import com.example.home.component.taskStateGroupContent
@@ -48,6 +49,7 @@ import com.example.home.model.BottomSheetType
 import com.example.home.model.TaskStateGroup
 import com.example.home.utils.toggled
 import com.example.model.Category
+import com.example.model.CategoryColorType
 import com.example.model.Task
 import com.example.model.TimePickerType
 import kotlinx.collections.immutable.ImmutableList
@@ -72,7 +74,7 @@ internal fun HomeScreen(
     onAddTaskClick: (Task) -> Unit,
     onSymbolClick: (taskId: Long, symbolId: Int) -> Unit,
     onSubTaskToggleClick: (subTaskId: Long, isCompleted: Boolean) -> Unit,
-    navigateManageCategories: () -> Unit,
+    onAddCategoryClick: (categoryTitle: String, categoryColorType: CategoryColorType) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -81,6 +83,8 @@ internal fun HomeScreen(
 
     val bottomSheetState = rememberModalBottomSheetState()
     var showAddTaskBottomSheet by remember { mutableStateOf(value = BottomSheetType.IDLE) }
+
+    var isShowAddCategoryDialog by remember { mutableStateOf(value = false) }
 
     Scaffold(
         topBar = {
@@ -115,13 +119,23 @@ internal fun HomeScreen(
                         onAddTaskClick(task)
                         showAddTaskBottomSheet = BottomSheetType.IDLE
                     },
-                    navigateManageCategories = {
-                        showAddTaskBottomSheet = BottomSheetType.IDLE
-                        navigateManageCategories()
+                    onCreateNewCategoryClick = {
+                        isShowAddCategoryDialog = true
                     },
                     onShowMessageSnackbar = onShowMessageSnackbar
                 )
             }
+        }
+
+        if (isShowAddCategoryDialog) {
+            CategoryDialog(
+                titleResId = DesignSystemR.string.create_new_category,
+                onCloseClick = { isShowAddCategoryDialog = false },
+                onSaveClick = { categoryTitle, categoryColorType ->
+                    onAddCategoryClick(categoryTitle, categoryColorType)
+                    isShowAddCategoryDialog = false
+                }
+            )
         }
 
         if (taskStateGroups.isEmpty())
@@ -276,7 +290,6 @@ private fun HomeScreenPreview() {
             taskStateGroups = persistentListOf(),
             locale = Locale.KOREA,
             timePickerType = TimePickerType.CLOCK_TIME_PICKER,
-            navigateManageCategories = {},
             onSettingClick = {},
             onCategoryClick = {},
             onTaskToggleClick = { _, _ -> },
@@ -285,6 +298,7 @@ private fun HomeScreenPreview() {
             onAddTaskClick = {},
             onSymbolClick = { _, _ -> },
             onSubTaskToggleClick = { _, _ -> },
+            onAddCategoryClick = { _, _ -> },
             onShowMessageSnackbar = {}
         )
     }

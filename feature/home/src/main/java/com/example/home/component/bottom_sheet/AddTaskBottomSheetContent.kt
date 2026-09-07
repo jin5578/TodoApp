@@ -67,7 +67,7 @@ internal fun AddTaskBottomSheetContent(
     categories: ImmutableList<Category>,
     timePickerType: TimePickerType,
     onAddTaskClick: (Task) -> Unit,
-    navigateManageCategories: () -> Unit,
+    onCreateNewCategoryClick: () -> Unit,
     onShowMessageSnackbar: (String) -> Unit
 ) {
     var isShowCalendarDialog by remember { mutableStateOf(value = false) }
@@ -167,9 +167,7 @@ internal fun AddTaskBottomSheetContent(
             onCategoryClick = { id ->
                 taskCategory = id
             },
-            onCreateNewCategoryClick = {
-                navigateManageCategories()
-            },
+            onCreateNewCategoryClick = onCreateNewCategoryClick,
             onPriorityMenuStateChanged = { state ->
                 isShowPriorityMenu = state
             },
@@ -210,11 +208,11 @@ private fun TaskTitleTextField(
         value = taskTitle,
         singleLine = true,
         colors = TextFieldDefaults.colors(
-            focusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            focusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
             focusedIndicatorColor = Color.Transparent,
-            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            unfocusedContainerColor = MaterialTheme.colorScheme.surfaceContainer,
             unfocusedIndicatorColor = Color.Transparent,
-            disabledContainerColor = MaterialTheme.colorScheme.surfaceVariant,
+            disabledContainerColor = MaterialTheme.colorScheme.surfaceContainer,
             focusedTextColor = MaterialTheme.colorScheme.onBackground,
             cursorColor = MaterialTheme.colorScheme.onBackground,
         ),
@@ -332,7 +330,7 @@ private fun TaskActionCategoryItem(
                 size = 16.dp
             )
         )
-            .background(color = MaterialTheme.colorScheme.surfaceDim)
+            .background(color = MaterialTheme.colorScheme.surfaceContainer)
             .padding(all = 8.dp)
             .clickable { onOpenClick() }
     ) {
@@ -419,7 +417,7 @@ private fun AddTaskBottomSheetContentPreview() {
             categories = categories,
             timePickerType = TimePickerType.SCROLL_TIME_PICKER,
             onAddTaskClick = {},
-            navigateManageCategories = {},
+            onCreateNewCategoryClick = {},
             onShowMessageSnackbar = {}
         )
     }

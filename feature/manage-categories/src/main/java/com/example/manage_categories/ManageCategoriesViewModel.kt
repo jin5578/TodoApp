@@ -3,11 +3,12 @@ package com.example.manage_categories
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.DeleteCategoryUseCase
-import com.example.domain.GetAllCategoryUseCase
 import com.example.domain.GetCategoryByIdUseCase
+import com.example.domain.GetManageCategoriesDataUseCase
 import com.example.domain.InsertCategoryUseCase
 import com.example.domain.UpdateCategoryUseCase
 import com.example.manage_categories.model.ManageCategoriesUiState
+import com.example.manage_categories.model.ManageCategoryUiModel
 import com.example.model.Category
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
@@ -22,7 +23,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ManageCategoriesViewModel @Inject constructor(
-    private val getAllCategoryUseCase: GetAllCategoryUseCase,
+    private val getManageCategoriesDataUseCase: GetManageCategoriesDataUseCase,
     private val insertCategoryUseCase: InsertCategoryUseCase,
     private val getCategoryByIdUseCase: GetCategoryByIdUseCase,
     private val deleteCategoryUseCase: DeleteCategoryUseCase,
@@ -41,9 +42,16 @@ class ManageCategoriesViewModel @Inject constructor(
 
     private fun fetchManageCategories() =
         viewModelScope.launch {
-            getAllCategoryUseCase().map { categories ->
+            getManageCategoriesDataUseCase().map { data ->
+                val taskCountByCategoryId =
+                    data.tasks.groupingBy { task -> task.categoryId }.eachCount()
                 ManageCategoriesUiState.Screen(
-                    categories = categories.toPersistentList()
+                    categoryUiModels = data.categories.map { category ->
+                        ManageCategoryUiModel(
+                            category = category,
+                            taskCount = taskCountByCategoryId[category.id] ?: 0
+                        )
+                    }.toPersistentList()
                 )
             }.catch { throwable ->
                 _errorFlow.emit(value = throwable)

@@ -36,7 +36,6 @@ internal fun MainNavHost(
                 exitApp = navigator::exitApp,
                 navigateSetting = navigator::navigateSetting,
                 navigateEditTask = navigator::navigateEditTask,
-                navigateManageCategories = navigator::navigateManageCategories,
                 onShowErrorSnackbar = onShowErrorSnackbar,
                 onShowMessageSnackbar = onShowMessageSnackbar
             )

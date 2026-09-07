@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -75,7 +76,8 @@ fun CalendarDialog(
 ) {
     val coroutineScope = rememberCoroutineScope()
 
-    val scrollState = rememberScrollState()
+    val verticalScrollState = rememberScrollState()
+    val horizontalScrollState = rememberScrollState()
 
     val dateOptions = persistentListOf(
         DateOption(
@@ -149,6 +151,7 @@ fun CalendarDialog(
                     horizontal = 2.dp,
                     vertical = 16.dp
                 ),
+                verticalArrangement = Arrangement.spacedBy(space = 16.dp)
             ) {
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
@@ -157,124 +160,127 @@ fun CalendarDialog(
                     color = MaterialTheme.colorScheme.onBackground,
                 )
 
-                Spacer(modifier = Modifier.height(height = 16.dp))
-
-                Row(
-                    modifier = Modifier.fillMaxWidth(),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.Center,
+                Column(
+                    modifier = Modifier.weight(weight = 1f)
+                        .verticalScroll(state = verticalScrollState)
                 ) {
-                    CalendarArrowIcon(
-                        iconResId = R.drawable.svg_calendar_arrow_left,
-                        onClick = {
-                            coroutineScope.launch {
-                                calendarState.animateScrollToMonth(
-                                    month = calendarState.firstVisibleMonth.yearMonth.minusMonths(
-                                        1
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
+                    ) {
+                        CalendarArrowIcon(
+                            iconResId = R.drawable.svg_calendar_arrow_left,
+                            onClick = {
+                                coroutineScope.launch {
+                                    calendarState.animateScrollToMonth(
+                                        month = calendarState.firstVisibleMonth.yearMonth.minusMonths(
+                                            1
+                                        )
+                                    )
+                                }
+                            }
+                        )
+
+                        Spacer(modifier = Modifier.width(width = 16.dp))
+
+                        val visibleMonth =
+                            calendarState.firstVisibleMonth.yearMonth
+                        Text(
+                            text = remember(visibleMonth, locale) {
+                                visibleMonth.format(
+                                    DateTimeFormatter.ofPattern(
+                                        "MMMM yyyy",
+                                        locale
                                     )
                                 )
+                            },
+                            style = TodoTheme.typography.bold_16,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+
+                        Spacer(modifier = Modifier.width(width = 16.dp))
+
+                        CalendarArrowIcon(
+                            iconResId = R.drawable.svg_calendar_arrow_right,
+                            onClick = {
+                                coroutineScope.launch {
+                                    calendarState.animateScrollToMonth(
+                                        month = calendarState.firstVisibleMonth.yearMonth.plusMonths(
+                                            1
+                                        )
+                                    )
+                                }
                             }
-                        }
-                    )
+                        )
+                    }
 
-                    Spacer(modifier = Modifier.width(width = 16.dp))
+                    Spacer(modifier = Modifier.height(height = 16.dp))
 
-                    val visibleMonth = calendarState.firstVisibleMonth.yearMonth
-                    Text(
-                        text = remember(visibleMonth, locale) {
-                            visibleMonth.format(
-                                DateTimeFormatter.ofPattern(
-                                    "MMMM yyyy",
-                                    locale
-                                )
+                    HorizontalCalendar(
+                        state = calendarState,
+                        dayContent = { day ->
+                            MonthDay(
+                                day = day,
+                                isSelected = selectedTaskDate == day.date,
+                                onClick = onDateChange,
+                                onShowMessageSnackbar = onShowMessageSnackbar,
                             )
                         },
-                        style = TodoTheme.typography.bold_16,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-
-                    Spacer(modifier = Modifier.width(width = 16.dp))
-
-                    CalendarArrowIcon(
-                        iconResId = R.drawable.svg_calendar_arrow_right,
-                        onClick = {
-                            coroutineScope.launch {
-                                calendarState.animateScrollToMonth(
-                                    month = calendarState.firstVisibleMonth.yearMonth.plusMonths(
-                                        1
-                                    )
-                                )
+                        monthHeader = { month ->
+                            val daysOfWeek = month.weekDays.first().map {
+                                it.date.dayOfWeek
                             }
+                            DaysOfWeek(daysOfWeek = daysOfWeek, locale = locale)
                         }
                     )
-                }
 
-                Spacer(modifier = Modifier.height(height = 16.dp))
+                    Spacer(modifier = Modifier.height(height = 16.dp))
 
-                HorizontalCalendar(
-                    state = calendarState,
-                    dayContent = { day ->
-                        MonthDay(
-                            day = day,
-                            isSelected = selectedTaskDate == day.date,
-                            onClick = onDateChange,
-                            onShowMessageSnackbar = onShowMessageSnackbar,
-                        )
-                    },
-                    monthHeader = { month ->
-                        val daysOfWeek = month.weekDays.first().map {
-                            it.date.dayOfWeek
+                    Row(
+                        modifier = Modifier.fillMaxWidth()
+                            .horizontalScroll(state = horizontalScrollState)
+                            .padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+                    ) {
+                        dateOptions.forEach { dateOption ->
+                            DateOptionItem(
+                                dateOption = dateOption,
+                                isClicked = dateOption.date == selectedTaskDate,
+                                onClick = onDateChange
+                            )
                         }
-                        DaysOfWeek(daysOfWeek = daysOfWeek, locale = locale)
                     }
-                )
 
-                Spacer(modifier = Modifier.height(height = 16.dp))
+                    Spacer(modifier = Modifier.height(height = 16.dp))
 
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                        .horizontalScroll(state = scrollState)
-                        .padding(horizontal = 16.dp),
-                    horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
-                ) {
-                    dateOptions.forEach { dateOption ->
-                        DateOptionItem(
-                            dateOption = dateOption,
-                            isClicked = dateOption.date == selectedTaskDate,
-                            onClick = onDateChange
-                        )
-                    }
+                    val timeFormat =
+                        DateTimeFormatter.ofPattern("hh:mm a", locale)
+                    val timeContent = selectedTaskTime?.format(timeFormat)
+                        ?: stringResource(id = DesignSystemR.string.no)
+                    CalendarActionRow(
+                        iconResId = DesignSystemR.drawable.svg_clock,
+                        iconColor = MaterialTheme.colorScheme.onBackground,
+                        titleResId = DesignSystemR.string.time,
+                        titleColor = MaterialTheme.colorScheme.onBackground,
+                        content = timeContent,
+                        enabled = true,
+                        onClick = onTimeClick
+                    )
+
+                    val reminderContent =
+                        selectedReminderTime?.format(timeFormat)
+                            ?: stringResource(id = DesignSystemR.string.no)
+                    CalendarActionRow(
+                        iconResId = DesignSystemR.drawable.svg_reminder,
+                        iconColor = MaterialTheme.colorScheme.onBackground,
+                        titleResId = DesignSystemR.string.reminder,
+                        titleColor = MaterialTheme.colorScheme.onBackground,
+                        content = reminderContent,
+                        enabled = selectedTaskTime != null,
+                        onClick = onReminderClick,
+                    )
                 }
-
-                Spacer(modifier = Modifier.height(height = 16.dp))
-
-                val timeFormat =
-                    DateTimeFormatter.ofPattern("hh:mm a", locale)
-                val timeContent = selectedTaskTime?.format(timeFormat)
-                    ?: stringResource(id = DesignSystemR.string.no)
-                CalendarActionRow(
-                    iconResId = DesignSystemR.drawable.svg_clock,
-                    iconColor = MaterialTheme.colorScheme.onBackground,
-                    titleResId = DesignSystemR.string.time,
-                    titleColor = MaterialTheme.colorScheme.onBackground,
-                    content = timeContent,
-                    enabled = true,
-                    onClick = onTimeClick
-                )
-
-                val reminderContent = selectedReminderTime?.format(timeFormat)
-                    ?: stringResource(id = DesignSystemR.string.no)
-                CalendarActionRow(
-                    iconResId = DesignSystemR.drawable.svg_reminder,
-                    iconColor = MaterialTheme.colorScheme.onBackground,
-                    titleResId = DesignSystemR.string.reminder,
-                    titleColor = MaterialTheme.colorScheme.onBackground,
-                    content = reminderContent,
-                    enabled = selectedTaskTime != null,
-                    onClick = onReminderClick,
-                )
-
-                Spacer(modifier = Modifier.height(height = 16.dp))
 
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(end = 16.dp),

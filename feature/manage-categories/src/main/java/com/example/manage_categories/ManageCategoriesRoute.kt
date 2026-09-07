@@ -26,7 +26,6 @@ internal fun ManageCategoriesRoute(
 
     ManageCategoriesContent(
         uiState = uiState,
-        popBackStack = popBackStack,
         onCategoryAdd = { title, type ->
             viewModel.insertCategory(
                 title = title,
@@ -40,17 +39,18 @@ internal fun ManageCategoriesRoute(
                 title = title,
                 colorValue = type.colorValue
             )
-        }
+        },
+        popBackStack = popBackStack,
     )
 }
 
 @Composable
 private fun ManageCategoriesContent(
     uiState: ManageCategoriesUiState,
-    popBackStack: () -> Unit,
     onCategoryAdd: (title: String, type: CategoryColorType) -> Unit,
     onCategoryDelete: (Long) -> Unit,
     onCategoryUpdate: (id: Long, title: String, type: CategoryColorType) -> Unit,
+    popBackStack: () -> Unit,
 ) {
     when (uiState) {
         is ManageCategoriesUiState.Loading ->
@@ -58,11 +58,11 @@ private fun ManageCategoriesContent(
 
         is ManageCategoriesUiState.Screen ->
             ManageCategoriesScreen(
-                categories = uiState.categories,
-                popBackStack = popBackStack,
+                categoryUiModels = uiState.categoryUiModels,
                 onCategoryAdd = onCategoryAdd,
                 onCategoryDelete = onCategoryDelete,
-                onCategoryUpdate = onCategoryUpdate
+                onCategoryUpdate = onCategoryUpdate,
+                popBackStack = popBackStack,
             )
     }
 }

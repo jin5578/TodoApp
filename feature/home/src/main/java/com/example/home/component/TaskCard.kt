@@ -119,15 +119,6 @@ internal fun TaskCard(
                         color = MaterialTheme.colorScheme.onBackground,
                     )
 
-                    if (task.memoTitle.isNotEmpty()) {
-                        Text(
-                            modifier = Modifier.fillMaxWidth().basicMarquee(),
-                            text = task.memoTitle,
-                            style = TodoTheme.typography.medium_12,
-                            color = MaterialTheme.colorScheme.onBackground,
-                        )
-                    }
-
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
                         verticalAlignment = Alignment.CenterVertically
@@ -170,6 +161,15 @@ internal fun TaskCard(
                                     color = MaterialTheme.colorScheme.onBackground
                                 )
                             }
+                        }
+
+                        if (task.memoTitle.isNotEmpty() || task.memoContent.isNotEmpty()) {
+                            Icon(
+                                modifier = Modifier.size(size = 12.dp),
+                                imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_note),
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onBackground
+                            )
                         }
 
                         if (task.subTasks.isNotEmpty()) {

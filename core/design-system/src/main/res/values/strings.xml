@@ -134,4 +134,9 @@
     <string name="add_subtask">Add Subtask</string>
     <string name="input_the_subtask">Input the subtask</string>
     <string name="manage_categories">Manage categories</string>
+    <string name="create_new_category">Create new category</string>
+    <string name="save">Save</string>
+    <string name="input_here">Input here</string>
+    <string name="category_color">Category color</string>
+    <string name="category_color_explanation">The color will be displayed in the calendar interface</string>
 </resources>
