@@ -5,6 +5,7 @@ import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
 import androidx.room.Update
 import kotlinx.coroutines.flow.Flow
 import java.time.LocalDate
@@ -12,34 +13,41 @@ import java.time.LocalDateTime
 
 @Dao
 interface TaskDao {
-    /* UPDATE */
+    /* INSERT */
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(entity: TaskEntity)
 
     /* SELECT */
+    @Transaction
     @Query(value = "SELECT * FROM task ORDER BY date ASC")
-    fun getAllTask(): Flow<List<TaskEntity>>
+    fun getTasks(): Flow<List<TaskWithSubTasksEntity>>
 
+    @Transaction
     @Query("SELECT * FROM task WHERE date = :date")
-    fun getTasksByDate(date: String): Flow<List<TaskEntity>>
+    fun getTasksByDate(date: String): Flow<List<TaskWithSubTasksEntity>>
 
+    @Transaction
     @Query("SELECT * FROM task WHERE epochDay BETWEEN :fromDate AND :toDate ORDER BY date ASC")
     fun getTasksByEpochDayRange(
         fromDate: Long,
         toDate: Long
-    ): Flow<List<TaskEntity>>
+    ): Flow<List<TaskWithSubTasksEntity>>
 
+    @Transaction
     @Query("SELECT * FROM task WHERE isCompleted = :isCompleted ORDER BY date ASC")
-    fun getTasksByState(isCompleted: Boolean): Flow<List<TaskEntity>>
+    fun getTasksByState(isCompleted: Boolean): Flow<List<TaskWithSubTasksEntity>>
 
+    @Transaction
     @Query("SELECT * FROM task WHERE categoryId = :categoryId ORDER BY date ASC")
-    fun getTasksByCategory(categoryId: Long): Flow<List<TaskEntity>>
+    fun getTasksByCategory(categoryId: Long): Flow<List<TaskWithSubTasksEntity>>
 
+    @Transaction
     @Query("SELECT * FROM task WHERE id=:id")
-    fun getFlowTaskById(id: Long): Flow<TaskEntity>
+    fun getFlowTaskById(id: Long): Flow<TaskWithSubTasksEntity>
 
+    @Transaction
     @Query("SELECT * FROM task WHERE id=:id")
-    suspend fun getTaskById(id: Long): TaskEntity
+    suspend fun getTaskById(id: Long): TaskWithSubTasksEntity
 
     /* Update */
     @Update(onConflict = OnConflictStrategy.REPLACE)

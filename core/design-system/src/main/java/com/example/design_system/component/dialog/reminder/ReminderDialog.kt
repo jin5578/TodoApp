@@ -23,10 +23,8 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -165,7 +163,7 @@ private fun ReminderOptionItem(
         horizontalArrangement = Arrangement.spacedBy(space = 16.dp)
     ) {
         Box(
-            modifier = Modifier.size(size = 24.dp),
+            modifier = Modifier.size(size = 18.dp),
             contentAlignment = Alignment.Center
         ) {
             if (isClicked) {
@@ -173,14 +171,14 @@ private fun ReminderOptionItem(
                     modifier = Modifier.size(18.dp),
                     painter = painterResource(id = R.drawable.svg_check_circle),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onPrimaryContainer
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             } else {
                 Box(
                     modifier = Modifier.size(size = 17.dp)
                         .border(
-                            width = 2.dp,
-                            color = MaterialTheme.colorScheme.onPrimaryContainer,
+                            width = 1.8.dp,
+                            color = MaterialTheme.colorScheme.onBackground,
                             shape = CircleShape
                         ),
                     contentAlignment = Alignment.Center,

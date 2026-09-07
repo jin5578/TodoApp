@@ -34,8 +34,9 @@ import com.example.design_system.theme.TodoTheme
 import com.example.design_system.theme.priorityColors
 import com.example.model.Category
 import com.example.model.PriorityType
-import com.example.model.ReminderTimeType
-import com.example.model.Task
+import com.example.model.SubTask
+import com.example.model.TaskUiModel
+import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -46,7 +47,7 @@ private const val OFF = "OFF"
 @Composable
 fun TaskCard(
     modifier: Modifier = Modifier,
-    task: Task,
+    task: TaskUiModel,
     category: Category? = null,
     locale: Locale,
     isAvailableSwipe: Boolean,
@@ -159,7 +160,18 @@ fun TaskCard(
                         tintColor = MaterialTheme.colorScheme.onPrimaryContainer,
                     )
 
-                    val notificationIcon: Int
+                    if (task.subTasks.isNotEmpty()) {
+                        val completedCount =
+                            task.subTasks.count { it.isCompleted }
+                        ExtraInfo(
+                            painter = painterResource(id = R.drawable.svg_subtask),
+                            title = "$completedCount/${task.subTasks.size}",
+                            textColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                            tintColor = MaterialTheme.colorScheme.onPrimaryContainer,
+                        )
+                    }
+
+                    /*val notificationIcon: Int
                     val notificationText: String
                     if (task.isRemind) {
                         notificationIcon =
@@ -176,7 +188,7 @@ fun TaskCard(
                         title = notificationText,
                         textColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         tintColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                    )
+                    )*/
                 }
             }
 
@@ -262,12 +274,11 @@ private fun CategoryInfo(
 @Composable
 private fun TaskCardPreview() {
     TodoTheme {
-        val task = Task(
+        val task = TaskUiModel(
             id = 8578,
             uuid = "corrumpit",
             title = "inceptos",
             isCompleted = false,
-            isRemind = true,
             date = LocalDate.now(),
             time = LocalDateTime.now(),
             reminderTime = LocalDateTime.now(),
@@ -276,6 +287,21 @@ private fun TaskCardPreview() {
             memoUpdatedAt = LocalDateTime.now(),
             priority = 2,
             categoryId = -1L,
+            symbol = -1,
+            subTasks = persistentListOf(
+                SubTask(
+                    id = 1L,
+                    parentId = 8578,
+                    title = "sub 1",
+                    isCompleted = true
+                ),
+                SubTask(
+                    id = 2L,
+                    parentId = 8578,
+                    title = "sub 2",
+                    isCompleted = false
+                ),
+            ),
         )
         TaskCard(
             task = task,

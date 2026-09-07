@@ -3,8 +3,7 @@ package com.example.edit_task.model
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import com.example.model.Category
-import com.example.model.SubTask
-import com.example.model.Task
+import com.example.model.TaskUiModel
 import com.example.model.TimePickerType
 import kotlinx.collections.immutable.ImmutableList
 import java.util.Locale
@@ -16,8 +15,7 @@ sealed interface EditTaskUiState {
 
     @Immutable
     data class Screen(
-        val task: Task,
-        val subTasks: ImmutableList<SubTask>,
+        val task: TaskUiModel,
         val locale: Locale,
         val timePickerType: TimePickerType,
         val categories: ImmutableList<Category>

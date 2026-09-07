@@ -29,7 +29,7 @@ import com.example.design_system.component.EmptyContent
 import com.example.design_system.component.TaskCard
 import com.example.design_system.theme.TodoTheme
 import com.example.model.Category
-import com.example.model.Task
+import com.example.model.TaskUiModel
 import com.example.model.TasksType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -41,7 +41,7 @@ import com.example.design_system.R as DesignSystemR
 internal fun TasksScreen(
     modifier: Modifier = Modifier,
     type: TasksType,
-    tasks: ImmutableList<Task>,
+    tasks: ImmutableList<TaskUiModel>,
     categories: ImmutableList<Category>,
     locale: Locale,
     popBackStack: () -> Unit,

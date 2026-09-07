@@ -40,7 +40,7 @@ import com.example.design_system.component.EmptyContent
 import com.example.design_system.component.TaskCard
 import com.example.design_system.theme.TodoTheme
 import com.example.model.Category
-import com.example.model.Task
+import com.example.model.TaskUiModel
 import com.kizitonwose.calendar.compose.WeekCalendar
 import com.kizitonwose.calendar.compose.weekcalendar.rememberWeekCalendarState
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
@@ -59,7 +59,7 @@ import com.example.design_system.R as DesignSystemR
 @Composable
 internal fun CalendarScreen(
     modifier: Modifier = Modifier,
-    tasks: ImmutableList<Task>,
+    tasks: ImmutableList<TaskUiModel>,
     categories: ImmutableList<Category>,
     locale: Locale,
     navigateEditTask: (Long) -> Unit,

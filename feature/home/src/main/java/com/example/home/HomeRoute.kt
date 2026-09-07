@@ -7,7 +7,6 @@ import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.Loading
 import com.example.home.model.HomeUiState
-import com.example.model.SortTaskType
 import com.example.model.Task
 import kotlinx.coroutines.flow.collectLatest
 
@@ -15,12 +14,7 @@ import kotlinx.coroutines.flow.collectLatest
 internal fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
     exitApp: () -> Unit,
-    navigateCalendar: () -> Unit,
     navigateSetting: () -> Unit,
-    navigateCompletedTask: (String) -> Unit,
-    navigateIncompleteTask: (String) -> Unit,
-    navigateThisWeekTask: (String) -> Unit,
-    navigateAllTask: (String) -> Unit,
     navigateEditTask: (Long) -> Unit,
     navigateManageCategories: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
@@ -36,52 +30,40 @@ internal fun HomeRoute(
 
     HomeContent(
         uiState = uiState,
-        exitApp = exitApp,
-        navigateCalendar = navigateCalendar,
-        navigateSetting = navigateSetting,
-        navigateCompletedTask = navigateCompletedTask,
-        navigateIncompleteTask = navigateIncompleteTask,
-        navigateThisWeekTask = navigateThisWeekTask,
-        navigateAllTask = navigateAllTask,
-        navigateEditTask = navigateEditTask,
-        navigateManageCategories = navigateManageCategories,
-        onPasswordCheck = viewModel::checkPassword,
-        onCategoryChanged = viewModel::fetchHome,
-        onSortTaskTypeChanged = viewModel::updateSortTaskType,
-        onTaskDelete = viewModel::deleteTask,
-        onTaskToggleChanged = viewModel::toggleTaskCompletion,
-        onShowMessageSnackbar = onShowMessageSnackbar,
+        passwordCheck = viewModel::checkPassword,
+        homeFetch = viewModel::fetchHome,
+        taskCompletionUpdate = viewModel::updateTaskCompletion,
         onDeleteAllData = viewModel::deleteAllData,
         onBiometricAuthSucceeded = viewModel::fetchHome,
         onBiometricAuthError = viewModel::executePasswordAuth,
         onAddTask = viewModel::insertTask,
-        onTaskSymbolChanged = viewModel::updateTaskSymbol
+        onTaskSymbolChanged = viewModel::updateTaskSymbol,
+        onSubTaskToggleChanged = viewModel::toggleSubTaskCompletion,
+        navigateSetting = navigateSetting,
+        navigateEditTask = navigateEditTask,
+        navigateManageCategories = navigateManageCategories,
+        exitApp = exitApp,
+        onShowMessageSnackbar = onShowMessageSnackbar,
     )
 }
 
 @Composable
 private fun HomeContent(
     uiState: HomeUiState,
-    exitApp: () -> Unit,
-    navigateCalendar: () -> Unit,
-    navigateSetting: () -> Unit,
-    navigateCompletedTask: (String) -> Unit,
-    navigateIncompleteTask: (String) -> Unit,
-    navigateThisWeekTask: (String) -> Unit,
-    navigateAllTask: (String) -> Unit,
-    navigateEditTask: (Long) -> Unit,
-    navigateManageCategories: () -> Unit,
-    onPasswordCheck: (String) -> Unit,
-    onCategoryChanged: (Long) -> Unit,
-    onSortTaskTypeChanged: (SortTaskType) -> Unit,
-    onTaskDelete: (Long) -> Unit,
-    onTaskToggleChanged: (id: Long, isCompleted: Boolean) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
+    passwordCheck: (String) -> Unit,
+    homeFetch: (Long) -> Unit,
+    taskCompletionUpdate: (id: Long, isCompleted: Boolean) -> Unit,
     onDeleteAllData: () -> Unit,
     onBiometricAuthSucceeded: () -> Unit,
     onBiometricAuthError: () -> Unit,
     onAddTask: (Task) -> Unit,
     onTaskSymbolChanged: (taskId: Long, symbolId: Int) -> Unit,
+    onSubTaskToggleChanged: (subTaskId: Long, isCompleted: Boolean) -> Unit,
+    navigateSetting: () -> Unit,
+    navigateEditTask: (Long) -> Unit,
+    navigateManageCategories: () -> Unit,
+    exitApp: () -> Unit,
+    onShowMessageSnackbar: (String) -> Unit,
 ) {
     when (uiState) {
         is HomeUiState.Loading ->
@@ -97,7 +79,7 @@ private fun HomeContent(
             HomePasswordScreen(
                 homePasswordProcessType = uiState.homePasswordProcessType,
                 exitApp = exitApp,
-                onPasswordCheck = onPasswordCheck,
+                onPasswordCheck = passwordCheck,
                 onDeleteAllData = onDeleteAllData
             )
 
@@ -109,8 +91,8 @@ private fun HomeContent(
                 timePickerType = uiState.timePickerType,
                 navigateManageCategories = navigateManageCategories,
                 onSettingClick = navigateSetting,
-                onCategoryClick = onCategoryChanged,
-                onTaskToggleClick = onTaskToggleChanged,
+                onCategoryClick = homeFetch,
+                onTaskToggleClick = taskCompletionUpdate,
                 onTaskEditClick = navigateEditTask,
                 onDeleteSymbolClick = { taskId ->
                     onTaskSymbolChanged(
@@ -118,8 +100,9 @@ private fun HomeContent(
                         -1
                     )
                 },
-                onSymbolClick = onTaskSymbolChanged,
                 onAddTaskClick = onAddTask,
+                onSymbolClick = onTaskSymbolChanged,
+                onSubTaskToggleClick = onSubTaskToggleChanged,
                 onShowMessageSnackbar = onShowMessageSnackbar
             )
     }

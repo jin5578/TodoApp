@@ -1,6 +1,7 @@
 package com.example.design_system.component.dialog.calendar
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -8,6 +9,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,17 +36,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.example.design_system.R
-import com.example.design_system.component.dialog.date_picker.DaysOfWeek
-import com.example.design_system.component.dialog.date_picker.MonthDay
 import com.example.design_system.theme.TodoTheme
 import com.example.model.DateOption
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
+import com.kizitonwose.calendar.core.CalendarDay
+import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -53,6 +56,7 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
+import java.time.format.TextStyle
 import java.time.temporal.TemporalAdjusters
 import java.util.Locale
 import com.example.design_system.R as DesignSystemR
@@ -328,6 +332,77 @@ private fun CalendarArrowIcon(
 }
 
 @Composable
+private fun MonthDay(
+    modifier: Modifier = Modifier,
+    day: CalendarDay,
+    isSelected: Boolean,
+    onClick: (LocalDate) -> Unit,
+    onShowMessageSnackbar: (String) -> Unit,
+) {
+    val backgroundColor =
+        if (isSelected) MaterialTheme.colorScheme.primaryContainer
+        else Color.Transparent
+    val borderWidth = if (isSelected) 1.dp else (-1).dp
+    val textColor =
+        if (day.date == LocalDate.now()) MaterialTheme.colorScheme.error
+        else if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
+        else MaterialTheme.colorScheme.onBackground
+    val fontStyle =
+        if (isSelected) TodoTheme.typography.bold_12
+        else TodoTheme.typography.medium_12
+
+    val message = stringResource(R.string.cannot_be_selected_of_day)
+
+    Box(
+        modifier = modifier.aspectRatio(ratio = 1f)
+            .padding(all = 6.dp)
+            .clip(shape = RoundedCornerShape(size = 8.dp))
+            .background(backgroundColor)
+            .border(
+                width = borderWidth,
+                color = MaterialTheme.colorScheme.onBackground,
+                shape = RoundedCornerShape(size = 8.dp)
+            )
+            .clickable {
+                if (day.date < LocalDate.now()) {
+                    onShowMessageSnackbar(message)
+                } else {
+                    onClick(day.date)
+                }
+            },
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = day.date.dayOfMonth.toString(),
+            style = fontStyle,
+            color = textColor
+        )
+    }
+}
+
+@Composable
+private fun DaysOfWeek(
+    modifier: Modifier = Modifier,
+    daysOfWeek: List<DayOfWeek>,
+    locale: Locale
+) {
+    Row(
+        modifier = modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween
+    ) {
+        for (dayOfWeek in daysOfWeek) {
+            Text(
+                modifier = Modifier.weight(1f).padding(bottom = 8.dp),
+                text = dayOfWeek.getDisplayName(TextStyle.SHORT, locale),
+                textAlign = TextAlign.Center,
+                style = TodoTheme.typography.medium_12,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+        }
+    }
+}
+
+@Composable
 private fun DateOptionItem(
     modifier: Modifier = Modifier,
     dateOption: DateOption,
@@ -432,6 +507,30 @@ private fun CalendarArrowIconPreview() {
             iconResId = -1,
             onClick = {}
         )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun MonthDayPreview() {
+    TodoTheme {
+        MonthDay(
+            day = CalendarDay(
+                date = LocalDate.now(),
+                position = DayPosition.MonthDate
+            ),
+            isSelected = false,
+            onClick = {},
+            onShowMessageSnackbar = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun DaysOfWeekPreview() {
+    TodoTheme {
+        DaysOfWeek(daysOfWeek = DayOfWeek.entries, locale = Locale.KOREA)
     }
 }
 

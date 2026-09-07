@@ -16,7 +16,7 @@ class GetCalendarDataUseCase @Inject constructor(
     operator fun invoke(): Flow<Calendar> =
         combine(
             flow = systemRepository.getCalendarSystem(),
-            flow2 = taskRepository.getAllTask(),
+            flow2 = taskRepository.getTasks(),
             flow3 = categoryRepository.getAllCategory()
         ) { calendarSystem, tasks, categories ->
             Calendar(

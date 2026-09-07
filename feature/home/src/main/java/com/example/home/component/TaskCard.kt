@@ -39,7 +39,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.theme.TodoTheme
 import com.example.home.model.TaskSymbolType
-import com.example.model.Task
+import com.example.model.SubTask
+import com.example.model.TaskUiModel
+import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -49,191 +51,282 @@ import com.example.design_system.R as DesignSystemR
 @Composable
 internal fun TaskCard(
     modifier: Modifier = Modifier,
-    task: Task,
+    task: TaskUiModel,
     locale: Locale,
     onTaskToggleClick: (id: Long, isCompleted: Boolean) -> Unit,
     onTaskEditClick: (Long) -> Unit,
-    onDeleteSymbolClick: (taskId: Long) -> Unit,
+    onDeleteSymbolClick: (Long) -> Unit,
     onSymbolClick: (taskId: Long, symbolId: Int) -> Unit,
+    onSubTaskToggleClick: (subTaskId: Long, isCompleted: Boolean) -> Unit,
 ) {
     var isShowFlagMenu by remember { mutableStateOf(value = false) }
 
     Box(
         modifier = modifier.fillMaxWidth()
-            .padding(start = 20.dp, end = 20.dp, bottom = 10.dp)
+            .padding(start = 16.dp, end = 16.dp, bottom = 10.dp)
     ) {
-        Row(
+        Column(
             modifier = Modifier.fillMaxWidth()
                 .background(
-                    color = MaterialTheme.colorScheme.primaryContainer,
+                    color = MaterialTheme.colorScheme.surfaceContainer,
                     shape = RoundedCornerShape(size = 8.dp)
                 ).clickable {
                     onTaskEditClick(task.id)
-                }.padding(all = 10.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+                }.padding(all = 16.dp),
+            verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         ) {
-            IconButton(
-                modifier = Modifier.size(size = 20.dp),
-                onClick = {
-                    onTaskToggleClick(task.id, !task.isCompleted)
-                }
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(space = 16.dp)
             ) {
-                if (task.isCompleted) {
-                    Icon(
-                        modifier = Modifier.size(20.dp),
-                        painter = painterResource(id = DesignSystemR.drawable.svg_check_circle),
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimaryContainer
-                    )
-                } else {
-                    Box(
-                        modifier = Modifier.size(size = 20.dp)
-                            .border(
-                                width = 2.dp,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer,
-                                shape = CircleShape
-                            ),
-                        contentAlignment = Alignment.Center,
-                        content = {}
-                    )
+                IconButton(
+                    modifier = Modifier.size(size = 18.dp),
+                    onClick = {
+                        onTaskToggleClick(task.id, !task.isCompleted)
+                    }
+                ) {
+                    if (task.isCompleted) {
+                        Icon(
+                            modifier = Modifier.size(18.dp),
+                            painter = painterResource(id = DesignSystemR.drawable.svg_check_circle),
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.primary
+                        )
+                    } else {
+                        Box(
+                            modifier = Modifier.size(size = 17.dp)
+                                .border(
+                                    width = 1.8.dp,
+                                    color = MaterialTheme.colorScheme.onBackground,
+                                    shape = CircleShape
+                                ),
+                            contentAlignment = Alignment.Center,
+                            content = {}
+                        )
+                    }
                 }
-            }
 
-            Column(
-                modifier = Modifier.weight(weight = 0.8f),
-                verticalArrangement = Arrangement.spacedBy(space = 8.dp),
-                horizontalAlignment = Alignment.Start
-            ) {
-                Text(
-                    modifier = Modifier.fillMaxWidth().basicMarquee(),
-                    text = task.title,
-                    style = TodoTheme.typography.bold_16,
-                    color = MaterialTheme.colorScheme.onPrimaryContainer,
-                )
-
-                if (task.memoTitle.isNotEmpty()) {
+                Column(
+                    modifier = Modifier.weight(weight = 0.8f),
+                    verticalArrangement = Arrangement.spacedBy(space = 8.dp),
+                    horizontalAlignment = Alignment.Start
+                ) {
                     Text(
                         modifier = Modifier.fillMaxWidth().basicMarquee(),
-                        text = task.memoTitle,
-                        style = TodoTheme.typography.medium_12,
-                        color = MaterialTheme.colorScheme.onPrimaryContainer,
+                        text = task.title,
+                        style = TodoTheme.typography.bold_16,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
+
+                    if (task.memoTitle.isNotEmpty()) {
+                        Text(
+                            modifier = Modifier.fillMaxWidth().basicMarquee(),
+                            text = task.memoTitle,
+                            style = TodoTheme.typography.medium_12,
+                            color = MaterialTheme.colorScheme.onBackground,
+                        )
+                    }
+
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        val dateFormat =
+                            DateTimeFormatter.ofPattern("MM-dd", locale)
+                        Text(
+                            text = task.date.format(dateFormat),
+                            style = TodoTheme.typography.medium_12,
+                            color = MaterialTheme.colorScheme.error,
+                        )
+
+                        val timeFormat =
+                            DateTimeFormatter.ofPattern("hh:mm a", locale)
+                        task.time?.let { time ->
+                            Text(
+                                text = time.format(timeFormat),
+                                style = TodoTheme.typography.medium_12,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
+
+                        task.reminderTime?.let { reminderTime ->
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    space = 4.dp
+                                )
+                            ) {
+                                Icon(
+                                    modifier = Modifier.size(size = 12.dp),
+                                    imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_reminder),
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onBackground
+                                )
+
+                                Text(
+                                    text = reminderTime.format(timeFormat),
+                                    style = TodoTheme.typography.medium_12,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
+                        }
+
+                        if (task.subTasks.isNotEmpty()) {
+                            Row(
+                                verticalAlignment = Alignment.CenterVertically,
+                                horizontalArrangement = Arrangement.spacedBy(
+                                    space = 4.dp
+                                )
+                            ) {
+                                Icon(
+                                    modifier = Modifier.size(size = 12.dp),
+                                    imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_subtask),
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.onBackground
+                                )
+
+                                val completedCount =
+                                    task.subTasks.count { it.isCompleted }
+                                Text(
+                                    text = "$completedCount/${task.subTasks.size}",
+                                    style = TodoTheme.typography.medium_12,
+                                    color = MaterialTheme.colorScheme.onBackground
+                                )
+                            }
+                        }
+                    }
                 }
 
-                Row(
-                    horizontalArrangement = Arrangement.spacedBy(space = 4.dp),
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    val dateFormat =
-                        DateTimeFormatter.ofPattern("MM-dd", locale)
-                    Text(
-                        text = task.date.format(dateFormat),
-                        style = TodoTheme.typography.medium_12,
-                        color = MaterialTheme.colorScheme.primary,
-                    )
+                Box {
+                    IconButton(
+                        modifier = Modifier.size(size = 20.dp),
+                        onClick = {
+                            isShowFlagMenu = true
+                        }
+                    ) {
+                        val selectedSymbol = TaskSymbolType.entries
+                            .flatMap { it.taskSymbols }
+                            .firstOrNull { it.id == task.symbol }
 
-                    if (task.isRemind) {
+                        if (selectedSymbol?.emojiIcon != null) {
+                            Text(
+                                text = selectedSymbol.emojiIcon,
+                                style = TodoTheme.typography.medium_20,
+                            )
+                        } else {
+                            val iconResId =
+                                selectedSymbol?.symbolIcon?.iconResId
+                                    ?: DesignSystemR.drawable.svg_flag_stroke
+                            val iconTint = selectedSymbol?.symbolIcon?.iconColor
+                                ?: MaterialTheme.colorScheme.onBackground
+
+                            Icon(
+                                modifier = Modifier.size(18.dp),
+                                imageVector = ImageVector.vectorResource(id = iconResId),
+                                contentDescription = null,
+                                tint = iconTint
+                            )
+                        }
+                    }
+
+                    DropdownMenu(
+                        modifier = Modifier.wrapContentSize().padding(
+                            horizontal = 10.dp,
+                            vertical = 2.dp,
+                        ),
+                        containerColor = MaterialTheme.colorScheme.background,
+                        expanded = isShowFlagMenu,
+                        onDismissRequest = { isShowFlagMenu = false }
+                    ) {
                         Row(
-                            horizontalArrangement = Arrangement.spacedBy(space = 2.dp),
+                            modifier = Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.SpaceBetween,
                             verticalAlignment = Alignment.CenterVertically
                         ) {
-                            val timeFormat =
-                                DateTimeFormatter.ofPattern("hh:mm a", locale)
                             Text(
-                                text = /*(task.time ?: LocalTime.now()).format(
-                                    timeFormat
-                                )*/"",
-                                style = TodoTheme.typography.regular_12,
-                                color = MaterialTheme.colorScheme.onPrimaryContainer
+                                text = stringResource(id = DesignSystemR.string.marked_with_a_symbol),
+                                style = TodoTheme.typography.medium_12,
+                                color = MaterialTheme.colorScheme.onBackground
                             )
-                            Icon(
-                                modifier = Modifier.size(size = 10.dp),
-                                imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_clock),
-                                contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onPrimaryContainer
+
+                            Text(
+                                modifier = Modifier.clickable {
+                                    onDeleteSymbolClick(
+                                        task.id
+                                    )
+                                },
+                                text = stringResource(id = DesignSystemR.string.delete),
+                                style = TodoTheme.typography.medium_12,
+                                color = MaterialTheme.colorScheme.error
                             )
+                        }
+
+                        Spacer(modifier = Modifier.height(height = 10.dp))
+
+                        TaskSymbolType.entries.forEachIndexed { index, type ->
+                            DropdownMenuElement(
+                                taskSymbolType = type,
+                                onSymbolClick = { symbolId ->
+                                    onSymbolClick(task.id, symbolId)
+                                    isShowFlagMenu = false
+                                },
+                            )
+
+                            if (index != TaskSymbolType.entries.size - 1)
+                                Spacer(modifier = Modifier.height(height = 10.dp))
                         }
                     }
                 }
             }
 
-            Box {
-                IconButton(
-                    modifier = Modifier.size(size = 24.dp),
-                    onClick = {
-                        isShowFlagMenu = true
-                    }
+            if (task.subTasks.isNotEmpty()) {
+                Column(
+                    verticalArrangement = Arrangement.spacedBy(space = 12.dp)
                 ) {
-                    val selectedSymbol = TaskSymbolType.entries
-                        .flatMap { it.taskSymbols }
-                        .firstOrNull { it.id == task.symbol }
+                    task.subTasks.forEachIndexed { index, subTask ->
+                        Row(
+                            modifier = Modifier.fillMaxWidth()
+                                .padding(horizontal = 34.dp),
+                            verticalAlignment = Alignment.CenterVertically,
+                            horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+                        ) {
+                            IconButton(
+                                modifier = Modifier.size(size = 16.dp),
+                                onClick = {
+                                    onSubTaskToggleClick(
+                                        subTask.id,
+                                        !subTask.isCompleted
+                                    )
+                                }
+                            ) {
+                                if (subTask.isCompleted) {
+                                    Icon(
+                                        modifier = Modifier.size(16.dp),
+                                        painter = painterResource(id = DesignSystemR.drawable.svg_check_circle),
+                                        contentDescription = null,
+                                        tint = MaterialTheme.colorScheme.primary
+                                    )
+                                } else {
+                                    Box(
+                                        modifier = Modifier.size(size = 15.dp)
+                                            .border(
+                                                width = 1.8.dp,
+                                                color = MaterialTheme.colorScheme.onBackground,
+                                                shape = CircleShape
+                                            ),
+                                        contentAlignment = Alignment.Center,
+                                        content = {}
+                                    )
+                                }
+                            }
 
-                    if (selectedSymbol?.emojiIcon != null) {
-                        Text(
-                            text = selectedSymbol.emojiIcon,
-                            style = TodoTheme.typography.medium_20,
-                        )
-                    } else {
-                        val iconResId = selectedSymbol?.symbolIcon?.iconResId
-                            ?: DesignSystemR.drawable.svg_flag_stroke
-                        val iconTint = selectedSymbol?.symbolIcon?.iconColor
-                            ?: MaterialTheme.colorScheme.onPrimaryContainer
-
-                        Icon(
-                            modifier = Modifier.size(20.dp),
-                            imageVector = ImageVector.vectorResource(id = iconResId),
-                            contentDescription = null,
-                            tint = iconTint
-                        )
-                    }
-                }
-
-                DropdownMenu(
-                    modifier = Modifier.wrapContentSize().padding(
-                        horizontal = 10.dp,
-                        vertical = 2.dp,
-                    ),
-                    containerColor = MaterialTheme.colorScheme.background,
-                    expanded = isShowFlagMenu,
-                    onDismissRequest = { isShowFlagMenu = false }
-                ) {
-                    Row(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceBetween,
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(
-                            text = stringResource(id = DesignSystemR.string.marked_with_a_symbol),
-                            style = TodoTheme.typography.medium_12,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-
-                        Text(
-                            modifier = Modifier.clickable {
-                                onDeleteSymbolClick(
-                                    task.id
-                                )
-                            },
-                            text = stringResource(id = DesignSystemR.string.delete),
-                            style = TodoTheme.typography.medium_12,
-                            color = MaterialTheme.colorScheme.onSurfaceVariant
-                        )
-                    }
-
-                    Spacer(modifier = Modifier.height(height = 10.dp))
-
-                    TaskSymbolType.entries.forEachIndexed { index, type ->
-                        DropdownMenuElement(
-                            taskSymbolType = type,
-                            onSymbolClick = { symbolId ->
-                                onSymbolClick(task.id, symbolId)
-                                isShowFlagMenu = false
-                            },
-                        )
-
-                        if (index != TaskSymbolType.entries.size - 1)
-                            Spacer(modifier = Modifier.height(height = 10.dp))
+                            Text(
+                                text = subTask.title,
+                                style = TodoTheme.typography.medium_16,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
                     }
                 }
             }
@@ -254,8 +347,8 @@ private fun DropdownMenuElement(
     ) {
         Text(
             text = stringResource(id = taskSymbolType.titleResId),
-            style = TodoTheme.typography.medium_12,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = TodoTheme.typography.medium_08,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Row(
@@ -333,20 +426,34 @@ private fun TaskEmojiIconButton(
 @Composable
 private fun TaskCardPreview() {
     TodoTheme {
-        val task = Task(
+        val task = TaskUiModel(
             id = 8578,
             uuid = "corrumpit",
             title = "inceptos",
             isCompleted = false,
-            isRemind = true,
             time = LocalDateTime.now(),
             date = LocalDate.now(),
-            reminderTime = /*ReminderTimeType.ON_TIME.ordinal*/LocalDateTime.now(),
+            reminderTime = LocalDateTime.now(),
             memoTitle = "memo",
             memoContent = "",
             memoUpdatedAt = LocalDateTime.now(),
             priority = 2,
             categoryId = -1L,
+            symbol = -1,
+            subTasks = persistentListOf(
+                SubTask(
+                    id = 1L,
+                    parentId = 8578,
+                    title = "sub 1",
+                    isCompleted = true
+                ),
+                SubTask(
+                    id = 2L,
+                    parentId = 8578,
+                    title = "sub 2",
+                    isCompleted = false
+                ),
+            ),
         )
         TaskCard(
             task = task,
@@ -354,7 +461,8 @@ private fun TaskCardPreview() {
             onTaskToggleClick = { _, _ -> },
             onTaskEditClick = {},
             onDeleteSymbolClick = {},
-            onSymbolClick = { _, _ -> }
+            onSymbolClick = { _, _ -> },
+            onSubTaskToggleClick = { _, _ -> }
         )
     }
 }

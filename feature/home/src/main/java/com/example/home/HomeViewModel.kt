@@ -4,21 +4,19 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.CheckPasswordUseCase
 import com.example.domain.DeleteAllDataUseCase
-import com.example.domain.DeleteTaskByTaskUseCase
 import com.example.domain.GetHasBiometricEnabledUseCase
 import com.example.domain.GetHasExistingPasswordUseCase
 import com.example.domain.GetHomeDataUseCase
-import com.example.domain.GetTaskByIdUseCase
 import com.example.domain.InsertTaskUseCase
-import com.example.domain.UpdateSortTaskTypeUseCase
+import com.example.domain.UpdateSubTaskCompletedUseCase
+import com.example.domain.UpdateTaskCompletedUseCase
 import com.example.domain.UpdateTaskSymbolUseCase
-import com.example.domain.UpdateTaskUseCase
 import com.example.home.model.HomeUiState
 import com.example.home.model.TaskState
 import com.example.home.model.TaskStateGroup
 import com.example.model.HomePasswordProcessType
-import com.example.model.SortTaskType
 import com.example.model.Task
+import com.example.model.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
@@ -37,14 +35,12 @@ class HomeViewModel @Inject constructor(
     private val getHasBiometricEnabledUseCase: GetHasBiometricEnabledUseCase,
     private val getHasExistingPasswordUseCase: GetHasExistingPasswordUseCase,
     private val getHomeDataUseCase: GetHomeDataUseCase,
-    private val updateSortTaskTypeUseCase: UpdateSortTaskTypeUseCase,
-    private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    private val deleteTaskByTaskUseCase: DeleteTaskByTaskUseCase,
-    private val updateTaskUseCase: UpdateTaskUseCase,
+    private val updateTaskCompletedUseCase: UpdateTaskCompletedUseCase,
     private val checkPasswordUseCase: CheckPasswordUseCase,
     private val deleteAllDataUseCase: DeleteAllDataUseCase,
     private val insertTaskUseCase: InsertTaskUseCase,
     private val updateTaskSymbolUseCase: UpdateTaskSymbolUseCase,
+    private val updateSubTaskCompletedUseCase: UpdateSubTaskCompletedUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -105,31 +101,12 @@ class HomeViewModel @Inject constructor(
             }
         }
 
-    fun updateSortTaskType(sortTaskType: SortTaskType) {
-        val state = _uiState.value
-        if (state !is HomeUiState.Screen) return
-
-        _uiState.value = state.copy(
-            sortTaskType = sortTaskType
-        )
-
+    fun updateTaskCompletion(id: Long, isCompleted: Boolean) =
         viewModelScope.launch {
-            updateSortTaskTypeUseCase(sortTaskType = sortTaskType)
-        }
-    }
-
-    fun deleteTask(id: Long) =
-        viewModelScope.launch {
-            val task = getTaskByIdUseCase(id = id)
-            deleteTaskByTaskUseCase(task = task)
-        }
-
-    fun toggleTaskCompletion(id: Long, isCompleted: Boolean) =
-        viewModelScope.launch {
-            val task = getTaskByIdUseCase(id = id).copy(
+            updateTaskCompletedUseCase(
+                id = id,
                 isCompleted = isCompleted
             )
-            updateTaskUseCase(task = task)
         }
 
     fun checkPassword(password: String) =
@@ -175,6 +152,14 @@ class HomeViewModel @Inject constructor(
             fetchHome()
         }
 
+    fun toggleSubTaskCompletion(subTaskId: Long, isCompleted: Boolean) =
+        viewModelScope.launch {
+            updateSubTaskCompletedUseCase(
+                id = subTaskId,
+                isCompleted = isCompleted
+            )
+        }
+
     private fun List<Task>.toTaskStateGroups(): ImmutableList<TaskStateGroup> =
         groupBy { task -> task.isCompleted }
             .toSortedMap()
@@ -183,7 +168,8 @@ class HomeViewModel @Inject constructor(
                     if (isCompleted) TaskState.COMPLETED else TaskState.INCOMPLETE
                 TaskStateGroup(
                     taskState = taskState,
-                    tasks = tasks.toPersistentList()
+                    tasks = tasks.map { task -> task.toUiModel() }
+                        .toPersistentList()
                 )
             }.toPersistentList()
 }

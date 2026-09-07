@@ -19,7 +19,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.component.dialog.calendar.CalendarDialog
 import com.example.design_system.component.dialog.reminder.ReminderDialog
-import com.example.design_system.component.dialog.time_picker.TimePickerDialog
+import com.example.design_system.component.dialog.time_picker.ClockTimePickerDialog
+import com.example.design_system.component.dialog.time_picker.ScrollTimePickerDialog
 import com.example.design_system.theme.TodoTheme
 import com.example.edit_task.component.EditTaskCategoryChip
 import com.example.edit_task.component.EditTaskDateRow
@@ -31,7 +32,8 @@ import com.example.edit_task.component.EditTaskTopAppBar
 import com.example.model.Category
 import com.example.model.PriorityType
 import com.example.model.SubTask
-import com.example.model.Task
+import com.example.model.TaskUiModel
+import com.example.model.TimePickerType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.time.LocalDate
@@ -42,12 +44,9 @@ import java.util.Locale
 @Composable
 internal fun EditTaskScreen(
     modifier: Modifier = Modifier,
-    popBackStack: () -> Unit,
-    navigateManageCategories: () -> Unit,
-    navigateMemo: (Long) -> Unit,
+    timePickerType: TimePickerType,
     categories: ImmutableList<Category>,
-    task: Task,
-    subTasks: ImmutableList<SubTask>,
+    task: TaskUiModel,
     locale: Locale,
     onCategoryClick: (taskId: Long, categoryId: Long) -> Unit,
     onTitleValueChanged: (taskId: Long, title: String) -> Unit,
@@ -56,6 +55,9 @@ internal fun EditTaskScreen(
     onDeleteClick: (id: Long, uuid: String) -> Unit,
     onSubTasksSync: (parentId: Long, List<SubTask>) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
+    navigateManageCategories: () -> Unit,
+    navigateMemo: (Long) -> Unit,
+    popBackStack: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -102,17 +104,29 @@ internal fun EditTaskScreen(
         }
 
         if (isShowTimePickerDialog) {
-            TimePickerDialog(
-                taskDate = task.date,
-                taskTime = task.time,
-                onCloseClick = {
-                    isShowTimePickerDialog = false
-                },
-                onConfirmClick = { dateTime ->
-                    onDateTimeChanged(task.id, task.date, dateTime, null)
-                    isShowTimePickerDialog = false
-                }
-            )
+            if (timePickerType == TimePickerType.CLOCK_TIME_PICKER) {
+                ClockTimePickerDialog(
+                    taskDate = task.date,
+                    taskTime = task.time,
+                    onCloseClick = {
+                        isShowTimePickerDialog = false
+                    },
+                    onConfirmClick = { dateTime ->
+                        onDateTimeChanged(task.id, task.date, dateTime, null)
+                        isShowTimePickerDialog = false
+                    }
+                )
+            } else {
+                ScrollTimePickerDialog(
+                    taskDate = task.date,
+                    taskTime = task.time,
+                    onCloseClick = { isShowTimePickerDialog = false },
+                    onConfirmClick = { dateTime ->
+                        onDateTimeChanged(task.id, task.date, dateTime, null)
+                        isShowTimePickerDialog = false
+                    }
+                )
+            }
         }
 
         if (isShowReminderDialog) {
@@ -159,7 +173,7 @@ internal fun EditTaskScreen(
             )
 
             EditTaskSubTask(
-                subTasks = subTasks,
+                subTasks = task.subTasks,
                 parentId = task.id,
                 onSubTasksSync = onSubTasksSync,
             )
@@ -211,12 +225,11 @@ internal fun EditTaskScreen(
 @Composable
 private fun EditTaskScreenPreview() {
     TodoTheme {
-        val task = Task(
+        val task = TaskUiModel(
             id = 0,
             uuid = "",
             title = "",
             isCompleted = true,
-            isRemind = true,
             date = LocalDate.now(),
             time = LocalDateTime.now(),
             reminderTime = LocalDateTime.now(),
@@ -225,23 +238,25 @@ private fun EditTaskScreenPreview() {
             memoUpdatedAt = LocalDateTime.now(),
             priority = PriorityType.LOW.ordinal,
             categoryId = 0,
+            symbol = -1,
+            subTasks = persistentListOf(),
         )
 
         EditTaskScreen(
-            popBackStack = {},
+            timePickerType = TimePickerType.CLOCK_TIME_PICKER,
             categories = persistentListOf(),
             task = task,
-            subTasks = persistentListOf(),
             locale = Locale.KOREA,
-            navigateManageCategories = {},
-            navigateMemo = {},
             onCategoryClick = { _, _ -> },
             onTitleValueChanged = { _, _ -> },
             onDateTimeChanged = { _, _, _, _ -> },
             onCompletedChanged = { _, _ -> },
             onDeleteClick = { _, _ -> },
             onSubTasksSync = { _, _ -> },
-            onShowMessageSnackbar = {}
+            onShowMessageSnackbar = {},
+            navigateManageCategories = {},
+            navigateMemo = {},
+            popBackStack = {},
         )
     }
 }

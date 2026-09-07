@@ -7,6 +7,7 @@ import com.example.domain.DeleteTaskByTaskUseCase
 import com.example.domain.GetCalendarDataUseCase
 import com.example.domain.GetTaskByIdUseCase
 import com.example.domain.UpdateTaskUseCase
+import com.example.model.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -41,7 +42,8 @@ class CalendarViewModel @Inject constructor(
             getCalendarDataUseCase().map { calendar ->
                 val calendarSystem = calendar.calendarSystem
                 CalendarUiState.Screen(
-                    tasks = calendar.tasks.toPersistentList(),
+                    tasks = calendar.tasks.map { task -> task.toUiModel() }
+                        .toPersistentList(),
                     categories = calendar.categories.toPersistentList(),
                     sortTaskType = calendarSystem.sortTaskType,
                     locale = calendarSystem.locale

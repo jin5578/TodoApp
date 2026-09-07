@@ -16,7 +16,7 @@ class GetHomeDataUseCase @Inject constructor(
     operator fun invoke(categoryId: Long): Flow<Home> =
         combine(
             flow =
-                if (categoryId == -1L) taskRepository.getAllTask()
+                if (categoryId == -1L) taskRepository.getTasks()
                 else taskRepository.getTasksByCategory(categoryId = categoryId),
             flow2 = categoryRepository.getAllCategory(),
             flow3 = systemRepository.getHomeSystem()

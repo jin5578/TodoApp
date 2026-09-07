@@ -6,7 +6,9 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 
 interface TaskRepository {
-    fun getAllTask(): Flow<List<Task>>
+    suspend fun insertTask(task: Task)
+
+    fun getTasks(): Flow<List<Task>>
     fun getTasksByDate(date: LocalDate): Flow<List<Task>>
     fun getTaskCountByDate(date: LocalDate): Flow<Int>
     fun getTasksByDateRange(
@@ -18,7 +20,6 @@ interface TaskRepository {
     fun getTasksByCategory(categoryId: Long): Flow<List<Task>>
     fun getFlowTaskById(id: Long): Flow<Task>
     suspend fun getTaskById(id: Long): Task
-    suspend fun insertTask(task: Task)
     suspend fun updateTask(task: Task)
     suspend fun updateTaskSymbol(taskId: Long, symbolId: Int)
     suspend fun updateTaskMemoTitle(id: Long, memoTitle: String)

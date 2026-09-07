@@ -1,5 +1,6 @@
 package com.example.home.component
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -33,6 +34,7 @@ internal fun LazyListScope.taskStateGroupContent(
     onDeleteSymbolClick: (taskId: Long) -> Unit,
     onSymbolClick: (taskId: Long, symbolId: Int) -> Unit,
     onTaskStateGroupHeaderClick: (String) -> Unit,
+    onSubTaskToggleClick: (subTaskId: Long, isCompleted: Boolean) -> Unit,
 ) {
     val taskState = taskStateGroup.taskState
     val taskStateKey = taskState.key
@@ -58,6 +60,7 @@ internal fun LazyListScope.taskStateGroupContent(
                 onTaskEditClick = onTaskEditClick,
                 onDeleteSymbolClick = onDeleteSymbolClick,
                 onSymbolClick = onSymbolClick,
+                onSubTaskToggleClick = onSubTaskToggleClick
             )
         }
     }
@@ -72,6 +75,7 @@ private fun TaskStateGroupHeader(
 ) {
     Row(
         modifier = modifier.fillMaxWidth()
+            .background(color = MaterialTheme.colorScheme.background)
             .clickable(onClick = onClick)
             .padding(horizontal = 20.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,

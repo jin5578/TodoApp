@@ -66,9 +66,6 @@ internal fun EditTaskRoute(
 
 @Composable
 private fun EditTaskContent(
-    popBackStack: () -> Unit,
-    navigateManageCategories: () -> Unit,
-    navigateMemo: (Long) -> Unit,
     uiState: EditTaskUiState,
     categoryUpdate: (taskId: Long, categoryId: Long) -> Unit,
     titleUpdate: (taskId: Long, title: String) -> Unit,
@@ -76,7 +73,10 @@ private fun EditTaskContent(
     completedUpdate: (taskId: Long, isCompleted: Boolean) -> Unit,
     taskDelete: (id: Long, uuid: String) -> Unit,
     subTasksSync: (parentId: Long, List<SubTask>) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit
+    onShowMessageSnackbar: (String) -> Unit,
+    navigateManageCategories: () -> Unit,
+    navigateMemo: (Long) -> Unit,
+    popBackStack: () -> Unit,
 ) {
     when (uiState) {
         is EditTaskUiState.Loading ->
@@ -84,12 +84,9 @@ private fun EditTaskContent(
 
         is EditTaskUiState.Screen ->
             EditTaskScreen(
-                popBackStack = popBackStack,
-                navigateManageCategories = navigateManageCategories,
-                navigateMemo = navigateMemo,
+                timePickerType = uiState.timePickerType,
                 categories = uiState.categories,
                 task = uiState.task,
-                subTasks = uiState.subTasks,
                 locale = uiState.locale,
                 onCategoryClick = categoryUpdate,
                 onTitleValueChanged = titleUpdate,
@@ -97,7 +94,10 @@ private fun EditTaskContent(
                 onCompletedChanged = completedUpdate,
                 onDeleteClick = taskDelete,
                 onSubTasksSync = subTasksSync,
-                onShowMessageSnackbar = onShowMessageSnackbar
+                onShowMessageSnackbar = onShowMessageSnackbar,
+                navigateManageCategories = navigateManageCategories,
+                navigateMemo = navigateMemo,
+                popBackStack = popBackStack,
             )
     }
 }

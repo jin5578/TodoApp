@@ -2,7 +2,10 @@ package com.example.data.repository
 
 import com.example.data_api.repository.TaskRepository
 import com.example.database.datasource.TaskDatabaseDataSource
+import com.example.database.task.SubTaskEntity
 import com.example.database.task.TaskEntity
+import com.example.database.task.TaskWithSubTasksEntity
+import com.example.model.SubTask
 import com.example.model.Task
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
@@ -11,10 +14,13 @@ import java.time.LocalDateTime
 import javax.inject.Inject
 
 internal class DefaultTaskRepository @Inject constructor(
-    private val taskDataSource: TaskDatabaseDataSource
+    private val taskDataSource: TaskDatabaseDataSource,
 ) : TaskRepository {
-    override fun getAllTask(): Flow<List<Task>> =
-        taskDataSource.getAllTask().map { entities ->
+    override suspend fun insertTask(task: Task) =
+        taskDataSource.insertTask(entity = task.toTaskEntity())
+
+    override fun getTasks(): Flow<List<Task>> =
+        taskDataSource.getTasks().map { entities ->
             entities.map { entity ->
                 entity.toTask()
             }
@@ -64,9 +70,6 @@ internal class DefaultTaskRepository @Inject constructor(
 
     override suspend fun getTaskById(id: Long): Task =
         taskDataSource.getTaskById(id = id).toTask()
-
-    override suspend fun insertTask(task: Task) =
-        taskDataSource.insertTask(entity = task.toTaskEntity())
 
     override suspend fun updateTask(task: Task) =
         taskDataSource.updateTask(entity = task.toTaskEntity())
@@ -140,29 +143,33 @@ internal class DefaultTaskRepository @Inject constructor(
     override suspend fun deleteTaskByTask(task: Task) =
         taskDataSource.deleteTaskByEntity(entity = task.toTaskEntity())
 
-    private fun TaskEntity.toTask() = Task(
-        id = this.id,
-        uuid = this.uuid,
-        title = this.title,
-        isCompleted = this.isCompleted,
-        isRemind = this.isRemind,
-        date = this.date,
-        time = this.time,
-        reminderTime = this.reminderTime,
-        memoTitle = this.memoTitle,
-        memoContent = this.memoContent,
-        memoUpdatedAt = this.memoUpdatedAt,
-        priority = this.priority,
-        categoryId = this.categoryId,
-        symbol = this.symbol
-    )
+    private fun TaskWithSubTasksEntity.toTask(): Task {
+        val taskEntity = this.taskEntity
+        val subTasks =
+            this.subTaskEntities.map { subTaskEntity -> subTaskEntity.toSubTask() }
+        return Task(
+            id = taskEntity.id,
+            uuid = taskEntity.uuid,
+            title = taskEntity.title,
+            isCompleted = taskEntity.isCompleted,
+            date = taskEntity.date,
+            time = taskEntity.time,
+            reminderTime = taskEntity.reminderTime,
+            memoTitle = taskEntity.memoTitle,
+            memoContent = taskEntity.memoContent,
+            memoUpdatedAt = taskEntity.memoUpdatedAt,
+            priority = taskEntity.priority,
+            categoryId = taskEntity.categoryId,
+            symbol = taskEntity.symbol,
+            subTasks = subTasks,
+        )
+    }
 
     private fun Task.toTaskEntity() = TaskEntity(
         id = this.id,
         uuid = this.uuid,
         title = this.title,
         isCompleted = this.isCompleted,
-        isRemind = this.isRemind,
         date = this.date,
         time = this.time,
         reminderTime = this.reminderTime,
@@ -173,5 +180,12 @@ internal class DefaultTaskRepository @Inject constructor(
         priority = this.priority,
         categoryId = this.categoryId,
         symbol = this.symbol
+    )
+
+    private fun SubTaskEntity.toSubTask() = SubTask(
+        id = this.id,
+        parentId = this.parentId,
+        title = this.title,
+        isCompleted = this.isCompleted,
     )
 }

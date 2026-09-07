@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">TodoRefactoring</string>
+    <string name="app_name">TodoApp</string>
     <string name="error_message_network">The network connection is unstable.</string>
     <string name="error_message_unknown">An unknown error has occurred.</string>
     <string name="language">Language</string>
@@ -133,4 +133,5 @@
     <string name="mark_as_undone">Mark as Undone</string>
     <string name="add_subtask">Add Subtask</string>
     <string name="input_the_subtask">Input the subtask</string>
+    <string name="manage_categories">Manage categories</string>
 </resources>

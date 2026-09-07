@@ -65,7 +65,7 @@ internal fun ManageCategoriesScreen(
                 ),
                 title = {
                     Text(
-                        text = stringResource(id = DesignSystemR.string.category),
+                        text = stringResource(id = DesignSystemR.string.manage_categories),
                         style = TodoTheme.typography.bold_20,
                         color = MaterialTheme.colorScheme.onBackground,
                     )

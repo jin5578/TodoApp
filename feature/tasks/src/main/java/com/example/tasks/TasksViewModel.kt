@@ -3,12 +3,13 @@ package com.example.tasks
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.DeleteTaskByTaskUseCase
-import com.example.domain.GetAllTaskUseCase
+import com.example.domain.GetTasksUseCase
 import com.example.domain.GetTaskByIdUseCase
 import com.example.domain.GetTasksByDateRangeUseCase
 import com.example.domain.GetTasksByStateUseCase
 import com.example.domain.UpdateTaskUseCase
 import com.example.model.TasksType
+import com.example.model.toUiModel
 import com.example.tasks.model.TasksUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
@@ -27,7 +28,7 @@ import javax.inject.Inject
 class TasksViewModel @Inject constructor(
     private val getTasksByStateUseCase: GetTasksByStateUseCase,
     private val getTasksByDateRangeUseCase: GetTasksByDateRangeUseCase,
-    private val getAllTaskUseCase: GetAllTaskUseCase,
+    private val getTasksUseCase: GetTasksUseCase,
     private val getTaskByIdUseCase: GetTaskByIdUseCase,
     private val updateTaskUseCase: UpdateTaskUseCase,
     private val deleteTaskByTaskUseCase: DeleteTaskByTaskUseCase,
@@ -60,7 +61,7 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch {
             getTasksByStateUseCase(isCompleted = isCompleted).map {
                 TasksUiState.Screen(
-                    tasks = it.tasks.toPersistentList(),
+                    tasks = it.tasks.map { task -> task.toUiModel() }.toPersistentList(),
                     categories = it.categories.toPersistentList(),
                     locale = it.tasksSystem.locale
                 )
@@ -78,7 +79,7 @@ class TasksViewModel @Inject constructor(
                 toDate = toDate
             ).map {
                 TasksUiState.Screen(
-                    tasks = it.tasks.toPersistentList(),
+                    tasks = it.tasks.map { task -> task.toUiModel() }.toPersistentList(),
                     categories = it.categories.toPersistentList(),
                     locale = it.tasksSystem.locale,
                 )
@@ -91,9 +92,9 @@ class TasksViewModel @Inject constructor(
 
     private fun fetchAllTasks() =
         viewModelScope.launch {
-            getAllTaskUseCase().map {
+            getTasksUseCase().map {
                 TasksUiState.Screen(
-                    tasks = it.tasks.toPersistentList(),
+                    tasks = it.tasks.map { task -> task.toUiModel() }.toPersistentList(),
                     categories = it.categories.toPersistentList(),
                     locale = it.tasksSystem.locale
                 )

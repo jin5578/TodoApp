@@ -4,9 +4,7 @@ import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.example.design_system.component.BasicDropdownMenuItem
-import com.example.design_system.theme.TodoTheme
 import com.example.home.utils.getTitleResId
 import com.example.model.PriorityType
 import com.example.model.ReminderTimeType
@@ -56,31 +54,6 @@ internal fun ReminderDropdownMenu(
         BasicDropdownMenuItem(
             title = stringResource(id = DesignSystemR.string.off),
             onClick = onReminderOffClick
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun PriorityDropdownMenuPreview() {
-    TodoTheme {
-        PriorityDropdownMenu(
-            isShowPriorityMenu = false,
-            onCloseClick = {},
-            onPriorityTypeClick = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun ReminderDropdownMenuPreview() {
-    TodoTheme {
-        ReminderDropdownMenu(
-            isShowReminderMenu = false,
-            onCloseClick = {},
-            onReminderTimeTypeClick = {},
-            onReminderOffClick = {}
         )
     }
 }

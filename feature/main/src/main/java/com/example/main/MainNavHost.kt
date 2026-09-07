@@ -34,12 +34,7 @@ internal fun MainNavHost(
         ) {
             homeNavGraph(
                 exitApp = navigator::exitApp,
-                navigateCalendar = navigator::navigateCalendar,
                 navigateSetting = navigator::navigateSetting,
-                navigateCompletedTask = navigator::navigateTasks,
-                navigateIncompleteTask = navigator::navigateTasks,
-                navigateThisWeekTask = navigator::navigateTasks,
-                navigateAllTask = navigator::navigateTasks,
                 navigateEditTask = navigator::navigateEditTask,
                 navigateManageCategories = navigator::navigateManageCategories,
                 onShowErrorSnackbar = onShowErrorSnackbar,

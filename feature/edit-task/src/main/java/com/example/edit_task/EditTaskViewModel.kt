@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.DeleteTaskByIdUseCase
 import com.example.domain.GetEditTaskDataUseCase
 import com.example.domain.SyncSubTasksUseCase
-import com.example.domain.UpdateSubTaskCompletedUseCase
 import com.example.domain.UpdateTaskCategoryUseCase
 import com.example.domain.UpdateTaskCompletedUseCase
 import com.example.domain.UpdateTaskDateTimeUseCase
@@ -13,6 +12,7 @@ import com.example.domain.UpdateTaskTitleUseCase
 import com.example.edit_task.model.EditTaskUiEffect
 import com.example.edit_task.model.EditTaskUiState
 import com.example.model.SubTask
+import com.example.model.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.FlowPreview
@@ -29,7 +29,6 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
-import timber.log.Timber
 import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
@@ -79,8 +78,7 @@ class EditTaskViewModel @Inject constructor(
             getEditTaskDataUseCase(id = taskId).map { editTask ->
                 val editTaskSystem = editTask.editTaskSystem
                 EditTaskUiState.Screen(
-                    task = editTask.task,
-                    subTasks = editTask.subTasks.toPersistentList(),
+                    task = editTask.task.toUiModel(),
                     locale = editTaskSystem.locale,
                     timePickerType = editTaskSystem.timePickerType,
                     categories = editTask.categories.toPersistentList()

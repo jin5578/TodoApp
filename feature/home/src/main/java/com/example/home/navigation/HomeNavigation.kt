@@ -8,12 +8,7 @@ import com.example.navigation.Route
 
 fun NavGraphBuilder.homeNavGraph(
     exitApp: () -> Unit,
-    navigateCalendar: () -> Unit,
     navigateSetting: () -> Unit,
-    navigateCompletedTask: (String) -> Unit,
-    navigateIncompleteTask: (String) -> Unit,
-    navigateThisWeekTask: (String) -> Unit,
-    navigateAllTask: (String) -> Unit,
     navigateEditTask: (Long) -> Unit,
     navigateManageCategories: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
@@ -21,12 +16,7 @@ fun NavGraphBuilder.homeNavGraph(
 ) = composable<Route.Home> {
     HomeRoute(
         exitApp = exitApp,
-        navigateCalendar = navigateCalendar,
         navigateSetting = navigateSetting,
-        navigateCompletedTask = navigateCompletedTask,
-        navigateIncompleteTask = navigateIncompleteTask,
-        navigateThisWeekTask = navigateThisWeekTask,
-        navigateAllTask = navigateAllTask,
         navigateEditTask = navigateEditTask,
         navigateManageCategories = navigateManageCategories,
         onShowErrorSnackbar = onShowErrorSnackbar,

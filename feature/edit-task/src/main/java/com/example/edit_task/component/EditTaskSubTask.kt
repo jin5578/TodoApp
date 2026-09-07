@@ -139,7 +139,7 @@ private fun EditTaskSubTaskItem(
                 Box(
                     modifier = Modifier.size(size = 17.dp)
                         .border(
-                            width = 2.dp,
+                            width = 1.8.dp,
                             color = MaterialTheme.colorScheme.onBackground,
                             shape = CircleShape
                         ),

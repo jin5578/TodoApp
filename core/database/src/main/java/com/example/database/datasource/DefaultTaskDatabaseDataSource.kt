@@ -2,6 +2,7 @@ package com.example.database.datasource
 
 import com.example.database.task.TaskDatabase
 import com.example.database.task.TaskEntity
+import com.example.database.task.TaskWithSubTasksEntity
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import java.time.LocalDate
@@ -11,10 +12,13 @@ import javax.inject.Inject
 class DefaultTaskDatabaseDataSource @Inject constructor(
     private val taskDatabase: TaskDatabase
 ) : TaskDatabaseDataSource {
-    override fun getAllTask(): Flow<List<TaskEntity>> =
-        taskDatabase.taskDao().getAllTask()
+    override suspend fun insertTask(entity: TaskEntity) =
+        taskDatabase.taskDao().insertTask(entity = entity)
 
-    override fun getTasksByDate(date: LocalDate): Flow<List<TaskEntity>> =
+    override fun getTasks(): Flow<List<TaskWithSubTasksEntity>> =
+        taskDatabase.taskDao().getTasks()
+
+    override fun getTasksByDate(date: LocalDate): Flow<List<TaskWithSubTasksEntity>> =
         taskDatabase.taskDao().getTasksByDate(date = date.toString())
 
     override fun getTaskCountByDate(date: LocalDate): Flow<Int> =
@@ -24,26 +28,23 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
     override fun getTasksByDateRange(
         fromDate: LocalDate,
         toDate: LocalDate
-    ): Flow<List<TaskEntity>> =
+    ): Flow<List<TaskWithSubTasksEntity>> =
         taskDatabase.taskDao().getTasksByEpochDayRange(
             fromDate = fromDate.toEpochDay(),
             toDate = toDate.toEpochDay()
         )
 
-    override fun getTasksByState(isCompleted: Boolean): Flow<List<TaskEntity>> =
+    override fun getTasksByState(isCompleted: Boolean): Flow<List<TaskWithSubTasksEntity>> =
         taskDatabase.taskDao().getTasksByState(isCompleted = isCompleted)
 
-    override fun getTasksByCategory(categoryId: Long): Flow<List<TaskEntity>> =
+    override fun getTasksByCategory(categoryId: Long): Flow<List<TaskWithSubTasksEntity>> =
         taskDatabase.taskDao().getTasksByCategory(categoryId)
 
-    override fun getFlowTaskById(id: Long): Flow<TaskEntity> =
+    override fun getFlowTaskById(id: Long): Flow<TaskWithSubTasksEntity> =
         taskDatabase.taskDao().getFlowTaskById(id = id)
 
-    override suspend fun getTaskById(id: Long): TaskEntity =
+    override suspend fun getTaskById(id: Long): TaskWithSubTasksEntity =
         taskDatabase.taskDao().getTaskById(id = id)
-
-    override suspend fun insertTask(entity: TaskEntity) =
-        taskDatabase.taskDao().insertTask(entity = entity)
 
     override suspend fun updateTask(entity: TaskEntity) =
         taskDatabase.taskDao().updateTask(entity = entity)
