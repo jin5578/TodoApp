@@ -161,7 +161,7 @@ fun CalendarDialog(
                 )
 
                 Column(
-                    modifier = Modifier.weight(weight = 1f)
+                    modifier = Modifier.fillMaxWidth()
                         .verticalScroll(state = verticalScrollState)
                 ) {
                     Row(
@@ -280,40 +280,42 @@ fun CalendarDialog(
                         enabled = selectedTaskTime != null,
                         onClick = onReminderClick,
                     )
-                }
 
-                Row(
-                    modifier = Modifier.fillMaxWidth().padding(end = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
-                ) {
-                    Text(
-                        modifier = Modifier.clickable {
-                            onCloseClick()
-                        }.padding(
-                            horizontal = 8.dp,
-                            vertical = 4.dp
-                        ),
-                        text = stringResource(id = DesignSystemR.string.cancel),
-                        style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.inversePrimary
-                    )
+                    Spacer(modifier = Modifier.height(height = 16.dp))
 
-                    Text(
-                        modifier = Modifier.clickable {
-                            onConfirmClick(
-                                selectedTaskDate,
-                                selectedTaskTime,
-                                selectedReminderTime
-                            )
-                        }.padding(
-                            horizontal = 8.dp,
-                            vertical = 4.dp
-                        ),
-                        text = stringResource(id = DesignSystemR.string.confirm),
-                        style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.primary
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth().padding(end = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Text(
+                            modifier = Modifier.clickable {
+                                onCloseClick()
+                            }.padding(
+                                horizontal = 8.dp,
+                                vertical = 4.dp
+                            ),
+                            text = stringResource(id = DesignSystemR.string.cancel),
+                            style = TodoTheme.typography.medium_16,
+                            color = MaterialTheme.colorScheme.inversePrimary
+                        )
+
+                        Text(
+                            modifier = Modifier.clickable {
+                                onConfirmClick(
+                                    selectedTaskDate,
+                                    selectedTaskTime,
+                                    selectedReminderTime
+                                )
+                            }.padding(
+                                horizontal = 8.dp,
+                                vertical = 4.dp
+                            ),
+                            text = stringResource(id = DesignSystemR.string.confirm),
+                            style = TodoTheme.typography.medium_16,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
                 }
             }
         }

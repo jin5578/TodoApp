@@ -15,7 +15,6 @@ internal fun SecurityRoute(
     navigateLockSetup: () -> Unit,
     popBackStack: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -36,18 +35,18 @@ internal fun SecurityRoute(
 @Composable
 private fun SecurityContent(
     uiState: SecurityUiState,
+    onBiometricEnabledChanged: (Boolean) -> Unit,
     navigateLockSetup: () -> Unit,
     popBackStack: () -> Unit,
-    onBiometricEnabledChanged: (Boolean) -> Unit,
 ) {
     when (uiState) {
         is SecurityUiState.Loading -> Loading()
         is SecurityUiState.Screen -> SecurityScreen(
             hasExistingPassword = uiState.hasExistingPassword,
             hasBiometricEnabled = uiState.hasBiometricEnabled,
-            popBackStack = popBackStack,
             onBiometricEnabledChanged = onBiometricEnabledChanged,
             onPasswordSettingClick = navigateLockSetup,
+            popBackStack = popBackStack,
         )
     }
 }

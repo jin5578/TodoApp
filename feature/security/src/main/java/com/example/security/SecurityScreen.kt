@@ -36,9 +36,9 @@ internal fun SecurityScreen(
     modifier: Modifier = Modifier,
     hasExistingPassword: Boolean,
     hasBiometricEnabled: Boolean,
-    popBackStack: () -> Unit,
     onBiometricEnabledChanged: (Boolean) -> Unit,
     onPasswordSettingClick: () -> Unit,
+    popBackStack: () -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -139,9 +139,9 @@ private fun SecurityScreenPreview() {
         SecurityScreen(
             hasExistingPassword = true,
             hasBiometricEnabled = true,
-            popBackStack = {},
             onBiometricEnabledChanged = { _ -> },
-            onPasswordSettingClick = {}
+            onPasswordSettingClick = {},
+            popBackStack = {},
         )
     }
 }
