@@ -139,4 +139,8 @@
     <string name="input_here">Input here</string>
     <string name="category_color">Category color</string>
     <string name="category_color_explanation">The color will be displayed in the calendar interface</string>
+    <string name="check_all_completed_tasks">Check all completed tasks</string>
+    <string name="completed_time">Completed Time</string>
+    <string name="previous">Previous</string>
+    <string name="completed_today">Completed Today</string>
 </resources>

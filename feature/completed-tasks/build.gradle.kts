@@ -31,7 +31,7 @@ dependencies {
     implementation(project(":core:model"))
     implementation(project(":core:navigation"))
     implementation(project(":core:utils"))
-    
+
     implementation(libs.kotlinx.immutable)
     implementation(libs.kotlinx.coroutines.core)
 

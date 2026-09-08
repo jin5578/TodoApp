@@ -18,6 +18,7 @@ import com.example.home.model.TaskStateGroup
 import com.example.model.Category
 import com.example.model.HomePasswordProcessType
 import com.example.model.Task
+import com.example.model.TaskUiModel
 import com.example.model.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
@@ -32,6 +33,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
+import java.time.LocalDate
 import javax.inject.Inject
 
 @HiltViewModel
@@ -54,7 +56,8 @@ class HomeViewModel @Inject constructor(
         MutableStateFlow(value = HomeUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    private val selectedCategoryId: MutableStateFlow<Long> = MutableStateFlow(value = -1L)
+    private val selectedCategoryId: MutableStateFlow<Long> =
+        MutableStateFlow(value = -1L)
     private var isHomeObserved = false
 
     init {
@@ -177,17 +180,29 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-    private fun List<Task>.toTaskStateGroups(): ImmutableList<TaskStateGroup> =
-        groupBy { task -> task.isCompleted }
-            .toSortedMap()
-            .map { (isCompleted, tasks) ->
-                val taskState =
-                    if (isCompleted) TaskState.COMPLETED else TaskState.INCOMPLETE
+    private fun List<Task>.toTaskStateGroups(): ImmutableList<TaskStateGroup> {
+        val (completedTasks, previousTasks) = partition { task -> task.isCompleted }
+        val completedTodayTasks = completedTasks.filter { task ->
+            task.completedAt?.toLocalDate() == LocalDate.now()
+        }
+
+        return listOfNotNull(
+            previousTasks.takeIf { it.isNotEmpty() }?.let { tasks ->
                 TaskStateGroup(
-                    taskState = taskState,
-                    tasks = tasks.map { task -> task.toUiModel() }
-                        .toPersistentList()
+                    taskState = TaskState.PREVIOUS,
+                    tasks = tasks.toUiModels()
                 )
-            }.toPersistentList()
+            },
+            completedTodayTasks.takeIf { it.isNotEmpty() }?.let { tasks ->
+                TaskStateGroup(
+                    taskState = TaskState.COMPLETED_TODAY,
+                    tasks = tasks.toUiModels()
+                )
+            }
+        ).toPersistentList()
+    }
+
+    private fun List<Task>.toUiModels(): ImmutableList<TaskUiModel> =
+        map { task -> task.toUiModel() }.toPersistentList()
 }
 

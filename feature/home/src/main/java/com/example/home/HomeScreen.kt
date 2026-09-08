@@ -39,13 +39,15 @@ import androidx.compose.ui.graphics.toColorLong
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.component.EmptyContent
 import com.example.design_system.component.dialog.category.CategoryDialog
 import com.example.design_system.theme.TodoTheme
 import com.example.home.component.bottom_sheet.AddTaskBottomSheetContent
-import com.example.home.component.taskStateGroupContent
+import com.example.home.component.taskStateGroup
 import com.example.home.model.BottomSheetType
 import com.example.home.model.TaskStateGroup
 import com.example.home.utils.toggled
@@ -76,6 +78,7 @@ internal fun HomeScreen(
     onSymbolClick: (taskId: Long, symbolId: Int) -> Unit,
     onSubTaskToggleClick: (subTaskId: Long, isCompleted: Boolean) -> Unit,
     onAddCategoryClick: (categoryTitle: String, categoryColorType: CategoryColorType) -> Unit,
+    onCompletedTasksClick: () -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -148,10 +151,10 @@ internal fun HomeScreen(
             LazyColumn(
                 modifier = modifier.fillMaxSize()
                     .padding(paddingValues = paddingValues),
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 taskStateGroups.forEach { taskStateGroup ->
-                    val taskState = taskStateGroup.taskState
-                    taskStateGroupContent(
+                    taskStateGroup(
                         taskStateGroup = taskStateGroup,
                         locale = locale,
                         collapsedTaskStates = collapsedTaskStates,
@@ -164,6 +167,19 @@ internal fun HomeScreen(
                                 collapsedTaskStates.toggled(element = key)
                         },
                         onSubTaskToggleClick = onSubTaskToggleClick
+                    )
+                }
+
+                item {
+                    Text(
+                        modifier = Modifier
+                            .clickable { onCompletedTasksClick() }
+                            .padding(all = 16.dp),
+                        text = stringResource(id = DesignSystemR.string.check_all_completed_tasks),
+                        textAlign = TextAlign.Center,
+                        style = TodoTheme.typography.medium_12,
+                        textDecoration = TextDecoration.Underline,
+                        color = MaterialTheme.colorScheme.onBackground
                     )
                 }
             }
@@ -301,6 +317,7 @@ private fun HomeScreenPreview() {
             onSymbolClick = { _, _ -> },
             onSubTaskToggleClick = { _, _ -> },
             onAddCategoryClick = { _, _ -> },
+            onCompletedTasksClick = {},
             onShowMessageSnackbar = {}
         )
     }

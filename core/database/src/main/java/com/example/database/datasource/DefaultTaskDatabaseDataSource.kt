@@ -112,15 +112,19 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
     override suspend fun updateTaskCompleted(id: Long, isCompleted: Boolean) =
         taskDatabase.taskDao().updateTaskCompleted(
             id = id,
-            isCompleted = isCompleted
+            isCompleted = isCompleted,
+            completedAt = if (isCompleted) LocalDateTime.now() else null
         )
 
     override suspend fun deleteAllTask() =
         taskDatabase.taskDao().deleteAllTask()
 
+    override suspend fun deleteTaskById(id: Long) =
+        taskDatabase.taskDao().deleteTaskById(id = id)
+
     override suspend fun deleteTaskByEntity(entity: TaskEntity) =
         taskDatabase.taskDao().deleteTaskByEntity(entity = entity)
 
-    override suspend fun deleteTaskById(id: Long) =
-        taskDatabase.taskDao().deleteTaskById(id = id)
+    override suspend fun deleteTasksByState(isCompleted: Boolean) =
+        taskDatabase.taskDao().deleteTasksByState(isCompleted = isCompleted)
 }

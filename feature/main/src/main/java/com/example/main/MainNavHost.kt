@@ -8,6 +8,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import com.example.calendar.navigation.calendarNavGraph
+import com.example.completed_tasks.navigation.completedTasksNavGraph
 import com.example.edit_task.navigation.editTaskNavGraph
 import com.example.home.navigation.homeNavGraph
 import com.example.lock_setup.navigation.lockSetupNavGraph
@@ -36,6 +37,7 @@ internal fun MainNavHost(
                 exitApp = navigator::exitApp,
                 navigateSetting = navigator::navigateSetting,
                 navigateEditTask = navigator::navigateEditTask,
+                navigateCompletedTasks = navigator::navigateCompletedTasks,
                 onShowErrorSnackbar = onShowErrorSnackbar,
                 onShowMessageSnackbar = onShowMessageSnackbar
             )
@@ -51,9 +53,9 @@ internal fun MainNavHost(
                 onShowErrorSnackbar = onShowErrorSnackbar,
             )
             editTaskNavGraph(
-                popBackStack = navigator::popBackStackIfNotHome,
                 navigateManageCategories = navigator::navigateManageCategories,
                 navigateMemo = navigator::navigateMemo,
+                popBackStack = navigator::popBackStackIfNotHome,
                 onShowErrorSnackbar = onShowErrorSnackbar,
                 onShowMessageSnackbar = onShowMessageSnackbar
             )
@@ -80,6 +82,11 @@ internal fun MainNavHost(
                 onShowMessageSnackbar = onShowMessageSnackbar
             )
             memoNavGraph(
+                popBackStack = navigator::popBackStackIfNotHome,
+                onShowErrorSnackbar = onShowErrorSnackbar,
+            )
+            completedTasksNavGraph(
+                navigateEditTask = navigator::navigateEditTask,
                 popBackStack = navigator::popBackStackIfNotHome,
                 onShowErrorSnackbar = onShowErrorSnackbar,
             )

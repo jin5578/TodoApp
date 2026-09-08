@@ -26,7 +26,6 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.component.EmptyContent
-import com.example.design_system.component.TaskCard
 import com.example.design_system.theme.TodoTheme
 import com.example.model.Category
 import com.example.model.TaskUiModel
@@ -100,7 +99,7 @@ internal fun TasksScreen(
                             )
                         )
                     ) {
-                        TaskCard(
+                        /*TaskCard(
                             task = task,
                             category = categories.filter { it.id == task.categoryId }
                                 .getOrNull(index = 0),
@@ -109,7 +108,7 @@ internal fun TasksScreen(
                             onTaskEdit = { taskId -> navigateEditTask(taskId) },
                             onTaskToggleCompletion = onTaskToggleCompletion,
                             onTaskDelete = { taskId -> onTaskDelete(taskId) }
-                        )
+                        )*/
                     }
                     Spacer(modifier = Modifier.height(height = 10.dp))
                 }

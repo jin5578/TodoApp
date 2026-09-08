@@ -41,4 +41,5 @@ interface TaskRepository {
     suspend fun deleteAllTask()
     suspend fun deleteTaskById(id: Long)
     suspend fun deleteTaskByTask(task: Task)
+    suspend fun deleteTasksByState(isCompleted: Boolean)
 }

@@ -139,4 +139,8 @@
     <string name="input_here">여기에 입력하십시오</string>
     <string name="category_color">카테고리 컬리</string>
     <string name="category_color_explanation">색상이 캘린더 인터페이스에 표시됩니다.</string>
+    <string name="check_all_completed_tasks">완료된 모든 작업 확인</string>
+    <string name="completed_time">완료 시간</string>
+    <string name="previous">이전</string>
+    <string name="completed_today">오늘 완료</string>
 </resources>

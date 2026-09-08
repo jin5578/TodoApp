@@ -38,6 +38,7 @@ dependencies {
     implementation(project(":core:utils"))
 
     implementation(project(":feature:calendar"))
+    implementation(project(":feature:completed-tasks"))
     implementation(project(":feature:edit-task"))
     implementation(project(":feature:home"))
     implementation(project(":feature:lock-setup"))

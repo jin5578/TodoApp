@@ -143,6 +143,9 @@ internal class DefaultTaskRepository @Inject constructor(
     override suspend fun deleteTaskByTask(task: Task) =
         taskDataSource.deleteTaskByEntity(entity = task.toTaskEntity())
 
+    override suspend fun deleteTasksByState(isCompleted: Boolean) =
+        taskDataSource.deleteTasksByState(isCompleted = isCompleted)
+
     private fun TaskWithSubTasksEntity.toTask(): Task {
         val taskEntity = this.taskEntity
         val subTasks =
@@ -158,6 +161,7 @@ internal class DefaultTaskRepository @Inject constructor(
             memoTitle = taskEntity.memoTitle,
             memoContent = taskEntity.memoContent,
             memoUpdatedAt = taskEntity.memoUpdatedAt,
+            completedAt = taskEntity.completedAt,
             priority = taskEntity.priority,
             categoryId = taskEntity.categoryId,
             symbol = taskEntity.symbol,
@@ -177,6 +181,7 @@ internal class DefaultTaskRepository @Inject constructor(
         memoTitle = this.memoTitle,
         memoContent = this.memoContent,
         memoUpdatedAt = this.memoUpdatedAt,
+        completedAt = this.completedAt,
         priority = this.priority,
         categoryId = this.categoryId,
         symbol = this.symbol

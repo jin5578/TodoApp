@@ -16,7 +16,6 @@ fun NavGraphBuilder.securityNavGraph(
         navigateLockSetup = navigateLockSetup,
         popBackStack = popBackStack,
         onShowErrorSnackbar = onShowErrorSnackbar,
-        onShowMessageSnackbar = onShowMessageSnackbar
     )
 }
 

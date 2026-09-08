@@ -1,10 +1,10 @@
 package com.example.home.model
 
 enum class TaskState(val key: String) {
-    INCOMPLETE(
-        key = "incomplete",
+    PREVIOUS(
+        key = "previous",
     ),
-    COMPLETED(
-        key = "completed"
+    COMPLETED_TODAY(
+        key = "completedToday"
     )
 }

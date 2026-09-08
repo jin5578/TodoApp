@@ -7,7 +7,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyListScope
-import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -17,7 +17,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.design_system.component.TaskCard
 import com.example.design_system.theme.TodoTheme
 import com.example.home.model.TaskStateGroup
 import com.example.home.utils.getTitleResId
@@ -25,7 +27,7 @@ import kotlinx.collections.immutable.PersistentSet
 import java.util.Locale
 import com.example.design_system.R as DesignSystemR
 
-internal fun LazyListScope.taskStateGroupContent(
+internal fun LazyListScope.taskStateGroup(
     taskStateGroup: TaskStateGroup,
     locale: Locale,
     collapsedTaskStates: PersistentSet<String>,
@@ -49,11 +51,20 @@ internal fun LazyListScope.taskStateGroupContent(
     }
 
     if (isExpanded) {
-        items(
+        itemsIndexed(
             items = taskStateGroup.tasks,
-            key = { task -> task.id }
-        ) { task ->
+            key = { _, task -> task.id }
+        ) { index, task ->
+            val bottomPadding =
+                if (index != taskStateGroup.tasks.size - 1) 8.dp
+                else 0.dp
             TaskCard(
+                modifier = Modifier.fillMaxWidth()
+                    .padding(
+                        start = 16.dp,
+                        end = 16.dp,
+                        bottom = bottomPadding
+                    ),
                 task = task,
                 locale = locale,
                 onTaskToggleClick = onTaskToggleClick,
@@ -77,7 +88,7 @@ private fun TaskStateGroupHeader(
         modifier = modifier.fillMaxWidth()
             .background(color = MaterialTheme.colorScheme.background)
             .clickable(onClick = onClick)
-            .padding(horizontal = 20.dp, vertical = 16.dp),
+            .padding(horizontal = 16.dp, vertical = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
@@ -95,6 +106,18 @@ private fun TaskStateGroupHeader(
             imageVector = ImageVector.vectorResource(id = iconResId),
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onBackground
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TaskStateGroupHeaderPreview() {
+    TodoTheme {
+        TaskStateGroupHeader(
+            title = "",
+            isExpanded = true,
+            onClick = {}
         )
     }
 }

@@ -17,6 +17,7 @@ internal fun HomeRoute(
     exitApp: () -> Unit,
     navigateSetting: () -> Unit,
     navigateEditTask: (Long) -> Unit,
+    navigateCompletedTasks: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) {
@@ -47,6 +48,7 @@ internal fun HomeRoute(
         },
         navigateSetting = navigateSetting,
         navigateEditTask = navigateEditTask,
+        navigateCompletedTasks = navigateCompletedTasks,
         exitApp = exitApp,
         onShowMessageSnackbar = onShowMessageSnackbar,
     )
@@ -67,6 +69,7 @@ private fun HomeContent(
     onAddCategory: (categoryTitle: String, categoryColorType: CategoryColorType) -> Unit,
     navigateSetting: () -> Unit,
     navigateEditTask: (Long) -> Unit,
+    navigateCompletedTasks: () -> Unit,
     exitApp: () -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) {
@@ -108,6 +111,7 @@ private fun HomeContent(
                 onSymbolClick = onTaskSymbolChanged,
                 onSubTaskToggleClick = onSubTaskToggleChanged,
                 onAddCategoryClick = onAddCategory,
+                onCompletedTasksClick = navigateCompletedTasks,
                 onShowMessageSnackbar = onShowMessageSnackbar
             )
     }

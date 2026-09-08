@@ -43,4 +43,5 @@ interface TaskDatabaseDataSource {
     suspend fun deleteAllTask()
     suspend fun deleteTaskById(id: Long)
     suspend fun deleteTaskByEntity(entity: TaskEntity)
+    suspend fun deleteTasksByState(isCompleted: Boolean)
 }

@@ -18,10 +18,10 @@ import com.example.design_system.R as DesignSystemR
 @Composable
 internal fun EditTaskRoute(
     viewModel: EditTaskViewModel = hiltViewModel(),
-    popBackStack: () -> Unit,
     taskId: Long,
     navigateManageCategories: () -> Unit,
     navigateMemo: (Long) -> Unit,
+    popBackStack: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
     onShowMessageSnackbar: (String) -> Unit,
 ) {
@@ -50,7 +50,6 @@ internal fun EditTaskRoute(
     }
 
     EditTaskContent(
-        popBackStack = popBackStack,
         uiState = uiState,
         navigateManageCategories = navigateManageCategories,
         navigateMemo = navigateMemo,
@@ -60,6 +59,7 @@ internal fun EditTaskRoute(
         completedUpdate = viewModel::updateCompleted,
         taskDelete = viewModel::deleteTask,
         subTasksSync = viewModel::syncSubTasks,
+        popBackStack = popBackStack,
         onShowMessageSnackbar = onShowMessageSnackbar
     )
 }

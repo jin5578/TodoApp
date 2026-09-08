@@ -10,6 +10,7 @@ fun NavGraphBuilder.homeNavGraph(
     exitApp: () -> Unit,
     navigateSetting: () -> Unit,
     navigateEditTask: (Long) -> Unit,
+    navigateCompletedTasks: () -> Unit,
     onShowErrorSnackbar: (Throwable?) -> Unit,
     onShowMessageSnackbar: (String) -> Unit
 ) = composable<Route.Home> {
@@ -17,6 +18,7 @@ fun NavGraphBuilder.homeNavGraph(
         exitApp = exitApp,
         navigateSetting = navigateSetting,
         navigateEditTask = navigateEditTask,
+        navigateCompletedTasks = navigateCompletedTasks,
         onShowErrorSnackbar = onShowErrorSnackbar,
         onShowMessageSnackbar = onShowMessageSnackbar,
     )

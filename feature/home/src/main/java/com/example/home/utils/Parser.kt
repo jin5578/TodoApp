@@ -22,6 +22,6 @@ internal fun ReminderTimeType.getTitleResId(): Int =
 
 internal fun TaskState.getTitleResId(): Int =
     when (this) {
-        TaskState.INCOMPLETE -> DesignSystemR.string.incomplete_tasks
-        TaskState.COMPLETED -> DesignSystemR.string.completed_tasks
+        TaskState.PREVIOUS -> DesignSystemR.string.previous
+        TaskState.COMPLETED_TODAY -> DesignSystemR.string.completed_today
     }

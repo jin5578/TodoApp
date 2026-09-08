@@ -6,6 +6,7 @@ import com.example.model.ThemeType
 import com.example.model.TimePickerType
 import com.example.model.addtask.AddTaskSystem
 import com.example.model.calendar.CalendarSystem
+import com.example.model.completedtasks.CompletedTasksSystem
 import com.example.model.edittask.EditTaskSystem
 import com.example.model.home.HomeSystem
 import com.example.model.lock_setup.LockSetupSystem
@@ -28,6 +29,7 @@ interface SystemRepository {
     fun getTasksSystem(): Flow<TasksSystem>
     fun getLockSetupSystem(): Flow<LockSetupSystem>
     fun getSecuritySystem(): Flow<SecuritySystem>
+    fun getCompletedTasksSystem(): Flow<CompletedTasksSystem>
     fun hasExistingPassword(): Flow<Boolean>
     fun hasBiometricEnabled(): Flow<Boolean>
     suspend fun updateSortTaskType(sortTaskType: SortTaskType)

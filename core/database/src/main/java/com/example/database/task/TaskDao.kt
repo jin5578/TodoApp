@@ -93,8 +93,12 @@ interface TaskDao {
         reminderTime: LocalDateTime?
     )
 
-    @Query("UPDATE task SET isCompleted = :isCompleted WHERE id = :id")
-    suspend fun updateTaskCompleted(id: Long, isCompleted: Boolean)
+    @Query("UPDATE task SET isCompleted = :isCompleted, completedAt = :completedAt WHERE id = :id")
+    suspend fun updateTaskCompleted(
+        id: Long,
+        isCompleted: Boolean,
+        completedAt: LocalDateTime?
+    )
 
     /* Delete */
     @Query(value = "DELETE FROM task")
@@ -105,4 +109,7 @@ interface TaskDao {
 
     @Delete
     suspend fun deleteTaskByEntity(entity: TaskEntity)
+
+    @Query("DELETE FROM task WHERE isCompleted = :isCompleted")
+    suspend fun deleteTasksByState(isCompleted: Boolean)
 }

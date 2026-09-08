@@ -10,6 +10,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.example.calendar.navigation.navigateCalendar
+import com.example.completed_tasks.navigation.navigateCompletedTasks
 import com.example.edit_task.navigation.navigateEditTask
 import com.example.home.navigation.navigateHome
 import com.example.lock_setup.navigation.navigateLockSetup
@@ -55,6 +56,9 @@ internal class MainNavigator(
 
     fun navigateSecurity() =
         navController.navigateSecurity()
+
+    fun navigateCompletedTasks() =
+        navController.navigateCompletedTasks()
 
     private fun popBackStack() =
         navController.popBackStack()
