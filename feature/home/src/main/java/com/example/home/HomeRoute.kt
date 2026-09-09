@@ -1,13 +1,16 @@
 package com.example.home
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.LocalHideBottomBar
+import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.utils.toErrorMessage
 import com.example.home.model.HomeUiState
 import com.example.model.CategoryColorType
@@ -26,6 +29,15 @@ internal fun HomeRoute(
 
     val snackbarHostState = LocalSnackbarHostState.current
     val contextResources = LocalResources.current
+
+    val hideBottomBar = LocalHideBottomBar.current
+    SideEffect {
+        hideBottomBar.value =
+            uiState is HomeUiState.Biometric || uiState is HomeUiState.Password
+    }
+    DisposableEffect(key1 = Unit) {
+        onDispose { hideBottomBar.value = false }
+    }
 
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
