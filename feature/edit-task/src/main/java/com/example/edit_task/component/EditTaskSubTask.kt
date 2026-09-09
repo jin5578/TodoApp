@@ -2,6 +2,7 @@ package com.example.edit_task.component
 
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.gestures.detectDragGesturesAfterLongPress
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -21,6 +22,10 @@ import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.key
+import androidx.compose.runtime.mutableFloatStateOf
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -30,7 +35,10 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.input.pointer.pointerInput
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -39,13 +47,17 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.R
+import androidx.compose.ui.zIndex
 import com.example.design_system.theme.TodoTheme
 import com.example.model.SubTask
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.collections.immutable.toImmutableList
 import com.example.design_system.R as DesignSystemR
+
+private data class DraftSubTaskItem(
+    val key: Long,
+    val subTask: SubTask,
+)
 
 @Composable
 internal fun EditTaskSubTask(
@@ -54,30 +66,114 @@ internal fun EditTaskSubTask(
     parentId: Long,
     onSubTasksSync: (parentId: Long, subTasks: List<SubTask>) -> Unit,
 ) {
-    var draftSubTasks by remember { mutableStateOf(value = subTasks) }
-    var focusRequestIndex by remember { mutableStateOf<Int?>(value = null) }
+    var draftItems by remember {
+        mutableStateOf(
+            value = subTasks.mapIndexed { index, subTask ->
+                DraftSubTaskItem(key = index.toLong(), subTask = subTask)
+            }
+        )
+    }
+
+    var nextKey by remember { mutableLongStateOf(value = draftItems.size.toLong()) }
+
+    var focusRequestKey by remember { mutableStateOf<Long?>(value = null) }
+
+    var draggedKey by remember { mutableStateOf<Long?>(value = null) }
+    var dragOffsetY by remember { mutableFloatStateOf(value = 0f) }
+
+    val itemHeightsPx = remember { mutableStateMapOf<Long, Int>() }
+
+    fun syncSubTasks(items: List<DraftSubTaskItem>) {
+        draftItems = items
+        onSubTasksSync(parentId, items.map { item -> item.subTask })
+    }
 
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        draftSubTasks.forEachIndexed { index, subTask ->
-            EditTaskSubTaskItem(
-                subTask = subTask,
-                requestFocus = index == focusRequestIndex,
-                onFocusRequested = { focusRequestIndex = null },
-                onUpdate = { updatedSubTask ->
-                    draftSubTasks =
-                        draftSubTasks.mapIndexed { draftIndex, draftSubTask ->
-                            if (draftIndex == index) updatedSubTask else draftSubTask
-                        }.toImmutableList()
-                    onSubTasksSync(parentId, draftSubTasks.toList())
-                },
-                onDelete = {
-                    draftSubTasks =
-                        draftSubTasks.minus(subTask).toImmutableList()
-                    onSubTasksSync(parentId, draftSubTasks.toList())
-                },
-            )
+        draftItems.forEach { item ->
+            key(item.key) {
+                EditTaskSubTaskItem(
+                    modifier = Modifier
+                        .onSizeChanged { size ->
+                            itemHeightsPx[item.key] = size.height
+                        }
+                        .graphicsLayer {
+                            translationY =
+                                if (item.key == draggedKey) dragOffsetY else 0f
+                        }
+                        .zIndex(
+                            zIndex = if (item.key == draggedKey) 1f else 0f
+                        ),
+                    subTask = item.subTask,
+                    requestFocus = item.key == focusRequestKey,
+                    onFocusRequested = { focusRequestKey = null },
+                    onUpdate = { updatedSubTask ->
+                        syncSubTasks(
+                            items = draftItems.map { draftItem ->
+                                if (draftItem.key == item.key) draftItem.copy(
+                                    subTask = updatedSubTask
+                                )
+                                else draftItem
+                            }
+                        )
+                    },
+                    onDelete = {
+                        itemHeightsPx.remove(item.key)
+                        syncSubTasks(
+                            items = draftItems.filterNot { draftItem ->
+                                draftItem.key == item.key
+                            }
+                        )
+                    },
+                    onDragStart = {
+                        draggedKey = item.key
+                        dragOffsetY = 0f
+                    },
+                    onDrag = { dragAmountY ->
+                        dragOffsetY += dragAmountY
+                        var currentIndex =
+                            draftItems.indexOfFirst { draftItem -> draftItem.key == item.key }
+
+                        while (dragOffsetY > 0f && currentIndex < draftItems.lastIndex) {
+                            val nextHeight =
+                                itemHeightsPx[draftItems[currentIndex + 1].key]
+                                    ?: break
+                            if (dragOffsetY <= nextHeight / 2f) break
+
+                            draftItems =
+                                draftItems.toMutableList().apply {
+                                    val temp = this[currentIndex]
+                                    this[currentIndex] = this[currentIndex + 1]
+                                    this[currentIndex + 1] = temp
+                                }
+                            dragOffsetY -= nextHeight
+                            currentIndex += 1
+                        }
+
+                        while (dragOffsetY < 0f && currentIndex > 0) {
+                            val prevHeight =
+                                itemHeightsPx[draftItems[currentIndex - 1].key]
+                                    ?: break
+                            if (-dragOffsetY <= prevHeight / 2f) break
+
+                            draftItems =
+                                draftItems.toMutableList().apply {
+                                    val temp = this[currentIndex]
+                                    this[currentIndex] = this[currentIndex - 1]
+                                    this[currentIndex - 1] = temp
+                                }
+                            dragOffsetY += prevHeight
+                            currentIndex -= 1
+                        }
+                    },
+                    onDragEnd = {
+                        draggedKey = null
+                        dragOffsetY = 0f
+                        syncSubTasks(items = draftItems)
+                    },
+                )
+            }
         }
 
         Row(
@@ -89,9 +185,11 @@ internal fun EditTaskSubTask(
                         title = "",
                         isCompleted = false
                     )
-                    draftSubTasks =
-                        draftSubTasks.plus(subTask).toImmutableList()
-                    focusRequestIndex = draftSubTasks.lastIndex
+                    val newItem =
+                        DraftSubTaskItem(key = nextKey, subTask = subTask)
+                    nextKey += 1
+                    draftItems = draftItems + newItem
+                    focusRequestKey = newItem.key
                 }
                 .padding(horizontal = 26.dp, vertical = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -121,6 +219,9 @@ private fun EditTaskSubTaskItem(
     onFocusRequested: () -> Unit,
     onUpdate: (SubTask) -> Unit,
     onDelete: (SubTask) -> Unit,
+    onDragStart: () -> Unit,
+    onDrag: (dragAmountY: Float) -> Unit,
+    onDragEnd: () -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
     val focusRequester = remember { FocusRequester() }
@@ -147,8 +248,8 @@ private fun EditTaskSubTaskItem(
         ) {
             if (subTask.isCompleted) {
                 Icon(
-                    modifier = Modifier.size(18.dp),
-                    painter = painterResource(id = R.drawable.svg_check_circle),
+                    modifier = Modifier.size(size = 18.dp),
+                    imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_check_circle),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.primary
                 )
@@ -167,7 +268,7 @@ private fun EditTaskSubTaskItem(
         }
 
         TextField(
-            modifier = modifier
+            modifier = Modifier
                 .weight(weight = 1f)
                 .focusRequester(focusRequester = focusRequester)
                 .onFocusChanged { focusState ->
@@ -191,7 +292,7 @@ private fun EditTaskSubTaskItem(
             },
             placeholder = {
                 Text(
-                    text = stringResource(id = R.string.input_the_subtask),
+                    text = stringResource(id = DesignSystemR.string.input_the_subtask),
                     color = MaterialTheme.colorScheme.onBackground,
                     style = TodoTheme.typography.medium_16
                 )
@@ -205,14 +306,37 @@ private fun EditTaskSubTaskItem(
             ),
         )
 
-        if (isFocused) {
-            IconButton(
-                modifier = Modifier.size(size = 32.dp),
-                onClick = { onDelete(subTask) }
-            ) {
+        IconButton(
+            modifier = Modifier.size(size = 20.dp),
+            onClick = {
+                val updatedSubTask =
+                    subTask.copy(isCompleted = !subTask.isCompleted)
+                onUpdate(updatedSubTask)
+            }
+        ) {
+            if (isFocused) {
                 Icon(
-                    modifier = Modifier.size(20.dp),
-                    painter = painterResource(id = R.drawable.svg_cross_small),
+                    modifier = Modifier.size(20.dp)
+                        .clickable { onDelete(subTask) },
+                    painter = painterResource(id = DesignSystemR.drawable.svg_cross_small),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground
+                )
+            } else {
+                Icon(
+                    modifier = Modifier.size(size = 16.dp)
+                        .pointerInput(Unit) {
+                            detectDragGesturesAfterLongPress(
+                                onDragStart = { onDragStart() },
+                                onDragEnd = { onDragEnd() },
+                                onDragCancel = { onDragEnd() },
+                                onDrag = { change, dragAmount ->
+                                    change.consume()
+                                    onDrag(dragAmount.y)
+                                }
+                            )
+                        },
+                    imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_menu),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onBackground
                 )

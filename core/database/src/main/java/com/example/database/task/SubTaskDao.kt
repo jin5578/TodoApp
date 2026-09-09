@@ -19,7 +19,7 @@ interface SubTaskDao {
     suspend fun insertSubTasks(entities: List<SubTaskEntity>)
 
     /* Select */
-    @Query("SELECT * FROM sub_task WHERE parentId = :parentId ORDER BY id ASC")
+    @Query("SELECT * FROM sub_task WHERE parentId = :parentId ORDER BY sortOrder ASC")
     fun getSubTasksByParentId(parentId: Long): Flow<List<SubTaskEntity>>
 
     /* Update */
@@ -50,8 +50,10 @@ interface SubTaskDao {
     suspend fun syncSubTasks(parentId: Long, entities: List<SubTaskEntity>) {
         deleteSubTasksNotIn(parentId = parentId, ids = entities.map { it.id })
         insertSubTasks(
-            entities = entities.map { entity ->
-                if (entity.id > 0L) entity else entity.copy(id = 0L)
+            entities = entities.mapIndexed { index, entity ->
+                val normalizedEntity =
+                    if (entity.id > 0L) entity else entity.copy(id = 0L)
+                normalizedEntity.copy(sortOrder = index)
             }
         )
     }

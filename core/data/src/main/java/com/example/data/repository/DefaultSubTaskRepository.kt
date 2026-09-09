@@ -64,6 +64,7 @@ internal class DefaultSubTaskRepository @Inject constructor(
         parentId = this.parentId,
         title = this.title,
         isCompleted = this.isCompleted,
+        sortOrder = this.sortOrder,
     )
 
     private fun SubTask.toSubTaskEntity() = SubTaskEntity(
@@ -71,5 +72,6 @@ internal class DefaultSubTaskRepository @Inject constructor(
         parentId = parentId,
         title = title,
         isCompleted = isCompleted,
+        sortOrder = sortOrder,
     )
 }

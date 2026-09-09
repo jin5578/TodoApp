@@ -149,7 +149,8 @@ internal class DefaultTaskRepository @Inject constructor(
     private fun TaskWithSubTasksEntity.toTask(): Task {
         val taskEntity = this.taskEntity
         val subTasks =
-            this.subTaskEntities.map { subTaskEntity -> subTaskEntity.toSubTask() }
+            this.subTaskEntities.sortedBy { subTaskEntity -> subTaskEntity.sortOrder }
+                .map { subTaskEntity -> subTaskEntity.toSubTask() }
         return Task(
             id = taskEntity.id,
             uuid = taskEntity.uuid,
@@ -192,5 +193,6 @@ internal class DefaultTaskRepository @Inject constructor(
         parentId = this.parentId,
         title = this.title,
         isCompleted = this.isCompleted,
+        sortOrder = this.sortOrder,
     )
 }

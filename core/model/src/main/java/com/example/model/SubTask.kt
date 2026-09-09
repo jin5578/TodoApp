@@ -5,4 +5,5 @@ data class SubTask(
     val parentId: Long,
     val title: String,
     val isCompleted: Boolean,
+    val sortOrder: Int,
 )

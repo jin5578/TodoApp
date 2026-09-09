@@ -28,4 +28,6 @@ data class SubTaskEntity(
     val title: String = "",
     @ColumnInfo(name = "isCompleted")
     val isCompleted: Boolean = false,
+    @ColumnInfo(name = "sortOrder")
+    val sortOrder: Int = 0,
 )
