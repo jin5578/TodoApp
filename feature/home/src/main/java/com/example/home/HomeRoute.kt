@@ -3,9 +3,12 @@ package com.example.home
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.toErrorMessage
 import com.example.home.model.HomeUiState
 import com.example.model.CategoryColorType
 import com.example.model.Task
@@ -18,14 +21,17 @@ internal fun HomeRoute(
     navigateSetting: () -> Unit,
     navigateEditTask: (Long) -> Unit,
     navigateCompletedTasks: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
+    val snackbarHostState = LocalSnackbarHostState.current
+    val contextResources = LocalResources.current
+
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
+            snackbarHostState.showSnackbar(
+                message = throwable.toErrorMessage(resources = contextResources)
+            )
         }
     }
 
@@ -50,7 +56,6 @@ internal fun HomeRoute(
         navigateEditTask = navigateEditTask,
         navigateCompletedTasks = navigateCompletedTasks,
         exitApp = exitApp,
-        onShowMessageSnackbar = onShowMessageSnackbar,
     )
 }
 
@@ -71,7 +76,6 @@ private fun HomeContent(
     navigateEditTask: (Long) -> Unit,
     navigateCompletedTasks: () -> Unit,
     exitApp: () -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) {
     when (uiState) {
         is HomeUiState.Loading ->
@@ -112,7 +116,6 @@ private fun HomeContent(
                 onSubTaskToggleClick = onSubTaskToggleChanged,
                 onAddCategoryClick = onAddCategory,
                 onCompletedTasksClick = navigateCompletedTasks,
-                onShowMessageSnackbar = onShowMessageSnackbar
             )
     }
 }

@@ -3,23 +3,31 @@ package com.example.lock_setup
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.design_system.utils.LocalSnackbarHostState
+import com.example.design_system.utils.LocalSnackbarScope
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.toErrorMessage
 import com.example.lock_setup.model.LockSetupUiEffect
 import com.example.lock_setup.model.LockSetupUiState
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import com.example.design_system.R as DesignSystemR
 
 @Composable
 internal fun LockSetupRoute(
     viewModel: LockSetupViewModel = hiltViewModel(),
     popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val snackbarHostState = LocalSnackbarHostState.current
+    val contextResources = LocalResources.current
+    val snackbarScope = LocalSnackbarScope.current
+
     val passwordSetupSuccessMessage =
         stringResource(id = DesignSystemR.string.password_setup_successfully)
     val passwordRemoveSuccessMessage =
@@ -27,17 +35,19 @@ internal fun LockSetupRoute(
 
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
+            snackbarHostState.showSnackbar(
+                message = throwable.toErrorMessage(resources = contextResources)
+            )
         }
     }
 
     LaunchedEffect(key1 = Unit) {
         viewModel.uiEffect.collectLatest { uiEffect ->
             if (uiEffect is LockSetupUiEffect.SuccessSetupPassword) {
-                onShowMessageSnackbar(passwordSetupSuccessMessage)
+                snackbarScope.launch { snackbarHostState.showSnackbar(message = passwordSetupSuccessMessage) }
                 popBackStack()
             } else if (uiEffect is LockSetupUiEffect.SuccessRemovePassword) {
-                onShowMessageSnackbar(passwordRemoveSuccessMessage)
+                snackbarScope.launch { snackbarHostState.showSnackbar(message = passwordRemoveSuccessMessage) }
                 popBackStack()
             }
         }

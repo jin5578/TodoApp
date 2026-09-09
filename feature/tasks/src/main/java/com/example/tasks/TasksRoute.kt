@@ -3,9 +3,12 @@ package com.example.tasks
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.toErrorMessage
 import com.example.model.TasksType
 import com.example.tasks.model.TasksUiState
 import kotlinx.coroutines.flow.collectLatest
@@ -16,10 +19,11 @@ internal fun TasksRoute(
     type: TasksType,
     popBackStack: () -> Unit,
     navigateEditTask: (Long) -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val snackbarHostState = LocalSnackbarHostState.current
+    val contextResources = LocalResources.current
 
     LaunchedEffect(key1 = type) {
         viewModel.fetchTasks(type = type)
@@ -27,7 +31,9 @@ internal fun TasksRoute(
 
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
+            snackbarHostState.showSnackbar(
+                message = throwable.toErrorMessage(resources = contextResources)
+            )
         }
     }
 
@@ -43,7 +49,6 @@ internal fun TasksRoute(
             )
         },
         onTaskDelete = viewModel::deleteTask,
-        onShowMessageSnackbar = onShowMessageSnackbar
     )
 }
 
@@ -55,7 +60,6 @@ private fun TasksContent(
     navigateEditTask: (Long) -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
     onTaskDelete: (Long) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit
 ) {
     when (uiState) {
         is TasksUiState.Loading ->
@@ -71,7 +75,6 @@ private fun TasksContent(
                 navigateEditTask = navigateEditTask,
                 onTaskToggleCompletion = onTaskToggleCompletion,
                 onTaskDelete = onTaskDelete,
-                onShowMessageSnackbar = onShowMessageSnackbar
             )
     }
 }

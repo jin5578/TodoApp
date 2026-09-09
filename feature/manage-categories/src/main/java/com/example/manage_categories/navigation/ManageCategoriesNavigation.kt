@@ -8,11 +8,9 @@ import com.example.navigation.Route
 
 fun NavGraphBuilder.manageCategoriesNavGraph(
     popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit
 ) = composable<Route.ManageCategories> {
     ManageCategoriesRoute(
         popBackStack = popBackStack,
-        onShowErrorSnackbar = onShowErrorSnackbar
     )
 }
 

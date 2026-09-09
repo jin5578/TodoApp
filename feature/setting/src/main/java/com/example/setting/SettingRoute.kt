@@ -4,9 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.toErrorMessage
 import com.example.model.LanguageType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
@@ -21,15 +24,19 @@ internal fun SettingRoute(
     navigateManageCategories: () -> Unit,
     navigateSecurity: () -> Unit,
     popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
 
+    val snackbarHostState = LocalSnackbarHostState.current
+    val contextResources = LocalResources.current
+
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
+            snackbarHostState.showSnackbar(
+                message = throwable.toErrorMessage(resources = contextResources)
+            )
         }
     }
 

@@ -54,7 +54,6 @@ internal fun EditTaskScreen(
     onCompletedChanged: (taskId: Long, isCompleted: Boolean) -> Unit,
     onDeleteClick: (id: Long, uuid: String) -> Unit,
     onSubTasksSync: (parentId: Long, List<SubTask>) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
     navigateManageCategories: () -> Unit,
     navigateMemo: (Long) -> Unit,
     popBackStack: () -> Unit,
@@ -99,7 +98,6 @@ internal fun EditTaskScreen(
                     onDateTimeChanged(task.id, date, time, reminderTime)
                     isShowCalendarDialog = false
                 },
-                onShowMessageSnackbar = onShowMessageSnackbar
             )
         }
 
@@ -253,7 +251,6 @@ private fun EditTaskScreenPreview() {
             onCompletedChanged = { _, _ -> },
             onDeleteClick = { _, _ -> },
             onSubTasksSync = { _, _ -> },
-            onShowMessageSnackbar = {},
             navigateManageCategories = {},
             navigateMemo = {},
             popBackStack = {},

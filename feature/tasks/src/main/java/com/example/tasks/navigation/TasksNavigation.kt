@@ -11,16 +11,12 @@ import com.example.tasks.TasksRoute
 fun NavGraphBuilder.tasksNavGraph(
     popBackStack: () -> Unit,
     navigateEditTask: (Long) -> Unit,
-    onShowErrorSnackBar: (Throwable?) -> Unit,
-    onShowMessageSnackBar: (String) -> Unit,
 ) = composable<Route.Tasks> { navBackStackEntry ->
     val type = navBackStackEntry.toRoute<Route.Tasks>().type.toTasksType()
     TasksRoute(
         type = type,
         popBackStack = popBackStack,
         navigateEditTask = navigateEditTask,
-        onShowErrorSnackbar = onShowErrorSnackBar,
-        onShowMessageSnackbar = onShowMessageSnackBar
     )
 }
 

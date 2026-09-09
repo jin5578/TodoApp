@@ -9,12 +9,10 @@ import com.example.navigation.Route
 fun NavGraphBuilder.completedTasksNavGraph(
     navigateEditTask: (Long) -> Unit,
     popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
 ) = composable<Route.CompletedTasks> { navBackStackEntry ->
     CompletedTasksRoute(
         navigateEditTask = navigateEditTask,
         popBackStack = popBackStack,
-        onShowErrorSnackbar = onShowErrorSnackbar
     )
 }
 

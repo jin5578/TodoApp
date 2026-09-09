@@ -9,13 +9,10 @@ import com.example.security.SecurityRoute
 fun NavGraphBuilder.securityNavGraph(
     navigateLockSetup: () -> Unit,
     popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) = composable<Route.Security> {
     SecurityRoute(
         navigateLockSetup = navigateLockSetup,
         popBackStack = popBackStack,
-        onShowErrorSnackbar = onShowErrorSnackbar,
     )
 }
 

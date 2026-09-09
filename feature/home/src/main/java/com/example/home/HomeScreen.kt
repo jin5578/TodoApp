@@ -23,11 +23,14 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +46,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.component.EmptyContent
 import com.example.design_system.component.dialog.category.CategoryDialog
 import com.example.design_system.theme.TodoTheme
@@ -79,7 +83,6 @@ internal fun HomeScreen(
     onSubTaskToggleClick: (subTaskId: Long, isCompleted: Boolean) -> Unit,
     onAddCategoryClick: (categoryTitle: String, categoryColorType: CategoryColorType) -> Unit,
     onCompletedTasksClick: () -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -115,19 +118,25 @@ internal fun HomeScreen(
                 sheetState = bottomSheetState,
                 containerColor = MaterialTheme.colorScheme.background,
             ) {
-                AddTaskBottomSheetContent(
-                    locale = locale,
-                    categories = categories,
-                    timePickerType = timePickerType,
-                    onAddTaskClick = { task ->
-                        onAddTaskClick(task)
-                        showAddTaskBottomSheet = BottomSheetType.IDLE
-                    },
-                    onCreateNewCategoryClick = {
-                        isShowAddCategoryDialog = true
-                    },
-                    onShowMessageSnackbar = onShowMessageSnackbar
-                )
+                Box(modifier = Modifier.fillMaxWidth()) {
+                    AddTaskBottomSheetContent(
+                        locale = locale,
+                        categories = categories,
+                        timePickerType = timePickerType,
+                        onAddTaskClick = { task ->
+                            onAddTaskClick(task)
+                            showAddTaskBottomSheet = BottomSheetType.IDLE
+                        },
+                        onCreateNewCategoryClick = {
+                            isShowAddCategoryDialog = true
+                        },
+                    )
+
+                    SnackbarHost(
+                        modifier = Modifier.align(alignment = Alignment.BottomCenter),
+                        hostState = LocalSnackbarHostState.current,
+                    )
+                }
             }
         }
 
@@ -296,6 +305,7 @@ private fun HomeFloatingActionButton(
 @Composable
 private fun HomeScreenPreview() {
     TodoTheme {
+        val snackbarHostState = remember { SnackbarHostState() }
         val categories = persistentListOf(
             Category(
                 id = 1,
@@ -303,22 +313,23 @@ private fun HomeScreenPreview() {
                 colorValue = Color.Red.toColorLong()
             )
         )
-        HomeScreen(
-            categories = categories,
-            taskStateGroups = persistentListOf(),
-            locale = Locale.KOREA,
-            timePickerType = TimePickerType.CLOCK_TIME_PICKER,
-            onSettingClick = {},
-            onCategoryClick = {},
-            onTaskToggleClick = { _, _ -> },
-            onTaskEditClick = {},
-            onDeleteSymbolClick = {},
-            onAddTaskClick = {},
-            onSymbolClick = { _, _ -> },
-            onSubTaskToggleClick = { _, _ -> },
-            onAddCategoryClick = { _, _ -> },
-            onCompletedTasksClick = {},
-            onShowMessageSnackbar = {}
-        )
+        CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
+            HomeScreen(
+                categories = categories,
+                taskStateGroups = persistentListOf(),
+                locale = Locale.KOREA,
+                timePickerType = TimePickerType.CLOCK_TIME_PICKER,
+                onSettingClick = {},
+                onCategoryClick = {},
+                onTaskToggleClick = { _, _ -> },
+                onTaskEditClick = {},
+                onDeleteSymbolClick = {},
+                onAddTaskClick = {},
+                onSymbolClick = { _, _ -> },
+                onSubTaskToggleClick = { _, _ -> },
+                onAddCategoryClick = { _, _ -> },
+                onCompletedTasksClick = {},
+            )
+        }
     }
 }

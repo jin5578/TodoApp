@@ -11,8 +11,6 @@ fun NavGraphBuilder.editTaskNavGraph(
     navigateManageCategories: () -> Unit,
     navigateMemo: (Long) -> Unit,
     popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) = composable<Route.EditTask> { navBackStackEntry ->
     val taskId = navBackStackEntry.toRoute<Route.EditTask>().taskId
     EditTaskRoute(
@@ -20,8 +18,6 @@ fun NavGraphBuilder.editTaskNavGraph(
         navigateManageCategories = navigateManageCategories,
         navigateMemo = navigateMemo,
         popBackStack = popBackStack,
-        onShowErrorSnackbar = onShowErrorSnackbar,
-        onShowMessageSnackbar = onShowMessageSnackbar
     )
 }
 

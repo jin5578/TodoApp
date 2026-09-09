@@ -10,12 +10,10 @@ import com.example.navigation.Route
 fun NavGraphBuilder.calendarNavGraph(
     navigateEditTask: (Long) -> Unit,
     popBackStack: () -> Unit,
-    onShowErrorSnackBar: (Throwable?) -> Unit,
 ) = composable<Route.Calendar> {
     CalendarRoute(
         navigateEditTask = navigateEditTask,
         popBackStack = popBackStack,
-        onShowErrorSnackbar = onShowErrorSnackBar
     )
 }
 

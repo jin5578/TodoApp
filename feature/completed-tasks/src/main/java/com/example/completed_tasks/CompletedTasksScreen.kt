@@ -53,7 +53,7 @@ internal fun CompletedTasksScreen(
         if (taskDateGroups.isEmpty()) {
             EmptyContent(
                 modifier = modifier.padding(paddingValues = paddingValues),
-                title = stringResource(id = DesignSystemR.string.no_tasks)
+                title = stringResource(id = DesignSystemR.string.no_completed_tasks)
             )
         } else {
             Column(

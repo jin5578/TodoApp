@@ -22,8 +22,6 @@ import com.example.tasks.navigation.tasksNavGraph
 internal fun MainNavHost(
     modifier: Modifier = Modifier,
     navigator: MainNavigator,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) {
     Box(
         modifier = modifier.fillMaxSize()
@@ -38,57 +36,42 @@ internal fun MainNavHost(
                 navigateSetting = navigator::navigateSetting,
                 navigateEditTask = navigator::navigateEditTask,
                 navigateCompletedTasks = navigator::navigateCompletedTasks,
-                onShowErrorSnackbar = onShowErrorSnackbar,
-                onShowMessageSnackbar = onShowMessageSnackbar
             )
             settingNavGraph(
                 navigateInfo = {},
                 navigateManageCategories = navigator::navigateManageCategories,
                 navigateSecurity = navigator::navigateSecurity,
                 popBackStack = navigator::popBackStackIfNotHome,
-                onShowErrorSnackbar = onShowErrorSnackbar,
             )
             manageCategoriesNavGraph(
                 popBackStack = navigator::popBackStackIfNotHome,
-                onShowErrorSnackbar = onShowErrorSnackbar,
             )
             editTaskNavGraph(
                 navigateManageCategories = navigator::navigateManageCategories,
                 navigateMemo = navigator::navigateMemo,
                 popBackStack = navigator::popBackStackIfNotHome,
-                onShowErrorSnackbar = onShowErrorSnackbar,
-                onShowMessageSnackbar = onShowMessageSnackbar
             )
             tasksNavGraph(
                 popBackStack = navigator::popBackStackIfNotHome,
                 navigateEditTask = navigator::navigateEditTask,
-                onShowErrorSnackBar = onShowErrorSnackbar,
-                onShowMessageSnackBar = onShowMessageSnackbar
             )
             calendarNavGraph(
                 navigateEditTask = navigator::navigateEditTask,
                 popBackStack = navigator::popBackStackIfNotHome,
-                onShowErrorSnackBar = onShowErrorSnackbar
             )
             lockSetupNavGraph(
                 popBackStack = navigator::popBackStackIfNotHome,
-                onShowErrorSnackbar = onShowErrorSnackbar,
-                onShowMessageSnackbar = onShowMessageSnackbar
             )
             securityNavGraph(
                 navigateLockSetup = navigator::navigateLockSetup,
                 popBackStack = navigator::popBackStackIfNotHome,
-                onShowErrorSnackbar = onShowErrorSnackbar,
-                onShowMessageSnackbar = onShowMessageSnackbar
             )
             memoNavGraph(
                 popBackStack = navigator::popBackStackIfNotHome,
-                onShowErrorSnackbar = onShowErrorSnackbar,
             )
             completedTasksNavGraph(
                 navigateEditTask = navigator::navigateEditTask,
                 popBackStack = navigator::popBackStackIfNotHome,
-                onShowErrorSnackbar = onShowErrorSnackbar,
             )
         }
     }

@@ -47,7 +47,6 @@ internal fun TasksScreen(
     navigateEditTask: (Long) -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
     onTaskDelete: (Long) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -130,7 +129,6 @@ private fun TasksScreenPreview() {
             navigateEditTask = {},
             onTaskToggleCompletion = { _, _ -> },
             onTaskDelete = { _ -> },
-            onShowMessageSnackbar = {}
         )
     }
 }

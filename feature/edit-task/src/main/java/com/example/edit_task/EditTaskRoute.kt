@@ -3,14 +3,19 @@ package com.example.edit_task
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.design_system.utils.LocalSnackbarHostState
+import com.example.design_system.utils.LocalSnackbarScope
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.toErrorMessage
 import com.example.edit_task.model.EditTaskUiEffect
 import com.example.edit_task.model.EditTaskUiState
 import com.example.model.SubTask
 import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
 import com.example.design_system.R as DesignSystemR
@@ -22,10 +27,12 @@ internal fun EditTaskRoute(
     navigateManageCategories: () -> Unit,
     navigateMemo: (Long) -> Unit,
     popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    val snackbarHostState = LocalSnackbarHostState.current
+    val contextResources = LocalResources.current
+    val snackbarScope = LocalSnackbarScope.current
 
     LaunchedEffect(key1 = taskId) {
         viewModel.fetchEditTask(taskId = taskId)
@@ -33,7 +40,9 @@ internal fun EditTaskRoute(
 
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
+            snackbarHostState.showSnackbar(
+                message = throwable.toErrorMessage(resources = contextResources)
+            )
         }
     }
 
@@ -43,7 +52,7 @@ internal fun EditTaskRoute(
     LaunchedEffect(key1 = Unit) {
         viewModel.uiEffect.collectLatest { uiEffect ->
             if (uiEffect is EditTaskUiEffect.SuccessDeleteTask) {
-                onShowMessageSnackbar(deleteTaskSuccessMessage)
+                snackbarScope.launch { snackbarHostState.showSnackbar(message = deleteTaskSuccessMessage) }
                 popBackStack()
             }
         }
@@ -60,7 +69,6 @@ internal fun EditTaskRoute(
         taskDelete = viewModel::deleteTask,
         subTasksSync = viewModel::syncSubTasks,
         popBackStack = popBackStack,
-        onShowMessageSnackbar = onShowMessageSnackbar
     )
 }
 
@@ -73,7 +81,6 @@ private fun EditTaskContent(
     completedUpdate: (taskId: Long, isCompleted: Boolean) -> Unit,
     taskDelete: (id: Long, uuid: String) -> Unit,
     subTasksSync: (parentId: Long, List<SubTask>) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
     navigateManageCategories: () -> Unit,
     navigateMemo: (Long) -> Unit,
     popBackStack: () -> Unit,
@@ -94,7 +101,6 @@ private fun EditTaskContent(
                 onCompletedChanged = completedUpdate,
                 onDeleteClick = taskDelete,
                 onSubTasksSync = subTasksSync,
-                onShowMessageSnackbar = onShowMessageSnackbar,
                 navigateManageCategories = navigateManageCategories,
                 navigateMemo = navigateMemo,
                 popBackStack = popBackStack,

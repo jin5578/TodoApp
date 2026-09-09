@@ -9,13 +9,11 @@ import com.example.navigation.Route
 
 fun NavGraphBuilder.memoNavGraph(
     popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
 ) = composable<Route.Memo> { navBackStackEntry ->
     val taskId = navBackStackEntry.toRoute<Route.Memo>().taskId
     MemoRoute(
         taskId = taskId,
         popBackStack = popBackStack,
-        onShowErrorSnackbar = onShowErrorSnackbar,
     )
 }
 

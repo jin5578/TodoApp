@@ -18,14 +18,17 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -38,6 +41,8 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.design_system.utils.LocalSnackbarHostState
+import com.example.design_system.utils.LocalSnackbarScope
 import com.example.design_system.component.CategoryDropdownMenu
 import com.example.design_system.component.dialog.calendar.CalendarDialog
 import com.example.design_system.component.dialog.reminder.ReminderDialog
@@ -52,6 +57,7 @@ import com.example.model.TimePickerType
 import com.example.utils.checkValidTask
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -68,8 +74,13 @@ internal fun AddTaskBottomSheetContent(
     timePickerType: TimePickerType,
     onAddTaskClick: (Task) -> Unit,
     onCreateNewCategoryClick: () -> Unit,
-    onShowMessageSnackbar: (String) -> Unit
 ) {
+    val snackbarHostState = LocalSnackbarHostState.current
+    val snackbarScope = LocalSnackbarScope.current
+    val onShowMessageSnackbar: (String) -> Unit = { message ->
+        snackbarScope.launch { snackbarHostState.showSnackbar(message = message) }
+    }
+
     var isShowCalendarDialog by remember { mutableStateOf(value = false) }
     var isShowTimePickerDialog by remember { mutableStateOf(value = false) }
     var isShowReminderDialog by remember { mutableStateOf(value = false) }
@@ -105,7 +116,6 @@ internal fun AddTaskBottomSheetContent(
                     taskReminderTime = reminderTime
                     isShowCalendarDialog = false
                 },
-                onShowMessageSnackbar = onShowMessageSnackbar
             )
         }
 
@@ -407,18 +417,24 @@ private fun TaskActionItem(
 @Composable
 private fun AddTaskBottomSheetContentPreview() {
     TodoTheme {
+        val snackbarHostState = remember { SnackbarHostState() }
+        val snackbarScope = rememberCoroutineScope()
         val categories = persistentListOf(
             Category(
                 id = 3690, title = "solet", colorValue = 3145
             )
         )
-        AddTaskBottomSheetContent(
-            locale = Locale.KOREA,
-            categories = categories,
-            timePickerType = TimePickerType.SCROLL_TIME_PICKER,
-            onAddTaskClick = {},
-            onCreateNewCategoryClick = {},
-            onShowMessageSnackbar = {}
-        )
+        CompositionLocalProvider(
+            LocalSnackbarHostState provides snackbarHostState,
+            LocalSnackbarScope provides snackbarScope,
+        ) {
+            AddTaskBottomSheetContent(
+                locale = Locale.KOREA,
+                categories = categories,
+                timePickerType = TimePickerType.SCROLL_TIME_PICKER,
+                onAddTaskClick = {},
+                onCreateNewCategoryClick = {},
+            )
+        }
     }
 }
