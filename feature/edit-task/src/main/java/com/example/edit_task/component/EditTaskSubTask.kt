@@ -183,7 +183,8 @@ internal fun EditTaskSubTask(
                         id = -1L,
                         parentId = parentId,
                         title = "",
-                        isCompleted = false
+                        isCompleted = false,
+                        sortOrder = 0,
                     )
                     val newItem =
                         DraftSubTaskItem(key = nextKey, subTask = subTask)
@@ -327,7 +328,10 @@ private fun EditTaskSubTaskItem(
                     modifier = Modifier.size(size = 16.dp)
                         .pointerInput(Unit) {
                             detectDragGesturesAfterLongPress(
-                                onDragStart = { onDragStart() },
+                                onDragStart = {
+                                    onDragStart()
+                                    focusManager.clearFocus()
+                                },
                                 onDragEnd = { onDragEnd() },
                                 onDragCancel = { onDragEnd() },
                                 onDrag = { change, dragAmount ->

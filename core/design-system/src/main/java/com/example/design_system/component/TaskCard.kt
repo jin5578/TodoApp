@@ -428,6 +428,7 @@ private fun TaskEmojiIconButton(
 @Composable
 private fun TaskCardPreview() {
     TodoTheme {
+
         val task = TaskUiModel(
             id = 8578,
             uuid = "corrumpit",
@@ -447,13 +448,15 @@ private fun TaskCardPreview() {
                     id = 1L,
                     parentId = 8578,
                     title = "sub 1",
-                    isCompleted = true
+                    isCompleted = true,
+                    sortOrder = 0,
                 ),
                 SubTask(
                     id = 2L,
                     parentId = 8578,
                     title = "sub 2",
-                    isCompleted = false
+                    isCompleted = false,
+                    sortOrder = 1,
                 ),
             ),
         )
