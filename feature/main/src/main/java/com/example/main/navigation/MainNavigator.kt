@@ -1,4 +1,4 @@
-package com.example.main
+package com.example.main.navigation
 
 import android.app.Activity
 import androidx.compose.runtime.Composable
@@ -6,14 +6,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navOptions
 import com.example.calendar.navigation.navigateCalendar
 import com.example.completed_tasks.navigation.navigateCompletedTasks
 import com.example.edit_task.navigation.navigateEditTask
 import com.example.home.navigation.navigateHome
 import com.example.lock_setup.navigation.navigateLockSetup
+import com.example.main.model.MainTab
 import com.example.manage_categories.navigation.navigateManageCategories
 import com.example.memo.navigation.navigateMemo
 import com.example.navigation.Route
@@ -25,25 +29,52 @@ internal class MainNavigator(
     val navController: NavHostController,
     private val activity: Activity,
 ) {
-    private val currentDestination: NavDestination?
+    val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
     val startDestination = Route.Home
 
+    val currentTab: MainTab?
+        @Composable get() {
+            val destination = currentDestination
+            return when {
+                destination?.hasRoute<Route.Home>() == true -> MainTab.HOME
+                destination?.hasRoute<Route.Calendar>() == true -> MainTab.CALENDAR
+                destination?.hasRoute<Route.Setting>() == true -> MainTab.SETTING
+                else -> null
+            }
+        }
+
+    private val topLevelNavOptions: NavOptions
+        get() = navOptions {
+            popUpTo(id = navController.graph.findStartDestination().id) {
+                saveState = true
+            }
+            launchSingleTop = true
+            restoreState = true
+        }
+
+    fun navigateTab(tab: MainTab) =
+        when (tab) {
+            MainTab.HOME -> navigateHome()
+            MainTab.CALENDAR -> navigateCalendar()
+            MainTab.SETTING -> navigateSetting()
+        }
+
     fun navigateHome() =
-        navController.navigateHome()
+        navController.navigateHome(navOptions = topLevelNavOptions)
+
+    fun navigateCalendar() =
+        navController.navigateCalendar(navOptions = topLevelNavOptions)
 
     fun navigateSetting() =
-        navController.navigateSetting()
+        navController.navigateSetting(navOptions = topLevelNavOptions)
 
     fun navigateEditTask(taskId: Long) =
         navController.navigateEditTask(taskId = taskId)
 
     fun navigateTasks(type: String) =
         navController.navigateTasks(type = type)
-
-    fun navigateCalendar() =
-        navController.navigateCalendar()
 
     fun navigateManageCategories() =
         navController.navigateManageCategories()

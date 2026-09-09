@@ -1,5 +1,7 @@
 package com.example.main
 
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -8,6 +10,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalResources
+import com.example.main.component.MainBottomNavigationBar
+import com.example.main.navigation.MainNavHost
+import com.example.main.navigation.MainNavigator
+import com.example.main.navigation.rememberMainNavigator
 import kotlinx.coroutines.launch
 import java.net.UnknownHostException
 import com.example.design_system.R as DesignSystemR
@@ -59,12 +65,24 @@ private fun MainScreen(
 ) {
     Scaffold(
         modifier = modifier,
-        content = { _ ->
+        content = { innerPadding ->
             MainNavHost(
+                modifier = Modifier
+                    .padding(paddingValues = innerPadding)
+                    .consumeWindowInsets(paddingValues = innerPadding),
                 navigator = navigator,
                 onShowErrorSnackbar = onShowErrorSnackbar,
                 onShowMessageSnackbar = onShowMessageSnackbar,
             )
+        },
+        bottomBar = {
+            val currentTab = navigator.currentTab
+            if (currentTab != null) {
+                MainBottomNavigationBar(
+                    selectedTab = currentTab,
+                    onTabClick = { tab -> navigator.navigateTab(tab = tab) },
+                )
+            }
         },
         snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
     )

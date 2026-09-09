@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.theme.TodoTheme
+import com.example.main.navigation.rememberMainNavigator
 import com.example.model.ThemeType
 import com.example.utils.NotificationHelper
 import dagger.hilt.android.AndroidEntryPoint
