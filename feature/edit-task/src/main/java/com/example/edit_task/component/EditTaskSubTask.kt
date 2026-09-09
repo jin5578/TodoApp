@@ -19,12 +19,15 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -52,6 +55,7 @@ internal fun EditTaskSubTask(
     onSubTasksSync: (parentId: Long, subTasks: List<SubTask>) -> Unit,
 ) {
     var draftSubTasks by remember { mutableStateOf(value = subTasks) }
+    var focusRequestIndex by remember { mutableStateOf<Int?>(value = null) }
 
     Column(
         modifier = modifier.fillMaxWidth()
@@ -59,6 +63,8 @@ internal fun EditTaskSubTask(
         draftSubTasks.forEachIndexed { index, subTask ->
             EditTaskSubTaskItem(
                 subTask = subTask,
+                requestFocus = index == focusRequestIndex,
+                onFocusRequested = { focusRequestIndex = null },
                 onUpdate = { updatedSubTask ->
                     draftSubTasks =
                         draftSubTasks.mapIndexed { draftIndex, draftSubTask ->
@@ -85,6 +91,7 @@ internal fun EditTaskSubTask(
                     )
                     draftSubTasks =
                         draftSubTasks.plus(subTask).toImmutableList()
+                    focusRequestIndex = draftSubTasks.lastIndex
                 }
                 .padding(horizontal = 26.dp, vertical = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
@@ -110,11 +117,21 @@ internal fun EditTaskSubTask(
 private fun EditTaskSubTaskItem(
     modifier: Modifier = Modifier,
     subTask: SubTask,
+    requestFocus: Boolean,
+    onFocusRequested: () -> Unit,
     onUpdate: (SubTask) -> Unit,
     onDelete: (SubTask) -> Unit,
 ) {
     val focusManager = LocalFocusManager.current
+    val focusRequester = remember { FocusRequester() }
     var isFocused by remember { mutableStateOf(value = false) }
+
+    LaunchedEffect(key1 = requestFocus) {
+        if (requestFocus) {
+            focusRequester.requestFocus()
+            onFocusRequested()
+        }
+    }
 
     Row(
         modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp),
@@ -152,6 +169,7 @@ private fun EditTaskSubTaskItem(
         TextField(
             modifier = modifier
                 .weight(weight = 1f)
+                .focusRequester(focusRequester = focusRequester)
                 .onFocusChanged { focusState ->
                     isFocused = focusState.isFocused
                 },
