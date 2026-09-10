@@ -64,7 +64,7 @@ internal fun CalendarScreen(
     navigateEditTask: (Long) -> Unit,
     popBackStack: () -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
-    onTaskDelete: (Long) -> Unit
+    onTaskDelete: (id: Long, uuid: String) -> Unit,
 ) {
     val coroutineScope = rememberCoroutineScope()
 
@@ -220,7 +220,7 @@ private fun CalendarScreenPreview() {
             navigateEditTask = {},
             popBackStack = {},
             onTaskToggleCompletion = { _, _ -> },
-            onTaskDelete = { _ -> }
+            onTaskDelete = { _, _ -> }
         )
     }
 }

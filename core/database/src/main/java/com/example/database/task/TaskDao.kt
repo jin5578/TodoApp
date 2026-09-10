@@ -43,11 +43,7 @@ interface TaskDao {
 
     @Transaction
     @Query("SELECT * FROM task WHERE id=:id")
-    fun getFlowTaskById(id: Long): Flow<TaskWithSubTasksEntity>
-
-    @Transaction
-    @Query("SELECT * FROM task WHERE id=:id")
-    suspend fun getTaskById(id: Long): TaskWithSubTasksEntity
+    fun getTaskById(id: Long): Flow<TaskWithSubTasksEntity>
 
     /* Update */
     @Update(onConflict = OnConflictStrategy.REPLACE)

@@ -2,12 +2,11 @@ package com.example.tasks
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.DeleteTaskByTaskUseCase
-import com.example.domain.GetTasksUseCase
-import com.example.domain.GetTaskByIdUseCase
+import com.example.domain.DeleteTaskByIdUseCase
 import com.example.domain.GetTasksByDateRangeUseCase
 import com.example.domain.GetTasksByStateUseCase
-import com.example.domain.UpdateTaskUseCase
+import com.example.domain.GetTasksUseCase
+import com.example.domain.UpdateTaskCompletedUseCase
 import com.example.model.TasksType
 import com.example.model.toUiModel
 import com.example.tasks.model.TasksUiState
@@ -29,9 +28,8 @@ class TasksViewModel @Inject constructor(
     private val getTasksByStateUseCase: GetTasksByStateUseCase,
     private val getTasksByDateRangeUseCase: GetTasksByDateRangeUseCase,
     private val getTasksUseCase: GetTasksUseCase,
-    private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    private val updateTaskUseCase: UpdateTaskUseCase,
-    private val deleteTaskByTaskUseCase: DeleteTaskByTaskUseCase,
+    private val updateTaskCompletedUseCase: UpdateTaskCompletedUseCase,
+    private val deleteTaskByIdUseCase: DeleteTaskByIdUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -61,7 +59,8 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch {
             getTasksByStateUseCase(isCompleted = isCompleted).map {
                 TasksUiState.Screen(
-                    tasks = it.tasks.map { task -> task.toUiModel() }.toPersistentList(),
+                    tasks = it.tasks.map { task -> task.toUiModel() }
+                        .toPersistentList(),
                     categories = it.categories.toPersistentList(),
                     locale = it.tasksSystem.locale
                 )
@@ -79,7 +78,8 @@ class TasksViewModel @Inject constructor(
                 toDate = toDate
             ).map {
                 TasksUiState.Screen(
-                    tasks = it.tasks.map { task -> task.toUiModel() }.toPersistentList(),
+                    tasks = it.tasks.map { task -> task.toUiModel() }
+                        .toPersistentList(),
                     categories = it.categories.toPersistentList(),
                     locale = it.tasksSystem.locale,
                 )
@@ -94,7 +94,8 @@ class TasksViewModel @Inject constructor(
         viewModelScope.launch {
             getTasksUseCase().map {
                 TasksUiState.Screen(
-                    tasks = it.tasks.map { task -> task.toUiModel() }.toPersistentList(),
+                    tasks = it.tasks.map { task -> task.toUiModel() }
+                        .toPersistentList(),
                     categories = it.categories.toPersistentList(),
                     locale = it.tasksSystem.locale
                 )
@@ -107,14 +108,11 @@ class TasksViewModel @Inject constructor(
 
     fun toggleTaskCompletion(taskId: Long, isCompleted: Boolean) =
         viewModelScope.launch {
-            val task =
-                getTaskByIdUseCase(id = taskId).copy(isCompleted = isCompleted)
-            updateTaskUseCase(task = task)
+            updateTaskCompletedUseCase(id = taskId, isCompleted = isCompleted)
         }
 
-    fun deleteTask(taskId: Long) =
+    fun deleteTask(taskId: Long, uuid: String) =
         viewModelScope.launch {
-            val task = getTaskByIdUseCase(id = taskId)
-            deleteTaskByTaskUseCase(task = task)
+            deleteTaskByIdUseCase(id = taskId, uuid = uuid)
         }
 }

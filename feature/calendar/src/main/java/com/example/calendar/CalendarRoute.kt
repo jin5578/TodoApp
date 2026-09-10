@@ -46,7 +46,7 @@ private fun CalendarContent(
     navigateEditTask: (Long) -> Unit,
     popBackStack: () -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
-    onTaskDelete: (Long) -> Unit,
+    onTaskDelete: (id: Long, uuid: String) -> Unit,
 ) {
     when (uiState) {
         is CalendarUiState.Loading -> Loading()

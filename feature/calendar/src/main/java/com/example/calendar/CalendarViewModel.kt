@@ -3,10 +3,9 @@ package com.example.calendar
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.calendar.model.CalendarUiState
-import com.example.domain.DeleteTaskByTaskUseCase
+import com.example.domain.DeleteTaskByIdUseCase
 import com.example.domain.GetCalendarDataUseCase
-import com.example.domain.GetTaskByIdUseCase
-import com.example.domain.UpdateTaskUseCase
+import com.example.domain.UpdateTaskCompletedUseCase
 import com.example.model.toUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.toPersistentList
@@ -22,9 +21,8 @@ import javax.inject.Inject
 @HiltViewModel
 class CalendarViewModel @Inject constructor(
     private val getCalendarDataUseCase: GetCalendarDataUseCase,
-    private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    private val updateTaskUseCase: UpdateTaskUseCase,
-    private val deleteTaskByTaskUseCase: DeleteTaskByTaskUseCase,
+    private val updateTaskCompletedUseCase: UpdateTaskCompletedUseCase,
+    private val deleteTaskByIdUseCase: DeleteTaskByIdUseCase
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -57,14 +55,11 @@ class CalendarViewModel @Inject constructor(
 
     fun toggleTaskCompletion(taskId: Long, isCompleted: Boolean) =
         viewModelScope.launch {
-            val task =
-                getTaskByIdUseCase(id = taskId).copy(isCompleted = isCompleted)
-            updateTaskUseCase(task = task)
+            updateTaskCompletedUseCase(id = taskId, isCompleted = isCompleted)
         }
 
-    fun deleteTask(taskId: Long) =
+    fun deleteTask(taskId: Long, uuid: String) =
         viewModelScope.launch {
-            val task = getTaskByIdUseCase(id = taskId)
-            deleteTaskByTaskUseCase(task = task)
+            deleteTaskByIdUseCase(id = taskId, uuid = uuid)
         }
 }

@@ -59,7 +59,7 @@ private fun TasksContent(
     popBackStack: () -> Unit,
     navigateEditTask: (Long) -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
-    onTaskDelete: (Long) -> Unit,
+    onTaskDelete: (id: Long, uuid: String) -> Unit,
 ) {
     when (uiState) {
         is TasksUiState.Loading ->

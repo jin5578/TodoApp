@@ -1,7 +1,5 @@
 package com.example.domain
 
-import androidx.work.WorkContinuation.combine
-import androidx.work.multiprocess.RemoteWorkContinuation.combine
 import com.example.data_api.repository.SystemRepository
 import com.example.data_api.repository.TaskRepository
 import com.example.model.memo.Memo
@@ -16,7 +14,7 @@ class GetMemoDataUseCase @Inject constructor(
     operator fun invoke(id: Long): Flow<Memo> =
         combine(
             flow = systemRepository.getMemoSystem(),
-            flow2 = taskRepository.getFlowTaskById(id = id)
+            flow2 = taskRepository.getTaskById(id = id)
         ) { memoSystem, task ->
             Memo(
                 memoTitle = task.memoTitle,

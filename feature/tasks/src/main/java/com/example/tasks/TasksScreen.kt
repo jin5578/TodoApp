@@ -46,7 +46,7 @@ internal fun TasksScreen(
     popBackStack: () -> Unit,
     navigateEditTask: (Long) -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
-    onTaskDelete: (Long) -> Unit,
+    onTaskDelete: (id: Long, uuid: String) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -128,7 +128,7 @@ private fun TasksScreenPreview() {
             popBackStack = {},
             navigateEditTask = {},
             onTaskToggleCompletion = { _, _ -> },
-            onTaskDelete = { _ -> },
+            onTaskDelete = { _, _ -> },
         )
     }
 }
