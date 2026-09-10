@@ -4,7 +4,10 @@ import kotlinx.serialization.Serializable
 
 sealed interface Route {
     @Serializable
-    data object Home : Route
+    data object Tasks : Route
+
+    @Serializable
+    data object Calendar : Route
 
     @Serializable
     data object Setting : Route
@@ -16,9 +19,6 @@ sealed interface Route {
     data class EditTask(
         val taskId: Long
     ) : Route
-
-    @Serializable
-    data object Calendar : Route
 
     @Serializable
     data object LockSetup : Route

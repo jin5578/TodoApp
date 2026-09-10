@@ -10,10 +10,10 @@ internal enum class MainTab(
     @DrawableRes val iconResId: Int,
     @StringRes val titleResId: Int,
 ) {
-    HOME(
-        route = Route.Home,
-        iconResId = R.drawable.svg_home,
-        titleResId = R.string.home,
+    TASKS(
+        route = Route.Tasks,
+        iconResId = R.drawable.svg_task,
+        titleResId = R.string.tasks,
     ),
     CALENDAR(
         route = Route.Calendar,

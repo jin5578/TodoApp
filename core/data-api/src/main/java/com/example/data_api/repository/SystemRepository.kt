@@ -8,7 +8,6 @@ import com.example.model.add_task.AddTaskSystem
 import com.example.model.calendar.CalendarSystem
 import com.example.model.completed_tasks.CompletedTasksSystem
 import com.example.model.edit_task.EditTaskSystem
-import com.example.model.home.HomeSystem
 import com.example.model.lock_setup.LockSetupSystem
 import com.example.model.memo.MemoSystem
 import com.example.model.search_task.SearchTaskSystem
@@ -21,7 +20,6 @@ import java.util.Locale
 interface SystemRepository {
     fun checkPassword(password: String): Flow<Boolean>
     fun getThemeType(): Flow<ThemeType>
-    fun getHomeSystem(): Flow<HomeSystem>
     fun getSettingSystem(): Flow<SettingSystem>
     fun getAddTaskSystem(): Flow<AddTaskSystem>
     fun getEditTaskSystem(): Flow<EditTaskSystem>

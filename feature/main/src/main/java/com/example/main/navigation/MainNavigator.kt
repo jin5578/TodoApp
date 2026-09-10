@@ -15,7 +15,6 @@ import androidx.navigation.navOptions
 import com.example.calendar.navigation.navigateCalendar
 import com.example.completed_tasks.navigation.navigateCompletedTasks
 import com.example.edit_task.navigation.navigateEditTask
-import com.example.home.navigation.navigateHome
 import com.example.lock_setup.navigation.navigateLockSetup
 import com.example.main.model.MainTab
 import com.example.manage_categories.navigation.navigateManageCategories
@@ -24,6 +23,7 @@ import com.example.navigation.Route
 import com.example.search_task.navigation.navigateSearchTask
 import com.example.security.navigation.navigateSecurity
 import com.example.setting.navigation.navigateSetting
+import com.example.tasks.navigation.navigateTasks
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -32,13 +32,13 @@ internal class MainNavigator(
     val currentDestination: NavDestination?
         @Composable get() = navController.currentBackStackEntryAsState().value?.destination
 
-    val startDestination = Route.Home
+    val startDestination = Route.Tasks
 
     val currentTab: MainTab?
         @Composable get() {
             val destination = currentDestination
             return when {
-                destination?.hasRoute<Route.Home>() == true -> MainTab.HOME
+                destination?.hasRoute<Route.Tasks>() == true -> MainTab.TASKS
                 destination?.hasRoute<Route.Calendar>() == true -> MainTab.CALENDAR
                 destination?.hasRoute<Route.Setting>() == true -> MainTab.SETTING
                 else -> null
@@ -56,13 +56,13 @@ internal class MainNavigator(
 
     fun navigateTab(tab: MainTab) =
         when (tab) {
-            MainTab.HOME -> navigateHome()
+            MainTab.TASKS -> navigateTasks()
             MainTab.CALENDAR -> navigateCalendar()
             MainTab.SETTING -> navigateSetting()
         }
 
-    fun navigateHome() =
-        navController.navigateHome(navOptions = topLevelNavOptions)
+    fun navigateTasks() =
+        navController.navigateTasks(navOptions = topLevelNavOptions)
 
     fun navigateCalendar() =
         navController.navigateCalendar(navOptions = topLevelNavOptions)
@@ -94,8 +94,8 @@ internal class MainNavigator(
     private fun popBackStack() =
         navController.popBackStack()
 
-    fun popBackStackIfNotHome() {
-        if (!isSameCurrentDestination<Route.Home>()) {
+    fun popBackStackIfNotTasks() {
+        if (!isSameCurrentDestination<Route.Tasks>()) {
             popBackStack()
         }
     }

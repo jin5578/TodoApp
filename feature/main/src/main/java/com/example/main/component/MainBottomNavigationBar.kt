@@ -12,6 +12,7 @@ import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -29,8 +30,10 @@ internal fun MainBottomNavigationBar(
     NavigationBar(
         modifier = modifier
             .navigationBarsPadding()
+            .shadow(elevation = 10.dp)
             .height(height = 64.dp),
         containerColor = MaterialTheme.colorScheme.background,
+        tonalElevation = 0.dp,
         windowInsets = WindowInsets(left = 0, top = 0, right = 0, bottom = 0),
     ) {
         MainTab.entries.forEach { tab ->
@@ -67,7 +70,7 @@ internal fun MainBottomNavigationBar(
 private fun MainBottomNavigationBarPreview() {
     TodoTheme {
         MainBottomNavigationBar(
-            selectedTab = MainTab.HOME,
+            selectedTab = MainTab.TASKS,
             onTabClick = {},
         )
     }

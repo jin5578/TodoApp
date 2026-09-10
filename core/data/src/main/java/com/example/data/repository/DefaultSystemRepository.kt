@@ -10,7 +10,6 @@ import com.example.model.add_task.AddTaskSystem
 import com.example.model.calendar.CalendarSystem
 import com.example.model.completed_tasks.CompletedTasksSystem
 import com.example.model.edit_task.EditTaskSystem
-import com.example.model.home.HomeSystem
 import com.example.model.lock_setup.LockSetupSystem
 import com.example.model.memo.MemoSystem
 import com.example.model.search_task.SearchTaskSystem
@@ -34,15 +33,6 @@ class DefaultSystemRepository @Inject constructor(
     override fun getThemeType(): Flow<ThemeType> =
         systemDataSource.systemData.map { data ->
             data.themeType.toThemeType()
-        }
-
-    override fun getHomeSystem(): Flow<HomeSystem> =
-        systemDataSource.systemData.map { data ->
-            HomeSystem(
-                sortByType = data.sortByType.toSortByType(),
-                locale = data.locale.toLocale(),
-                timePickerType = data.timePickerType.toTimePickerType(),
-            )
         }
 
     override fun getSettingSystem(): Flow<SettingSystem> =
@@ -91,7 +81,9 @@ class DefaultSystemRepository @Inject constructor(
     override fun getTasksSystem(): Flow<TasksSystem> =
         systemDataSource.systemData.map { data ->
             TasksSystem(
-                locale = data.locale.toLocale()
+                sortByType = data.sortByType.toSortByType(),
+                locale = data.locale.toLocale(),
+                timePickerType = data.timePickerType.toTimePickerType()
             )
         }
 

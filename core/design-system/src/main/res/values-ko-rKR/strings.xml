@@ -11,7 +11,6 @@
     <string name="github">Github</string>
     <string name="category">카테고리</string>
     <string name="settings">설정</string>
-    <string name="home">홈</string>
     <string name="choose_language">언어 선택</string>
     <string name="choose_theme_style">테마 스타일 선택</string>
     <string name="choose_time_picker_style">시간 선택기 스타일 선택</string>
@@ -152,4 +151,5 @@
     <string name="task_creation_time_desc">작업 생성 시간(최신 항목이 위에 있습니다)</string>
     <string name="manual">수동 정렬(길게 눌러 정렬)</string>
     <string name="search">검색</string>
+    <string name="tasks">작업</string>
 </resources>

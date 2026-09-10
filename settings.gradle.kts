@@ -40,7 +40,6 @@ include(
     ":feature:calendar",
     ":feature:completed-tasks",
     ":feature:edit-task",
-    ":feature:home",
     ":feature:lock-setup",
     ":feature:main",
     ":feature:manage-categories",
@@ -48,4 +47,5 @@ include(
     ":feature:search-task",
     ":feature:security",
     ":feature:setting",
+    ":feature:tasks"
 )
