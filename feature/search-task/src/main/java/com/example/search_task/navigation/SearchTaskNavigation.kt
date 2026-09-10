@@ -7,9 +7,13 @@ import com.example.navigation.Route
 import com.example.search_task.SearchTaskRoute
 
 fun NavGraphBuilder.searchTaskNavGraph(
+    navigateEditTask: (Long) -> Unit,
     popBackStack: () -> Unit,
 ) = composable<Route.SearchTask> { _ ->
-    SearchTaskRoute(popBackStack = popBackStack)
+    SearchTaskRoute(
+        navigateEditTask = navigateEditTask,
+        popBackStack = popBackStack
+    )
 }
 
 fun NavController.navigateSearchTask() =

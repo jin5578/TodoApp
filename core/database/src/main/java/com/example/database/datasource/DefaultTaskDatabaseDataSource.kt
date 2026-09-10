@@ -40,6 +40,9 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
     override fun getTasksByCategory(categoryId: Long): Flow<List<TaskWithSubTasksEntity>> =
         taskDatabase.taskDao().getTasksByCategory(categoryId)
 
+    override fun getTasksByKeyword(keyword: String): Flow<List<TaskWithSubTasksEntity>> =
+        taskDatabase.taskDao().getTasksByKeyword(keyword = keyword)
+
     override fun getTaskById(id: Long): Flow<TaskWithSubTasksEntity> =
         taskDatabase.taskDao().getTaskById(id = id)
 

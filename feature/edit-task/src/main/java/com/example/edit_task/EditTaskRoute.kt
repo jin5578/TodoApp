@@ -7,9 +7,9 @@ import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.design_system.component.Loading
 import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.utils.LocalSnackbarScope
-import com.example.design_system.component.Loading
 import com.example.design_system.utils.toErrorMessage
 import com.example.edit_task.model.EditTaskUiEffect
 import com.example.edit_task.model.EditTaskUiState
@@ -35,7 +35,7 @@ internal fun EditTaskRoute(
     val snackbarScope = LocalSnackbarScope.current
 
     LaunchedEffect(key1 = taskId) {
-        viewModel.fetchEditTask(taskId = taskId)
+        viewModel.fetchEditTaskUiState(taskId = taskId)
     }
 
     LaunchedEffect(key1 = Unit) {

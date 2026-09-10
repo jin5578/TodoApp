@@ -18,6 +18,7 @@ interface TaskRepository {
 
     fun getTasksByState(isCompleted: Boolean): Flow<List<Task>>
     fun getTasksByCategory(categoryId: Long): Flow<List<Task>>
+    fun getTasksByKeyword(keyword: String): Flow<List<Task>>
     fun getTaskById(id: Long): Flow<Task>
     suspend fun updateTask(task: Task)
     suspend fun updateTaskSymbol(taskId: Long, symbolId: Int)

@@ -26,7 +26,6 @@ import com.example.design_system.R as DesignSystemR
 @Composable
 internal fun MemoScreen(
     modifier: Modifier = Modifier,
-    popBackStack: () -> Unit,
     taskId: Long,
     title: String,
     content: String,
@@ -34,6 +33,7 @@ internal fun MemoScreen(
     locale: Locale,
     onTitleValueChanged: (taskId: Long, title: String) -> Unit,
     onContentValueChanged: (taskId: Long, content: String) -> Unit,
+    popBackStack: () -> Unit,
 ) {
     var memoTitle by remember { mutableStateOf(value = title) }
     var memoContent by remember { mutableStateOf(value = content) }
@@ -89,7 +89,6 @@ internal fun MemoScreen(
 private fun MemoScreenPreview() {
     TodoTheme {
         MemoScreen(
-            popBackStack = { },
             taskId = -1L,
             title = "",
             content = "",
@@ -97,6 +96,7 @@ private fun MemoScreenPreview() {
             locale = Locale.KOREA,
             onTitleValueChanged = { _, _ -> },
             onContentValueChanged = { _, _ -> },
+            popBackStack = { },
         )
     }
 }

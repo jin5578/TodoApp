@@ -39,10 +39,10 @@ class CompletedTasksViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
-        fetchCompletedTasks()
+        fetchCompletedTasksUiState()
     }
 
-    private fun fetchCompletedTasks() =
+    private fun fetchCompletedTasksUiState() =
         viewModelScope.launch {
             getCompletedTasksDataUseCase().map { completedTasks ->
                 val taskDateGroups = completedTasks.tasks.toTaskDateGroups()

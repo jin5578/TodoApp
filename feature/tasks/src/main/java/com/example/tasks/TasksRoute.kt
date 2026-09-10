@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.utils.toErrorMessage
 import com.example.model.TasksType
 import com.example.tasks.model.TasksUiState
@@ -26,7 +26,7 @@ internal fun TasksRoute(
     val contextResources = LocalResources.current
 
     LaunchedEffect(key1 = type) {
-        viewModel.fetchTasks(type = type)
+        viewModel.fetchTasksUiState(type = type)
     }
 
     LaunchedEffect(key1 = Unit) {

@@ -1,4 +1,4 @@
-package com.example.model.completedtasks
+package com.example.model.completed_tasks
 
 import java.util.Locale
 

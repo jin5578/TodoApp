@@ -82,13 +82,14 @@ internal fun HomeScreen(
     onCategoryClick: (Long) -> Unit,
     onTaskToggleClick: (id: Long, isCompleted: Boolean) -> Unit,
     onTaskEditClick: (Long) -> Unit,
-    onDeleteSymbolClick: (taskId: Long) -> Unit,
+    onDeleteSymbolClick: (Long) -> Unit,
     onAddTaskClick: (Task) -> Unit,
     onSymbolClick: (taskId: Long, symbolId: Int) -> Unit,
     onSubTaskToggleClick: (subTaskId: Long, isCompleted: Boolean) -> Unit,
     onAddCategoryClick: (categoryTitle: String, categoryColorType: CategoryColorType) -> Unit,
     onSortByTypeChanged: (SortByType) -> Unit,
     onCompletedTasksClick: () -> Unit,
+    onSearchClick: () -> Unit,
     onManageCategoriesClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -110,6 +111,7 @@ internal fun HomeScreen(
                 onSortByClick = {
                     isShowSortByDialog = true
                 },
+                onSearchClick = onSearchClick,
                 onManageCategoriesClick = onManageCategoriesClick
             )
         },
@@ -228,6 +230,7 @@ private fun HomeTopAppBar(
     scrollState: ScrollState,
     categories: ImmutableList<Category>,
     onCategoryClick: (Long) -> Unit,
+    onSearchClick: () -> Unit,
     onSortByClick: () -> Unit,
     onManageCategoriesClick: () -> Unit,
 ) {
@@ -285,6 +288,14 @@ private fun HomeTopAppBar(
                     expanded = isShowDropdownMenu,
                     onDismissRequest = { isShowDropdownMenu = false }
                 ) {
+                    BasicDropdownMenuItem(
+                        title = stringResource(id = DesignSystemR.string.search),
+                        onClick = {
+                            onSearchClick()
+                            isShowDropdownMenu = false
+                        }
+                    )
+
                     BasicDropdownMenuItem(
                         title = stringResource(id = DesignSystemR.string.sort_by),
                         onClick = {
@@ -382,6 +393,7 @@ private fun HomeScreenPreview() {
                 onAddCategoryClick = { _, _ -> },
                 onSortByTypeChanged = {},
                 onCompletedTasksClick = {},
+                onSearchClick = {},
                 onManageCategoriesClick = {}
             )
         }

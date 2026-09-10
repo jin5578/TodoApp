@@ -19,6 +19,7 @@ interface TaskDatabaseDataSource {
 
     fun getTasksByState(isCompleted: Boolean): Flow<List<TaskWithSubTasksEntity>>
     fun getTasksByCategory(categoryId: Long): Flow<List<TaskWithSubTasksEntity>>
+    fun getTasksByKeyword(keyword: String): Flow<List<TaskWithSubTasksEntity>>
     fun getTaskById(id: Long): Flow<TaskWithSubTasksEntity>
 
     suspend fun updateTask(entity: TaskEntity)

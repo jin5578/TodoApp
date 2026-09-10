@@ -1,4 +1,4 @@
-package com.example.model.addtask
+package com.example.model.add_task
 
 import com.example.model.Category
 import java.time.LocalDate

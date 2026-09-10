@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.utils.toErrorMessage
 import com.example.memo.model.MemoUiState
 import kotlinx.coroutines.flow.collectLatest
@@ -25,7 +25,7 @@ internal fun MemoRoute(
     val contextResources = LocalResources.current
 
     LaunchedEffect(key1 = taskId) {
-        viewModel.fetchMemo(taskId = taskId)
+        viewModel.fetchMemoUiState(taskId = taskId)
     }
 
     LaunchedEffect(key1 = Unit) {
@@ -37,21 +37,21 @@ internal fun MemoRoute(
     }
 
     MemoContent(
-        popBackStack = popBackStack,
         taskId = taskId,
         uiState = uiState,
         titleUpdate = viewModel::updateTitle,
         contentUpdate = viewModel::updateContent,
+        popBackStack = popBackStack,
     )
 }
 
 @Composable
 private fun MemoContent(
-    popBackStack: () -> Unit,
     taskId: Long,
     uiState: MemoUiState,
     titleUpdate: (taskId: Long, memoTitle: String) -> Unit,
     contentUpdate: (taskId: Long, memoContent: String) -> Unit,
+    popBackStack: () -> Unit,
 ) {
     when (uiState) {
         is MemoUiState.Loading ->

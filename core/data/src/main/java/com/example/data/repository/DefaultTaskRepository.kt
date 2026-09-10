@@ -63,6 +63,14 @@ internal class DefaultTaskRepository @Inject constructor(
                 }
             }
 
+    override fun getTasksByKeyword(keyword: String): Flow<List<Task>> =
+        taskDataSource.getTasksByKeyword(keyword = keyword)
+            .map { entities ->
+                entities.map { entity ->
+                    entity.toTask()
+                }
+            }
+
     override fun getTaskById(id: Long): Flow<Task> =
         taskDataSource.getTaskById(id = id).map { entity ->
             entity.toTask()

@@ -32,10 +32,10 @@ class CalendarViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
-        fetchCalendar()
+        fetchCalendarUiState()
     }
 
-    private fun fetchCalendar() =
+    private fun fetchCalendarUiState() =
         viewModelScope.launch {
             getCalendarDataUseCase().map { calendar ->
                 val calendarSystem = calendar.calendarSystem

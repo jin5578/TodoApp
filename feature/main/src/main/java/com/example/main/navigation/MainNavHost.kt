@@ -36,6 +36,7 @@ internal fun MainNavHost(
                 exitApp = navigator::exitApp,
                 navigateEditTask = navigator::navigateEditTask,
                 navigateCompletedTasks = navigator::navigateCompletedTasks,
+                navigateSearchTask = navigator::navigateSearchTask,
                 navigateManageCategories = navigator::navigateManageCategories,
             )
             settingNavGraph(
@@ -75,6 +76,7 @@ internal fun MainNavHost(
                 popBackStack = navigator::popBackStackIfNotHome,
             )
             searchTaskNavGraph(
+                navigateEditTask = navigator::navigateEditTask,
                 popBackStack = navigator::popBackStackIfNotHome
             )
         }

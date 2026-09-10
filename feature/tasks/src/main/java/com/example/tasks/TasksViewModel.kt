@@ -38,7 +38,7 @@ class TasksViewModel @Inject constructor(
         MutableStateFlow(value = TasksUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    fun fetchTasks(type: TasksType) =
+    fun fetchTasksUiState(type: TasksType) =
         when (type) {
             TasksType.COMPLETED -> fetchTasksByState(isCompleted = true)
             TasksType.INCOMPLETE -> fetchTasksByState(isCompleted = false)

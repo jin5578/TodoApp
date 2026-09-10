@@ -73,7 +73,7 @@ class EditTaskViewModel @Inject constructor(
             }.launchIn(scope = viewModelScope)
     }
 
-    fun fetchEditTask(taskId: Long) {
+    fun fetchEditTaskUiState(taskId: Long) {
         fetchEditTaskJob = viewModelScope.launch {
             getEditTaskDataUseCase(id = taskId).map { editTask ->
                 val editTaskSystem = editTask.editTaskSystem

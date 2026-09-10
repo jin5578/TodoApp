@@ -42,6 +42,15 @@ interface TaskDao {
     fun getTasksByCategory(categoryId: Long): Flow<List<TaskWithSubTasksEntity>>
 
     @Transaction
+    @Query(
+        "SELECT * FROM task WHERE " +
+                "title LIKE '%' || :keyword || '%' OR " +
+                "memoTitle LIKE '%' || :keyword || '%' OR " +
+                "memoContent LIKE '%' || :keyword || '%'"
+    )
+    fun getTasksByKeyword(keyword: String): Flow<List<TaskWithSubTasksEntity>>
+
+    @Transaction
     @Query("SELECT * FROM task WHERE id=:id")
     fun getTaskById(id: Long): Flow<TaskWithSubTasksEntity>
 

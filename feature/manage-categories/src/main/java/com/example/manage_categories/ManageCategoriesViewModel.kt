@@ -37,10 +37,10 @@ class ManageCategoriesViewModel @Inject constructor(
     val uiState = _uiState.asStateFlow()
 
     init {
-        fetchManageCategories()
+        fetchManageCategoriesUiState()
     }
 
-    private fun fetchManageCategories() =
+    private fun fetchManageCategoriesUiState() =
         viewModelScope.launch {
             getManageCategoriesDataUseCase().map { data ->
                 val taskCountByCategoryId =

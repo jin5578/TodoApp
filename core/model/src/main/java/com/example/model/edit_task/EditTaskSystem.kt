@@ -1,4 +1,4 @@
-package com.example.model.edittask
+package com.example.model.edit_task
 
 import com.example.model.TimePickerType
 import java.util.Locale

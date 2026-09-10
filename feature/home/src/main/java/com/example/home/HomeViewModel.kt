@@ -20,8 +20,7 @@ import com.example.model.Category
 import com.example.model.HomePasswordProcessType
 import com.example.model.SortByType
 import com.example.model.Task
-import com.example.model.TaskUiModel
-import com.example.model.toUiModel
+import com.example.model.toUiModels
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
@@ -230,8 +229,5 @@ class HomeViewModel @Inject constructor(
             SortByType.TASK_CREATION_TIME_ASC -> sortedBy { it.createdAt }
             SortByType.TASK_CREATION_TIME_DESC -> sortedByDescending { it.createdAt }
         }
-
-    private fun List<Task>.toUiModels(): ImmutableList<TaskUiModel> =
-        map { task -> task.toUiModel() }.toPersistentList()
 }
 

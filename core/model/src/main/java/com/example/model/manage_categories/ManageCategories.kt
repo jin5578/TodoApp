@@ -1,4 +1,4 @@
-package com.example.model.managecategories
+package com.example.model.manage_categories
 
 import com.example.model.Category
 import com.example.model.Task

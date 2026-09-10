@@ -11,12 +11,14 @@ fun NavGraphBuilder.homeNavGraph(
     exitApp: () -> Unit,
     navigateEditTask: (Long) -> Unit,
     navigateCompletedTasks: () -> Unit,
+    navigateSearchTask: () -> Unit,
     navigateManageCategories: () -> Unit,
 ) = composable<Route.Home> {
     HomeRoute(
         exitApp = exitApp,
         navigateEditTask = navigateEditTask,
         navigateCompletedTasks = navigateCompletedTasks,
+        navigateSearchTask = navigateSearchTask,
         navigateManageCategories = navigateManageCategories,
     )
 }

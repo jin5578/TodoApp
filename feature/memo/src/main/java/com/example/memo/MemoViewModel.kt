@@ -71,7 +71,7 @@ class MemoViewModel @Inject constructor(
             }.launchIn(scope = viewModelScope)
     }
 
-    fun fetchMemo(taskId: Long) =
+    fun fetchMemoUiState(taskId: Long) =
         viewModelScope.launch {
             getMemoDataUseCase(id = taskId).map { memo ->
                 val memoSystem = memo.memoSystem

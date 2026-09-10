@@ -33,7 +33,7 @@ internal fun LazyListScope.taskStateGroup(
     collapsedTaskStates: PersistentSet<String>,
     onTaskToggleClick: (id: Long, isCompleted: Boolean) -> Unit,
     onTaskEditClick: (Long) -> Unit,
-    onDeleteSymbolClick: (taskId: Long) -> Unit,
+    onDeleteSymbolClick: (Long) -> Unit,
     onSymbolClick: (taskId: Long, symbolId: Int) -> Unit,
     onTaskStateGroupHeaderClick: (String) -> Unit,
     onSubTaskToggleClick: (subTaskId: Long, isCompleted: Boolean) -> Unit,
