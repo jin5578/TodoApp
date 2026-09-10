@@ -46,10 +46,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.component.EmptyContent
 import com.example.design_system.component.dialog.category.CategoryDialog
 import com.example.design_system.theme.TodoTheme
+import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.home.component.bottom_sheet.AddTaskBottomSheetContent
 import com.example.home.component.taskStateGroup
 import com.example.home.model.BottomSheetType
@@ -73,6 +73,7 @@ internal fun HomeScreen(
     taskStateGroups: ImmutableList<TaskStateGroup>,
     locale: Locale,
     timePickerType: TimePickerType,
+    isVisibleCompletedTask: Boolean,
     onSettingClick: () -> Unit,
     onCategoryClick: (Long) -> Unit,
     onTaskToggleClick: (id: Long, isCompleted: Boolean) -> Unit,
@@ -179,17 +180,19 @@ internal fun HomeScreen(
                     )
                 }
 
-                item {
-                    Text(
-                        modifier = Modifier
-                            .clickable { onCompletedTasksClick() }
-                            .padding(all = 16.dp),
-                        text = stringResource(id = DesignSystemR.string.check_all_completed_tasks),
-                        textAlign = TextAlign.Center,
-                        style = TodoTheme.typography.medium_12,
-                        textDecoration = TextDecoration.Underline,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+                if (isVisibleCompletedTask) {
+                    item {
+                        Text(
+                            modifier = Modifier
+                                .clickable { onCompletedTasksClick() }
+                                .padding(all = 16.dp),
+                            text = stringResource(id = DesignSystemR.string.check_all_completed_tasks),
+                            textAlign = TextAlign.Center,
+                            style = TodoTheme.typography.medium_12,
+                            textDecoration = TextDecoration.Underline,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
+                    }
                 }
             }
     }
@@ -319,6 +322,7 @@ private fun HomeScreenPreview() {
                 taskStateGroups = persistentListOf(),
                 locale = Locale.KOREA,
                 timePickerType = TimePickerType.CLOCK_TIME_PICKER,
+                isVisibleCompletedTask = true,
                 onSettingClick = {},
                 onCategoryClick = {},
                 onTaskToggleClick = { _, _ -> },

@@ -100,12 +100,18 @@ class HomeViewModel @Inject constructor(
                 val taskStateGroups = home.tasks.toTaskStateGroups()
                 val homeSystem = home.homeSystem
 
+                val isVisibleCompletedTask =
+                    home.tasks.any { task ->
+                        task.isCompleted && task.completedAt?.toLocalDate() != LocalDate.now()
+                    }
+
                 HomeUiState.Screen(
                     taskStateGroups = taskStateGroups,
                     categories = home.categories.toPersistentList(),
                     sortTaskType = homeSystem.sortTaskType,
                     locale = homeSystem.locale,
-                    timePickerType = homeSystem.timePickerType
+                    timePickerType = homeSystem.timePickerType,
+                    isVisibleCompletedTask = isVisibleCompletedTask
                 )
             }.catch { throwable ->
                 _errorFlow.emit(value = throwable)

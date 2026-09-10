@@ -164,6 +164,7 @@ internal fun EditTaskScreen(
 
             EditTaskTitleTextField(
                 title = taskTitle,
+                isCompleted = task.isCompleted,
                 onValueChange = { title ->
                     taskTitle = title
                     onTitleValueChanged(task.id, title)

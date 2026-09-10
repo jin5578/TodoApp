@@ -113,6 +113,7 @@ private fun HomeContent(
                 taskStateGroups = uiState.taskStateGroups,
                 locale = uiState.locale,
                 timePickerType = uiState.timePickerType,
+                isVisibleCompletedTask = uiState.isVisibleCompletedTask,
                 onSettingClick = navigateSetting,
                 onCategoryClick = homeFetch,
                 onTaskToggleClick = taskCompletionUpdate,

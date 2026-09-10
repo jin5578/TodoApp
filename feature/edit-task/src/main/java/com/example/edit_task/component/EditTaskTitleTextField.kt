@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.design_system.R
@@ -22,6 +23,7 @@ import com.example.design_system.theme.TodoTheme
 internal fun EditTaskTitleTextField(
     modifier: Modifier = Modifier,
     title: String,
+    isCompleted: Boolean,
     onValueChange: (String) -> Unit,
 ) {
     TextField(
@@ -38,7 +40,9 @@ internal fun EditTaskTitleTextField(
             focusedTextColor = MaterialTheme.colorScheme.onBackground,
             cursorColor = MaterialTheme.colorScheme.onBackground,
         ),
-        textStyle = TodoTheme.typography.bold_20,
+        textStyle = TodoTheme.typography.bold_20.copy(
+            textDecoration = if (isCompleted) TextDecoration.LineThrough else null
+        ),
         onValueChange = onValueChange,
         placeholder = {
             Text(
@@ -60,6 +64,7 @@ private fun EditTaskTitleTextFieldPreview() {
     TodoTheme {
         EditTaskTitleTextField(
             title = "Title",
+            isCompleted = true,
             onValueChange = {}
         )
     }

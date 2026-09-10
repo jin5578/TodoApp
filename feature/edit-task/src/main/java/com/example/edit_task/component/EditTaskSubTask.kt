@@ -45,6 +45,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.zIndex
@@ -286,7 +287,9 @@ private fun EditTaskSubTaskItem(
                 focusedTextColor = MaterialTheme.colorScheme.onBackground,
                 cursorColor = MaterialTheme.colorScheme.onBackground,
             ),
-            textStyle = TodoTheme.typography.medium_16,
+            textStyle = TodoTheme.typography.medium_16.copy(
+                textDecoration = if (subTask.isCompleted) TextDecoration.LineThrough else null
+            ),
             onValueChange = {
                 val updatedSubTask = subTask.copy(title = it)
                 onUpdate(updatedSubTask)

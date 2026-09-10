@@ -30,5 +30,6 @@ sealed interface HomeUiState {
         val sortTaskType: SortTaskType,
         val locale: Locale,
         val timePickerType: TimePickerType,
+        val isVisibleCompletedTask: Boolean,
     ) : HomeUiState
 }
