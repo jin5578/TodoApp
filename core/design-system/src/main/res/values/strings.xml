@@ -151,4 +151,5 @@
     <string name="task_creation_time_asc">Task Creation Time(Latest at the bottom)</string>
     <string name="task_creation_time_desc">Task Creation Time(Latest at the top)</string>
     <string name="manual">Manual(Long press to sort)</string>
+    <string name="search">Search</string>
 </resources>

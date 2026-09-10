@@ -21,6 +21,7 @@ import com.example.main.model.MainTab
 import com.example.manage_categories.navigation.navigateManageCategories
 import com.example.memo.navigation.navigateMemo
 import com.example.navigation.Route
+import com.example.search_task.navigation.navigateSearchTask
 import com.example.security.navigation.navigateSecurity
 import com.example.setting.navigation.navigateSetting
 import com.example.tasks.navigation.navigateTasks
@@ -90,6 +91,9 @@ internal class MainNavigator(
 
     fun navigateCompletedTasks() =
         navController.navigateCompletedTasks()
+
+    fun navigateSearchTask() =
+        navController.navigateSearchTask()
 
     private fun popBackStack() =
         navController.popBackStack()

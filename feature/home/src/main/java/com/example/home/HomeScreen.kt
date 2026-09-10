@@ -89,6 +89,7 @@ internal fun HomeScreen(
     onAddCategoryClick: (categoryTitle: String, categoryColorType: CategoryColorType) -> Unit,
     onSortByTypeChanged: (SortByType) -> Unit,
     onCompletedTasksClick: () -> Unit,
+    onManageCategoriesClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -108,7 +109,8 @@ internal fun HomeScreen(
                 onCategoryClick = onCategoryClick,
                 onSortByClick = {
                     isShowSortByDialog = true
-                }
+                },
+                onManageCategoriesClick = onManageCategoriesClick
             )
         },
         floatingActionButton = {
@@ -227,6 +229,7 @@ private fun HomeTopAppBar(
     categories: ImmutableList<Category>,
     onCategoryClick: (Long) -> Unit,
     onSortByClick: () -> Unit,
+    onManageCategoriesClick: () -> Unit,
 ) {
     var isShowDropdownMenu by remember { mutableStateOf(value = false) }
 
@@ -286,6 +289,14 @@ private fun HomeTopAppBar(
                         title = stringResource(id = DesignSystemR.string.sort_by),
                         onClick = {
                             onSortByClick()
+                            isShowDropdownMenu = false
+                        }
+                    )
+
+                    BasicDropdownMenuItem(
+                        title = stringResource(id = DesignSystemR.string.manage_categories),
+                        onClick = {
+                            onManageCategoriesClick()
                             isShowDropdownMenu = false
                         }
                     )
@@ -371,6 +382,7 @@ private fun HomeScreenPreview() {
                 onAddCategoryClick = { _, _ -> },
                 onSortByTypeChanged = {},
                 onCompletedTasksClick = {},
+                onManageCategoriesClick = {}
             )
         }
     }

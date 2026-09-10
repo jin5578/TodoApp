@@ -1,5 +1,9 @@
 package com.example.home.model
 
+import androidx.compose.runtime.Immutable
+import com.example.model.TaskUiModel
+import kotlinx.collections.immutable.ImmutableList
+
 enum class TaskState(val key: String) {
     PREVIOUS(
         key = "previous",
@@ -8,3 +12,9 @@ enum class TaskState(val key: String) {
         key = "completedToday"
     )
 }
+
+@Immutable
+data class TaskStateGroup(
+    val taskState: TaskState,
+    val tasks: ImmutableList<TaskUiModel>
+)

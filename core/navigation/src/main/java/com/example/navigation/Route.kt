@@ -38,4 +38,7 @@ sealed interface Route {
 
     @Serializable
     data object CompletedTasks
+
+    @Serializable
+    data object SearchTask
 }

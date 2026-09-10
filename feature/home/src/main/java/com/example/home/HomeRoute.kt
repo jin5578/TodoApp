@@ -24,6 +24,7 @@ internal fun HomeRoute(
     exitApp: () -> Unit,
     navigateEditTask: (Long) -> Unit,
     navigateCompletedTasks: () -> Unit,
+    navigateManageCategories: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -67,6 +68,7 @@ internal fun HomeRoute(
         onSortByTypeChanged = viewModel::updateSortByType,
         navigateEditTask = navigateEditTask,
         navigateCompletedTasks = navigateCompletedTasks,
+        navigateManageCategories = navigateManageCategories,
         exitApp = exitApp,
     )
 }
@@ -87,6 +89,7 @@ private fun HomeContent(
     onSortByTypeChanged: (SortByType) -> Unit,
     navigateEditTask: (Long) -> Unit,
     navigateCompletedTasks: () -> Unit,
+    navigateManageCategories: () -> Unit,
     exitApp: () -> Unit,
 ) {
     when (uiState) {
@@ -130,6 +133,7 @@ private fun HomeContent(
                 onAddCategoryClick = onAddCategory,
                 onSortByTypeChanged = onSortByTypeChanged,
                 onCompletedTasksClick = navigateCompletedTasks,
+                onManageCategoriesClick = navigateManageCategories,
             )
     }
 }

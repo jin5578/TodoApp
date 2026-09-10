@@ -45,6 +45,7 @@ include(
     ":feature:main",
     ":feature:manage-categories",
     ":feature:memo",
+    ":feature:search-task",
     ":feature:security",
     ":feature:setting",
     ":feature:tasks"

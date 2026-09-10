@@ -14,6 +14,7 @@ import com.example.home.navigation.homeNavGraph
 import com.example.lock_setup.navigation.lockSetupNavGraph
 import com.example.manage_categories.navigation.manageCategoriesNavGraph
 import com.example.memo.navigation.memoNavGraph
+import com.example.search_task.navigation.searchTaskNavGraph
 import com.example.security.navigation.securityNavGraph
 import com.example.setting.navigation.settingNavGraph
 import com.example.tasks.navigation.tasksNavGraph
@@ -35,6 +36,7 @@ internal fun MainNavHost(
                 exitApp = navigator::exitApp,
                 navigateEditTask = navigator::navigateEditTask,
                 navigateCompletedTasks = navigator::navigateCompletedTasks,
+                navigateManageCategories = navigator::navigateManageCategories,
             )
             settingNavGraph(
                 navigateInfo = {},
@@ -71,6 +73,9 @@ internal fun MainNavHost(
             completedTasksNavGraph(
                 navigateEditTask = navigator::navigateEditTask,
                 popBackStack = navigator::popBackStackIfNotHome,
+            )
+            searchTaskNavGraph(
+                popBackStack = navigator::popBackStackIfNotHome
             )
         }
     }
