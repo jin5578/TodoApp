@@ -24,7 +24,6 @@ import com.example.navigation.Route
 import com.example.search_task.navigation.navigateSearchTask
 import com.example.security.navigation.navigateSecurity
 import com.example.setting.navigation.navigateSetting
-import com.example.tasks.navigation.navigateTasks
 
 internal class MainNavigator(
     val navController: NavHostController,
@@ -73,9 +72,6 @@ internal class MainNavigator(
 
     fun navigateEditTask(taskId: Long) =
         navController.navigateEditTask(taskId = taskId)
-
-    fun navigateTasks(type: String) =
-        navController.navigateTasks(type = type)
 
     fun navigateManageCategories() =
         navController.navigateManageCategories()

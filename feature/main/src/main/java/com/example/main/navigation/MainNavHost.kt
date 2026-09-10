@@ -17,7 +17,6 @@ import com.example.memo.navigation.memoNavGraph
 import com.example.search_task.navigation.searchTaskNavGraph
 import com.example.security.navigation.securityNavGraph
 import com.example.setting.navigation.settingNavGraph
-import com.example.tasks.navigation.tasksNavGraph
 
 @Composable
 internal fun MainNavHost(
@@ -52,10 +51,6 @@ internal fun MainNavHost(
                 navigateManageCategories = navigator::navigateManageCategories,
                 navigateMemo = navigator::navigateMemo,
                 popBackStack = navigator::popBackStackIfNotHome,
-            )
-            tasksNavGraph(
-                popBackStack = navigator::popBackStackIfNotHome,
-                navigateEditTask = navigator::navigateEditTask,
             )
             calendarNavGraph(
                 navigateEditTask = navigator::navigateEditTask,

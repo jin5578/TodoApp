@@ -18,11 +18,6 @@ sealed interface Route {
     ) : Route
 
     @Serializable
-    data class Tasks(
-        val type: String
-    )
-
-    @Serializable
     data object Calendar : Route
 
     @Serializable

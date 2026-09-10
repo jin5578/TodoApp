@@ -47,7 +47,6 @@ dependencies {
     implementation(project(":feature:search-task"))
     implementation(project(":feature:security"))
     implementation(project(":feature:setting"))
-    implementation(project(":feature:tasks"))
 
     implementation(libs.kotlinx.coroutines.core)
 

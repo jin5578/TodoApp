@@ -48,5 +48,4 @@ include(
     ":feature:search-task",
     ":feature:security",
     ":feature:setting",
-    ":feature:tasks"
 )
