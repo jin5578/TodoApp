@@ -16,6 +16,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -46,8 +47,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.design_system.component.BasicDropdownMenuItem
 import com.example.design_system.component.EmptyContent
 import com.example.design_system.component.dialog.category.CategoryDialog
+import com.example.design_system.component.dialog.sort_by.SortByDialog
 import com.example.design_system.theme.TodoTheme
 import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.home.component.bottom_sheet.AddTaskBottomSheetContent
@@ -57,6 +60,7 @@ import com.example.home.model.TaskStateGroup
 import com.example.home.utils.toggled
 import com.example.model.Category
 import com.example.model.CategoryColorType
+import com.example.model.SortByType
 import com.example.model.Task
 import com.example.model.TimePickerType
 import kotlinx.collections.immutable.ImmutableList
@@ -73,8 +77,8 @@ internal fun HomeScreen(
     taskStateGroups: ImmutableList<TaskStateGroup>,
     locale: Locale,
     timePickerType: TimePickerType,
+    sortByType: SortByType,
     isVisibleCompletedTask: Boolean,
-    onSettingClick: () -> Unit,
     onCategoryClick: (Long) -> Unit,
     onTaskToggleClick: (id: Long, isCompleted: Boolean) -> Unit,
     onTaskEditClick: (Long) -> Unit,
@@ -83,6 +87,7 @@ internal fun HomeScreen(
     onSymbolClick: (taskId: Long, symbolId: Int) -> Unit,
     onSubTaskToggleClick: (subTaskId: Long, isCompleted: Boolean) -> Unit,
     onAddCategoryClick: (categoryTitle: String, categoryColorType: CategoryColorType) -> Unit,
+    onSortByTypeChanged: (SortByType) -> Unit,
     onCompletedTasksClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
@@ -92,6 +97,7 @@ internal fun HomeScreen(
     val bottomSheetState = rememberModalBottomSheetState()
     var showAddTaskBottomSheet by remember { mutableStateOf(value = BottomSheetType.IDLE) }
 
+    var isShowSortByDialog by remember { mutableStateOf(value = false) }
     var isShowAddCategoryDialog by remember { mutableStateOf(value = false) }
 
     Scaffold(
@@ -99,8 +105,10 @@ internal fun HomeScreen(
             HomeTopAppBar(
                 scrollState = scrollState,
                 categories = categories,
-                navigateSetting = onSettingClick,
-                onCategoryClick = onCategoryClick
+                onCategoryClick = onCategoryClick,
+                onSortByClick = {
+                    isShowSortByDialog = true
+                }
             )
         },
         floatingActionButton = {
@@ -139,6 +147,19 @@ internal fun HomeScreen(
                     )
                 }
             }
+        }
+
+        if (isShowSortByDialog) {
+            SortByDialog(
+                sortByType = sortByType,
+                onCloseClick = {
+                    isShowSortByDialog = false
+                },
+                onSelectClick = { sortByType ->
+                    onSortByTypeChanged(sortByType)
+                    isShowSortByDialog = false
+                }
+            )
         }
 
         if (isShowAddCategoryDialog) {
@@ -204,9 +225,11 @@ private fun HomeTopAppBar(
     modifier: Modifier = Modifier,
     scrollState: ScrollState,
     categories: ImmutableList<Category>,
-    navigateSetting: () -> Unit,
     onCategoryClick: (Long) -> Unit,
+    onSortByClick: () -> Unit,
 ) {
+    var isShowDropdownMenu by remember { mutableStateOf(value = false) }
+
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.background
@@ -243,16 +266,30 @@ private fun HomeTopAppBar(
         },
         actions = {
             IconButton(
-                onClick = navigateSetting
+                onClick = {
+                    isShowDropdownMenu = true
+                }
             ) {
                 Icon(
-                    modifier = modifier.size(size = 24.dp),
-                    imageVector = ImageVector.vectorResource(
-                        id = DesignSystemR.drawable.svg_setting
-                    ),
+                    modifier = modifier.size(size = 18.dp),
+                    imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_menu_dots),
                     contentDescription = null,
                     tint = MaterialTheme.colorScheme.onBackground
                 )
+
+                DropdownMenu(
+                    containerColor = MaterialTheme.colorScheme.background,
+                    expanded = isShowDropdownMenu,
+                    onDismissRequest = { isShowDropdownMenu = false }
+                ) {
+                    BasicDropdownMenuItem(
+                        title = stringResource(id = DesignSystemR.string.sort_by),
+                        onClick = {
+                            onSortByClick()
+                            isShowDropdownMenu = false
+                        }
+                    )
+                }
             }
         }
     )
@@ -322,8 +359,8 @@ private fun HomeScreenPreview() {
                 taskStateGroups = persistentListOf(),
                 locale = Locale.KOREA,
                 timePickerType = TimePickerType.CLOCK_TIME_PICKER,
+                sortByType = SortByType.DUE_DATE_AND_TIME,
                 isVisibleCompletedTask = true,
-                onSettingClick = {},
                 onCategoryClick = {},
                 onTaskToggleClick = { _, _ -> },
                 onTaskEditClick = {},
@@ -332,6 +369,7 @@ private fun HomeScreenPreview() {
                 onSymbolClick = { _, _ -> },
                 onSubTaskToggleClick = { _, _ -> },
                 onAddCategoryClick = { _, _ -> },
+                onSortByTypeChanged = {},
                 onCompletedTasksClick = {},
             )
         }

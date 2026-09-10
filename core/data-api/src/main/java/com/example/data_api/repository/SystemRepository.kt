@@ -1,7 +1,7 @@
 package com.example.data_api.repository
 
 import com.example.model.LanguageType
-import com.example.model.SortTaskType
+import com.example.model.SortByType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
 import com.example.model.addtask.AddTaskSystem
@@ -32,7 +32,7 @@ interface SystemRepository {
     fun getCompletedTasksSystem(): Flow<CompletedTasksSystem>
     fun hasExistingPassword(): Flow<Boolean>
     fun hasBiometricEnabled(): Flow<Boolean>
-    suspend fun updateSortTaskType(sortTaskType: SortTaskType)
+    suspend fun updateSortByType(sortByType: SortByType)
     suspend fun updateLanguage(languageType: LanguageType)
     suspend fun updateLocale(locale: Locale)
     suspend fun updateThemeType(themeType: ThemeType)

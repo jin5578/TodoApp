@@ -45,7 +45,7 @@ class CalendarViewModel @Inject constructor(
                     tasks = calendar.tasks.map { task -> task.toUiModel() }
                         .toPersistentList(),
                     categories = calendar.categories.toPersistentList(),
-                    sortTaskType = calendarSystem.sortTaskType,
+                    sortByType = calendarSystem.sortByType,
                     locale = calendarSystem.locale
                 )
             }.catch { throwable ->

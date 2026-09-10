@@ -41,14 +41,14 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.utils.LocalSnackbarHostState
-import com.example.design_system.utils.LocalSnackbarScope
 import com.example.design_system.component.CategoryDropdownMenu
 import com.example.design_system.component.dialog.calendar.CalendarDialog
 import com.example.design_system.component.dialog.reminder.ReminderDialog
 import com.example.design_system.component.dialog.time_picker.ClockTimePickerDialog
 import com.example.design_system.component.dialog.time_picker.ScrollTimePickerDialog
 import com.example.design_system.theme.TodoTheme
+import com.example.design_system.utils.LocalSnackbarHostState
+import com.example.design_system.utils.LocalSnackbarScope
 import com.example.home.utils.getTitleResId
 import com.example.model.Category
 import com.example.model.PriorityType
@@ -194,6 +194,7 @@ internal fun AddTaskBottomSheetContent(
                     reminderTime = taskReminderTime,
                     priority = taskPriorityType.ordinal,
                     categoryId = taskCategory,
+                    createdAt = LocalDateTime.now()
                 )
 
                 val (isValid, errorMessage) = checkValidTask(task = task)

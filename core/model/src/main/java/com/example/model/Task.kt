@@ -15,6 +15,7 @@ data class Task(
     val memoContent: String = "",
     val memoUpdatedAt: LocalDateTime? = null,
     val completedAt: LocalDateTime? = null,
+    val createdAt: LocalDateTime,
     val priority: Int = 0,
     val categoryId: Long = -1L,
     val symbol: Int = -1,

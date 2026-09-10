@@ -9,6 +9,7 @@ import com.example.domain.GetHasExistingPasswordUseCase
 import com.example.domain.GetHomeDataUseCase
 import com.example.domain.InsertCategoryUseCase
 import com.example.domain.InsertTaskUseCase
+import com.example.domain.UpdateSortByTypeUseCase
 import com.example.domain.UpdateSubTaskCompletedUseCase
 import com.example.domain.UpdateTaskCompletedUseCase
 import com.example.domain.UpdateTaskSymbolUseCase
@@ -17,6 +18,7 @@ import com.example.home.model.TaskState
 import com.example.home.model.TaskStateGroup
 import com.example.model.Category
 import com.example.model.HomePasswordProcessType
+import com.example.model.SortByType
 import com.example.model.Task
 import com.example.model.TaskUiModel
 import com.example.model.toUiModel
@@ -34,6 +36,7 @@ import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
@@ -48,6 +51,7 @@ class HomeViewModel @Inject constructor(
     private val insertCategoryUseCase: InsertCategoryUseCase,
     private val updateTaskSymbolUseCase: UpdateTaskSymbolUseCase,
     private val updateSubTaskCompletedUseCase: UpdateSubTaskCompletedUseCase,
+    private val updateSortByTypeUseCase: UpdateSortByTypeUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -97,9 +101,10 @@ class HomeViewModel @Inject constructor(
             selectedCategoryId.flatMapLatest { id ->
                 getHomeDataUseCase(categoryId = id)
             }.map { home ->
-                val taskStateGroups = home.tasks.toTaskStateGroups()
                 val homeSystem = home.homeSystem
-
+                val taskStateGroups = home.tasks.toTaskStateGroups(
+                    sortByType = homeSystem.sortByType
+                )
                 val isVisibleCompletedTask =
                     home.tasks.any { task ->
                         task.isCompleted && task.completedAt?.toLocalDate() != LocalDate.now()
@@ -108,7 +113,7 @@ class HomeViewModel @Inject constructor(
                 HomeUiState.Screen(
                     taskStateGroups = taskStateGroups,
                     categories = home.categories.toPersistentList(),
-                    sortTaskType = homeSystem.sortTaskType,
+                    sortByType = homeSystem.sortByType,
                     locale = homeSystem.locale,
                     timePickerType = homeSystem.timePickerType,
                     isVisibleCompletedTask = isVisibleCompletedTask
@@ -186,7 +191,12 @@ class HomeViewModel @Inject constructor(
             )
         }
 
-    private fun List<Task>.toTaskStateGroups(): ImmutableList<TaskStateGroup> {
+    fun updateSortByType(sortByType: SortByType) =
+        viewModelScope.launch {
+            updateSortByTypeUseCase(sortByType = sortByType)
+        }
+
+    private fun List<Task>.toTaskStateGroups(sortByType: SortByType): ImmutableList<TaskStateGroup> {
         val (completedTasks, previousTasks) = partition { task -> task.isCompleted }
         val completedTodayTasks = completedTasks.filter { task ->
             task.completedAt?.toLocalDate() == LocalDate.now()
@@ -196,17 +206,30 @@ class HomeViewModel @Inject constructor(
             previousTasks.takeIf { it.isNotEmpty() }?.let { tasks ->
                 TaskStateGroup(
                     taskState = TaskState.PREVIOUS,
-                    tasks = tasks.toUiModels()
+                    tasks = tasks.sortedBy(sortByType).toUiModels()
                 )
             },
             completedTodayTasks.takeIf { it.isNotEmpty() }?.let { tasks ->
                 TaskStateGroup(
                     taskState = TaskState.COMPLETED_TODAY,
-                    tasks = tasks.toUiModels()
+                    tasks = tasks.sortedBy(sortByType).toUiModels()
                 )
             }
         ).toPersistentList()
     }
+
+    private fun List<Task>.sortedBy(sortByType: SortByType): List<Task> =
+        when (sortByType) {
+            SortByType.DUE_DATE_AND_TIME ->
+                sortedWith(
+                    compareBy(
+                        { it.date },
+                        { it.time ?: LocalDateTime.MAX })
+                )
+
+            SortByType.TASK_CREATION_TIME_ASC -> sortedBy { it.createdAt }
+            SortByType.TASK_CREATION_TIME_DESC -> sortedByDescending { it.createdAt }
+        }
 
     private fun List<Task>.toUiModels(): ImmutableList<TaskUiModel> =
         map { task -> task.toUiModel() }.toPersistentList()

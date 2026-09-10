@@ -1,14 +1,11 @@
 package com.example.design_system.component.dialog.sort_task
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.RadioButton
-import androidx.compose.material3.RadioButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -22,16 +19,18 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import com.example.design_system.R
+import com.example.design_system.component.CustomRadioButton
 import com.example.design_system.theme.TodoTheme
-import com.example.model.SortTaskType
+import com.example.design_system.utils.getTitleResId
+import com.example.model.SortByType
 
 @Composable
 fun SortTaskDialog(
-    sortTaskType: SortTaskType,
+    sortByType: SortByType,
     onCloseClick: () -> Unit,
-    onSelectClick: (SortTaskType) -> Unit,
+    onSelectClick: (SortByType) -> Unit,
 ) {
-    var selectedSortTaskType by remember { mutableStateOf(value = sortTaskType) }
+    var selectedSortTaskType by remember { mutableStateOf(value = sortByType) }
 
     Dialog(
         onDismissRequest = onCloseClick
@@ -49,9 +48,9 @@ fun SortTaskDialog(
                 color = MaterialTheme.colorScheme.onBackground
             )
 
-            SortTaskType.entries.forEach { type ->
+            SortByType.entries.forEach { type ->
                 CustomRadioButton(
-                    label = type.title,
+                    titleResId = type.getTitleResId(),
                     isSelected = selectedSortTaskType == type,
                     onClick = { selectedSortTaskType = type }
                 )
@@ -71,36 +70,12 @@ fun SortTaskDialog(
     }
 }
 
-@Composable
-private fun CustomRadioButton(
-    label: String,
-    isSelected: Boolean,
-    onClick: () -> Unit,
-) {
-    Row(
-        modifier = Modifier.fillMaxWidth().padding(bottom = 8.dp)
-            .clickable { onClick() },
-        verticalAlignment = Alignment.CenterVertically,
-    ) {
-        RadioButton(
-            colors = RadioButtonDefaults.colors(selectedColor = MaterialTheme.colorScheme.primary),
-            selected = isSelected,
-            onClick = onClick
-        )
-        Text(
-            text = label,
-            style = TodoTheme.typography.medium_16,
-            color = MaterialTheme.colorScheme.onBackground,
-        )
-    }
-}
-
 @Preview(showBackground = true)
 @Composable
 private fun SortTaskDialogPreview() {
     TodoTheme {
         SortTaskDialog(
-            sortTaskType = SortTaskType.BY_CREATE_TIME_ASCENDING,
+            sortByType = SortByType.DUE_DATE_AND_TIME,
             onCloseClick = {},
             onSelectClick = {}
         )

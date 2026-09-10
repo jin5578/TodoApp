@@ -33,7 +33,6 @@ internal fun MainNavHost(
         ) {
             homeNavGraph(
                 exitApp = navigator::exitApp,
-                navigateSetting = navigator::navigateSetting,
                 navigateEditTask = navigator::navigateEditTask,
                 navigateCompletedTasks = navigator::navigateCompletedTasks,
             )

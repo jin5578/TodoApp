@@ -9,13 +9,11 @@ import com.example.navigation.Route
 
 fun NavGraphBuilder.homeNavGraph(
     exitApp: () -> Unit,
-    navigateSetting: () -> Unit,
     navigateEditTask: (Long) -> Unit,
     navigateCompletedTasks: () -> Unit,
 ) = composable<Route.Home> {
     HomeRoute(
         exitApp = exitApp,
-        navigateSetting = navigateSetting,
         navigateEditTask = navigateEditTask,
         navigateCompletedTasks = navigateCompletedTasks,
     )

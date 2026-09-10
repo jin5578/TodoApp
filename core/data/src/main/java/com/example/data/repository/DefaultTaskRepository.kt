@@ -163,6 +163,7 @@ internal class DefaultTaskRepository @Inject constructor(
             memoContent = taskEntity.memoContent,
             memoUpdatedAt = taskEntity.memoUpdatedAt,
             completedAt = taskEntity.completedAt,
+            createdAt = taskEntity.createdAt,
             priority = taskEntity.priority,
             categoryId = taskEntity.categoryId,
             symbol = taskEntity.symbol,
@@ -183,6 +184,7 @@ internal class DefaultTaskRepository @Inject constructor(
         memoContent = this.memoContent,
         memoUpdatedAt = this.memoUpdatedAt,
         completedAt = this.completedAt,
+        createdAt = this.createdAt,
         priority = this.priority,
         categoryId = this.categoryId,
         symbol = this.symbol

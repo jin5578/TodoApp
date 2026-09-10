@@ -145,4 +145,10 @@
     <string name="completed_time">완료 시간</string>
     <string name="previous">이전</string>
     <string name="completed_today">오늘 완료</string>
+    <string name="sort_by">작업 정렬</string>
+    <string name="tasks_sorted_by">작업 정렬 기준</string>
+    <string name="due_date_and_time">마감 날짜 및 시간</string>
+    <string name="task_creation_time_asc">작업 생성 시간(최신 항목이 아래에 있습니다)</string>
+    <string name="task_creation_time_desc">작업 생성 시간(최신 항목이 위에 있습니다)</string>
+    <string name="manual">수동 정렬(길게 눌러 정렬)</string>
 </resources>

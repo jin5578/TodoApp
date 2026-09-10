@@ -33,6 +33,8 @@ data class TaskEntity(
     val memoUpdatedAt: LocalDateTime?,
     @ColumnInfo(name = "completedAt")
     val completedAt: LocalDateTime?,
+    @ColumnInfo(name = "createdAt")
+    val createdAt: LocalDateTime,
     @ColumnInfo(name = "priority")
     val priority: Int = 0,
     @ColumnInfo(name = "categoryId")

@@ -4,7 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import com.example.model.Category
 import com.example.model.HomePasswordProcessType
-import com.example.model.SortTaskType
+import com.example.model.SortByType
 import com.example.model.TimePickerType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
@@ -27,7 +27,7 @@ sealed interface HomeUiState {
     data class Screen(
         val taskStateGroups: ImmutableList<TaskStateGroup> = persistentListOf(),
         val categories: ImmutableList<Category> = persistentListOf(),
-        val sortTaskType: SortTaskType,
+        val sortByType: SortByType,
         val locale: Locale,
         val timePickerType: TimePickerType,
         val isVisibleCompletedTask: Boolean,

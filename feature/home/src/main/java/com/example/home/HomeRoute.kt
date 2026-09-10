@@ -14,6 +14,7 @@ import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.utils.toErrorMessage
 import com.example.home.model.HomeUiState
 import com.example.model.CategoryColorType
+import com.example.model.SortByType
 import com.example.model.Task
 import kotlinx.coroutines.flow.collectLatest
 
@@ -21,7 +22,6 @@ import kotlinx.coroutines.flow.collectLatest
 internal fun HomeRoute(
     viewModel: HomeViewModel = hiltViewModel(),
     exitApp: () -> Unit,
-    navigateSetting: () -> Unit,
     navigateEditTask: (Long) -> Unit,
     navigateCompletedTasks: () -> Unit,
 ) {
@@ -64,7 +64,7 @@ internal fun HomeRoute(
                 colorValue = categoryColorType.colorValue
             )
         },
-        navigateSetting = navigateSetting,
+        onSortByTypeChanged = viewModel::updateSortByType,
         navigateEditTask = navigateEditTask,
         navigateCompletedTasks = navigateCompletedTasks,
         exitApp = exitApp,
@@ -84,7 +84,7 @@ private fun HomeContent(
     onTaskSymbolChanged: (taskId: Long, symbolId: Int) -> Unit,
     onSubTaskToggleChanged: (subTaskId: Long, isCompleted: Boolean) -> Unit,
     onAddCategory: (categoryTitle: String, categoryColorType: CategoryColorType) -> Unit,
-    navigateSetting: () -> Unit,
+    onSortByTypeChanged: (SortByType) -> Unit,
     navigateEditTask: (Long) -> Unit,
     navigateCompletedTasks: () -> Unit,
     exitApp: () -> Unit,
@@ -113,8 +113,8 @@ private fun HomeContent(
                 taskStateGroups = uiState.taskStateGroups,
                 locale = uiState.locale,
                 timePickerType = uiState.timePickerType,
+                sortByType = uiState.sortByType,
                 isVisibleCompletedTask = uiState.isVisibleCompletedTask,
-                onSettingClick = navigateSetting,
                 onCategoryClick = homeFetch,
                 onTaskToggleClick = taskCompletionUpdate,
                 onTaskEditClick = navigateEditTask,
@@ -128,6 +128,7 @@ private fun HomeContent(
                 onSymbolClick = onTaskSymbolChanged,
                 onSubTaskToggleClick = onSubTaskToggleChanged,
                 onAddCategoryClick = onAddCategory,
+                onSortByTypeChanged = onSortByTypeChanged,
                 onCompletedTasksClick = navigateCompletedTasks,
             )
     }

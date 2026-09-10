@@ -145,4 +145,10 @@
     <string name="completed_time">Completed Time</string>
     <string name="previous">Previous</string>
     <string name="completed_today">Completed Today</string>
+    <string name="sort_by">Sort by</string>
+    <string name="tasks_sorted_by">Tasks Sorted by</string>
+    <string name="due_date_and_time">Due Date &amp; Time</string>
+    <string name="task_creation_time_asc">Task Creation Time(Latest at the bottom)</string>
+    <string name="task_creation_time_desc">Task Creation Time(Latest at the top)</string>
+    <string name="manual">Manual(Long press to sort)</string>
 </resources>

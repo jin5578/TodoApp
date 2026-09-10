@@ -3,7 +3,7 @@ package com.example.data.repository
 import com.example.data_api.repository.SystemRepository
 import com.example.datastore.datasource.SystemPreferencesDataSource
 import com.example.model.LanguageType
-import com.example.model.SortTaskType
+import com.example.model.SortByType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
 import com.example.model.addtask.AddTaskSystem
@@ -38,7 +38,7 @@ class DefaultSystemRepository @Inject constructor(
     override fun getHomeSystem(): Flow<HomeSystem> =
         systemDataSource.systemData.map { data ->
             HomeSystem(
-                sortTaskType = data.sortTaskType.toSortTaskType(),
+                sortByType = data.sortByType.toSortByType(),
                 locale = data.locale.toLocale(),
                 timePickerType = data.timePickerType.toTimePickerType(),
             )
@@ -83,7 +83,7 @@ class DefaultSystemRepository @Inject constructor(
         systemDataSource.systemData.map { data ->
             CalendarSystem(
                 locale = data.locale.toLocale(),
-                sortTaskType = data.sortTaskType.toSortTaskType()
+                sortByType = data.sortByType.toSortByType()
             )
         }
 
@@ -127,8 +127,8 @@ class DefaultSystemRepository @Inject constructor(
             data.isBiometricEnabled
         }
 
-    override suspend fun updateSortTaskType(sortTaskType: SortTaskType) =
-        systemDataSource.updateSortTaskType(sortTaskType = sortTaskType.key)
+    override suspend fun updateSortByType(sortByType: SortByType) =
+        systemDataSource.updateSortByType(sortByType = sortByType.key)
 
     override suspend fun updateLanguage(languageType: LanguageType) =
         systemDataSource.updateLanguage(languageType = languageType.key)
@@ -171,13 +171,12 @@ class DefaultSystemRepository @Inject constructor(
         else -> ThemeType.EMBER
     }
 
-    private fun String.toSortTaskType() = when (this) {
-        SortTaskType.BY_PRIORITY_ASCENDING.key -> SortTaskType.BY_PRIORITY_ASCENDING
-        SortTaskType.BY_PRIORITY_DESCENDING.key -> SortTaskType.BY_PRIORITY_DESCENDING
-        SortTaskType.BY_TIME_ASCENDING.key -> SortTaskType.BY_TIME_ASCENDING
-        SortTaskType.BY_TIME_DESCENDING.key -> SortTaskType.BY_TIME_DESCENDING
-        SortTaskType.BY_CREATE_TIME_ASCENDING.key -> SortTaskType.BY_CREATE_TIME_ASCENDING
-        else -> SortTaskType.BY_CREATE_TIME_DESCENDING
+    private fun String.toSortByType() = when (this) {
+        SortByType.DUE_DATE_AND_TIME.key -> SortByType.DUE_DATE_AND_TIME
+        SortByType.TASK_CREATION_TIME_ASC.key -> SortByType.TASK_CREATION_TIME_ASC
+        else -> SortByType.TASK_CREATION_TIME_DESC
+        /*SortByType.TASK_CREATION_TIME_DESC.key -> SortByType.TASK_CREATION_TIME_DESC
+        else -> SortByType.MANUAL*/
     }
 
     private fun String.toTimePickerType() = when (this) {
