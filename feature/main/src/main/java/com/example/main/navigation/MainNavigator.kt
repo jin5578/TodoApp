@@ -20,6 +20,7 @@ import com.example.main.model.MainTab
 import com.example.manage_categories.navigation.navigateManageCategories
 import com.example.memo.navigation.navigateMemo
 import com.example.navigation.Route
+import com.example.profile.navigation.navigateProfile
 import com.example.search_task.navigation.navigateSearchTask
 import com.example.security.navigation.navigateSecurity
 import com.example.setting.navigation.navigateSetting
@@ -66,6 +67,9 @@ internal class MainNavigator(
 
     fun navigateCalendar() =
         navController.navigateCalendar(navOptions = topLevelNavOptions)
+
+    fun navigateProfile() =
+        navController.navigateProfile()
 
     fun navigateSetting() =
         navController.navigateSetting(navOptions = topLevelNavOptions)

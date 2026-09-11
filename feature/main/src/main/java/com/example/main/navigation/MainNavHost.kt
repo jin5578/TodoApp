@@ -13,6 +13,7 @@ import com.example.edit_task.navigation.editTaskNavGraph
 import com.example.lock_setup.navigation.lockSetupNavGraph
 import com.example.manage_categories.navigation.manageCategoriesNavGraph
 import com.example.memo.navigation.memoNavGraph
+import com.example.profile.navigation.profileNavGraph
 import com.example.search_task.navigation.searchTaskNavGraph
 import com.example.security.navigation.securityNavGraph
 import com.example.setting.navigation.settingNavGraph
@@ -38,6 +39,10 @@ internal fun MainNavHost(
                 navigateSearchTask = navigator::navigateSearchTask,
                 navigateManageCategories = navigator::navigateManageCategories,
             )
+            calendarNavGraph(
+                navigateEditTask = navigator::navigateEditTask,
+            )
+            profileNavGraph()
             settingNavGraph(
                 navigateInfo = {},
                 navigateManageCategories = navigator::navigateManageCategories,
@@ -51,9 +56,6 @@ internal fun MainNavHost(
                 navigateManageCategories = navigator::navigateManageCategories,
                 navigateMemo = navigator::navigateMemo,
                 popBackStack = navigator::popBackStackIfNotTasks,
-            )
-            calendarNavGraph(
-                navigateEditTask = navigator::navigateEditTask,
             )
             lockSetupNavGraph(
                 popBackStack = navigator::popBackStackIfNotTasks,

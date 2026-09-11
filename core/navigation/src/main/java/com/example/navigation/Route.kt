@@ -10,6 +10,9 @@ sealed interface Route {
     data object Calendar : Route
 
     @Serializable
+    data object Profile : Route
+
+    @Serializable
     data object Setting : Route
 
     @Serializable

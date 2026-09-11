@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.main"
+    namespace = "com.example.profile"
     compileSdk {
         version = release(37)
     }
@@ -26,37 +26,18 @@ android {
 }
 
 dependencies {
-    // Hilt 그래프가 app까지 전파되도록 필요
-    implementation(project(":core:data"))
-    implementation(project(":core:data-api"))
-    implementation(project(":core:database"))
-    implementation(project(":core:datastore"))
     implementation(project(":core:design-system"))
     implementation(project(":core:domain"))
     implementation(project(":core:model"))
     implementation(project(":core:navigation"))
-    implementation(project(":core:utils"))
 
-    implementation(project(":feature:calendar"))
-    implementation(project(":feature:completed-tasks"))
-    implementation(project(":feature:edit-task"))
-    implementation(project(":feature:lock-setup"))
-    implementation(project(":feature:manage-categories"))
-    implementation(project(":feature:memo"))
-    implementation(project(":feature:profile"))
-    implementation(project(":feature:search-task"))
-    implementation(project(":feature:security"))
-    implementation(project(":feature:setting"))
-    implementation(project(":feature:tasks"))
-
+    implementation(libs.kotlinx.immutable)
     implementation(libs.kotlinx.coroutines.core)
-
-    implementation(libs.androidx.appcompat)
-    implementation(libs.androidx.core.splashscreen)
 
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.navigation)
 
@@ -68,5 +49,4 @@ dependencies {
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
-
 }

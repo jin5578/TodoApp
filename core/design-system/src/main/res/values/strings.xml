@@ -152,4 +152,5 @@
     <string name="manual">Manual(Long press to sort)</string>
     <string name="search">Search</string>
     <string name="tasks">Tasks</string>
+    <string name="profile">Profile</string>
 </resources>
