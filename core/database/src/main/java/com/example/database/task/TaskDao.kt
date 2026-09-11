@@ -51,6 +51,14 @@ interface TaskDao {
     fun getTasksByKeyword(keyword: String): Flow<List<TaskWithSubTasksEntity>>
 
     @Transaction
+    @Query("SELECT * FROM task WHERE categoryId = :categoryId AND date = :date ORDER BY date ASC")
+    fun getTasksByCategoryAndDate(
+        categoryId: Long,
+        date: String
+    ): Flow<List<TaskWithSubTasksEntity>>
+
+
+    @Transaction
     @Query("SELECT * FROM task WHERE id=:id")
     fun getTaskById(id: Long): Flow<TaskWithSubTasksEntity>
 

@@ -7,16 +7,18 @@ import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.calendar.model.CalendarUiState
-import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.utils.toErrorMessage
+import com.example.model.CategoryColorType
+import com.example.model.Task
 import kotlinx.coroutines.flow.collectLatest
+import java.time.LocalDate
 
 @Composable
 internal fun CalendarRoute(
     viewModel: CalendarViewModel = hiltViewModel(),
     navigateEditTask: (Long) -> Unit,
-    popBackStack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -33,31 +35,56 @@ internal fun CalendarRoute(
 
     CalendarContent(
         uiState = uiState,
+        onFetchCalendarTasks = viewModel::fetchCalendarUiState,
+        onFetchTasks = viewModel::fetchTasks,
+        onAddTask = viewModel::insertTask,
+        onAddCategory = { categoryTitle, categoryColorType ->
+            viewModel.insertCategory(
+                title = categoryTitle,
+                colorValue = categoryColorType.colorValue
+            )
+        },
+        onTaskToggleCompletion = viewModel::updateTaskCompleted,
+        onTaskSymbolChanged = viewModel::updateTaskSymbol,
+        onSubTaskToggleChanged = viewModel::updateSubTaskCompleted,
         navigateEditTask = navigateEditTask,
-        popBackStack = popBackStack,
-        onTaskToggleCompletion = viewModel::toggleTaskCompletion,
-        onTaskDelete = viewModel::deleteTask
     )
 }
 
 @Composable
 private fun CalendarContent(
     uiState: CalendarUiState,
-    navigateEditTask: (Long) -> Unit,
-    popBackStack: () -> Unit,
+    onFetchCalendarTasks: (categoryId: Long, date: LocalDate) -> Unit,
+    onFetchTasks: (LocalDate) -> Unit,
+    onAddTask: (Task) -> Unit,
+    onAddCategory: (categoryTitle: String, categoryColorType: CategoryColorType) -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
-    onTaskDelete: (id: Long, uuid: String) -> Unit,
+    onTaskSymbolChanged: (taskId: Long, symbolId: Int) -> Unit,
+    onSubTaskToggleChanged: (subTaskId: Long, isCompleted: Boolean) -> Unit,
+    navigateEditTask: (Long) -> Unit,
 ) {
     when (uiState) {
         is CalendarUiState.Loading -> Loading()
         is CalendarUiState.Screen -> CalendarScreen(
+            calendarTasks = uiState.calendarTasks,
             tasks = uiState.tasks,
             categories = uiState.categories,
             locale = uiState.locale,
-            navigateEditTask = navigateEditTask,
-            popBackStack = popBackStack,
+            timePickerType = uiState.timePickerType,
+            onFetchCalendarTasks = onFetchCalendarTasks,
+            onFetchTasks = onFetchTasks,
+            onAddTaskClick = onAddTask,
+            onAddCategoryClick = onAddCategory,
             onTaskToggleCompletion = onTaskToggleCompletion,
-            onTaskDelete = onTaskDelete
+            onDeleteSymbolClick = { taskId ->
+                onTaskSymbolChanged(
+                    taskId,
+                    -1
+                )
+            },
+            onSymbolClick = onTaskSymbolChanged,
+            onSubTaskToggleClick = onSubTaskToggleChanged,
+            navigateEditTask = navigateEditTask,
         )
     }
 }

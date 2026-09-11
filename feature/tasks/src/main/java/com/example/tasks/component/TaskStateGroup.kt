@@ -55,15 +55,12 @@ internal fun LazyListScope.taskStateGroup(
             items = taskStateGroup.tasks,
             key = { _, task -> task.id }
         ) { index, task ->
-            val bottomPadding =
-                if (index != taskStateGroup.tasks.size - 1) 8.dp
-                else 0.dp
             TaskCard(
                 modifier = Modifier.fillMaxWidth()
                     .padding(
                         start = 16.dp,
                         end = 16.dp,
-                        bottom = bottomPadding
+                        bottom = 8.dp
                     ),
                 task = task,
                 locale = locale,

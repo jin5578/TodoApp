@@ -1,4 +1,4 @@
-package com.example.tasks.component
+package com.example.design_system.component
 
 import android.text.format.DateFormat
 import androidx.compose.foundation.background
@@ -42,8 +42,7 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardCapitalization
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.component.BasicDropdownMenuItem
-import com.example.design_system.component.CategoryDropdownMenu
+import com.example.design_system.R
 import com.example.design_system.component.dialog.calendar.CalendarDialog
 import com.example.design_system.component.dialog.reminder.ReminderDialog
 import com.example.design_system.component.dialog.time_picker.ClockTimePickerDialog
@@ -51,12 +50,12 @@ import com.example.design_system.component.dialog.time_picker.ScrollTimePickerDi
 import com.example.design_system.theme.TodoTheme
 import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.utils.LocalSnackbarScope
+import com.example.design_system.utils.checkValidTask
+import com.example.design_system.utils.getTitleResId
 import com.example.model.Category
 import com.example.model.PriorityType
 import com.example.model.Task
 import com.example.model.TimePickerType
-import com.example.tasks.utils.getTitleResId
-import com.example.utils.checkValidTask
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -65,11 +64,10 @@ import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
 import java.util.UUID
-import com.example.design_system.R as DesignSystemR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-internal fun AddTaskBottomSheetContent(
+fun AddTaskBottomSheetContent(
     modifier: Modifier = Modifier,
     locale: Locale,
     categories: ImmutableList<Category>,
@@ -232,7 +230,7 @@ private fun TaskTitleTextField(
         onValueChange = onValueChange,
         placeholder = {
             Text(
-                text = stringResource(id = DesignSystemR.string.please_enter_what_you_need_to_do),
+                text = stringResource(id = R.string.please_enter_what_you_need_to_do),
                 color = MaterialTheme.colorScheme.onBackground,
                 style = TodoTheme.typography.medium_16,
             )
@@ -297,7 +295,7 @@ private fun TaskActionRow(
                 locale
             )
             TaskActionItem(
-                iconResId = DesignSystemR.drawable.svg_calendar,
+                iconResId = R.drawable.svg_calendar,
                 title = taskDate.format(dateFormat),
                 onClick = onDateClick
             )
@@ -317,7 +315,7 @@ private fun TaskActionRow(
         IconButton(onClick = onAddTaskClick) {
             Icon(
                 modifier = Modifier.size(size = 20.dp),
-                imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_paper_plane),
+                imageVector = ImageVector.vectorResource(id = R.drawable.svg_paper_plane),
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.onBackground
             )
@@ -337,18 +335,15 @@ private fun TaskActionCategoryItem(
     onCreateNewCategoryClick: () -> Unit,
 ) {
     Box(
-        modifier = modifier.clip(
-            shape = RoundedCornerShape(
-                size = 16.dp
-            )
-        )
+        modifier = modifier
+            .clip(shape = RoundedCornerShape(size = 16.dp))
             .background(color = MaterialTheme.colorScheme.surfaceContainer)
             .padding(all = 8.dp)
             .clickable { onOpenClick() }
     ) {
         Text(
             text = categories.firstOrNull { it.id == taskCategory }?.title
-                ?: stringResource(id = DesignSystemR.string.no_category),
+                ?: stringResource(id = R.string.no_category),
             style = TodoTheme.typography.medium_12,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -374,7 +369,7 @@ private fun TaskActionPriorityItem(
     Box {
         val titleResId = priorityType.getTitleResId()
         TaskActionItem(
-            iconResId = DesignSystemR.drawable.svg_priority,
+            iconResId = R.drawable.svg_priority,
             title = stringResource(id = titleResId),
             onClick = onOpenClick
         )

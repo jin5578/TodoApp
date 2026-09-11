@@ -9,11 +9,9 @@ import com.example.navigation.Route
 
 fun NavGraphBuilder.calendarNavGraph(
     navigateEditTask: (Long) -> Unit,
-    popBackStack: () -> Unit,
 ) = composable<Route.Calendar> {
     CalendarRoute(
         navigateEditTask = navigateEditTask,
-        popBackStack = popBackStack,
     )
 }
 

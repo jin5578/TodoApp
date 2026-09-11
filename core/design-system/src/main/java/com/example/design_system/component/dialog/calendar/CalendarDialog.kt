@@ -1,7 +1,6 @@
 package com.example.design_system.component.dialog.calendar
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
@@ -9,7 +8,6 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -23,11 +21,8 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.SnackbarHost
-import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -40,20 +35,17 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.example.design_system.utils.LocalSnackbarHostState
-import com.example.design_system.utils.LocalSnackbarScope
 import com.example.design_system.R
+import com.example.design_system.component.DaysOfWeek
+import com.example.design_system.component.MonthDay
 import com.example.design_system.theme.TodoTheme
 import com.example.model.DateOption
 import com.kizitonwose.calendar.compose.HorizontalCalendar
 import com.kizitonwose.calendar.compose.rememberCalendarState
-import com.kizitonwose.calendar.core.CalendarDay
-import com.kizitonwose.calendar.core.DayPosition
 import com.kizitonwose.calendar.core.firstDayOfWeekFromLocale
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.coroutines.launch
@@ -62,10 +54,8 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
-import java.time.format.TextStyle
 import java.time.temporal.TemporalAdjusters
 import java.util.Locale
-import com.example.design_system.R as DesignSystemR
 
 @Composable
 fun CalendarDialog(
@@ -78,12 +68,7 @@ fun CalendarDialog(
     onCloseClick: () -> Unit,
     onConfirmClick: (taskDate: LocalDate, taskTime: LocalDateTime?, reminderTime: LocalDateTime?) -> Unit,
 ) {
-    val snackbarHostState = LocalSnackbarHostState.current
-    val snackbarScope = LocalSnackbarScope.current
     val coroutineScope = rememberCoroutineScope()
-    val onShowMessageSnackbar: (String) -> Unit = { message ->
-        snackbarScope.launch { snackbarHostState.showSnackbar(message = message) }
-    }
 
     val verticalScrollState = rememberScrollState()
     val horizontalScrollState = rememberScrollState()
@@ -147,197 +132,190 @@ fun CalendarDialog(
         onDismissRequest = { onCloseClick() },
         properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
-        Box {
-            Card(
-                modifier = Modifier.fillMaxWidth()
-                    .padding(horizontal = 16.dp),
-                shape = RoundedCornerShape(size = 16.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = MaterialTheme.colorScheme.background
-                )
+        Card(
+            modifier = Modifier.fillMaxWidth()
+                .padding(horizontal = 16.dp),
+            shape = RoundedCornerShape(size = 16.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.background
+            )
+        ) {
+            Column(
+                modifier = Modifier.padding(
+                    horizontal = 2.dp,
+                    vertical = 16.dp
+                ),
+                verticalArrangement = Arrangement.spacedBy(space = 16.dp)
             ) {
+                Text(
+                    modifier = Modifier.padding(horizontal = 16.dp),
+                    text = stringResource(id = R.string.due_date),
+                    style = TodoTheme.typography.bold_20,
+                    color = MaterialTheme.colorScheme.onBackground,
+                )
+
                 Column(
-                    modifier = Modifier.padding(
-                        horizontal = 2.dp,
-                        vertical = 16.dp
-                    ),
-                    verticalArrangement = Arrangement.spacedBy(space = 16.dp)
+                    modifier = Modifier.fillMaxWidth()
+                        .verticalScroll(state = verticalScrollState)
                 ) {
-                    Text(
-                        modifier = Modifier.padding(horizontal = 16.dp),
-                        text = stringResource(id = DesignSystemR.string.due_date),
-                        style = TodoTheme.typography.bold_20,
-                        color = MaterialTheme.colorScheme.onBackground,
-                    )
-
-                    Column(
-                        modifier = Modifier.fillMaxWidth()
-                            .verticalScroll(state = verticalScrollState)
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.Center,
                     ) {
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.Center,
-                        ) {
-                            CalendarArrowIcon(
-                                iconResId = R.drawable.svg_calendar_arrow_left,
-                                onClick = {
-                                    coroutineScope.launch {
-                                        calendarState.animateScrollToMonth(
-                                            month = calendarState.firstVisibleMonth.yearMonth.minusMonths(
-                                                1
-                                            )
-                                        )
-                                    }
-                                }
-                            )
-
-                            Spacer(modifier = Modifier.width(width = 16.dp))
-
-                            val visibleMonth =
-                                calendarState.firstVisibleMonth.yearMonth
-                            Text(
-                                text = remember(visibleMonth, locale) {
-                                    visibleMonth.format(
-                                        DateTimeFormatter.ofPattern(
-                                            "MMMM yyyy",
-                                            locale
+                        CalendarArrowIcon(
+                            iconResId = R.drawable.svg_calendar_arrow_left,
+                            onClick = {
+                                coroutineScope.launch {
+                                    calendarState.animateScrollToMonth(
+                                        month = calendarState.firstVisibleMonth.yearMonth.minusMonths(
+                                            1
                                         )
                                     )
-                                },
-                                style = TodoTheme.typography.bold_16,
-                                color = MaterialTheme.colorScheme.onBackground,
-                            )
-
-                            Spacer(modifier = Modifier.width(width = 16.dp))
-
-                            CalendarArrowIcon(
-                                iconResId = R.drawable.svg_calendar_arrow_right,
-                                onClick = {
-                                    coroutineScope.launch {
-                                        calendarState.animateScrollToMonth(
-                                            month = calendarState.firstVisibleMonth.yearMonth.plusMonths(
-                                                1
-                                            )
-                                        )
-                                    }
                                 }
-                            )
-                        }
+                            }
+                        )
 
-                        Spacer(modifier = Modifier.height(height = 16.dp))
+                        Spacer(modifier = Modifier.width(width = 16.dp))
 
-                        HorizontalCalendar(
-                            state = calendarState,
-                            dayContent = { day ->
-                                MonthDay(
-                                    day = day,
-                                    isSelected = selectedTaskDate == day.date,
-                                    onClick = onDateChange,
-                                    onShowMessageSnackbar = onShowMessageSnackbar,
+                        val visibleMonth =
+                            calendarState.firstVisibleMonth.yearMonth
+                        Text(
+                            text = remember(visibleMonth, locale) {
+                                visibleMonth.format(
+                                    DateTimeFormatter.ofPattern(
+                                        "MMMM yyyy",
+                                        locale
+                                    )
                                 )
                             },
-                            monthHeader = { month ->
-                                val daysOfWeek = month.weekDays.first().map {
-                                    it.date.dayOfWeek
-                                }
-                                DaysOfWeek(
-                                    daysOfWeek = daysOfWeek,
-                                    locale = locale
-                                )
-                            }
+                            style = TodoTheme.typography.bold_16,
+                            color = MaterialTheme.colorScheme.onBackground,
                         )
 
-                        Spacer(modifier = Modifier.height(height = 16.dp))
+                        Spacer(modifier = Modifier.width(width = 16.dp))
 
-                        Row(
-                            modifier = Modifier.fillMaxWidth()
-                                .horizontalScroll(state = horizontalScrollState)
-                                .padding(horizontal = 16.dp),
-                            horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
-                        ) {
-                            dateOptions.forEach { dateOption ->
-                                DateOptionItem(
-                                    dateOption = dateOption,
-                                    isClicked = dateOption.date == selectedTaskDate,
-                                    onClick = onDateChange
-                                )
-                            }
-                        }
-
-                        Spacer(modifier = Modifier.height(height = 16.dp))
-
-                        val timeFormat =
-                            DateTimeFormatter.ofPattern("hh:mm a", locale)
-                        val timeContent = selectedTaskTime?.format(timeFormat)
-                            ?: stringResource(id = DesignSystemR.string.no)
-                        CalendarActionRow(
-                            iconResId = DesignSystemR.drawable.svg_clock,
-                            iconColor = MaterialTheme.colorScheme.onBackground,
-                            titleResId = DesignSystemR.string.time,
-                            titleColor = MaterialTheme.colorScheme.onBackground,
-                            content = timeContent,
-                            enabled = true,
-                            onClick = onTimeClick
-                        )
-
-                        val reminderContent =
-                            selectedReminderTime?.format(timeFormat)
-                                ?: stringResource(id = DesignSystemR.string.no)
-                        CalendarActionRow(
-                            iconResId = DesignSystemR.drawable.svg_reminder,
-                            iconColor = MaterialTheme.colorScheme.onBackground,
-                            titleResId = DesignSystemR.string.reminder,
-                            titleColor = MaterialTheme.colorScheme.onBackground,
-                            content = reminderContent,
-                            enabled = selectedTaskTime != null,
-                            onClick = onReminderClick,
-                        )
-
-                        Spacer(modifier = Modifier.height(height = 16.dp))
-
-                        Row(
-                            modifier = Modifier.fillMaxWidth()
-                                .padding(end = 16.dp),
-                            verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.End
-                        ) {
-                            Text(
-                                modifier = Modifier.clickable {
-                                    onCloseClick()
-                                }.padding(
-                                    horizontal = 8.dp,
-                                    vertical = 4.dp
-                                ),
-                                text = stringResource(id = DesignSystemR.string.cancel),
-                                style = TodoTheme.typography.medium_16,
-                                color = MaterialTheme.colorScheme.inversePrimary
-                            )
-
-                            Text(
-                                modifier = Modifier.clickable {
-                                    onConfirmClick(
-                                        selectedTaskDate,
-                                        selectedTaskTime,
-                                        selectedReminderTime
+                        CalendarArrowIcon(
+                            iconResId = R.drawable.svg_calendar_arrow_right,
+                            onClick = {
+                                coroutineScope.launch {
+                                    calendarState.animateScrollToMonth(
+                                        month = calendarState.firstVisibleMonth.yearMonth.plusMonths(
+                                            1
+                                        )
                                     )
-                                }.padding(
-                                    horizontal = 8.dp,
-                                    vertical = 4.dp
-                                ),
-                                text = stringResource(id = DesignSystemR.string.confirm),
-                                style = TodoTheme.typography.medium_16,
-                                color = MaterialTheme.colorScheme.primary
+                                }
+                            }
+                        )
+                    }
+
+                    Spacer(modifier = Modifier.height(height = 16.dp))
+
+                    HorizontalCalendar(
+                        state = calendarState,
+                        monthHeader = { month ->
+                            val daysOfWeek = month.weekDays.first().map {
+                                it.date.dayOfWeek
+                            }
+                            DaysOfWeek(
+                                daysOfWeek = daysOfWeek,
+                                locale = locale
+                            )
+                        },
+                        dayContent = { day ->
+                            MonthDay(
+                                day = day,
+                                isSelected = selectedTaskDate == day.date,
+                                isVisibleIndicator = false,
+                                onClick = onDateChange,
+                            )
+                        },
+                    )
+
+                    Spacer(modifier = Modifier.height(height = 16.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth()
+                            .horizontalScroll(state = horizontalScrollState)
+                            .padding(horizontal = 16.dp),
+                        horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+                    ) {
+                        dateOptions.forEach { dateOption ->
+                            DateOptionItem(
+                                dateOption = dateOption,
+                                isClicked = dateOption.date == selectedTaskDate,
+                                onClick = onDateChange
                             )
                         }
                     }
+
+                    Spacer(modifier = Modifier.height(height = 16.dp))
+
+                    val timeFormat =
+                        DateTimeFormatter.ofPattern("hh:mm a", locale)
+                    val timeContent = selectedTaskTime?.format(timeFormat)
+                        ?: stringResource(id = R.string.no)
+                    CalendarActionRow(
+                        iconResId = R.drawable.svg_clock,
+                        iconColor = MaterialTheme.colorScheme.onBackground,
+                        titleResId = R.string.time,
+                        titleColor = MaterialTheme.colorScheme.onBackground,
+                        content = timeContent,
+                        enabled = true,
+                        onClick = onTimeClick
+                    )
+
+                    val reminderContent =
+                        selectedReminderTime?.format(timeFormat)
+                            ?: stringResource(id = R.string.no)
+                    CalendarActionRow(
+                        iconResId = R.drawable.svg_reminder,
+                        iconColor = MaterialTheme.colorScheme.onBackground,
+                        titleResId = R.string.reminder,
+                        titleColor = MaterialTheme.colorScheme.onBackground,
+                        content = reminderContent,
+                        enabled = selectedTaskTime != null,
+                        onClick = onReminderClick,
+                    )
+
+                    Spacer(modifier = Modifier.height(height = 16.dp))
+
+                    Row(
+                        modifier = Modifier.fillMaxWidth()
+                            .padding(end = 16.dp),
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        Text(
+                            modifier = Modifier.clickable {
+                                onCloseClick()
+                            }.padding(
+                                horizontal = 8.dp,
+                                vertical = 4.dp
+                            ),
+                            text = stringResource(id = R.string.cancel),
+                            style = TodoTheme.typography.medium_16,
+                            color = MaterialTheme.colorScheme.inversePrimary
+                        )
+
+                        Text(
+                            modifier = Modifier.clickable {
+                                onConfirmClick(
+                                    selectedTaskDate,
+                                    selectedTaskTime,
+                                    selectedReminderTime
+                                )
+                            }.padding(
+                                horizontal = 8.dp,
+                                vertical = 4.dp
+                            ),
+                            text = stringResource(id = R.string.confirm),
+                            style = TodoTheme.typography.medium_16,
+                            color = MaterialTheme.colorScheme.primary
+                        )
+                    }
                 }
             }
-
-            SnackbarHost(
-                modifier = Modifier.align(alignment = Alignment.BottomCenter),
-                hostState = snackbarHostState,
-            )
         }
     }
 }
@@ -360,77 +338,6 @@ private fun CalendarArrowIcon(
 }
 
 @Composable
-private fun MonthDay(
-    modifier: Modifier = Modifier,
-    day: CalendarDay,
-    isSelected: Boolean,
-    onClick: (LocalDate) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
-) {
-    val backgroundColor =
-        if (isSelected) MaterialTheme.colorScheme.primaryContainer
-        else Color.Transparent
-    val borderWidth = if (isSelected) 1.dp else (-1).dp
-    val textColor =
-        if (day.date == LocalDate.now()) MaterialTheme.colorScheme.error
-        else if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
-        else MaterialTheme.colorScheme.onBackground
-    val fontStyle =
-        if (isSelected) TodoTheme.typography.bold_12
-        else TodoTheme.typography.medium_12
-
-    val message = stringResource(R.string.cannot_be_selected_of_day)
-
-    Box(
-        modifier = modifier.aspectRatio(ratio = 1f)
-            .padding(all = 6.dp)
-            .clip(shape = RoundedCornerShape(size = 8.dp))
-            .background(backgroundColor)
-            .border(
-                width = borderWidth,
-                color = MaterialTheme.colorScheme.onBackground,
-                shape = RoundedCornerShape(size = 8.dp)
-            )
-            .clickable {
-                if (day.date < LocalDate.now()) {
-                    onShowMessageSnackbar(message)
-                } else {
-                    onClick(day.date)
-                }
-            },
-        contentAlignment = Alignment.Center
-    ) {
-        Text(
-            text = day.date.dayOfMonth.toString(),
-            style = fontStyle,
-            color = textColor
-        )
-    }
-}
-
-@Composable
-private fun DaysOfWeek(
-    modifier: Modifier = Modifier,
-    daysOfWeek: List<DayOfWeek>,
-    locale: Locale
-) {
-    Row(
-        modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        for (dayOfWeek in daysOfWeek) {
-            Text(
-                modifier = Modifier.weight(1f).padding(bottom = 8.dp),
-                text = dayOfWeek.getDisplayName(TextStyle.SHORT, locale),
-                textAlign = TextAlign.Center,
-                style = TodoTheme.typography.medium_12,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-        }
-    }
-}
-
-@Composable
 private fun DateOptionItem(
     modifier: Modifier = Modifier,
     dateOption: DateOption,
@@ -438,16 +345,18 @@ private fun DateOptionItem(
     onClick: (LocalDate) -> Unit,
 ) {
     Box(
-        modifier = modifier.background(
-            color =
-                if (isClicked) MaterialTheme.colorScheme.secondaryContainer
-                else MaterialTheme.colorScheme.surfaceContainer,
-            shape = RoundedCornerShape(size = 8.dp)
-        ).clickable {
-            onClick(dateOption.date)
-        }.padding(
-            all = 8.dp
-        )
+        modifier = modifier
+            .clip(shape = RoundedCornerShape(size = 8.dp))
+            .background(
+                color =
+                    if (isClicked) MaterialTheme.colorScheme.secondaryContainer
+                    else MaterialTheme.colorScheme.surfaceContainer,
+                shape = RoundedCornerShape(size = 8.dp)
+            ).clickable {
+                onClick(dateOption.date)
+            }.padding(
+                all = 8.dp
+            )
     ) {
         Text(
             text = stringResource(id = dateOption.resId),
@@ -492,13 +401,13 @@ private fun CalendarActionRow(
         )
 
         Box(
-            modifier = Modifier.background(
-                color = MaterialTheme.colorScheme.surfaceContainer,
-                shape = RoundedCornerShape(size = 8.dp)
-            ).padding(
-                horizontal = 8.dp,
-                vertical = 8.dp
-            )
+            modifier = Modifier
+                .clip(shape = RoundedCornerShape(size = 8.dp))
+                .background(
+                    color = MaterialTheme.colorScheme.surfaceContainer,
+                    shape = RoundedCornerShape(size = 8.dp)
+                )
+                .padding(horizontal = 8.dp, vertical = 8.dp)
         ) {
             Text(
                 text = content,
@@ -513,23 +422,16 @@ private fun CalendarActionRow(
 @Composable
 private fun CalendarDialogPreview() {
     TodoTheme {
-        val snackbarHostState = remember { SnackbarHostState() }
-        val snackbarScope = rememberCoroutineScope()
-        CompositionLocalProvider(
-            LocalSnackbarHostState provides snackbarHostState,
-            LocalSnackbarScope provides snackbarScope,
-        ) {
-            CalendarDialog(
-                taskDate = LocalDate.now(),
-                taskTime = null,
-                reminderTime = LocalDateTime.now(),
-                locale = Locale.KOREA,
-                onTimeClick = {},
-                onReminderClick = {},
-                onCloseClick = {},
-                onConfirmClick = { _, _, _ -> },
-            )
-        }
+        CalendarDialog(
+            taskDate = LocalDate.now(),
+            taskTime = null,
+            reminderTime = LocalDateTime.now(),
+            locale = Locale.KOREA,
+            onTimeClick = {},
+            onReminderClick = {},
+            onCloseClick = {},
+            onConfirmClick = { _, _, _ -> },
+        )
     }
 }
 
@@ -541,30 +443,6 @@ private fun CalendarArrowIconPreview() {
             iconResId = -1,
             onClick = {}
         )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun MonthDayPreview() {
-    TodoTheme {
-        MonthDay(
-            day = CalendarDay(
-                date = LocalDate.now(),
-                position = DayPosition.MonthDate
-            ),
-            isSelected = false,
-            onClick = {},
-            onShowMessageSnackbar = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun DaysOfWeekPreview() {
-    TodoTheme {
-        DaysOfWeek(daysOfWeek = DayOfWeek.entries, locale = Locale.KOREA)
     }
 }
 

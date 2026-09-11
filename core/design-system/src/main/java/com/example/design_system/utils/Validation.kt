@@ -1,8 +1,8 @@
-package com.example.utils
+package com.example.design_system.utils
 
 import com.example.model.Task
 
-fun checkValidTask(
+internal fun checkValidTask(
     task: Task,
 ): Pair<Boolean, String> {
     if (task.title.trim().isEmpty()) {

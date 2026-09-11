@@ -13,11 +13,9 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -46,7 +44,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.design_system.component.AddTaskBottomSheetContent
 import com.example.design_system.component.BasicDropdownMenuItem
+import com.example.design_system.component.CustomFloatingActionButton
 import com.example.design_system.component.EmptyContent
 import com.example.design_system.component.dialog.category.CategoryDialog
 import com.example.design_system.component.dialog.sort_by.SortByDialog
@@ -57,9 +57,7 @@ import com.example.model.CategoryColorType
 import com.example.model.SortByType
 import com.example.model.Task
 import com.example.model.TimePickerType
-import com.example.tasks.component.AddTaskBottomSheetContent
 import com.example.tasks.component.taskStateGroup
-import com.example.tasks.model.BottomSheetType
 import com.example.tasks.model.TaskStateGroup
 import com.example.tasks.utils.toggled
 import kotlinx.collections.immutable.ImmutableList
@@ -96,14 +94,14 @@ internal fun TasksScreen(
     var collapsedTaskStates by remember { mutableStateOf(value = persistentSetOf<String>()) }
 
     val bottomSheetState = rememberModalBottomSheetState()
-    var showAddTaskBottomSheet by remember { mutableStateOf(value = BottomSheetType.IDLE) }
+    var isShowAddTaskBottomSheet by remember { mutableStateOf(value = false) }
 
     var isShowSortByDialog by remember { mutableStateOf(value = false) }
     var isShowAddCategoryDialog by remember { mutableStateOf(value = false) }
 
     Scaffold(
         topBar = {
-            TopAppBar(
+            TasksTopAppBar(
                 scrollState = scrollState,
                 categories = categories,
                 onCategoryClick = onCategoryClick,
@@ -115,18 +113,17 @@ internal fun TasksScreen(
             )
         },
         floatingActionButton = {
-            FloatingActionButton(
+            CustomFloatingActionButton(
                 onClick = {
-                    showAddTaskBottomSheet =
-                        BottomSheetType.ADD_TASK
+                    isShowAddTaskBottomSheet = true
                 }
             )
         }
     ) { paddingValues ->
-        if (showAddTaskBottomSheet == BottomSheetType.ADD_TASK) {
+        if (isShowAddTaskBottomSheet) {
             ModalBottomSheet(
                 onDismissRequest = {
-                    showAddTaskBottomSheet = BottomSheetType.IDLE
+                    isShowAddTaskBottomSheet = false
                 },
                 sheetState = bottomSheetState,
                 containerColor = MaterialTheme.colorScheme.background,
@@ -138,8 +135,7 @@ internal fun TasksScreen(
                         timePickerType = timePickerType,
                         onAddTaskClick = { task ->
                             onAddTaskClick(task)
-                            showAddTaskBottomSheet =
-                                BottomSheetType.IDLE
+                            isShowAddTaskBottomSheet = false
                         },
                         onCreateNewCategoryClick = {
                             isShowAddCategoryDialog = true
@@ -226,7 +222,7 @@ internal fun TasksScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun TopAppBar(
+private fun TasksTopAppBar(
     modifier: Modifier = Modifier,
     scrollState: ScrollState,
     categories: ImmutableList<Category>,
@@ -319,26 +315,6 @@ private fun TopAppBar(
 }
 
 @Composable
-private fun FloatingActionButton(
-    modifier: Modifier = Modifier,
-    onClick: () -> Unit,
-) {
-    FloatingActionButton(
-        shape = CircleShape,
-        containerColor = MaterialTheme.colorScheme.primaryContainer,
-        contentColor = MaterialTheme.colorScheme.primaryContainer,
-        onClick = onClick
-    ) {
-        Icon(
-            modifier = modifier.size(size = 32.dp),
-            imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_plus_small),
-            contentDescription = null,
-            tint = MaterialTheme.colorScheme.onPrimaryContainer
-        )
-    }
-}
-
-@Composable
 private fun CategoryItem(
     id: Long,
     title: String,
@@ -404,25 +380,15 @@ private fun TasksScreenPreview() {
 
 @Preview(showBackground = true)
 @Composable
-private fun TopAppBarPreview() {
+private fun TasksTopAppBarPreview() {
     TodoTheme {
-        TopAppBar(
+        TasksTopAppBar(
             scrollState = rememberScrollState(),
             categories = persistentListOf(),
             onCategoryClick = {},
             onSearchClick = {},
             onSortByClick = {},
             onManageCategoriesClick = {}
-        )
-    }
-}
-
-@Preview(showBackground = true)
-@Composable
-private fun FloatingActionButtonPreview() {
-    TodoTheme {
-        FloatingActionButton(
-            onClick = {}
         )
     }
 }

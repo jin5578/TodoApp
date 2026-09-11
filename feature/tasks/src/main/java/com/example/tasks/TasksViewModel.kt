@@ -43,12 +43,12 @@ class TasksViewModel @Inject constructor(
     private val getHasBiometricEnabledUseCase: GetHasBiometricEnabledUseCase,
     private val getHasExistingPasswordUseCase: GetHasExistingPasswordUseCase,
     private val getTasksDataUseCase: GetTasksDataUseCase,
-    private val updateTaskCompletedUseCase: UpdateTaskCompletedUseCase,
     private val checkPasswordUseCase: CheckPasswordUseCase,
     private val deleteAllDataUseCase: DeleteAllDataUseCase,
     private val insertTaskUseCase: InsertTaskUseCase,
     private val insertCategoryUseCase: InsertCategoryUseCase,
     private val updateTaskSymbolUseCase: UpdateTaskSymbolUseCase,
+    private val updateTaskCompletedUseCase: UpdateTaskCompletedUseCase,
     private val updateSubTaskCompletedUseCase: UpdateSubTaskCompletedUseCase,
     private val updateSortByTypeUseCase: UpdateSortByTypeUseCase,
 ) : ViewModel() {
@@ -61,7 +61,7 @@ class TasksViewModel @Inject constructor(
 
     private val selectedCategoryId: MutableStateFlow<Long> =
         MutableStateFlow(value = -1L)
-    private var isTasksObserved = false
+    private var isTasksUiStateObserved = false
 
     init {
         executeLockProcess()
@@ -83,18 +83,18 @@ class TasksViewModel @Inject constructor(
                 return@launch
             }
 
-            fetchTasks()
+            fetchTasksUiState()
         }
 
-    fun fetchTasks(categoryId: Long = -1L) {
+    fun fetchTasksUiState(categoryId: Long = -1L) {
         selectedCategoryId.value = categoryId
-        startObservingTasks()
+        startObservingTasksUiState()
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun startObservingTasks() {
-        if (isTasksObserved) return
-        isTasksObserved = true
+    private fun startObservingTasksUiState() {
+        if (isTasksUiStateObserved) return
+        isTasksUiStateObserved = true
 
         viewModelScope.launch {
             selectedCategoryId.flatMapLatest { id ->
@@ -125,20 +125,12 @@ class TasksViewModel @Inject constructor(
         }
     }
 
-    fun updateTaskCompletion(id: Long, isCompleted: Boolean) =
-        viewModelScope.launch {
-            updateTaskCompletedUseCase(
-                id = id,
-                isCompleted = isCompleted
-            )
-        }
-
     fun checkPassword(password: String) =
         viewModelScope.launch {
             val isPasswordMatched =
                 checkPasswordUseCase(password = password).first()
             if (isPasswordMatched) {
-                fetchTasks()
+                fetchTasksUiState()
             } else {
                 val state = _uiState.value
                 if (state !is TasksUiState.Password) return@launch
@@ -182,7 +174,15 @@ class TasksViewModel @Inject constructor(
             )
         }
 
-    fun toggleSubTaskCompletion(subTaskId: Long, isCompleted: Boolean) =
+    fun updateTaskCompleted(id: Long, isCompleted: Boolean) =
+        viewModelScope.launch {
+            updateTaskCompletedUseCase(
+                id = id,
+                isCompleted = isCompleted
+            )
+        }
+
+    fun updateSubTaskCompleted(subTaskId: Long, isCompleted: Boolean) =
         viewModelScope.launch {
             updateSubTaskCompletedUseCase(
                 id = subTaskId,

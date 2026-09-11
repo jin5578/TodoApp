@@ -54,7 +54,6 @@ internal fun MainNavHost(
             )
             calendarNavGraph(
                 navigateEditTask = navigator::navigateEditTask,
-                popBackStack = navigator::popBackStackIfNotTasks,
             )
             lockSetupNavGraph(
                 popBackStack = navigator::popBackStackIfNotTasks,

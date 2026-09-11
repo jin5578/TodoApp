@@ -1,7 +1,15 @@
 package com.example.design_system.utils
 
 import com.example.design_system.R
+import com.example.model.PriorityType
 import com.example.model.SortByType
+
+internal fun PriorityType.getTitleResId(): Int =
+    when (this) {
+        PriorityType.LOW -> R.string.low
+        PriorityType.MEDIUM -> R.string.medium
+        PriorityType.HIGH -> R.string.high
+    }
 
 internal fun SortByType.getTitleResId(): Int =
     when (this) {

@@ -1,16 +1,8 @@
 package com.example.tasks.utils
 
-import com.example.model.PriorityType
 import com.example.tasks.model.TaskState
 import com.example.tasks.model.TasksPasswordProcessType
 import com.example.design_system.R as DesignSystemR
-
-internal fun PriorityType.getTitleResId(): Int =
-    when (this) {
-        PriorityType.LOW -> DesignSystemR.string.low
-        PriorityType.MEDIUM -> DesignSystemR.string.medium
-        PriorityType.HIGH -> DesignSystemR.string.high
-    }
 
 internal fun TaskState.getTitleResId(): Int =
     when (this) {

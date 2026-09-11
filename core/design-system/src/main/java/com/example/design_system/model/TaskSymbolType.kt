@@ -1,12 +1,12 @@
 package com.example.design_system.model
 
 import androidx.compose.ui.graphics.Color
+import com.example.design_system.R
 import com.example.design_system.theme.flagColors
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import com.example.design_system.R
 
-enum class TaskSymbolType(
+internal enum class TaskSymbolType(
     val titleResId: Int,
     val taskSymbols: ImmutableList<TaskSymbol>
 ) {
@@ -157,13 +157,13 @@ enum class TaskSymbolType(
     )
 }
 
-data class TaskSymbol(
+internal data class TaskSymbol(
     val id: Int,
     val symbolIcon: TaskSymbolIcon? = null,
     val emojiIcon: String? = null,
 )
 
-data class TaskSymbolIcon(
+internal data class TaskSymbolIcon(
     val iconResId: Int,
     val iconColor: Color,
 )

@@ -52,14 +52,14 @@ internal fun TasksRoute(
     TasksContent(
         uiState = uiState,
         passwordCheck = viewModel::checkPassword,
-        tasksFetch = viewModel::fetchTasks,
-        taskCompletionUpdate = viewModel::updateTaskCompletion,
+        tasksFetch = viewModel::fetchTasksUiState,
+        taskCompletionUpdate = viewModel::updateTaskCompleted,
         onDeleteAllData = viewModel::deleteAllData,
-        onBiometricAuthSucceeded = viewModel::fetchTasks,
+        onBiometricAuthSucceeded = viewModel::fetchTasksUiState,
         onBiometricAuthError = viewModel::executePasswordAuth,
         onAddTask = viewModel::insertTask,
         onTaskSymbolChanged = viewModel::updateTaskSymbol,
-        onSubTaskToggleChanged = viewModel::toggleSubTaskCompletion,
+        onSubTaskToggleChanged = viewModel::updateSubTaskCompleted,
         onAddCategory = { categoryTitle, categoryColorType ->
             viewModel.insertCategory(
                 title = categoryTitle,

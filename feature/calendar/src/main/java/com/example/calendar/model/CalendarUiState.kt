@@ -5,6 +5,7 @@ import androidx.compose.runtime.Stable
 import com.example.model.Category
 import com.example.model.SortByType
 import com.example.model.TaskUiModel
+import com.example.model.TimePickerType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.Locale
@@ -16,9 +17,11 @@ sealed interface CalendarUiState {
 
     @Immutable
     data class Screen(
+        val calendarTasks: ImmutableList<TaskUiModel> = persistentListOf(),
         val tasks: ImmutableList<TaskUiModel> = persistentListOf(),
         val categories: ImmutableList<Category> = persistentListOf(),
         val sortByType: SortByType,
         val locale: Locale,
+        val timePickerType: TimePickerType,
     ) : CalendarUiState
 }

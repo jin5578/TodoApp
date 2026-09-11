@@ -74,7 +74,8 @@ class DefaultSystemRepository @Inject constructor(
         systemDataSource.systemData.map { data ->
             CalendarSystem(
                 locale = data.locale.toLocale(),
-                sortByType = data.sortByType.toSortByType()
+                sortByType = data.sortByType.toSortByType(),
+                timePickerType = data.timePickerType.toTimePickerType(),
             )
         }
 

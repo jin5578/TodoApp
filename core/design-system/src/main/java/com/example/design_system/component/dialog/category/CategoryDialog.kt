@@ -73,8 +73,7 @@ fun CategoryDialog(
         properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Card(
-            modifier = Modifier.fillMaxWidth()
-                .padding(horizontal = 16.dp),
+            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.background
@@ -225,7 +224,10 @@ private fun CategoryColorItem(
     Box(
         modifier = modifier.size(size = 32.dp)
             .clip(shape = CircleShape)
-            .background(color = Color(color = type.colorValue))
+            .background(
+                color = Color(color = type.colorValue),
+                shape = CircleShape
+            )
             .clickable { onSelect(type) },
         contentAlignment = Alignment.Center,
         content = {

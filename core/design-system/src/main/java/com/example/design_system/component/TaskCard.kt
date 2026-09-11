@@ -30,6 +30,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
@@ -67,6 +68,7 @@ fun TaskCard(
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
+                .clip(shape = RoundedCornerShape(size = 8.dp))
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainer,
                     shape = RoundedCornerShape(size = 8.dp)
@@ -428,7 +430,6 @@ private fun TaskEmojiIconButton(
 @Composable
 private fun TaskCardPreview() {
     TodoTheme {
-
         val task = TaskUiModel(
             id = 8578,
             uuid = "corrumpit",

@@ -20,18 +20,12 @@ internal class DefaultTaskRepository @Inject constructor(
         taskDataSource.insertTask(entity = task.toTaskEntity())
 
     override fun getTasks(): Flow<List<Task>> =
-        taskDataSource.getTasks().map { entities ->
-            entities.map { entity ->
-                entity.toTask()
-            }
-        }
+        taskDataSource.getTasks()
+            .map { entities -> entities.toTasks() }
 
     override fun getTasksByDate(date: LocalDate): Flow<List<Task>> =
-        taskDataSource.getTasksByDate(date = date).map { entities ->
-            entities.map { entity ->
-                entity.toTask()
-            }
-        }
+        taskDataSource.getTasksByDate(date = date)
+            .map { entities -> entities.toTasks() }
 
     override fun getTaskCountByDate(date: LocalDate): Flow<Int> =
         taskDataSource.getTaskCountByDate(date = date)
@@ -41,40 +35,32 @@ internal class DefaultTaskRepository @Inject constructor(
         toDate: LocalDate
     ): Flow<List<Task>> =
         taskDataSource.getTasksByDateRange(fromDate = fromDate, toDate = toDate)
-            .map { entities ->
-                entities.map { entity ->
-                    entity.toTask()
-                }
-            }
+            .map { entities -> entities.toTasks() }
 
     override fun getTasksByState(isCompleted: Boolean): Flow<List<Task>> =
         taskDataSource.getTasksByState(isCompleted = isCompleted)
-            .map { entities ->
-                entities.map { entity ->
-                    entity.toTask()
-                }
-            }
+            .map { entities -> entities.toTasks() }
 
     override fun getTasksByCategory(categoryId: Long): Flow<List<Task>> =
         taskDataSource.getTasksByCategory(categoryId = categoryId)
-            .map { entities ->
-                entities.map { entity ->
-                    entity.toTask()
-                }
-            }
+            .map { entities -> entities.toTasks() }
 
     override fun getTasksByKeyword(keyword: String): Flow<List<Task>> =
         taskDataSource.getTasksByKeyword(keyword = keyword)
-            .map { entities ->
-                entities.map { entity ->
-                    entity.toTask()
-                }
-            }
+            .map { entities -> entities.toTasks() }
+
+    override fun getTasksByCategoryAndDate(
+        categoryId: Long,
+        date: LocalDate
+    ): Flow<List<Task>> =
+        taskDataSource.getTasksByCategoryAndDate(
+            categoryId = categoryId,
+            date = date
+        )
+            .map { entities -> entities.toTasks() }
 
     override fun getTaskById(id: Long): Flow<Task> =
-        taskDataSource.getTaskById(id = id).map { entity ->
-            entity.toTask()
-        }
+        taskDataSource.getTaskById(id = id).map { entity -> entity.toTask() }
 
     override suspend fun updateTask(task: Task) =
         taskDataSource.updateTask(entity = task.toTaskEntity())
@@ -151,11 +137,20 @@ internal class DefaultTaskRepository @Inject constructor(
     override suspend fun deleteTasksByState(isCompleted: Boolean) =
         taskDataSource.deleteTasksByState(isCompleted = isCompleted)
 
+    private fun List<TaskWithSubTasksEntity>.toTasks(): List<Task> =
+        this.map { entity -> entity.toTask() }
+
+    private fun List<Task>.toTaskEntities(): List<TaskEntity> =
+        this.map { task -> task.toTaskEntity() }
+
+    private fun List<SubTaskEntity>.toSubTasks(): List<SubTask> =
+        this.sortedBy { entity -> entity.sortOrder }
+            .map { entity -> entity.toSubTask() }
+
     private fun TaskWithSubTasksEntity.toTask(): Task {
         val taskEntity = this.taskEntity
         val subTasks =
-            this.subTaskEntities.sortedBy { subTaskEntity -> subTaskEntity.sortOrder }
-                .map { subTaskEntity -> subTaskEntity.toSubTask() }
+            this.subTaskEntities.toSubTasks()
         return Task(
             id = taskEntity.id,
             uuid = taskEntity.uuid,
