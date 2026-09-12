@@ -155,4 +155,6 @@
     <string name="search">검색</string>
     <string name="tasks">작업</string>
     <string name="profile">프로필</string>
+    <string name="heatmap">히트맵</string>
+    <string name="heatmap_description">매일 완료한 작업 수를 확인하세요.</string>
 </resources>

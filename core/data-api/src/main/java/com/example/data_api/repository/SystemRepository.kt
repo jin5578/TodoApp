@@ -10,6 +10,7 @@ import com.example.model.completed_tasks.CompletedTasksSystem
 import com.example.model.edit_task.EditTaskSystem
 import com.example.model.lock_setup.LockSetupSystem
 import com.example.model.memo.MemoSystem
+import com.example.model.profile.ProfileSystem
 import com.example.model.search_task.SearchTaskSystem
 import com.example.model.security.SecuritySystem
 import com.example.model.setting.SettingSystem
@@ -30,6 +31,7 @@ interface SystemRepository {
     fun getSecuritySystem(): Flow<SecuritySystem>
     fun getCompletedTasksSystem(): Flow<CompletedTasksSystem>
     fun getSearchTaskSystem(): Flow<SearchTaskSystem>
+    fun getProfileSystem(): Flow<ProfileSystem>
     fun hasExistingPassword(): Flow<Boolean>
     fun hasBiometricEnabled(): Flow<Boolean>
     suspend fun updateSortByType(sortByType: SortByType)

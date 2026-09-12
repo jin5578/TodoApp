@@ -155,4 +155,6 @@
     <string name="search">Search</string>
     <string name="tasks">Tasks</string>
     <string name="profile">Profile</string>
+    <string name="heatmap">Heatmap</string>
+    <string name="heatmap_description">See how many tasks you\'ve completed each day</string>
 </resources>

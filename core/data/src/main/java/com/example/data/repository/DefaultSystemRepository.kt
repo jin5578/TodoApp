@@ -12,6 +12,7 @@ import com.example.model.completed_tasks.CompletedTasksSystem
 import com.example.model.edit_task.EditTaskSystem
 import com.example.model.lock_setup.LockSetupSystem
 import com.example.model.memo.MemoSystem
+import com.example.model.profile.ProfileSystem
 import com.example.model.search_task.SearchTaskSystem
 import com.example.model.security.SecuritySystem
 import com.example.model.setting.SettingSystem
@@ -114,6 +115,13 @@ class DefaultSystemRepository @Inject constructor(
     override fun getSearchTaskSystem(): Flow<SearchTaskSystem> =
         systemDataSource.systemData.map { data ->
             SearchTaskSystem(
+                locale = data.locale.toLocale()
+            )
+        }
+
+    override fun getProfileSystem(): Flow<ProfileSystem> =
+        systemDataSource.systemData.map { data ->
+            ProfileSystem(
                 locale = data.locale.toLocale()
             )
         }
