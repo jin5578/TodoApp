@@ -35,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toColorLong
 import androidx.compose.ui.graphics.vector.ImageVector
@@ -88,6 +89,7 @@ internal fun TasksScreen(
     onCompletedTasksClick: () -> Unit,
     onSearchClick: () -> Unit,
     onManageCategoriesClick: () -> Unit,
+    onSettingClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -109,7 +111,8 @@ internal fun TasksScreen(
                     isShowSortByDialog = true
                 },
                 onSearchClick = onSearchClick,
-                onManageCategoriesClick = onManageCategoriesClick
+                onManageCategoriesClick = onManageCategoriesClick,
+                onSettingClick = onSettingClick,
             )
         },
         floatingActionButton = {
@@ -230,6 +233,7 @@ private fun TasksTopAppBar(
     onSearchClick: () -> Unit,
     onSortByClick: () -> Unit,
     onManageCategoriesClick: () -> Unit,
+    onSettingClick: () -> Unit,
 ) {
     var isShowDropdownMenu by remember { mutableStateOf(value = false) }
 
@@ -308,6 +312,14 @@ private fun TasksTopAppBar(
                             isShowDropdownMenu = false
                         }
                     )
+
+                    BasicDropdownMenuItem(
+                        title = stringResource(id = DesignSystemR.string.settings),
+                        onClick = {
+                            onSettingClick()
+                            isShowDropdownMenu = false
+                        }
+                    )
                 }
             }
         }
@@ -322,9 +334,9 @@ private fun CategoryItem(
 ) {
     Box(
         modifier = Modifier
+            .clip(shape = RoundedCornerShape(size = 8.dp))
             .background(
                 color = MaterialTheme.colorScheme.primary,
-                shape = RoundedCornerShape(size = 8.dp)
             )
             .padding(
                 horizontal = 8.dp,
@@ -372,7 +384,8 @@ private fun TasksScreenPreview() {
                 onSortByTypeChanged = {},
                 onCompletedTasksClick = {},
                 onSearchClick = {},
-                onManageCategoriesClick = {}
+                onManageCategoriesClick = {},
+                onSettingClick = {}
             )
         }
     }
@@ -388,7 +401,8 @@ private fun TasksTopAppBarPreview() {
             onCategoryClick = {},
             onSearchClick = {},
             onSortByClick = {},
-            onManageCategoriesClick = {}
+            onManageCategoriesClick = {},
+            onSettingClick = {}
         )
     }
 }

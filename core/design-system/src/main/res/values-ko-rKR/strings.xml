@@ -95,7 +95,9 @@
     <string name="no_category">카테고리 없음</string>
     <string name="create_new">새로 만들기</string>
     <string name="entire">전체</string>
-    <string name="completed_tasks">완료된 할 일</string>
+    <string name="completed_tasks">완료된 작업</string>
+    <string name="pending_tasks">대기 중인 작업</string>
+    <string name="pending_tasks_description">모든 미완료 작업을 처리해야 합니다.</string>
     <string name="incomplete_tasks">할 일</string>
     <string name="marked_with_a_symbol">기호로 표시</string>
     <string name="delete">삭제</string>

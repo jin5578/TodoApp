@@ -20,9 +20,9 @@ internal enum class MainTab(
         iconResId = R.drawable.svg_calendar,
         titleResId = R.string.calendar,
     ),
-    SETTING(
-        route = Route.Setting,
-        iconResId = R.drawable.svg_setting,
-        titleResId = R.string.settings,
+    PROFILE(
+        route = Route.Profile,
+        iconResId = R.drawable.svg_profile,
+        titleResId = R.string.profile,
     ),
 }

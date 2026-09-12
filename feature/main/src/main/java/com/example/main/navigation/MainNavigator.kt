@@ -41,7 +41,7 @@ internal class MainNavigator(
             return when {
                 destination?.hasRoute<Route.Tasks>() == true -> MainTab.TASKS
                 destination?.hasRoute<Route.Calendar>() == true -> MainTab.CALENDAR
-                destination?.hasRoute<Route.Setting>() == true -> MainTab.SETTING
+                destination?.hasRoute<Route.Profile>() == true -> MainTab.PROFILE
                 else -> null
             }
         }
@@ -59,7 +59,7 @@ internal class MainNavigator(
         when (tab) {
             MainTab.TASKS -> navigateTasks()
             MainTab.CALENDAR -> navigateCalendar()
-            MainTab.SETTING -> navigateSetting()
+            MainTab.PROFILE -> navigateProfile()
         }
 
     fun navigateTasks() =
@@ -69,10 +69,10 @@ internal class MainNavigator(
         navController.navigateCalendar(navOptions = topLevelNavOptions)
 
     fun navigateProfile() =
-        navController.navigateProfile()
+        navController.navigateProfile(navOptions = topLevelNavOptions)
 
     fun navigateSetting() =
-        navController.navigateSetting(navOptions = topLevelNavOptions)
+        navController.navigateSetting()
 
     fun navigateEditTask(taskId: Long) =
         navController.navigateEditTask(taskId = taskId)

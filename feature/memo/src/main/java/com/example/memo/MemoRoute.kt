@@ -69,5 +69,4 @@ private fun MemoContent(
                 onContentValueChanged = contentUpdate,
             )
     }
-
 }

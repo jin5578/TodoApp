@@ -71,7 +71,6 @@ fun TaskCard(
                 .clip(shape = RoundedCornerShape(size = 8.dp))
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainer,
-                    shape = RoundedCornerShape(size = 8.dp)
                 ).clickable {
                     onTaskEditClick(task.id)
                 }.padding(all = 16.dp),

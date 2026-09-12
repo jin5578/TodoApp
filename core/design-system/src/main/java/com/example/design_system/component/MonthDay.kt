@@ -48,7 +48,7 @@ fun MonthDay(
         modifier = modifier.aspectRatio(ratio = 1f)
             .padding(all = 6.dp)
             .clip(shape = RoundedCornerShape(size = 8.dp))
-            .background(backgroundColor)
+            .background(color = backgroundColor)
             .border(
                 width = borderWidth,
                 color = MaterialTheme.colorScheme.onBackground,

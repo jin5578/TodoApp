@@ -226,7 +226,6 @@ private fun CategoryColorItem(
             .clip(shape = CircleShape)
             .background(
                 color = Color(color = type.colorValue),
-                shape = CircleShape
             )
             .clickable { onSelect(type) },
         contentAlignment = Alignment.Center,

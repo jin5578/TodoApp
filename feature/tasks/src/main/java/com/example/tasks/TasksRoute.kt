@@ -26,6 +26,7 @@ internal fun TasksRoute(
     navigateCompletedTasks: () -> Unit,
     navigateSearchTask: () -> Unit,
     navigateManageCategories: () -> Unit,
+    navigateSetting: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -71,6 +72,7 @@ internal fun TasksRoute(
         navigateCompletedTasks = navigateCompletedTasks,
         navigateSearchTask = navigateSearchTask,
         navigateManageCategories = navigateManageCategories,
+        navigateSetting = navigateSetting,
         exitApp = exitApp,
     )
 }
@@ -93,6 +95,7 @@ private fun TasksContent(
     navigateCompletedTasks: () -> Unit,
     navigateSearchTask: () -> Unit,
     navigateManageCategories: () -> Unit,
+    navigateSetting: () -> Unit,
     exitApp: () -> Unit,
 ) {
     when (uiState) {
@@ -138,6 +141,7 @@ private fun TasksContent(
                 onCompletedTasksClick = navigateCompletedTasks,
                 onSearchClick = navigateSearchTask,
                 onManageCategoriesClick = navigateManageCategories,
+                onSettingClick = navigateSetting,
             )
     }
 }

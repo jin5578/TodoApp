@@ -13,6 +13,7 @@ fun NavGraphBuilder.tasksNavGraph(
     navigateCompletedTasks: () -> Unit,
     navigateSearchTask: () -> Unit,
     navigateManageCategories: () -> Unit,
+    navigateSetting: () -> Unit,
 ) = composable<Route.Tasks> {
     TasksRoute(
         exitApp = exitApp,
@@ -20,6 +21,7 @@ fun NavGraphBuilder.tasksNavGraph(
         navigateCompletedTasks = navigateCompletedTasks,
         navigateSearchTask = navigateSearchTask,
         navigateManageCategories = navigateManageCategories,
+        navigateSetting = navigateSetting
     )
 }
 

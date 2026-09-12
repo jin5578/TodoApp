@@ -95,7 +95,9 @@
     <string name="no_category">No category</string>
     <string name="create_new">Create new</string>
     <string name="entire">Entire</string>
-    <string name="completed_tasks">Completed tasks</string>
+    <string name="completed_tasks">Completed Tasks</string>
+    <string name="pending_tasks">Pending Tasks</string>
+    <string name="pending_tasks_description">All tasks undone to be processed.</string>
     <string name="incomplete_tasks">InComplete tasks</string>
     <string name="marked_with_a_symbol">Marked with a symbol</string>
     <string name="delete">Delete</string>

@@ -38,6 +38,7 @@ internal fun MainNavHost(
                 navigateCompletedTasks = navigator::navigateCompletedTasks,
                 navigateSearchTask = navigator::navigateSearchTask,
                 navigateManageCategories = navigator::navigateManageCategories,
+                navigateSetting = navigator::navigateSetting
             )
             calendarNavGraph(
                 navigateEditTask = navigator::navigateEditTask,

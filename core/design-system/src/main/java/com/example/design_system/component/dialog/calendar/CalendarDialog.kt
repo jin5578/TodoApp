@@ -351,7 +351,6 @@ private fun DateOptionItem(
                 color =
                     if (isClicked) MaterialTheme.colorScheme.secondaryContainer
                     else MaterialTheme.colorScheme.surfaceContainer,
-                shape = RoundedCornerShape(size = 8.dp)
             ).clickable {
                 onClick(dateOption.date)
             }.padding(
