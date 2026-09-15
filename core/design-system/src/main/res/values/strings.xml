@@ -157,4 +157,9 @@
     <string name="profile">Profile</string>
     <string name="heatmap">Heatmap</string>
     <string name="heatmap_description">See how many tasks you\'ve completed each day</string>
+    <string name="in_7_days">In 7 days</string>
+    <string name="in_30_days">In 30 days</string>
+    <string name="no_completed_category_tasks">No completed tasks</string>
+    <string name="no_pending_category_tasks">No pending tasks</string>
+    <string name="daily_completed">Daily Completed</string>
 </resources>

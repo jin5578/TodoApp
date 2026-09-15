@@ -9,8 +9,11 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.Loading
 import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.utils.toErrorMessage
+import com.example.profile.model.ProfileTaskDuration
+import com.example.profile.model.ProfileTaskState
 import com.example.profile.model.ProfileUiState
 import kotlinx.coroutines.flow.collectLatest
+import java.time.LocalDate
 
 @Composable
 internal fun ProfileRoute(
@@ -29,12 +32,20 @@ internal fun ProfileRoute(
         }
     }
 
-    ProfileContent(uiState = uiState)
+    ProfileContent(
+        uiState = uiState,
+        onTaskStateChanged = viewModel::onTaskStateChanged,
+        onTaskDurationChanged = viewModel::onTaskDurationChanged,
+        onDailyDateRangeChanged = viewModel::onDailyDateRangeChanged
+    )
 }
 
 @Composable
 private fun ProfileContent(
     uiState: ProfileUiState,
+    onTaskStateChanged: (ProfileTaskState) -> Unit,
+    onTaskDurationChanged: (ProfileTaskDuration) -> Unit,
+    onDailyDateRangeChanged: (fromDate: LocalDate, toDate: LocalDate) -> Unit,
 ) {
     when (uiState) {
         is ProfileUiState.Loading ->
@@ -45,7 +56,16 @@ private fun ProfileContent(
                 completedTasksCount = uiState.completedTasksCount,
                 incompletedTasksCount = uiState.incompletedTasksCount,
                 heatmapEntries = uiState.heatmapEntries,
+                categoryEntries = uiState.categoryEntries,
+                categoryTaskState = uiState.categoryTaskState,
+                categoryTaskDuration = uiState.categoryTaskDuration,
+                dailyEntries = uiState.dailyEntries,
+                dailyFromDate = uiState.dailyFromDate,
+                dailyToDate = uiState.dailyToDate,
                 locale = uiState.locale,
+                onTaskStateChanged = onTaskStateChanged,
+                onTaskDurationChanged = onTaskDurationChanged,
+                onDailyDateRangeChanged = onDailyDateRangeChanged
             )
     }
 }

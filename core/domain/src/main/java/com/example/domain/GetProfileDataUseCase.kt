@@ -1,5 +1,6 @@
 package com.example.domain
 
+import com.example.data_api.repository.CategoryRepository
 import com.example.data_api.repository.SystemRepository
 import com.example.data_api.repository.TaskRepository
 import com.example.model.profile.Profile
@@ -10,18 +11,18 @@ import javax.inject.Inject
 
 class GetProfileDataUseCase @Inject constructor(
     private val taskRepository: TaskRepository,
+    private val categoryRepository: CategoryRepository,
     private val systemRepository: SystemRepository
 ) {
-    operator fun invoke(fromDate: LocalDate, toDate: LocalDate): Flow<Profile> =
+    operator fun invoke(): Flow<Profile> =
         combine(
-            flow = taskRepository.getTasksByDateRange(
-                fromDate = fromDate,
-                toDate = toDate,
-            ),
-            flow2 = systemRepository.getProfileSystem()
-        ) { tasks, profileSystem ->
+            flow = taskRepository.getTasks(),
+            flow2 = categoryRepository.getAllCategory(),
+            flow3 = systemRepository.getProfileSystem()
+        ) { tasks, categories, profileSystem ->
             Profile(
                 tasks = tasks,
+                categories = categories,
                 profileSystem = profileSystem
             )
         }

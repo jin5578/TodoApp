@@ -25,7 +25,6 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.design_system.R
 import com.example.design_system.theme.TodoTheme
@@ -33,10 +32,9 @@ import kotlinx.coroutines.launch
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun CustomTooltipBox(
+internal fun CustomTooltipBox(
     modifier: Modifier = Modifier,
     descriptionResId: Int,
-    iconSize: Dp,
     content: @Composable RowScope.() -> Unit = {},
 ) {
     val coroutineScope = rememberCoroutineScope()
@@ -69,7 +67,7 @@ fun CustomTooltipBox(
             content()
 
             Icon(
-                modifier = Modifier.size(size = iconSize)
+                modifier = Modifier.size(size = 12.dp)
                     .clip(shape = CircleShape)
                     .clickable { coroutineScope.launch { tooltipState.show() } },
                 imageVector = ImageVector.vectorResource(id = R.drawable.svg_information),
@@ -86,7 +84,6 @@ private fun CustomTooltipBoxPreview() {
     TodoTheme {
         CustomTooltipBox(
             descriptionResId = R.string.pending_tasks_description,
-            iconSize = 12.dp
         ) {
             Text(
                 text = "Label",

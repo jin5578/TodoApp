@@ -5,6 +5,7 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.IntrinsicSize
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -49,7 +50,6 @@ internal fun LazyListScope.taskDateGroup(
         val dateContent = taskDateGroup.taskDate.format(dateFormat)
         TaskDateGroupHeader(
             index = index,
-            groupSize = groupSize,
             title = dateContent
         )
     }
@@ -57,7 +57,7 @@ internal fun LazyListScope.taskDateGroup(
     itemsIndexed(
         items = taskDateGroup.tasks,
         key = { _, task -> task.id }
-    ) { index, task ->
+    ) { itemIndex, task ->
         Row(
             modifier = Modifier.fillMaxWidth()
                 .height(IntrinsicSize.Max)
@@ -66,7 +66,7 @@ internal fun LazyListScope.taskDateGroup(
             TimelineLineIndicator()
 
             val bottomPadding =
-                if (index != taskDateGroup.tasks.size - 1) 8.dp
+                if (itemIndex != taskDateGroup.tasks.size - 1) 8.dp
                 else 0.dp
             TaskCard(
                 modifier = Modifier.fillMaxWidth()
@@ -80,6 +80,12 @@ internal fun LazyListScope.taskDateGroup(
                 onSubTaskToggleClick = onSubTaskToggleClick
             )
         }
+
+        if (index == groupSize - 1 && itemIndex == taskDateGroup.tasks.size - 1) {
+            Spacer(
+                modifier = Modifier.height(height = 8.dp)
+            )
+        }
     }
 }
 
@@ -87,11 +93,10 @@ internal fun LazyListScope.taskDateGroup(
 private fun TaskDateGroupHeader(
     modifier: Modifier = Modifier,
     index: Int,
-    groupSize: Int,
     title: String,
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth()
             .height(IntrinsicSize.Max)
             .background(color = MaterialTheme.colorScheme.background)
             .padding(horizontal = 16.dp),

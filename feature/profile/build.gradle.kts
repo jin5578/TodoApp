@@ -43,6 +43,8 @@ dependencies {
 
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
+    implementation(libs.vico.compose.m3)
+
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)

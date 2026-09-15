@@ -157,4 +157,9 @@
     <string name="profile">프로필</string>
     <string name="heatmap">히트맵</string>
     <string name="heatmap_description">매일 완료한 작업 수를 확인하세요.</string>
+    <string name="in_7_days">7일 이내</string>
+    <string name="in_30_days">30일 이내</string>
+    <string name="no_completed_category_tasks">완료된 작업 없음</string>
+    <string name="no_pending_category_tasks">대기중인 작업 없음</string>
+    <string name="daily_completed">일별 완료</string>
 </resources>

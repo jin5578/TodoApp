@@ -4,6 +4,7 @@ import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
 import com.example.design_system.model.HeatmapEntry
 import kotlinx.collections.immutable.ImmutableList
+import java.time.LocalDate
 import java.util.Locale
 
 @Stable
@@ -16,6 +17,12 @@ sealed interface ProfileUiState {
         val completedTasksCount: Int,
         val incompletedTasksCount: Int,
         val heatmapEntries: ImmutableList<HeatmapEntry>,
+        val categoryEntries: ImmutableList<ProfileCategoryEntry>,
+        val categoryTaskState: ProfileTaskState,
+        val categoryTaskDuration: ProfileTaskDuration,
+        val dailyEntries: ImmutableList<Float>,
+        val dailyFromDate: LocalDate,
+        val dailyToDate: LocalDate,
         val locale: Locale,
     ) : ProfileUiState
 }
