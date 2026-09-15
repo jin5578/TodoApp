@@ -29,7 +29,6 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -79,8 +78,10 @@ internal fun CalendarScreen(
     categories: ImmutableList<Category>,
     locale: Locale,
     timePickerType: TimePickerType,
-    onFetchCalendarTasks: (categoryId: Long, date: LocalDate) -> Unit,
-    onFetchTasks: (LocalDate) -> Unit,
+    selectedDate: LocalDate,
+    selectedCategoryId: Long,
+    onCategorySelected: (categoryId: Long) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
     onAddTaskClick: (Task) -> Unit,
     onAddCategoryClick: (categoryTitle: String, categoryColorType: CategoryColorType) -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
@@ -105,9 +106,6 @@ internal fun CalendarScreen(
         firstVisibleMonth = currentMonth,
         firstDayOfWeek = firstDayOfWeek
     )
-
-    var selectedCategoryId by remember { mutableLongStateOf(value = -1L) }
-    var selectedTaskDate by remember { mutableStateOf(value = LocalDate.now()) }
 
     Scaffold(
         topBar = {
@@ -136,15 +134,12 @@ internal fun CalendarScreen(
                 },
                 onTodayClick = {
                     coroutineScope.launch {
-                        val today = LocalDate.now()
-                        selectedTaskDate = today
-                        onFetchTasks(today)
+                        onDateSelected(LocalDate.now())
                         calendarState.animateScrollToMonth(month = YearMonth.now())
                     }
                 },
                 onCategoryClick = { id ->
-                    selectedCategoryId = id
-                    onFetchCalendarTasks(selectedCategoryId, selectedTaskDate)
+                    onCategorySelected(id)
                 },
                 onCreateNewCategoryClick = {
                     isShowAddCategoryDialog = true
@@ -216,12 +211,9 @@ internal fun CalendarScreen(
                 dayContent = { day ->
                     MonthDay(
                         day = day,
-                        isSelected = selectedTaskDate == day.date,
+                        isSelected = selectedDate == day.date,
                         isVisibleIndicator = calendarTasks.any { it.date == day.date },
-                        onClick = { date ->
-                            selectedTaskDate = date
-                            onFetchTasks(date)
-                        },
+                        onClick = { date -> onDateSelected(date) },
                     )
                 }
             )
@@ -415,8 +407,10 @@ private fun CalendarScreenPreview() {
             categories = persistentListOf(),
             locale = Locale.KOREA,
             timePickerType = TimePickerType.CLOCK_TIME_PICKER,
-            onFetchCalendarTasks = { _, _ -> },
-            onFetchTasks = {},
+            selectedDate = LocalDate.now(),
+            selectedCategoryId = -1L,
+            onCategorySelected = {},
+            onDateSelected = {},
             onAddTaskClick = {},
             onAddCategoryClick = { _, _ -> },
             onTaskToggleCompletion = { _, _ -> },

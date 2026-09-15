@@ -35,8 +35,8 @@ internal fun CalendarRoute(
 
     CalendarContent(
         uiState = uiState,
-        onFetchCalendarTasks = viewModel::fetchCalendarUiState,
-        onFetchTasks = viewModel::fetchTasks,
+        onCategorySelected = viewModel::onCategorySelected,
+        onDateSelected = viewModel::onDateSelected,
         onAddTask = viewModel::insertTask,
         onAddCategory = { categoryTitle, categoryColorType ->
             viewModel.insertCategory(
@@ -54,8 +54,8 @@ internal fun CalendarRoute(
 @Composable
 private fun CalendarContent(
     uiState: CalendarUiState,
-    onFetchCalendarTasks: (categoryId: Long, date: LocalDate) -> Unit,
-    onFetchTasks: (LocalDate) -> Unit,
+    onCategorySelected: (Long) -> Unit,
+    onDateSelected: (LocalDate) -> Unit,
     onAddTask: (Task) -> Unit,
     onAddCategory: (categoryTitle: String, categoryColorType: CategoryColorType) -> Unit,
     onTaskToggleCompletion: (id: Long, isCompleted: Boolean) -> Unit,
@@ -71,8 +71,10 @@ private fun CalendarContent(
             categories = uiState.categories,
             locale = uiState.locale,
             timePickerType = uiState.timePickerType,
-            onFetchCalendarTasks = onFetchCalendarTasks,
-            onFetchTasks = onFetchTasks,
+            selectedDate = uiState.selectedDate,
+            selectedCategoryId = uiState.selectedCategoryId,
+            onCategorySelected = onCategorySelected,
+            onDateSelected = onDateSelected,
             onAddTaskClick = onAddTask,
             onAddCategoryClick = onAddCategory,
             onTaskToggleCompletion = onTaskToggleCompletion,

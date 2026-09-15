@@ -20,8 +20,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
+import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -42,62 +42,55 @@ class CalendarViewModel @Inject constructor(
         MutableStateFlow(value = CalendarUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    private val selectedCategoryId: MutableStateFlow<Long> =
+    private val _selectedCategoryId: MutableStateFlow<Long> =
         MutableStateFlow(value = -1L)
-
-    private var isCalendarUiStateObserved = false
-
-    init {
-        fetchCalendarUiState()
-    }
-
-    fun fetchCalendarUiState(
-        categoryId: Long = -1L,
-        date: LocalDate = LocalDate.now()
-    ) {
-        selectedCategoryId.value = categoryId
-        startObservingCalendarUiState(date)
-    }
-
-    fun fetchTasks(date: LocalDate) {
-        val state = _uiState.value
-        if (state !is CalendarUiState.Screen) return
-
-        _uiState.value = state.copy(
-            tasks = state.calendarTasks.filter { task -> task.date == date }
-                .toPersistentList()
-        )
-    }
+    private val _selectedDate: MutableStateFlow<LocalDate> =
+        MutableStateFlow(value = LocalDate.now())
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private fun startObservingCalendarUiState(date: LocalDate) {
-        if (isCalendarUiStateObserved) return
-        isCalendarUiStateObserved = true
+    private val calendarDataFlow = _selectedCategoryId.flatMapLatest { categoryId ->
+        getCalendarDataUseCase(categoryId = categoryId)
+    }
 
-        viewModelScope.launch {
-            selectedCategoryId.flatMapLatest { id ->
-                getCalendarDataUseCase(categoryId = id)
-            }.map { calendar ->
-                val calendarSystem = calendar.calendarSystem
-                val calendarTasks =
-                    calendar.tasks.map { task -> task.toUiModel() }
-                        .toPersistentList()
-                val tasks =
-                    calendarTasks.filter { task -> task.date == date }
-                        .toPersistentList()
-                CalendarUiState.Screen(
-                    calendarTasks = calendarTasks,
-                    tasks = tasks,
-                    categories = calendar.categories.toPersistentList(),
-                    sortByType = calendarSystem.sortByType,
-                    locale = calendarSystem.locale,
-                    timePickerType = calendarSystem.timePickerType
-                )
-            }.catch { throwable ->
-                _errorFlow.emit(value = throwable)
-            }.collect {
-                _uiState.value = it
-            }
+    init {
+        observeCalendarUiState()
+    }
+
+    fun onCategorySelected(categoryId: Long) {
+        _selectedCategoryId.value = categoryId
+    }
+
+    fun onDateSelected(date: LocalDate) {
+        _selectedDate.value = date
+    }
+
+    private fun observeCalendarUiState() = viewModelScope.launch {
+        combine(
+            flow = calendarDataFlow,
+            flow2 = _selectedCategoryId,
+            flow3 = _selectedDate,
+        ) { calendar, categoryId, date ->
+            val calendarSystem = calendar.calendarSystem
+            val calendarTasks =
+                calendar.tasks.map { task -> task.toUiModel() }
+                    .toPersistentList()
+            val tasks =
+                calendarTasks.filter { task -> task.date == date }
+                    .toPersistentList()
+            CalendarUiState.Screen(
+                calendarTasks = calendarTasks,
+                tasks = tasks,
+                categories = calendar.categories.toPersistentList(),
+                sortByType = calendarSystem.sortByType,
+                locale = calendarSystem.locale,
+                timePickerType = calendarSystem.timePickerType,
+                selectedDate = date,
+                selectedCategoryId = categoryId,
+            )
+        }.catch { throwable ->
+            _errorFlow.emit(value = throwable)
+        }.collect {
+            _uiState.value = it
         }
     }
 

@@ -8,6 +8,7 @@ import com.example.model.TaskUiModel
 import com.example.model.TimePickerType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
+import java.time.LocalDate
 import java.util.Locale
 
 @Stable
@@ -23,5 +24,7 @@ sealed interface CalendarUiState {
         val sortByType: SortByType,
         val locale: Locale,
         val timePickerType: TimePickerType,
+        val selectedDate: LocalDate,
+        val selectedCategoryId: Long,
     ) : CalendarUiState
 }
