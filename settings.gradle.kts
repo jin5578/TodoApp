@@ -40,6 +40,7 @@ include(
     ":feature:calendar",
     ":feature:completed-tasks",
     ":feature:edit-task",
+    ":feature:github-auth",
     ":feature:lock-setup",
     ":feature:main",
     ":feature:manage-categories",
