@@ -6,7 +6,9 @@ import com.example.database.datasource.DefaultSubTaskDatabaseDataSource
 import com.example.database.datasource.DefaultTaskDatabaseDataSource
 import com.example.database.datasource.SubTaskDatabaseDataSource
 import com.example.database.datasource.TaskDatabaseDataSource
+import com.example.datastore.datasource.DefaultGithubTokenDataSource
 import com.example.datastore.datasource.DefaultSystemPreferencesDataSource
+import com.example.datastore.datasource.GithubTokenDataSource
 import com.example.datastore.datasource.SystemPreferencesDataSource
 import dagger.Binds
 import dagger.Module
@@ -22,6 +24,12 @@ internal abstract class DataModule {
     abstract fun bindsSystemPreferencesDataSource(
         dataSource: DefaultSystemPreferencesDataSource
     ): SystemPreferencesDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsGithubTokenDataSource(
+        dataSource: DefaultGithubTokenDataSource,
+    ): GithubTokenDataSource
 
     @Binds
     @Singleton

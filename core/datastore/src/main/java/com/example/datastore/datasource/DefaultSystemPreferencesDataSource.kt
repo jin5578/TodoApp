@@ -15,27 +15,6 @@ import javax.inject.Named
 class DefaultSystemPreferencesDataSource @Inject constructor(
     @param:Named(value = "system") private val dataStore: DataStore<Preferences>
 ) : SystemPreferencesDataSource {
-    object PreferencesKey {
-        val SLEEP_TIME_KEY =
-            stringPreferencesKey(name = "sleep_time_key")
-        val SORT_BY_KEY =
-            stringPreferencesKey(name = "sort_by_key")
-        val LANGUAGE_TYPE_KEY =
-            stringPreferencesKey(name = "language_type_key")
-        val THEME_KEY =
-            stringPreferencesKey(name = "theme_key")
-        val TIME_PICKER_KEY =
-            stringPreferencesKey(name = "time_picker_key")
-        val LOCALE_KEY =
-            stringPreferencesKey(name = "locale_key")
-        val BUILD_VERSION_KEY =
-            stringPreferencesKey(name = "build_version_key")
-        val PASSWORD_KEY =
-            stringPreferencesKey(name = "password_key")
-        val BIOMETRIC_ENABLED_KEY =
-            booleanPreferencesKey(name = "biometric_enabled_key")
-    }
-
     override val systemData: Flow<SystemData> =
         dataStore.data.map { preferences ->
             SystemData(
@@ -123,6 +102,27 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
             preferences[PreferencesKey.BIOMETRIC_ENABLED_KEY] =
                 DEFAULT_BIOMETRIC_ENABLED
         }
+    }
+
+    private object PreferencesKey {
+        val SLEEP_TIME_KEY =
+            stringPreferencesKey(name = "sleep_time_key")
+        val SORT_BY_KEY =
+            stringPreferencesKey(name = "sort_by_key")
+        val LANGUAGE_TYPE_KEY =
+            stringPreferencesKey(name = "language_type_key")
+        val THEME_KEY =
+            stringPreferencesKey(name = "theme_key")
+        val TIME_PICKER_KEY =
+            stringPreferencesKey(name = "time_picker_key")
+        val LOCALE_KEY =
+            stringPreferencesKey(name = "locale_key")
+        val BUILD_VERSION_KEY =
+            stringPreferencesKey(name = "build_version_key")
+        val PASSWORD_KEY =
+            stringPreferencesKey(name = "password_key")
+        val BIOMETRIC_ENABLED_KEY =
+            booleanPreferencesKey(name = "biometric_enabled_key")
     }
 
     companion object {

@@ -15,6 +15,7 @@ import com.example.data_api.repository.TaskRepository
 import com.example.database.datasource.CategoryDatabaseDataSource
 import com.example.database.datasource.SubTaskDatabaseDataSource
 import com.example.database.datasource.TaskDatabaseDataSource
+import com.example.datastore.datasource.GithubTokenDataSource
 import com.example.datastore.datasource.SystemPreferencesDataSource
 import dagger.Module
 import dagger.Provides
@@ -58,9 +59,11 @@ internal object RepositoryModule {
     fun providesGithubRepository(
         deviceCodeApi: GithubDeviceCodeApi,
         graphQlApi: GithubGraphQlApi,
+        tokenDataSource: GithubTokenDataSource
     ): GithubRepository =
         DefaultGithubRepository(
             deviceCodeApi = deviceCodeApi,
             graphQlApi = graphQlApi,
+            tokenDataSource = tokenDataSource
         )
 }

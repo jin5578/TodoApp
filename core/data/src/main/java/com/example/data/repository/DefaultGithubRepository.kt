@@ -3,20 +3,19 @@ package com.example.data.repository
 import com.example.data.remote.github.GithubDeviceCodeApi
 import com.example.data.remote.github.GithubGraphQlApi
 import com.example.data_api.repository.GithubRepository
+import com.example.datastore.datasource.GithubTokenDataSource
 import com.example.model.github.GithubContributionDay
 import com.example.model.github.GithubDeviceCode
 import com.example.model.github.GithubPollResult
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 
 internal class DefaultGithubRepository(
     private val deviceCodeApi: GithubDeviceCodeApi,
     private val graphQlApi: GithubGraphQlApi,
+    private val tokenDataSource: GithubTokenDataSource
 ) : GithubRepository {
-    override fun getGithubUsername(): Flow<String?> {
-        //TODO: DataStore 저장
-        return flowOf(null)
-    }
+    override fun getGithubUsername(): Flow<String?> =
+        tokenDataSource.githubUsername
 
     override suspend fun requestDeviceCode(): GithubDeviceCode =
         deviceCodeApi.requestDeviceCode()
@@ -26,16 +25,22 @@ internal class DefaultGithubRepository(
             deviceCode = deviceCode
         )
         if (result is GithubPollResult.Success) {
-            //TODO: DataStore 저장
+            tokenDataSource.saveToken(
+                accessToken = result.accessToken,
+                username = result.username
+            )
         }
         return result
     }
 
     override suspend fun getContributionDays(): List<GithubContributionDay> {
-        TODO("Not yet implemented")
+        val accessToken = tokenDataSource.getAccessToken() ?: return emptyList()
+        val (_, days) = graphQlApi.fetchContributionCalendar(
+            accessToken = accessToken
+        )
+        return days
     }
 
-    override suspend fun disconnect() {
-        //TODO: DataStore 삭제
-    }
+    override suspend fun disconnect() =
+        tokenDataSource.clear()
 }
