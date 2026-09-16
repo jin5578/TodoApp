@@ -29,15 +29,21 @@ internal data class GithubUserResponse(
 
 @OptIn(InternalSerializationApi::class)
 @Serializable
-internal data class GraphQlRequestBody(val query: String)
+internal data class GraphQlRequestBody(
+    val query: String
+)
 
 @OptIn(InternalSerializationApi::class)
 @Serializable
-internal data class GraphQlResponse(val data: GraphQlData? = null)
+internal data class GraphQlResponse(
+    val data: GraphQlData? = null
+)
 
 @OptIn(InternalSerializationApi::class)
 @Serializable
-internal data class GraphQlData(val viewer: GraphQlViewer)
+internal data class GraphQlData(
+    val viewer: GraphQlViewer
+)
 
 @OptIn(InternalSerializationApi::class)
 @Serializable
@@ -54,11 +60,15 @@ internal data class GraphQlContributionsCollection(
 
 @OptIn(InternalSerializationApi::class)
 @Serializable
-internal data class GraphQlContributionCalendar(val weeks: List<GraphQlWeek>)
+internal data class GraphQlContributionCalendar(
+    val weeks: List<GraphQlWeek>
+)
 
 @OptIn(InternalSerializationApi::class)
 @Serializable
-internal data class GraphQlWeek(val contributionDays: List<GraphQlContributionDay>)
+internal data class GraphQlWeek(
+    val contributionDays: List<GraphQlContributionDay>
+)
 
 @OptIn(InternalSerializationApi::class)
 @Serializable
