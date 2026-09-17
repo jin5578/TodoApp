@@ -39,4 +39,7 @@ sealed interface Route {
 
     @Serializable
     data object SearchTask
+
+    @Serializable
+    data object GithubAuth
 }

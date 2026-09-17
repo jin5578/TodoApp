@@ -7,15 +7,15 @@ import com.example.navigation.Route
 import com.example.setting.SettingRoute
 
 fun NavGraphBuilder.settingNavGraph(
-    navigateInfo: () -> Unit,
     navigateManageCategories: () -> Unit,
     navigateSecurity: () -> Unit,
+    navigateGithubAuth: () -> Unit,
     popBackStack: () -> Unit,
 ) = composable<Route.Setting> {
     SettingRoute(
-        navigateInfo = navigateInfo,
         navigateManageCategories = navigateManageCategories,
         navigateSecurity = navigateSecurity,
+        navigateGithubAuth = navigateGithubAuth,
         popBackStack = popBackStack,
     )
 }

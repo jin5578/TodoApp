@@ -40,6 +40,7 @@ dependencies {
     implementation(project(":feature:calendar"))
     implementation(project(":feature:completed-tasks"))
     implementation(project(":feature:edit-task"))
+    implementation(project(":feature:github-auth"))
     implementation(project(":feature:lock-setup"))
     implementation(project(":feature:manage-categories"))
     implementation(project(":feature:memo"))

@@ -15,6 +15,7 @@ import androidx.navigation.navOptions
 import com.example.calendar.navigation.navigateCalendar
 import com.example.completed_tasks.navigation.navigateCompletedTasks
 import com.example.edit_task.navigation.navigateEditTask
+import com.example.github_auth.navigation.navigateGithubAuth
 import com.example.lock_setup.navigation.navigateLockSetup
 import com.example.main.model.MainTab
 import com.example.manage_categories.navigation.navigateManageCategories
@@ -94,6 +95,9 @@ internal class MainNavigator(
 
     fun navigateSearchTask() =
         navController.navigateSearchTask()
+
+    fun navigateGithubAuth() =
+        navController.navigateGithubAuth()
 
     private fun popBackStack() =
         navController.popBackStack()

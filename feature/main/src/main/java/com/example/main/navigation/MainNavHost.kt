@@ -10,6 +10,7 @@ import androidx.navigation.compose.NavHost
 import com.example.calendar.navigation.calendarNavGraph
 import com.example.completed_tasks.navigation.completedTasksNavGraph
 import com.example.edit_task.navigation.editTaskNavGraph
+import com.example.github_auth.navigation.githubAuthNavGraph
 import com.example.lock_setup.navigation.lockSetupNavGraph
 import com.example.manage_categories.navigation.manageCategoriesNavGraph
 import com.example.memo.navigation.memoNavGraph
@@ -45,9 +46,9 @@ internal fun MainNavHost(
             )
             profileNavGraph()
             settingNavGraph(
-                navigateInfo = {},
                 navigateManageCategories = navigator::navigateManageCategories,
                 navigateSecurity = navigator::navigateSecurity,
+                navigateGithubAuth = navigator::navigateGithubAuth,
                 popBackStack = navigator::popBackStackIfNotTasks,
             )
             manageCategoriesNavGraph(
@@ -74,6 +75,9 @@ internal fun MainNavHost(
             )
             searchTaskNavGraph(
                 navigateEditTask = navigator::navigateEditTask,
+                popBackStack = navigator::popBackStackIfNotTasks
+            )
+            githubAuthNavGraph(
                 popBackStack = navigator::popBackStackIfNotTasks
             )
         }

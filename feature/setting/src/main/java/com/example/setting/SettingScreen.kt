@@ -57,13 +57,14 @@ internal fun SettingScreen(
     timePickerType: TimePickerType,
     buildVersion: String,
     hasExistingPassword: Boolean,
-    navigateManageCategories: () -> Unit,
-    navigateSecurity: () -> Unit,
-    popBackStack: () -> Unit,
     openUrl: (String) -> Unit,
     onLanguageTypeChanged: (LanguageType) -> Unit,
     onThemeTypeChanged: (ThemeType) -> Unit,
-    onTimePickerTypeChanged: (TimePickerType) -> Unit
+    onTimePickerTypeChanged: (TimePickerType) -> Unit,
+    navigateManageCategories: () -> Unit,
+    navigateSecurity: () -> Unit,
+    navigateGithubAuth: () -> Unit,
+    popBackStack: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -112,6 +113,11 @@ internal fun SettingScreen(
                 if (hasExistingPassword) DesignSystemR.drawable.svg_lock
                 else DesignSystemR.drawable.svg_unlock,
             onClick = navigateSecurity
+        ),
+        CategoryItemUiState(
+            titleResId = DesignSystemR.string.github_connect,
+            iconResId = DesignSystemR.drawable.svg_github,
+            onClick = navigateGithubAuth
         ),
     )
 
@@ -210,13 +216,14 @@ private fun SettingScreenPreview() {
             timePickerType = TimePickerType.SCROLL_TIME_PICKER,
             buildVersion = "1.0.0",
             hasExistingPassword = true,
-            navigateManageCategories = {},
-            navigateSecurity = {},
-            popBackStack = {},
             openUrl = {},
             onLanguageTypeChanged = {},
             onThemeTypeChanged = {},
-            onTimePickerTypeChanged = {}
+            onTimePickerTypeChanged = {},
+            navigateManageCategories = {},
+            navigateSecurity = {},
+            navigateGithubAuth = {},
+            popBackStack = {},
         )
     }
 }

@@ -162,4 +162,18 @@
     <string name="no_completed_category_tasks">완료된 작업 없음</string>
     <string name="no_pending_category_tasks">대기중인 작업 없음</string>
     <string name="daily_completed">일별 완료</string>
+    <string name="github_connect">GitHub 연동</string>
+    <string name="github_heatmap">GitHub 잔디</string>
+    <string name="github_heatmap_description">GitHub 커밋 활동을 확인하세요</string>
+    <string name="github_auth_title">GitHub 연동</string>
+    <string name="github_auth_code_description">아래 코드를 GitHub에 입력해주세요</string>
+    <string name="github_auth_open_button">GitHub 열기</string>
+    <string name="github_auth_waiting">인증 대기 중…</string>
+    <string name="github_auth_expired">코드가 만료되었습니다. 다시 시도해주세요.</string>
+    <string name="github_auth_denied">인증이 거부되었습니다.</string>
+    <string name="github_auth_unknown_error">문제가 발생했습니다. 다시 시도해주세요.</string>
+    <string name="github_auth_retry">다시 시도</string>
+    <string name="github_auth_success">GitHub 계정이 연결되었습니다.</string>
+    <string name="github_auth_connected_as">%1$s(으)로 연결됨</string>
+    <string name="github_auth_disconnect">연결 해제</string>
 </resources>

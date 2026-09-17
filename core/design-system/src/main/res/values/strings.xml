@@ -162,4 +162,18 @@
     <string name="no_completed_category_tasks">No completed tasks</string>
     <string name="no_pending_category_tasks">No pending tasks</string>
     <string name="daily_completed">Daily Completed</string>
+    <string name="github_connect">Connect GitHub</string>
+    <string name="github_heatmap">GitHub Contributions</string>
+    <string name="github_heatmap_description">See your GitHub contribution activity</string>
+    <string name="github_auth_title">Connect GitHub</string>
+    <string name="github_auth_code_description">Enter this code on GitHub</string>
+    <string name="github_auth_open_button">Open GitHub</string>
+    <string name="github_auth_waiting">Waiting for authorization…</string>
+    <string name="github_auth_expired">The code has expired. Please try again.</string>
+    <string name="github_auth_denied">Authorization was denied.</string>
+    <string name="github_auth_unknown_error">Something went wrong. Please try again.</string>
+    <string name="github_auth_retry">Retry</string>
+    <string name="github_auth_success">Your GitHub account is connected.</string>
+    <string name="github_auth_connected_as">Connected as %1$s</string>
+    <string name="github_auth_disconnect">Disconnect</string>
 </resources>
