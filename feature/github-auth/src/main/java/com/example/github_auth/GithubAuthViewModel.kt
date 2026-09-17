@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
+import timber.log.Timber
 import java.io.IOException
 import javax.inject.Inject
 
@@ -125,7 +126,8 @@ class GithubAuthViewModel @Inject constructor(
 
                 if (!isAppInForeground) continue
 
-                val sinceLastPollMillis = System.currentTimeMillis() - lastPolledAtMillis
+                val sinceLastPollMillis =
+                    System.currentTimeMillis() - lastPolledAtMillis
                 if (sinceLastPollMillis < MIN_POLL_INTERVAL_MILLIS) continue
                 lastPolledAtMillis = System.currentTimeMillis()
 

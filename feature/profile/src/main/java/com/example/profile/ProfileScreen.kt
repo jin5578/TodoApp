@@ -27,6 +27,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import java.time.LocalDate
 import java.util.Locale
+import com.example.design_system.R as DesignSystemR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -35,6 +36,7 @@ internal fun ProfileScreen(
     completedTasksCount: Int,
     incompletedTasksCount: Int,
     heatmapEntries: ImmutableList<HeatmapEntry>,
+    githubHeatmapEntries: ImmutableList<HeatmapEntry>,
     categoryEntries: ImmutableList<ProfileCategoryEntry>,
     categoryTaskState: ProfileTaskState,
     categoryTaskDuration: ProfileTaskDuration,
@@ -63,8 +65,19 @@ internal fun ProfileScreen(
 
             ProfileHeatmapSummary(
                 heatmapEntries = heatmapEntries,
-                locale = locale
+                locale = locale,
+                titleResId = DesignSystemR.string.heatmap,
+                descriptionResId = DesignSystemR.string.heatmap_description,
             )
+
+            if (githubHeatmapEntries.isNotEmpty()) {
+                ProfileHeatmapSummary(
+                    heatmapEntries = githubHeatmapEntries,
+                    locale = locale,
+                    titleResId = DesignSystemR.string.github_heatmap,
+                    descriptionResId = DesignSystemR.string.github_heatmap_description
+                )
+            }
 
             ProfileCategorySummary(
                 categoryEntries = categoryEntries,
@@ -128,6 +141,7 @@ private fun ProfileScreenPreview() {
             completedTasksCount = 3,
             incompletedTasksCount = 1,
             heatmapEntries = heatmapEntries,
+            githubHeatmapEntries = persistentListOf(),
             categoryEntries = profileCategoryEntries,
             categoryTaskState = ProfileTaskState.COMPLETED,
             categoryTaskDuration = ProfileTaskDuration.ALL,

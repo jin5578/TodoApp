@@ -26,6 +26,8 @@ internal fun ProfileHeatmapSummary(
     modifier: Modifier = Modifier,
     heatmapEntries: ImmutableList<HeatmapEntry>,
     locale: Locale,
+    titleResId: Int,
+    descriptionResId: Int,
 ) {
     Column(
         modifier = modifier
@@ -37,10 +39,10 @@ internal fun ProfileHeatmapSummary(
         verticalArrangement = Arrangement.spacedBy(space = 16.dp)
     ) {
         CustomTooltipBox(
-            descriptionResId = DesignSystemR.string.heatmap_description,
+            descriptionResId = descriptionResId,
         ) {
             Text(
-                text = stringResource(id = DesignSystemR.string.heatmap),
+                text = stringResource(id = titleResId),
                 style = TodoTheme.typography.medium_16,
                 color = MaterialTheme.colorScheme.onBackground
             )
@@ -68,7 +70,9 @@ private fun ProfileHeatmapSummaryPreview() {
 
         ProfileHeatmapSummary(
             heatmapEntries = heatmapEntries,
-            locale = Locale.KOREA
+            locale = Locale.KOREA,
+            titleResId = DesignSystemR.string.heatmap,
+            descriptionResId = DesignSystemR.string.heatmap_description
         )
     }
 }

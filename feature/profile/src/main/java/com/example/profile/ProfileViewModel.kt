@@ -4,22 +4,30 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.design_system.model.HeatmapEntry
+import com.example.domain.GetGithubContributionsUseCase
+import com.example.domain.GetGithubUsernameUseCase
 import com.example.domain.GetProfileDataUseCase
 import com.example.model.Category
 import com.example.model.Task
+import com.example.model.github.GithubContributionDay
 import com.example.profile.model.ProfileCategoryEntry
 import com.example.profile.model.ProfileTaskDuration
 import com.example.profile.model.ProfileTaskState
 import com.example.profile.model.ProfileUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.flatMapLatest
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import javax.inject.Inject
@@ -29,7 +37,9 @@ private const val HEATMAP_MAX_LEVEL = 4
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val getProfileDataUseCase: GetProfileDataUseCase
+    private val getProfileDataUseCase: GetProfileDataUseCase,
+    private val getGithubUsernameUseCase: GetGithubUsernameUseCase,
+    private val getGithubContributionsUseCase: GetGithubContributionsUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -49,9 +59,12 @@ class ProfileViewModel @Inject constructor(
                 LocalDate.now()
             )
         )
+    private val _githubHeatmapEntries: MutableStateFlow<ImmutableList<HeatmapEntry>> =
+        MutableStateFlow(value = persistentListOf())
 
     init {
         fetchProfileUiState()
+        fetchGithubHeatmapEntries()
     }
 
     fun onTaskStateChanged(state: ProfileTaskState) {
@@ -74,7 +87,8 @@ class ProfileViewModel @Inject constructor(
             flow2 = _categoryTaskState,
             flow3 = _categoryTaskDuration,
             flow4 = _dailyDateRange,
-        ) { profile, categoryTaskState, categoryTaskDuration, dailyDateRange ->
+            flow5 = _githubHeatmapEntries
+        ) { profile, categoryTaskState, categoryTaskDuration, dailyDateRange, githubHeatmapEntries ->
             val profileSystem = profile.profileSystem
             val totalTasksCount = profile.tasks.count()
             val completedTasksCount = profile.tasks.count { it.isCompleted }
@@ -86,6 +100,7 @@ class ProfileViewModel @Inject constructor(
                     fromDate = today.minusWeeks(HEATMAP_WEEK_COUNT),
                     toDate = today
                 ),
+                githubHeatmapEntries = githubHeatmapEntries,
                 categoryEntries = profile.tasks.toCategoryEntries(
                     today = today,
                     isCompleted = categoryTaskState.isCompleted,
@@ -109,6 +124,22 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun fetchGithubHeatmapEntries() = viewModelScope.launch {
+        getGithubUsernameUseCase()
+            .flatMapLatest { username ->
+                if (username == null) {
+                    flowOf(persistentListOf())
+                } else {
+                    flow { emit(getGithubContributionsUseCase().toGithubHeatmapEntries()) }
+                        .catch { emit(persistentListOf()) }
+                }
+            }
+            .collect { entries ->
+                _githubHeatmapEntries.value = entries
+            }
+    }
+
     private fun List<Task>.toHeatmapEntries(
         fromDate: LocalDate,
         toDate: LocalDate
@@ -124,6 +155,22 @@ class ProfileViewModel @Inject constructor(
                     level = count.coerceAtMost(maximumValue = HEATMAP_MAX_LEVEL)
                 )
             }.toPersistentList()
+
+    private fun List<GithubContributionDay>.toGithubHeatmapEntries(): ImmutableList<HeatmapEntry> =
+        this.map { day ->
+            HeatmapEntry(
+                date = day.date,
+                level = day.contributionCount.toHeatmapLevel()
+            )
+        }.toPersistentList()
+
+    private fun Int.toHeatmapLevel(): Int = when {
+        this <= 0 -> 0
+        this <= 2 -> 1
+        this <= 4 -> 2
+        this <= 6 -> 3
+        else -> 4
+    }
 
     private fun List<Task>.toCategoryEntries(
         today: LocalDate,

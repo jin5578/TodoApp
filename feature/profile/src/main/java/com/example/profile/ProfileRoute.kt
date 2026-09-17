@@ -56,6 +56,7 @@ private fun ProfileContent(
                 completedTasksCount = uiState.completedTasksCount,
                 incompletedTasksCount = uiState.incompletedTasksCount,
                 heatmapEntries = uiState.heatmapEntries,
+                githubHeatmapEntries = uiState.githubHeatmapEntries,
                 categoryEntries = uiState.categoryEntries,
                 categoryTaskState = uiState.categoryTaskState,
                 categoryTaskDuration = uiState.categoryTaskDuration,

@@ -17,6 +17,7 @@ sealed interface ProfileUiState {
         val completedTasksCount: Int,
         val incompletedTasksCount: Int,
         val heatmapEntries: ImmutableList<HeatmapEntry>,
+        val githubHeatmapEntries: ImmutableList<HeatmapEntry>,
         val categoryEntries: ImmutableList<ProfileCategoryEntry>,
         val categoryTaskState: ProfileTaskState,
         val categoryTaskDuration: ProfileTaskDuration,
