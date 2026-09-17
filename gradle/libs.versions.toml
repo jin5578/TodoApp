@@ -3,6 +3,7 @@ hilt = "2.60.1"
 ksp = "2.3.9"
 kotlin = "2.4.0"
 androidxAppCompat = "1.7.1"
+androidxActivityCompose = "1.11.0"
 androidxCoreSplash = "1.2.0"
 hiltNavigationCompose = "1.4.0"
 androidxComposeNavigation = "2.9.8"
@@ -31,9 +32,11 @@ vico = "3.3.1"
 okhttp = "5.5.0"
 retrofit = "3.0.0"
 retrofitKotlinxSerializationConverter = "1.0.0"
+playServicesLocation = "21.3.0"
 
 [libraries]
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "androidxAppCompat" }
+androidx-activity-compose = { group = "androidx.activity", name = "activity-compose", version.ref = "androidxActivityCompose" }
 
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "androidxCoreSplash" }
 
@@ -95,6 +98,8 @@ okhttp = { group = "com.squareup.okhttp3", name = "okhttp", version.ref = "okhtt
 
 retrofit = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
 retrofit-kotlinx-serialization-converter = { group = "com.jakewharton.retrofit", name = "retrofit2-kotlinx-serialization-converter", version.ref = "retrofitKotlinxSerializationConverter" }
+
+play-services-location = { group = "com.google.android.gms", name = "play-services-location", version.ref = "playServicesLocation" }
 
 [plugins]
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }

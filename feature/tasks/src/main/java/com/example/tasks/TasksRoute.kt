@@ -1,11 +1,17 @@
 package com.example.tasks
 
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.SideEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalResources
+import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.Loading
@@ -31,7 +37,27 @@ internal fun TasksRoute(
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val snackbarHostState = LocalSnackbarHostState.current
+    val context = LocalContext.current
     val contextResources = LocalResources.current
+
+    val requestLocationPermissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) viewModel.fetchWeather()
+    }
+
+    LaunchedEffect(key1 = Unit) {
+        val hasLocationPermission = ContextCompat.checkSelfPermission(
+            context,
+            Manifest.permission.ACCESS_COARSE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+
+        if (hasLocationPermission) {
+            viewModel.fetchWeather()
+        } else {
+            requestLocationPermissionLauncher.launch(Manifest.permission.ACCESS_COARSE_LOCATION)
+        }
+    }
 
     val hideBottomBar = LocalHideBottomBar.current
     SideEffect {

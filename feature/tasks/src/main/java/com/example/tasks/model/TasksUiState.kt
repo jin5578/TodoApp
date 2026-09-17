@@ -5,6 +5,7 @@ import androidx.compose.runtime.Stable
 import com.example.model.Category
 import com.example.model.SortByType
 import com.example.model.TimePickerType
+import com.example.model.open_weather.OpenWeather
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.Locale
@@ -30,5 +31,6 @@ sealed interface TasksUiState {
         val locale: Locale,
         val timePickerType: TimePickerType,
         val isVisibleCompletedTask: Boolean,
+        val weather: ImmutableList<OpenWeather> = persistentListOf(),
     ) : TasksUiState
 }

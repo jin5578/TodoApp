@@ -21,7 +21,7 @@ internal class OpenWeatherApi(
                 id = it.id,
                 main = it.main,
                 description = it.description,
-                icon = it.icon
+                icon = "https://openweathermap.org/payload/api/media/file/${it.icon}.png",
             )
         }
     }
