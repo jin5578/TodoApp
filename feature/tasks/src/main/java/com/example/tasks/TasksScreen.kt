@@ -9,9 +9,11 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.DropdownMenu
@@ -37,8 +39,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toColorLong
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
@@ -67,6 +71,8 @@ import kotlinx.collections.immutable.persistentSetOf
 import java.util.Locale
 import com.example.design_system.R as DesignSystemR
 
+private val TASKS_HEADER_HEIGHT = 200.dp
+
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TasksScreen(
@@ -92,6 +98,10 @@ internal fun TasksScreen(
     onSettingClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
+    val taskListState = rememberLazyListState()
+
+    val density = LocalDensity.current
+    val headerHeightPx = with(density) { TASKS_HEADER_HEIGHT.toPx() }
 
     var collapsedTaskStates by remember { mutableStateOf(value = persistentSetOf<String>()) }
 
@@ -184,10 +194,31 @@ internal fun TasksScreen(
             )
         else
             LazyColumn(
+                state = taskListState,
                 modifier = modifier.fillMaxSize()
                     .padding(paddingValues = paddingValues),
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
+                item {
+                    Box(
+                        modifier = Modifier
+                            .graphicsLayer {
+                                alpha =
+                                    if (taskListState.firstVisibleItemIndex == 0) {
+                                        1f - (taskListState.firstVisibleItemScrollOffset / headerHeightPx)
+                                            .coerceIn(
+                                                minimumValue = 0f,
+                                                maximumValue = 1f
+                                            )
+                                    } else {
+                                        0f
+                                    }
+                            }
+                            .background(color = Color.Red)
+                            .fillMaxWidth().height(height = TASKS_HEADER_HEIGHT)
+                    )
+                }
+
                 taskStateGroups.forEach { taskStateGroup ->
                     taskStateGroup(
                         taskStateGroup = taskStateGroup,
@@ -220,6 +251,43 @@ internal fun TasksScreen(
                     }
                 }
             }
+        /*LazyColumn(
+            modifier = modifier.fillMaxSize()
+                .padding(paddingValues = paddingValues),
+            horizontalAlignment = Alignment.CenterHorizontally,
+        ) {
+            taskStateGroups.forEach { taskStateGroup ->
+                taskStateGroup(
+                    taskStateGroup = taskStateGroup,
+                    locale = locale,
+                    collapsedTaskStates = collapsedTaskStates,
+                    onTaskToggleClick = onTaskToggleClick,
+                    onTaskEditClick = onTaskEditClick,
+                    onDeleteSymbolClick = onDeleteSymbolClick,
+                    onSymbolClick = onSymbolClick,
+                    onTaskStateGroupHeaderClick = { key ->
+                        collapsedTaskStates =
+                            collapsedTaskStates.toggled(element = key)
+                    },
+                    onSubTaskToggleClick = onSubTaskToggleClick
+                )
+            }
+
+            if (isVisibleCompletedTask) {
+                item {
+                    Text(
+                        modifier = Modifier
+                            .clickable { onCompletedTasksClick() }
+                            .padding(all = 16.dp),
+                        text = stringResource(id = DesignSystemR.string.check_all_completed_tasks),
+                        textAlign = TextAlign.Center,
+                        style = TodoTheme.typography.medium_12,
+                        textDecoration = TextDecoration.Underline,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+            }
+        }*/
     }
 }
 
