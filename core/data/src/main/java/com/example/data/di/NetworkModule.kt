@@ -5,6 +5,8 @@ import com.example.data.remote.github.GithubApiService
 import com.example.data.remote.github.GithubDeviceCodeApi
 import com.example.data.remote.github.GithubDeviceFlowService
 import com.example.data.remote.github.GithubGraphQlApi
+import com.example.data.remote.open_weather.OpenWeatherApi
+import com.example.data.remote.open_weather.OpenWeatherService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides
@@ -18,6 +20,8 @@ import javax.inject.Singleton
 
 private const val GITHUB_AUTH_BASE_URL = "https://github.com/"
 private const val GITHUB_API_BASE_URL = "https://api.github.com/"
+
+private const val OPEN_WEATHER_BASE_URL = "https://api.openweathermap.org/"
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -58,6 +62,19 @@ internal object NetworkModule {
 
     @Provides
     @Singleton
+    fun providesOpenWeatherService(
+        okHttpClient: OkHttpClient,
+        json: Json
+    ): OpenWeatherService =
+        Retrofit.Builder()
+            .baseUrl(OPEN_WEATHER_BASE_URL)
+            .client(okHttpClient)
+            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+            .build()
+            .create(OpenWeatherService::class.java)
+
+    @Provides
+    @Singleton
     fun providesGithubDeviceCodeApi(
         deviceFlowService: GithubDeviceFlowService,
         apiService: GithubApiService,
@@ -74,4 +91,14 @@ internal object NetworkModule {
         apiService: GithubApiService
     ): GithubGraphQlApi =
         GithubGraphQlApi(apiService = apiService)
+
+    @Provides
+    @Singleton
+    fun providesOpenWeatherApi(
+        service: OpenWeatherService,
+    ): OpenWeatherApi =
+        OpenWeatherApi(
+            service = service,
+            appid = BuildConfig.OPEN_WEATHER_APP_ID
+        )
 }
