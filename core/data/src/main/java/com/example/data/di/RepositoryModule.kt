@@ -2,13 +2,16 @@ package com.example.data.di
 
 import com.example.data.remote.github.GithubDeviceCodeApi
 import com.example.data.remote.github.GithubGraphQlApi
+import com.example.data.remote.open_weather.OpenWeatherApi
 import com.example.data.repository.DefaultCategoryRepository
 import com.example.data.repository.DefaultGithubRepository
+import com.example.data.repository.DefaultOpenWeatherRepository
 import com.example.data.repository.DefaultSubTaskRepository
 import com.example.data.repository.DefaultSystemRepository
 import com.example.data.repository.DefaultTaskRepository
 import com.example.data_api.repository.CategoryRepository
 import com.example.data_api.repository.GithubRepository
+import com.example.data_api.repository.OpenWeatherRepository
 import com.example.data_api.repository.SubTaskRepository
 import com.example.data_api.repository.SystemRepository
 import com.example.data_api.repository.TaskRepository
@@ -65,5 +68,14 @@ internal object RepositoryModule {
             deviceCodeApi = deviceCodeApi,
             graphQlApi = graphQlApi,
             tokenDataSource = tokenDataSource
+        )
+
+    @Provides
+    @Singleton
+    fun providesOpenWeatherRepository(
+        openWeatherApi: OpenWeatherApi
+    ): OpenWeatherRepository =
+        DefaultOpenWeatherRepository(
+            openWeatherApi = openWeatherApi
         )
 }

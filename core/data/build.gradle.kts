@@ -30,6 +30,12 @@ android {
             "GITHUB_CLIENT_ID",
             "\"${localProperties.getProperty("GITHUB_CLIENT_ID", "")}\""
         )
+
+        buildConfigField(
+            "String",
+            "OPEN_WEATHER_APP_ID",
+            "\"${localProperties.getProperty("OPEN_WEATHER_APP_ID", "")}\""
+        )
     }
 
     compileOptions {
