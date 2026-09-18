@@ -2,7 +2,7 @@ package com.example.data.repository
 
 import com.example.data.remote.open_weather.OpenWeatherApi
 import com.example.data_api.repository.OpenWeatherRepository
-import com.example.model.open_weather.OpenWeather
+import com.example.model.open_weather.WeatherInfo
 import javax.inject.Inject
 
 internal class DefaultOpenWeatherRepository @Inject constructor(
@@ -11,7 +11,7 @@ internal class DefaultOpenWeatherRepository @Inject constructor(
     override suspend fun getWeather(
         lat: Double,
         lon: Double,
-    ): List<OpenWeather> =
+    ): WeatherInfo =
         openWeatherApi.getWeather(
             lat = lat,
             lon = lon
