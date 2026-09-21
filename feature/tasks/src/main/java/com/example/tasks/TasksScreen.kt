@@ -6,7 +6,9 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -31,7 +33,9 @@ import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -42,6 +46,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.graphics.toColorLong
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.layout.onSizeChanged
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -62,6 +67,7 @@ import com.example.model.CategoryColorType
 import com.example.model.SortByType
 import com.example.model.Task
 import com.example.model.TimePickerType
+import com.example.model.open_weather.WeatherInfo
 import com.example.tasks.component.taskStateGroup
 import com.example.tasks.model.TaskStateGroup
 import com.example.tasks.utils.toggled
@@ -69,9 +75,10 @@ import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 import java.util.Locale
+import kotlin.math.roundToInt
 import com.example.design_system.R as DesignSystemR
 
-private val TASKS_HEADER_HEIGHT = 200.dp
+private const val WEATHER_HEADER_ANCHOR_KEY = "weather_header_anchor"
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -79,6 +86,7 @@ internal fun TasksScreen(
     modifier: Modifier = Modifier,
     categories: ImmutableList<Category>,
     taskStateGroups: ImmutableList<TaskStateGroup>,
+    weatherInfo: WeatherInfo?,
     locale: Locale,
     timePickerType: TimePickerType,
     sortByType: SortByType,
@@ -99,9 +107,6 @@ internal fun TasksScreen(
 ) {
     val scrollState = rememberScrollState()
     val taskListState = rememberLazyListState()
-
-    val density = LocalDensity.current
-    val headerHeightPx = with(density) { TASKS_HEADER_HEIGHT.toPx() }
 
     var collapsedTaskStates by remember { mutableStateOf(value = persistentSetOf<String>()) }
 
@@ -187,107 +192,93 @@ internal fun TasksScreen(
             )
         }
 
-        if (taskStateGroups.isEmpty())
-            EmptyContent(
-                modifier = modifier.padding(paddingValues = paddingValues),
-                title = stringResource(id = DesignSystemR.string.no_tasks)
-            )
-        else
-            LazyColumn(
-                state = taskListState,
-                modifier = modifier.fillMaxSize()
-                    .padding(paddingValues = paddingValues),
-                horizontalAlignment = Alignment.CenterHorizontally,
-            ) {
-                item {
-                    Box(
-                        modifier = Modifier
-                            .graphicsLayer {
-                                alpha =
-                                    if (taskListState.firstVisibleItemIndex == 0) {
-                                        1f - (taskListState.firstVisibleItemScrollOffset / headerHeightPx)
-                                            .coerceIn(
-                                                minimumValue = 0f,
-                                                maximumValue = 1f
-                                            )
-                                    } else {
-                                        0f
-                                    }
-                            }
-                            .background(color = Color.Red)
-                            .fillMaxWidth().height(height = TASKS_HEADER_HEIGHT)
-                    )
-                }
-
-                taskStateGroups.forEach { taskStateGroup ->
-                    taskStateGroup(
-                        taskStateGroup = taskStateGroup,
-                        locale = locale,
-                        collapsedTaskStates = collapsedTaskStates,
-                        onTaskToggleClick = onTaskToggleClick,
-                        onTaskEditClick = onTaskEditClick,
-                        onDeleteSymbolClick = onDeleteSymbolClick,
-                        onSymbolClick = onSymbolClick,
-                        onTaskStateGroupHeaderClick = { key ->
-                            collapsedTaskStates =
-                                collapsedTaskStates.toggled(element = key)
-                        },
-                        onSubTaskToggleClick = onSubTaskToggleClick
-                    )
-                }
-
-                if (isVisibleCompletedTask) {
-                    item {
-                        Text(
-                            modifier = Modifier
-                                .clickable { onCompletedTasksClick() }
-                                .padding(all = 16.dp),
-                            text = stringResource(id = DesignSystemR.string.check_all_completed_tasks),
-                            textAlign = TextAlign.Center,
-                            style = TodoTheme.typography.medium_12,
-                            textDecoration = TextDecoration.Underline,
-                            color = MaterialTheme.colorScheme.onBackground
-                        )
-                    }
+        val density = LocalDensity.current
+        var weatherHeaderHeightPx by remember { mutableIntStateOf(value = 0) }
+        val weatherHeaderHeightDp =
+            with(density) { weatherHeaderHeightPx.toDp() }
+        val weatherHeaderAlpha = remember {
+            derivedStateOf {
+                if (weatherHeaderHeightPx <= 0) {
+                    1f
+                } else {
+                    val anchorOffset = taskListState.layoutInfo.visibleItemsInfo
+                        .firstOrNull { it.key == WEATHER_HEADER_ANCHOR_KEY }
+                        ?.offset
+                        ?: -weatherHeaderHeightPx
+                    ((weatherHeaderHeightPx + anchorOffset).toFloat() / weatherHeaderHeightPx)
+                        .coerceIn(0f, 1f)
                 }
             }
-        /*LazyColumn(
+        }
+
+        Box(
             modifier = modifier.fillMaxSize()
-                .padding(paddingValues = paddingValues),
-            horizontalAlignment = Alignment.CenterHorizontally,
+                .padding(paddingValues = paddingValues)
         ) {
-            taskStateGroups.forEach { taskStateGroup ->
-                taskStateGroup(
-                    taskStateGroup = taskStateGroup,
-                    locale = locale,
-                    collapsedTaskStates = collapsedTaskStates,
-                    onTaskToggleClick = onTaskToggleClick,
-                    onTaskEditClick = onTaskEditClick,
-                    onDeleteSymbolClick = onDeleteSymbolClick,
-                    onSymbolClick = onSymbolClick,
-                    onTaskStateGroupHeaderClick = { key ->
-                        collapsedTaskStates =
-                            collapsedTaskStates.toggled(element = key)
-                    },
-                    onSubTaskToggleClick = onSubTaskToggleClick
+            if (weatherInfo != null) {
+                TasksWeatherHeader(
+                    modifier = Modifier
+                        .align(alignment = Alignment.TopCenter)
+                        .onSizeChanged { size ->
+                            weatherHeaderHeightPx = size.height
+                        }
+                        .graphicsLayer { alpha = weatherHeaderAlpha.value },
+                    temp = weatherInfo.main.temp,
+                    name = weatherInfo.name,
+                    description = weatherInfo.weather?.description.orEmpty(),
+                    iconResId = weatherInfo.weather?.icon.orEmpty()
+                        .toIconResId(),
                 )
             }
 
-            if (isVisibleCompletedTask) {
-                item {
-                    Text(
-                        modifier = Modifier
-                            .clickable { onCompletedTasksClick() }
-                            .padding(all = 16.dp),
-                        text = stringResource(id = DesignSystemR.string.check_all_completed_tasks),
-                        textAlign = TextAlign.Center,
-                        style = TodoTheme.typography.medium_12,
-                        textDecoration = TextDecoration.Underline,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+            if (taskStateGroups.isEmpty())
+                EmptyContent(
+                    modifier = Modifier.padding(top = weatherHeaderHeightDp),
+                    title = stringResource(id = DesignSystemR.string.no_tasks)
+                )
+            else
+                LazyColumn(
+                    state = taskListState,
+                    modifier = Modifier.fillMaxSize(),
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    item(key = WEATHER_HEADER_ANCHOR_KEY) {
+                        Spacer(modifier = Modifier.height(height = weatherHeaderHeightDp))
+                    }
+
+                    taskStateGroups.forEach { taskStateGroup ->
+                        taskStateGroup(
+                            taskStateGroup = taskStateGroup,
+                            locale = locale,
+                            collapsedTaskStates = collapsedTaskStates,
+                            onTaskToggleClick = onTaskToggleClick,
+                            onTaskEditClick = onTaskEditClick,
+                            onDeleteSymbolClick = onDeleteSymbolClick,
+                            onSymbolClick = onSymbolClick,
+                            onTaskStateGroupHeaderClick = { key ->
+                                collapsedTaskStates =
+                                    collapsedTaskStates.toggled(element = key)
+                            },
+                            onSubTaskToggleClick = onSubTaskToggleClick
+                        )
+                    }
+
+                    if (isVisibleCompletedTask) {
+                        item {
+                            Text(
+                                modifier = Modifier
+                                    .clickable { onCompletedTasksClick() }
+                                    .padding(all = 16.dp),
+                                text = stringResource(id = DesignSystemR.string.check_all_completed_tasks),
+                                textAlign = TextAlign.Center,
+                                style = TodoTheme.typography.medium_12,
+                                textDecoration = TextDecoration.Underline,
+                                color = MaterialTheme.colorScheme.onBackground
+                            )
+                        }
+                    }
                 }
-            }
-        }*/
+        }
     }
 }
 
@@ -420,6 +411,87 @@ private fun CategoryItem(
     }
 }
 
+@Composable
+private fun TasksWeatherHeader(
+    modifier: Modifier = Modifier,
+    temp: Double,
+    name: String,
+    description: String,
+    iconResId: Int,
+) {
+    Column(
+        modifier = modifier.fillMaxWidth()
+            .padding(all = 16.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Column(
+                horizontalAlignment = Alignment.Start,
+                verticalArrangement = Arrangement.spacedBy(space = 2.dp)
+            ) {
+                Text(
+                    text = "${temp.roundToInt()} °",
+                    style = TodoTheme.typography.bold_32,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+
+                Row(
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.spacedBy(space = 2.dp)
+                ) {
+                    Icon(
+                        modifier = Modifier.size(size = 8.dp),
+                        imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_marker),
+                        contentDescription = null,
+                        tint = MaterialTheme.colorScheme.onBackground
+                    )
+
+                    Text(
+                        text = name,
+                        style = TodoTheme.typography.medium_12,
+                        color = MaterialTheme.colorScheme.onBackground
+                    )
+                }
+            }
+
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.spacedBy(space = 2.dp)
+            ) {
+                Icon(
+                    modifier = Modifier.size(size = 36.dp),
+                    imageVector = ImageVector.vectorResource(id = iconResId),
+                    contentDescription = null,
+                    tint = Color.Unspecified,
+                )
+
+                Text(
+                    text = description,
+                    style = TodoTheme.typography.medium_12,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
+            }
+        }
+    }
+}
+
+private fun String.toIconResId(): Int =
+    when (this) {
+        "01d" -> DesignSystemR.drawable.svg_weather_01
+        "01n" -> DesignSystemR.drawable.svg_weather_02
+        "02d" -> DesignSystemR.drawable.svg_weather_03
+        "02n" -> DesignSystemR.drawable.svg_weather_04
+        "03d", "03n" -> DesignSystemR.drawable.svg_weather_05
+        "04d", "04n" -> DesignSystemR.drawable.svg_weather_06
+        "09d", "09n" -> DesignSystemR.drawable.svg_weather_07
+        "10d", "10n" -> DesignSystemR.drawable.svg_weather_08
+        "11d", "11n" -> DesignSystemR.drawable.svg_weather_09
+        "13d", "13n" -> DesignSystemR.drawable.svg_weather_10
+        else -> DesignSystemR.drawable.svg_weather_11
+    }
 
 @Preview(showBackground = true)
 @Composable
@@ -437,6 +509,7 @@ private fun TasksScreenPreview() {
             TasksScreen(
                 categories = categories,
                 taskStateGroups = persistentListOf(),
+                weatherInfo = null,
                 locale = Locale.KOREA,
                 timePickerType = TimePickerType.CLOCK_TIME_PICKER,
                 sortByType = SortByType.DUE_DATE_AND_TIME,
@@ -483,6 +556,19 @@ private fun CategoryItemPreview() {
             id = -1L,
             title = "",
             onClick = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun TasksWeatherHeaderPreview() {
+    TodoTheme {
+        TasksWeatherHeader(
+            temp = 24.0,
+            name = "Bucheon-si",
+            description = "맑음",
+            iconResId = DesignSystemR.drawable.svg_weather_01
         )
     }
 }

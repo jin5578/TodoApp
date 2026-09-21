@@ -146,6 +146,7 @@ private fun TasksContent(
             TasksScreen(
                 categories = uiState.categories,
                 taskStateGroups = uiState.taskStateGroups,
+                weatherInfo = uiState.weatherInfo,
                 locale = uiState.locale,
                 timePickerType = uiState.timePickerType,
                 sortByType = uiState.sortByType,

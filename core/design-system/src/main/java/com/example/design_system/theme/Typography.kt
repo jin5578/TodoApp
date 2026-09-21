@@ -37,6 +37,12 @@ private val SpoqaBold = TextStyle(
 )
 
 internal val Typography = TodoTypography(
+    bold_32 = SpoqaBold.copy(
+        fontSize = 32.sp
+    ),
+    bold_28 = SpoqaBold.copy(
+        fontSize = 28.sp
+    ),
     bold_24 = SpoqaBold.copy(
         fontSize = 24.sp
     ),
@@ -52,6 +58,12 @@ internal val Typography = TodoTypography(
     bold_08 = SpoqaBold.copy(
         fontSize = 8.sp
     ),
+    medium_32 = SpoqaMedium.copy(
+        fontSize = 32.sp
+    ),
+    medium_28 = SpoqaMedium.copy(
+        fontSize = 28.sp
+    ),
     medium_24 = SpoqaMedium.copy(
         fontSize = 24.sp
     ),
@@ -66,6 +78,12 @@ internal val Typography = TodoTypography(
     ),
     medium_08 = SpoqaMedium.copy(
         fontSize = 8.sp
+    ),
+    regular_32 = SpoqaRegular.copy(
+        fontSize = 32.sp
+    ),
+    regular_28 = SpoqaRegular.copy(
+        fontSize = 28.sp
     ),
     regular_24 = SpoqaRegular.copy(
         fontSize = 24.sp
@@ -86,16 +104,22 @@ internal val Typography = TodoTypography(
 
 @Immutable
 data class TodoTypography(
+    val bold_32: TextStyle,
+    val bold_28: TextStyle,
     val bold_24: TextStyle,
     val bold_20: TextStyle,
     val bold_16: TextStyle,
     val bold_12: TextStyle,
     val bold_08: TextStyle,
+    val medium_32: TextStyle,
+    val medium_28: TextStyle,
     val medium_24: TextStyle,
     val medium_20: TextStyle,
     val medium_16: TextStyle,
     val medium_12: TextStyle,
     val medium_08: TextStyle,
+    val regular_32: TextStyle,
+    val regular_28: TextStyle,
     val regular_24: TextStyle,
     val regular_20: TextStyle,
     val regular_16: TextStyle,
@@ -105,16 +129,22 @@ data class TodoTypography(
 
 val LocalTypography = staticCompositionLocalOf {
     TodoTypography(
+        bold_32 = SpoqaBold,
+        bold_28 = SpoqaBold,
         bold_24 = SpoqaBold,
         bold_20 = SpoqaBold,
         bold_16 = SpoqaBold,
         bold_12 = SpoqaBold,
         bold_08 = SpoqaBold,
+        medium_32 = SpoqaMedium,
+        medium_28 = SpoqaMedium,
         medium_24 = SpoqaMedium,
         medium_20 = SpoqaMedium,
         medium_16 = SpoqaMedium,
         medium_12 = SpoqaMedium,
         medium_08 = SpoqaMedium,
+        regular_32 = SpoqaRegular,
+        regular_28 = SpoqaRegular,
         regular_24 = SpoqaRegular,
         regular_20 = SpoqaRegular,
         regular_16 = SpoqaRegular,

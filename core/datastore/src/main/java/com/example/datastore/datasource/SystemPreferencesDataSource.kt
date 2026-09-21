@@ -12,5 +12,6 @@ interface SystemPreferencesDataSource {
     suspend fun updateTimePickerType(timePickerType: String)
     suspend fun updatePassword(password: String)
     suspend fun updateBiometricEnabled(enabled: Boolean)
+    suspend fun updateLastLocation(latitude: Double, longitude: Double)
     suspend fun deleteAllData()
 }

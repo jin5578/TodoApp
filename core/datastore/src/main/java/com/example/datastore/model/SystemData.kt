@@ -9,5 +9,7 @@ data class SystemData(
     val locale: String,
     val buildVersion: String,
     val password: String,
-    val isBiometricEnabled: Boolean
+    val isBiometricEnabled: Boolean,
+    val lastLatitude: Double,
+    val lastLongitude: Double,
 )

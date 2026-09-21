@@ -3,6 +3,7 @@ package com.example.datastore.datasource
 import androidx.datastore.core.DataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import com.example.datastore.model.SystemData
@@ -35,7 +36,11 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
                 password = preferences[PreferencesKey.PASSWORD_KEY]
                     ?: DEFAULT_PASSWORD,
                 isBiometricEnabled = preferences[PreferencesKey.BIOMETRIC_ENABLED_KEY]
-                    ?: DEFAULT_BIOMETRIC_ENABLED
+                    ?: DEFAULT_BIOMETRIC_ENABLED,
+                lastLatitude = preferences[PreferencesKey.LAST_LATITUDE_KEY]
+                    ?: DEFAULT_LAST_LATITUDE,
+                lastLongitude = preferences[PreferencesKey.LAST_LONGITUDE_KEY]
+                    ?: DEFAULT_LAST_LONGITUDE
             )
         }
 
@@ -81,6 +86,16 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
         }
     }
 
+    override suspend fun updateLastLocation(
+        latitude: Double,
+        longitude: Double
+    ) {
+        dataStore.edit { preferences ->
+            preferences[PreferencesKey.LAST_LATITUDE_KEY] = latitude
+            preferences[PreferencesKey.LAST_LONGITUDE_KEY] = longitude
+        }
+    }
+
     override suspend fun deleteAllData() {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.SLEEP_TIME_KEY] =
@@ -101,6 +116,10 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
                 DEFAULT_PASSWORD
             preferences[PreferencesKey.BIOMETRIC_ENABLED_KEY] =
                 DEFAULT_BIOMETRIC_ENABLED
+            preferences[PreferencesKey.LAST_LATITUDE_KEY] =
+                DEFAULT_LAST_LATITUDE
+            preferences[PreferencesKey.LAST_LONGITUDE_KEY] =
+                DEFAULT_LAST_LONGITUDE
         }
     }
 
@@ -123,6 +142,10 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
             stringPreferencesKey(name = "password_key")
         val BIOMETRIC_ENABLED_KEY =
             booleanPreferencesKey(name = "biometric_enabled_key")
+        val LAST_LATITUDE_KEY =
+            doublePreferencesKey(name = "last_latitude_key")
+        val LAST_LONGITUDE_KEY =
+            doublePreferencesKey(name = "last_longitude_key")
     }
 
     companion object {
@@ -135,5 +158,7 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
         private const val DEFAULT_BUILD_VERSION = "1.0.0"
         private const val DEFAULT_PASSWORD = ""
         private const val DEFAULT_BIOMETRIC_ENABLED = false
+        private const val DEFAULT_LAST_LATITUDE = 37.56682420267543
+        private const val DEFAULT_LAST_LONGITUDE = 126.978652258823
     }
 }

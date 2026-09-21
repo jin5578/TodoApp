@@ -1,5 +1,6 @@
 package com.example.data.repository
 
+import android.location.Location
 import com.example.data_api.repository.SystemRepository
 import com.example.datastore.datasource.SystemPreferencesDataSource
 import com.example.model.LanguageType
@@ -85,7 +86,7 @@ class DefaultSystemRepository @Inject constructor(
             TasksSystem(
                 sortByType = data.sortByType.toSortByType(),
                 locale = data.locale.toLocale(),
-                timePickerType = data.timePickerType.toTimePickerType()
+                timePickerType = data.timePickerType.toTimePickerType(),
             )
         }
 
@@ -136,6 +137,16 @@ class DefaultSystemRepository @Inject constructor(
             data.isBiometricEnabled
         }
 
+    override fun getLastLocation(): Flow<Location> =
+        systemDataSource.systemData.map { data ->
+            val latitude = data.lastLatitude
+            val longitude = data.lastLongitude
+            Location("").apply {
+                this.latitude = latitude
+                this.longitude = longitude
+            }
+        }
+
     override suspend fun updateSortByType(sortByType: SortByType) =
         systemDataSource.updateSortByType(sortByType = sortByType.key)
 
@@ -156,6 +167,14 @@ class DefaultSystemRepository @Inject constructor(
 
     override suspend fun updateBiometricEnabled(enabled: Boolean) =
         systemDataSource.updateBiometricEnabled(enabled = enabled)
+
+    override suspend fun updateLastLocation(
+        latitude: Double,
+        longitude: Double
+    ) = systemDataSource.updateLastLocation(
+        latitude = latitude,
+        longitude = longitude
+    )
 
     override suspend fun deleteAllData() =
         systemDataSource.deleteAllData()

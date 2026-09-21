@@ -7,10 +7,12 @@ import com.example.domain.DeleteAllDataUseCase
 import com.example.domain.GetCurrentLocationUseCase
 import com.example.domain.GetHasBiometricEnabledUseCase
 import com.example.domain.GetHasExistingPasswordUseCase
+import com.example.domain.GetLastLocationUseCase
 import com.example.domain.GetOpenWeatherUseCase
 import com.example.domain.GetTasksDataUseCase
 import com.example.domain.InsertCategoryUseCase
 import com.example.domain.InsertTaskUseCase
+import com.example.domain.UpdateLastLocationUseCase
 import com.example.domain.UpdateSortByTypeUseCase
 import com.example.domain.UpdateSubTaskCompletedUseCase
 import com.example.domain.UpdateTaskCompletedUseCase
@@ -18,7 +20,7 @@ import com.example.domain.UpdateTaskSymbolUseCase
 import com.example.model.Category
 import com.example.model.SortByType
 import com.example.model.Task
-import com.example.model.open_weather.OpenWeather
+import com.example.model.open_weather.WeatherInfo
 import com.example.model.toUiModels
 import com.example.tasks.model.TaskState
 import com.example.tasks.model.TaskStateGroup
@@ -26,7 +28,6 @@ import com.example.tasks.model.TasksPasswordProcessType
 import com.example.tasks.model.TasksUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.collections.immutable.ImmutableList
-import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -37,7 +38,6 @@ import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.flatMapLatest
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.launch
 import java.time.LocalDate
 import java.time.LocalDateTime
@@ -58,6 +58,8 @@ class TasksViewModel @Inject constructor(
     private val updateSortByTypeUseCase: UpdateSortByTypeUseCase,
     private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
     private val getOpenWeatherUseCase: GetOpenWeatherUseCase,
+    private val getLastLocationUseCase: GetLastLocationUseCase,
+    private val updateLastLocationUseCase: UpdateLastLocationUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -70,8 +72,8 @@ class TasksViewModel @Inject constructor(
         MutableStateFlow(value = -1L)
     private var isTasksUiStateObserved = false
 
-    private val _weather: MutableStateFlow<ImmutableList<OpenWeather>> =
-        MutableStateFlow(value = persistentListOf())
+    private val _weatherInfo: MutableStateFlow<WeatherInfo?> =
+        MutableStateFlow(value = null)
 
     init {
         executeLockProcess()
@@ -111,8 +113,8 @@ class TasksViewModel @Inject constructor(
                 flow = selectedCategoryId.flatMapLatest { id ->
                     getTasksDataUseCase(categoryId = id)
                 },
-                flow2 = _weather,
-            ) { tasks, weather ->
+                flow2 = _weatherInfo,
+            ) { tasks, weatherInfo ->
                 val tasksSystem = tasks.tasksSystem
                 val taskStateGroups = tasks.tasks.toTaskStateGroups(
                     sortByType = tasksSystem.sortByType
@@ -125,11 +127,11 @@ class TasksViewModel @Inject constructor(
                 TasksUiState.Screen(
                     taskStateGroups = taskStateGroups,
                     categories = tasks.categories.toPersistentList(),
+                    weatherInfo = weatherInfo,
                     sortByType = tasksSystem.sortByType,
                     locale = tasksSystem.locale,
                     timePickerType = tasksSystem.timePickerType,
                     isVisibleCompletedTask = isVisibleCompletedTask,
-                    weather = weather,
                 )
             }.catch { throwable ->
                 _errorFlow.emit(value = throwable)
@@ -140,14 +142,32 @@ class TasksViewModel @Inject constructor(
     }
 
     fun fetchWeather() = viewModelScope.launch {
-        val coordinates = getCurrentLocationUseCase() ?: return@launch
+        val coordinates = getCurrentLocationUseCase()
+        val latitude: Double
+        val longitude: Double
+
+        if (coordinates == null) {
+            val lastLocation = getLastLocationUseCase().first()
+            latitude = lastLocation.latitude
+            longitude = lastLocation.longitude
+        } else {
+            latitude = coordinates.latitude
+            longitude = coordinates.longitude
+            updateLastLocationUseCase(
+                latitude = latitude,
+                longitude = longitude
+            )
+        }
+
         runCatching {
             getOpenWeatherUseCase(
-                lat = coordinates.latitude,
-                lon = coordinates.longitude
+                lat = latitude,
+                lon = longitude
             )
-        }.onSuccess { weather ->
-            _weather.value = weather.toPersistentList()
+        }.onSuccess { weatherInfo ->
+            _weatherInfo.value = weatherInfo
+        }.onFailure { throwable ->
+            _errorFlow.emit(value = throwable)
         }
     }
 

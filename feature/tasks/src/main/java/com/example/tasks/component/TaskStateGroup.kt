@@ -57,6 +57,7 @@ internal fun LazyListScope.taskStateGroup(
         ) { index, task ->
             TaskCard(
                 modifier = Modifier.fillMaxWidth()
+                    .background(color = MaterialTheme.colorScheme.background)
                     .padding(
                         start = 16.dp,
                         end = 16.dp,

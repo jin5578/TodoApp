@@ -1,5 +1,6 @@
 package com.example.data_api.repository
 
+import android.location.Location
 import com.example.model.LanguageType
 import com.example.model.SortByType
 import com.example.model.ThemeType
@@ -34,6 +35,7 @@ interface SystemRepository {
     fun getProfileSystem(): Flow<ProfileSystem>
     fun hasExistingPassword(): Flow<Boolean>
     fun hasBiometricEnabled(): Flow<Boolean>
+    fun getLastLocation(): Flow<Location>
     suspend fun updateSortByType(sortByType: SortByType)
     suspend fun updateLanguage(languageType: LanguageType)
     suspend fun updateLocale(locale: Locale)
@@ -41,5 +43,6 @@ interface SystemRepository {
     suspend fun updateTimePickerType(timePickerType: TimePickerType)
     suspend fun updatePassword(password: String)
     suspend fun updateBiometricEnabled(enabled: Boolean)
+    suspend fun updateLastLocation(latitude: Double, longitude: Double)
     suspend fun deleteAllData()
 }
