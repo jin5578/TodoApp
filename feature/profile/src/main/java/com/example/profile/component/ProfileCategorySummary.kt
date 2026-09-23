@@ -52,6 +52,7 @@ internal fun ProfileCategorySummary(
     categoryEntries: ImmutableList<ProfileCategoryEntry>,
     taskState: ProfileTaskState,
     taskDuration: ProfileTaskDuration,
+    locale: Locale,
     onTaskStateChanged: (ProfileTaskState) -> Unit,
     onTaskDurationChanged: (ProfileTaskDuration) -> Unit,
 ) {
@@ -83,7 +84,8 @@ internal fun ProfileCategorySummary(
 
         ProfileCategoryChart(
             categoryEntries = categoryEntries,
-            isCompleted = taskState.isCompleted
+            isCompleted = taskState.isCompleted,
+            locale = locale
         )
     }
 }
@@ -141,6 +143,7 @@ private fun ProfileCategoryChart(
     modifier: Modifier = Modifier,
     categoryEntries: List<ProfileCategoryEntry>,
     isCompleted: Boolean,
+    locale: Locale
 ) {
     val isEmpty = categoryEntries.isEmpty()
 
@@ -210,7 +213,8 @@ private fun ProfileCategoryChart(
                 categoryEntries.forEach { entry ->
                     ProfileCategoryProportion(
                         entry = entry,
-                        total = total
+                        total = total,
+                        locale = locale
                     )
                 }
             }
@@ -223,6 +227,7 @@ private fun ProfileCategoryProportion(
     modifier: Modifier = Modifier,
     entry: ProfileCategoryEntry,
     total: Float,
+    locale: Locale,
 ) {
     val percent = if (total > 0f) entry.value / total * 100f else 0f
 
@@ -244,7 +249,11 @@ private fun ProfileCategoryProportion(
         )
 
         Text(
-            text = String.format(Locale.getDefault(), "%.0f%%", percent),
+            text = String.format(
+                locale = locale,
+                format = "%.0f%%",
+                percent
+            ),
             style = TodoTheme.typography.medium_12,
             color = MaterialTheme.colorScheme.onBackground
         )
@@ -282,6 +291,7 @@ private fun ProfileCategorySummaryPreview() {
             categoryEntries = profileCategoryEntries,
             taskState = ProfileTaskState.COMPLETED,
             taskDuration = ProfileTaskDuration.ALL,
+            locale = Locale.KOREA,
             onTaskStateChanged = {},
             onTaskDurationChanged = {}
         )

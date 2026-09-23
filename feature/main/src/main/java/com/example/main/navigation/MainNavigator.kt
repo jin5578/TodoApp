@@ -1,9 +1,9 @@
 package com.example.main.navigation
 
 import android.app.Activity
+import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavDestination
 import androidx.navigation.NavDestination.Companion.hasRoute
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -119,7 +119,7 @@ internal class MainNavigator(
 internal fun rememberMainNavigator(
     navController: NavHostController = rememberNavController(),
 ): MainNavigator {
-    val activity = LocalContext.current as Activity
+    val activity = LocalActivity.current as Activity
     return remember(key1 = navController, key2 = activity) {
         MainNavigator(navController = navController, activity = activity)
     }

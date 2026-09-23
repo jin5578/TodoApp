@@ -83,6 +83,7 @@ internal fun ProfileScreen(
                 categoryEntries = categoryEntries,
                 taskState = categoryTaskState,
                 taskDuration = categoryTaskDuration,
+                locale = locale,
                 onTaskStateChanged = onTaskStateChanged,
                 onTaskDurationChanged = onTaskDurationChanged
             )
@@ -148,7 +149,7 @@ private fun ProfileScreenPreview() {
             dailyEntries = dailyEntries,
             dailyFromDate = today.minusDays(6),
             dailyToDate = today,
-            locale = Locale.getDefault(),
+            locale = Locale.KOREA,
             onTaskStateChanged = {},
             onTaskDurationChanged = {},
             onDailyDateRangeChanged = { _, _ -> }

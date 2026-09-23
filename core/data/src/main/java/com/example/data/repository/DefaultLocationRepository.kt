@@ -1,6 +1,7 @@
 package com.example.data.repository
 
 import android.Manifest
+import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
@@ -16,6 +17,7 @@ internal class DefaultLocationRepository(
     private val context: Context,
     private val fusedLocationProviderClient: FusedLocationProviderClient,
 ) : LocationRepository {
+    @SuppressLint("MissingPermission")
     override suspend fun getCurrentCoordinates(): Coordinates? {
         if (!hasLocationPermission()) return null
 
@@ -26,7 +28,10 @@ internal class DefaultLocationRepository(
                 cancellationTokenSource.token
             ).addOnSuccessListener { location ->
                 val coordinates = location?.let {
-                    Coordinates(latitude = it.latitude, longitude = it.longitude)
+                    Coordinates(
+                        latitude = it.latitude,
+                        longitude = it.longitude
+                    )
                 }
                 continuation.resume(coordinates)
             }.addOnFailureListener {
