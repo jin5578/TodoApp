@@ -17,7 +17,7 @@ import javax.inject.Singleton
 object DatastoreModule {
     private const val SYSTEM_DATASTORE_NAME = "SYSTEM_PREFERENCES"
     private val Context.systemDataStore by preferencesDataStore(
-        SYSTEM_DATASTORE_NAME
+        SYSTEM_DATASTORE_NAME,
     )
 
     @Provides
@@ -25,6 +25,5 @@ object DatastoreModule {
     @Named(value = "system")
     fun providesSystemDataStore(
         @ApplicationContext context: Context,
-    ): DataStore<Preferences> =
-        context.systemDataStore
+    ): DataStore<Preferences> = context.systemDataStore
 }

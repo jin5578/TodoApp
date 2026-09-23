@@ -28,7 +28,7 @@ internal fun CalendarRoute(
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
             snackbarHostState.showSnackbar(
-                message = throwable.toErrorMessage(resources = contextResources)
+                message = throwable.toErrorMessage(resources = contextResources),
             )
         }
     }
@@ -41,7 +41,7 @@ internal fun CalendarRoute(
         onAddCategory = { categoryTitle, categoryColorType ->
             viewModel.insertCategory(
                 title = categoryTitle,
-                colorValue = categoryColorType.colorValue
+                colorValue = categoryColorType.colorValue,
             )
         },
         onTaskToggleCompletion = viewModel::updateTaskCompleted,
@@ -65,6 +65,7 @@ private fun CalendarContent(
 ) {
     when (uiState) {
         is CalendarUiState.Loading -> Loading()
+
         is CalendarUiState.Screen -> CalendarScreen(
             calendarTasks = uiState.calendarTasks,
             tasks = uiState.tasks,
@@ -81,7 +82,7 @@ private fun CalendarContent(
             onDeleteSymbolClick = { taskId ->
                 onTaskSymbolChanged(
                     taskId,
-                    -1
+                    -1,
                 )
             },
             onSymbolClick = onTaskSymbolChanged,

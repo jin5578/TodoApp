@@ -1,6 +1,9 @@
 package com.example.model
 
-enum class ThemeType(val key: String, val title: String) {
+enum class ThemeType(
+    val key: String,
+    val title: String,
+) {
     SYSTEM(key = "system", title = "System"),
     SUN_RISE(key = "sunRise", title = "SunRise"),
     OCEAN(key = "ocean", title = "Ocean"),

@@ -48,59 +48,46 @@ internal class MainNavigator(
         }
 
     private val topLevelNavOptions: NavOptions
-        get() = navOptions {
-            popUpTo(id = navController.graph.findStartDestination().id) {
-                saveState = true
+        get() =
+            navOptions {
+                popUpTo(id = navController.graph.findStartDestination().id) {
+                    saveState = true
+                }
+                launchSingleTop = true
+                restoreState = true
             }
-            launchSingleTop = true
-            restoreState = true
-        }
 
-    fun navigateTab(tab: MainTab) =
-        when (tab) {
-            MainTab.TASKS -> navigateTasks()
-            MainTab.CALENDAR -> navigateCalendar()
-            MainTab.PROFILE -> navigateProfile()
-        }
+    fun navigateTab(tab: MainTab) = when (tab) {
+        MainTab.TASKS -> navigateTasks()
+        MainTab.CALENDAR -> navigateCalendar()
+        MainTab.PROFILE -> navigateProfile()
+    }
 
-    fun navigateTasks() =
-        navController.navigateTasks(navOptions = topLevelNavOptions)
+    fun navigateTasks() = navController.navigateTasks(navOptions = topLevelNavOptions)
 
-    fun navigateCalendar() =
-        navController.navigateCalendar(navOptions = topLevelNavOptions)
+    fun navigateCalendar() = navController.navigateCalendar(navOptions = topLevelNavOptions)
 
-    fun navigateProfile() =
-        navController.navigateProfile(navOptions = topLevelNavOptions)
+    fun navigateProfile() = navController.navigateProfile(navOptions = topLevelNavOptions)
 
-    fun navigateSetting() =
-        navController.navigateSetting()
+    fun navigateSetting() = navController.navigateSetting()
 
-    fun navigateEditTask(taskId: Long) =
-        navController.navigateEditTask(taskId = taskId)
+    fun navigateEditTask(taskId: Long) = navController.navigateEditTask(taskId = taskId)
 
-    fun navigateManageCategories() =
-        navController.navigateManageCategories()
+    fun navigateManageCategories() = navController.navigateManageCategories()
 
-    fun navigateMemo(taskId: Long) =
-        navController.navigateMemo(taskId = taskId)
+    fun navigateMemo(taskId: Long) = navController.navigateMemo(taskId = taskId)
 
-    fun navigateLockSetup() =
-        navController.navigateLockSetup()
+    fun navigateLockSetup() = navController.navigateLockSetup()
 
-    fun navigateSecurity() =
-        navController.navigateSecurity()
+    fun navigateSecurity() = navController.navigateSecurity()
 
-    fun navigateCompletedTasks() =
-        navController.navigateCompletedTasks()
+    fun navigateCompletedTasks() = navController.navigateCompletedTasks()
 
-    fun navigateSearchTask() =
-        navController.navigateSearchTask()
+    fun navigateSearchTask() = navController.navigateSearchTask()
 
-    fun navigateGithubAuth() =
-        navController.navigateGithubAuth()
+    fun navigateGithubAuth() = navController.navigateGithubAuth()
 
-    private fun popBackStack() =
-        navController.popBackStack()
+    private fun popBackStack() = navController.popBackStack()
 
     fun popBackStackIfNotTasks() {
         if (!isSameCurrentDestination<Route.Tasks>()) {
@@ -108,17 +95,13 @@ internal class MainNavigator(
         }
     }
 
-    fun exitApp() =
-        activity.finishAffinity()
+    fun exitApp() = activity.finishAffinity()
 
-    private inline fun <reified T : Route> isSameCurrentDestination(): Boolean =
-        navController.currentDestination?.hasRoute<T>() == true
+    private inline fun <reified T : Route> isSameCurrentDestination(): Boolean = navController.currentDestination?.hasRoute<T>() == true
 }
 
 @Composable
-internal fun rememberMainNavigator(
-    navController: NavHostController = rememberNavController(),
-): MainNavigator {
+internal fun rememberMainNavigator(navController: NavHostController = rememberNavController()): MainNavigator {
     val activity = LocalActivity.current as Activity
     return remember(key1 = navController, key2 = activity) {
         MainNavigator(navController = navController, activity = activity)

@@ -33,35 +33,35 @@ fun CategoryDropdownMenu(
     DropdownMenu(
         containerColor = MaterialTheme.colorScheme.background,
         expanded = isShowCategoryMenu,
-        onDismissRequest = onCloseClick
+        onDismissRequest = onCloseClick,
     ) {
         categories.forEach { category ->
             BasicDropdownMenuItem(
                 title = category.title,
-                onClick = { onCategoryClick(category.id) }
+                onClick = { onCategoryClick(category.id) },
             )
         }
         DropdownMenuItem(
             text = {
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(space = 10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(space = 10.dp),
                 ) {
                     Icon(
                         modifier = Modifier.size(size = 12.dp),
                         imageVector = ImageVector.vectorResource(id = R.drawable.svg_plus_small),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
+                        tint = MaterialTheme.colorScheme.onBackground,
                     )
 
                     Text(
                         text = stringResource(id = R.string.create_new),
                         style = TodoTheme.typography.medium_12,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
             },
-            onClick = onCreateNewCategoryClick
+            onClick = onCreateNewCategoryClick,
         )
     }
 }
@@ -75,7 +75,7 @@ private fun CategoryDropdownMenuPreview() {
             isShowCategoryMenu = false,
             onCloseClick = {},
             onCategoryClick = {},
-            onCreateNewCategoryClick = {}
+            onCreateNewCategoryClick = {},
         )
     }
 }

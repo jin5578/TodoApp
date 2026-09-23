@@ -60,10 +60,10 @@ internal fun ProfileCategorySummary(
         modifier = modifier
             .background(
                 color = MaterialTheme.colorScheme.surfaceContainer,
-                shape = RoundedCornerShape(size = 8.dp)
+                shape = RoundedCornerShape(size = 8.dp),
             )
             .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 16.dp)
+        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -72,20 +72,20 @@ internal fun ProfileCategorySummary(
             ProfileCategoryOption(
                 selected = taskState,
                 options = ProfileTaskState.entries,
-                onClick = { option -> onTaskStateChanged(option) }
+                onClick = { option -> onTaskStateChanged(option) },
             )
 
             ProfileCategoryOption(
                 selected = taskDuration,
                 options = ProfileTaskDuration.entries,
-                onClick = { option -> onTaskDurationChanged(option) }
+                onClick = { option -> onTaskDurationChanged(option) },
             )
         }
 
         ProfileCategoryChart(
             categoryEntries = categoryEntries,
             isCompleted = taskState.isCompleted,
-            locale = locale
+            locale = locale,
         )
     }
 }
@@ -104,26 +104,26 @@ private fun <T : ProfileCategoryOption> ProfileCategoryOption(
                 isShowDropdownMenu = true
             },
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(space = 4.dp)
+            horizontalArrangement = Arrangement.spacedBy(space = 4.dp),
         ) {
             Text(
                 text = stringResource(id = selected.titleResId),
                 style = TodoTheme.typography.medium_12,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             Icon(
                 modifier = Modifier.size(size = 12.dp),
                 imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_down),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
 
         DropdownMenu(
             containerColor = MaterialTheme.colorScheme.background,
             expanded = isShowDropdownMenu,
-            onDismissRequest = { isShowDropdownMenu = false }
+            onDismissRequest = { isShowDropdownMenu = false },
         ) {
             options.forEach { option ->
                 BasicDropdownMenuItem(
@@ -131,7 +131,7 @@ private fun <T : ProfileCategoryOption> ProfileCategoryOption(
                     onClick = {
                         onClick(option)
                         isShowDropdownMenu = false
-                    }
+                    },
                 )
             }
         }
@@ -143,7 +143,7 @@ private fun ProfileCategoryChart(
     modifier: Modifier = Modifier,
     categoryEntries: List<ProfileCategoryEntry>,
     isCompleted: Boolean,
-    locale: Locale
+    locale: Locale,
 ) {
     val isEmpty = categoryEntries.isEmpty()
 
@@ -157,19 +157,19 @@ private fun ProfileCategoryChart(
                 listOf(
                     PieChart.Slice(
                         fill = Fill(
-                            color = MaterialTheme.colorScheme.surfaceContainerHighest
+                            color = MaterialTheme.colorScheme.surfaceContainerHighest,
                         ),
-                    )
+                    ),
                 )
             } else {
                 categoryEntries.map { entry ->
                     PieChart.Slice(
                         fill = Fill(
-                            color = entry.color
+                            color = entry.color,
                         ),
                     )
                 }
-            }
+            },
         ),
         outerSize = PieSize.Outer.Fill,
         innerSize = PieSize.Inner.fixed(maxDiameter = 50.dp),
@@ -177,15 +177,18 @@ private fun ProfileCategoryChart(
 
     val model = remember(key1 = categoryEntries) {
         val values =
-            if (isEmpty) listOf(1f)
-            else categoryEntries.map { entry -> entry.value }
+            if (isEmpty) {
+                listOf(1f)
+            } else {
+                categoryEntries.map { entry -> entry.value }
+            }
         PieChartModel.build(values = values.toTypedArray())
     }
 
     Row(
         modifier = modifier.fillMaxWidth().padding(horizontal = 32.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         PieChartHost(
             modifier = Modifier.size(size = 120.dp),
@@ -200,21 +203,21 @@ private fun ProfileCategoryChart(
                         DesignSystemR.string.no_completed_category_tasks
                     } else {
                         DesignSystemR.string.no_pending_category_tasks
-                    }
+                    },
                 ),
                 style = TodoTheme.typography.medium_12,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         } else {
             Column(
                 modifier = Modifier.wrapContentSize(),
-                verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+                verticalArrangement = Arrangement.spacedBy(space = 8.dp),
             ) {
                 categoryEntries.forEach { entry ->
                     ProfileCategoryProportion(
                         entry = entry,
                         total = total,
-                        locale = locale
+                        locale = locale,
                     )
                 }
             }
@@ -234,28 +237,28 @@ private fun ProfileCategoryProportion(
     Row(
         modifier = modifier.wrapContentSize(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
         Box(
             modifier = Modifier
                 .size(size = 10.dp)
-                .background(color = entry.color, shape = CircleShape)
+                .background(color = entry.color, shape = CircleShape),
         )
 
         Text(
             text = entry.name,
             style = TodoTheme.typography.medium_12,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Text(
             text = String.format(
                 locale = locale,
                 format = "%.0f%%",
-                percent
+                percent,
             ),
             style = TodoTheme.typography.medium_12,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }
@@ -267,22 +270,22 @@ private fun ProfileCategorySummaryPreview() {
         ProfileCategoryEntry(
             name = "Work",
             value = 40f,
-            color = Color(color = 0xFF4C6FFF)
+            color = Color(color = 0xFF4C6FFF),
         ),
         ProfileCategoryEntry(
             name = "Study",
             value = 25f,
-            color = Color(color = 0xFF00C2A8)
+            color = Color(color = 0xFF00C2A8),
         ),
         ProfileCategoryEntry(
             name = "Exercise",
             value = 20f,
-            color = Color(color = 0xFFFFB020)
+            color = Color(color = 0xFFFFB020),
         ),
         ProfileCategoryEntry(
             name = "Etc",
             value = 15f,
-            color = Color(color = 0xFFF6416C)
+            color = Color(color = 0xFFF6416C),
         ),
     ).toPersistentList()
 
@@ -293,7 +296,7 @@ private fun ProfileCategorySummaryPreview() {
             taskDuration = ProfileTaskDuration.ALL,
             locale = Locale.KOREA,
             onTaskStateChanged = {},
-            onTaskDurationChanged = {}
+            onTaskDurationChanged = {},
         )
     }
 }

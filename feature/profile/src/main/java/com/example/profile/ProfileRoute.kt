@@ -27,7 +27,7 @@ internal fun ProfileRoute(
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
             snackbarHostState.showSnackbar(
-                message = throwable.toErrorMessage(resources = contextResources)
+                message = throwable.toErrorMessage(resources = contextResources),
             )
         }
     }
@@ -36,7 +36,7 @@ internal fun ProfileRoute(
         uiState = uiState,
         onTaskStateChanged = viewModel::onTaskStateChanged,
         onTaskDurationChanged = viewModel::onTaskDurationChanged,
-        onDailyDateRangeChanged = viewModel::onDailyDateRangeChanged
+        onDailyDateRangeChanged = viewModel::onDailyDateRangeChanged,
     )
 }
 
@@ -66,7 +66,7 @@ private fun ProfileContent(
                 locale = uiState.locale,
                 onTaskStateChanged = onTaskStateChanged,
                 onTaskDurationChanged = onTaskDurationChanged,
-                onDailyDateRangeChanged = onDailyDateRangeChanged
+                onDailyDateRangeChanged = onDailyDateRangeChanged,
             )
     }
 }

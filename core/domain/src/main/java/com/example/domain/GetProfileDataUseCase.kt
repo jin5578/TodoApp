@@ -9,21 +9,22 @@ import kotlinx.coroutines.flow.combine
 import java.time.LocalDate
 import javax.inject.Inject
 
-class GetProfileDataUseCase @Inject constructor(
+class GetProfileDataUseCase
+@Inject
+constructor(
     private val taskRepository: TaskRepository,
     private val categoryRepository: CategoryRepository,
-    private val systemRepository: SystemRepository
+    private val systemRepository: SystemRepository,
 ) {
-    operator fun invoke(): Flow<Profile> =
-        combine(
-            flow = taskRepository.getTasks(),
-            flow2 = categoryRepository.getAllCategory(),
-            flow3 = systemRepository.getProfileSystem()
-        ) { tasks, categories, profileSystem ->
-            Profile(
-                tasks = tasks,
-                categories = categories,
-                profileSystem = profileSystem
-            )
-        }
+    operator fun invoke(): Flow<Profile> = combine(
+        flow = taskRepository.getTasks(),
+        flow2 = categoryRepository.getAllCategory(),
+        flow3 = systemRepository.getProfileSystem(),
+    ) { tasks, categories, profileSystem ->
+        Profile(
+            tasks = tasks,
+            categories = categories,
+            profileSystem = profileSystem,
+        )
+    }
 }

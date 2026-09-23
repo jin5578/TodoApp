@@ -104,7 +104,7 @@ internal fun CalendarScreen(
         startMonth = currentMonth.minusMonths(60),
         endMonth = currentMonth.plusMonths(60),
         firstVisibleMonth = currentMonth,
-        firstDayOfWeek = firstDayOfWeek
+        firstDayOfWeek = firstDayOfWeek,
     )
 
     Scaffold(
@@ -118,8 +118,8 @@ internal fun CalendarScreen(
                     coroutineScope.launch {
                         calendarState.animateScrollToMonth(
                             month = calendarState.firstVisibleMonth.yearMonth.minusMonths(
-                                1
-                            )
+                                1,
+                            ),
                         )
                     }
                 },
@@ -127,8 +127,8 @@ internal fun CalendarScreen(
                     coroutineScope.launch {
                         calendarState.animateScrollToMonth(
                             month = calendarState.firstVisibleMonth.yearMonth.plusMonths(
-                                1
-                            )
+                                1,
+                            ),
                         )
                     }
                 },
@@ -143,14 +143,14 @@ internal fun CalendarScreen(
                 },
                 onCreateNewCategoryClick = {
                     isShowAddCategoryDialog = true
-                }
+                },
             )
         },
         floatingActionButton = {
             CustomFloatingActionButton(
-                onClick = { isShowAddTaskBottomSheet = true }
+                onClick = { isShowAddTaskBottomSheet = true },
             )
-        }
+        },
     ) { paddingValues ->
         if (isShowAddTaskBottomSheet) {
             ModalBottomSheet(
@@ -189,13 +189,13 @@ internal fun CalendarScreen(
                 onSaveClick = { categoryTitle, categoryColorType ->
                     onAddCategoryClick(categoryTitle, categoryColorType)
                     isShowAddCategoryDialog = false
-                }
+                },
             )
         }
 
         Column(
             modifier = modifier.fillMaxSize()
-                .padding(paddingValues = paddingValues)
+                .padding(paddingValues = paddingValues),
         ) {
             HorizontalCalendar(
                 state = calendarState,
@@ -205,7 +205,7 @@ internal fun CalendarScreen(
                     }
                     DaysOfWeek(
                         daysOfWeek = daysOfWeek,
-                        locale = locale
+                        locale = locale,
                     )
                 },
                 dayContent = { day ->
@@ -215,28 +215,28 @@ internal fun CalendarScreen(
                         isVisibleIndicator = calendarTasks.any { it.date == day.date },
                         onClick = { date -> onDateSelected(date) },
                     )
-                }
+                },
             )
 
             if (tasks.isEmpty()) {
                 EmptyContent(
-                    title = stringResource(id = DesignSystemR.string.no_tasks)
+                    title = stringResource(id = DesignSystemR.string.no_tasks),
                 )
             } else {
                 LazyColumn(
                     modifier = Modifier.fillMaxSize().padding(top = 16.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally
+                    horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     itemsIndexed(
                         items = tasks,
-                        key = { index, task -> task.id }
+                        key = { index, task -> task.id },
                     ) { index, task ->
                         TaskCard(
                             modifier = Modifier.fillMaxWidth()
                                 .padding(
                                     start = 16.dp,
                                     end = 16.dp,
-                                    bottom = 8.dp
+                                    bottom = 8.dp,
                                 ),
                             task = task,
                             locale = locale,
@@ -244,7 +244,7 @@ internal fun CalendarScreen(
                             onTaskEditClick = navigateEditTask,
                             onDeleteSymbolClick = onDeleteSymbolClick,
                             onSymbolClick = onSymbolClick,
-                            onSubTaskToggleClick = onSubTaskToggleClick
+                            onSubTaskToggleClick = onSubTaskToggleClick,
                         )
                     }
                 }
@@ -271,30 +271,31 @@ private fun CalendarTopAppBar(
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
         ),
         title = {},
         navigationIcon = {
             Row(
                 modifier = modifier.padding(horizontal = 8.dp),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+                horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
             ) {
                 Icon(
                     modifier = Modifier.size(size = 20.dp)
                         .clickable { onPreviousClick() },
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_calendar_arrow_left),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
 
                 val dateFormat = DateTimeFormatter.ofPattern(
-                    DateFormat.getBestDateTimePattern(locale, "yMMMM"), locale
+                    DateFormat.getBestDateTimePattern(locale, "yMMMM"),
+                    locale,
                 )
                 Text(
                     text = visibleDate.format(dateFormat),
                     style = TodoTheme.typography.medium_16,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
 
                 Icon(
@@ -302,7 +303,7 @@ private fun CalendarTopAppBar(
                         .clickable { onNextClick() },
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_calendar_arrow_right),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
         },
@@ -310,30 +311,31 @@ private fun CalendarTopAppBar(
             IconButton(
                 onClick = {
                     isShowDropdownMenu = true
-                }
+                },
             ) {
                 Icon(
                     modifier = Modifier.size(size = 18.dp),
                     imageVector =
-                        if (isCheckedFilter)
-                            ImageVector.vectorResource(id = DesignSystemR.drawable.svg_filter_check)
-                        else
-                            ImageVector.vectorResource(id = DesignSystemR.drawable.svg_filter),
+                    if (isCheckedFilter) {
+                        ImageVector.vectorResource(id = DesignSystemR.drawable.svg_filter_check)
+                    } else {
+                        ImageVector.vectorResource(id = DesignSystemR.drawable.svg_filter)
+                    },
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
 
                 DropdownMenu(
                     containerColor = MaterialTheme.colorScheme.background,
                     expanded = isShowDropdownMenu,
-                    onDismissRequest = { isShowDropdownMenu = false }
+                    onDismissRequest = { isShowDropdownMenu = false },
                 ) {
                     BasicDropdownMenuItem(
                         title = stringResource(id = DesignSystemR.string.entire),
                         onClick = {
                             onCategoryClick(-1L)
                             isShowDropdownMenu = false
-                        }
+                        },
                     )
 
                     categories.forEach { category ->
@@ -342,7 +344,7 @@ private fun CalendarTopAppBar(
                             onClick = {
                                 onCategoryClick(category.id)
                                 isShowDropdownMenu = false
-                            }
+                            },
                         )
                     }
 
@@ -351,27 +353,27 @@ private fun CalendarTopAppBar(
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(
-                                    space = 10.dp
-                                )
+                                    space = 10.dp,
+                                ),
                             ) {
                                 Icon(
                                     modifier = Modifier.size(size = 12.dp),
                                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_plus_small),
                                     contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onBackground
+                                    tint = MaterialTheme.colorScheme.onBackground,
                                 )
 
                                 Text(
                                     text = stringResource(id = DesignSystemR.string.create_new),
                                     style = TodoTheme.typography.medium_12,
-                                    color = MaterialTheme.colorScheme.onBackground
+                                    color = MaterialTheme.colorScheme.onBackground,
                                 )
                             }
                         },
                         onClick = {
                             onCreateNewCategoryClick()
                             isShowDropdownMenu = false
-                        }
+                        },
                     )
                 }
             }
@@ -382,18 +384,18 @@ private fun CalendarTopAppBar(
                     .border(
                         width = 1.5.dp,
                         color = MaterialTheme.colorScheme.onBackground,
-                        shape = RoundedCornerShape(size = 4.dp)
+                        shape = RoundedCornerShape(size = 4.dp),
                     ).clickable { onTodayClick() },
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 Text(
                     textAlign = TextAlign.Center,
                     text = "18",
                     style = TodoTheme.typography.medium_12,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
             }
-        }
+        },
     )
 }
 
@@ -435,7 +437,7 @@ private fun CalendarTopAppBarPreview() {
             onNextClick = {},
             onCategoryClick = {},
             onTodayClick = {},
-            onCreateNewCategoryClick = {}
+            onCreateNewCategoryClick = {},
         )
     }
 }

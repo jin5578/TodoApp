@@ -40,7 +40,7 @@ internal fun WeekendDay(
     locale: Locale,
     isSelected: Boolean,
     isVisibleIndicator: Boolean,
-    onClick: (LocalDate) -> Unit
+    onClick: (LocalDate) -> Unit,
 ) {
     val density = LocalDensity.current
     val screenWidth =
@@ -51,10 +51,11 @@ internal fun WeekendDay(
     val textColor = if (isSelected) {
         MaterialTheme.colorScheme.onPrimary
     } else {
-        if (day.date == LocalDate.now())
+        if (day.date == LocalDate.now()) {
             Green
-        else
+        } else {
             MaterialTheme.colorScheme.onBackground
+        }
     }
 
     Box(
@@ -62,10 +63,11 @@ internal fun WeekendDay(
             .padding(all = 4.dp)
             .clip(shape = RoundedCornerShape(size = 8.dp))
             .background(
-                color = if (isSelected)
+                color = if (isSelected) {
                     MaterialTheme.colorScheme.primary
-                else
+                } else {
                     Color.Transparent
+                },
             )
             .clickable { onClick(day.date) },
         contentAlignment = Alignment.Center,
@@ -78,13 +80,13 @@ internal fun WeekendDay(
             Text(
                 text = dateFormat.format(day.date),
                 style = TodoTheme.typography.bold_12,
-                color = textColor
+                color = textColor,
             )
 
             Text(
                 text = day.date.dayOfWeek.getDisplayName(
                     TextStyle.SHORT,
-                    locale
+                    locale,
                 ),
                 style = TodoTheme.typography.bold_12,
                 color = textColor,
@@ -96,7 +98,7 @@ internal fun WeekendDay(
                     modifier = Modifier.size(4.dp)
                         .background(
                             color = Red,
-                            shape = CircleShape
+                            shape = CircleShape,
                         ),
                 )
             }
@@ -113,7 +115,7 @@ private fun WeekendDayPreview() {
             locale = Locale.KOREA,
             isSelected = true,
             isVisibleIndicator = true,
-            onClick = {}
+            onClick = {},
         )
     }
 }

@@ -3,12 +3,16 @@ package com.example.domain
 import com.example.data_api.repository.SubTaskRepository
 import javax.inject.Inject
 
-class UpdateSubTaskCompletedUseCase @Inject constructor(
-    private val subTaskRepository: SubTaskRepository
+class UpdateSubTaskCompletedUseCase
+@Inject
+constructor(
+    private val subTaskRepository: SubTaskRepository,
 ) {
-    suspend operator fun invoke(id: Long, isCompleted: Boolean) =
-        subTaskRepository.updateSubTaskCompleted(
-            id = id,
-            isCompleted = isCompleted
-        )
+    suspend operator fun invoke(
+        id: Long,
+        isCompleted: Boolean,
+    ) = subTaskRepository.updateSubTaskCompleted(
+        id = id,
+        isCompleted = isCompleted,
+    )
 }

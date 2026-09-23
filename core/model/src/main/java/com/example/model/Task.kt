@@ -25,8 +25,7 @@ data class Task(
     val subTasks: List<SubTask> = emptyList(),
 )
 
-fun List<Task>.toUiModels(): ImmutableList<TaskUiModel> =
-    map { task -> task.toUiModel() }.toPersistentList()
+fun List<Task>.toUiModels(): ImmutableList<TaskUiModel> = map { task -> task.toUiModel() }.toPersistentList()
 
 fun Task.toUiModel(): TaskUiModel = TaskUiModel(
     id = id,

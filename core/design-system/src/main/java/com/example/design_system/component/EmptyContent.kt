@@ -25,11 +25,11 @@ fun EmptyContent(
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(space = 24.dp)
+            verticalArrangement = Arrangement.spacedBy(space = 24.dp),
         ) {
             Image(
                 modifier = Modifier.size(size = 120.dp),
@@ -39,7 +39,7 @@ fun EmptyContent(
             Text(
                 text = title,
                 style = TodoTheme.typography.bold_20,
-                color = MaterialTheme.colorScheme.primary
+                color = MaterialTheme.colorScheme.primary,
             )
         }
     }
@@ -50,7 +50,7 @@ fun EmptyContent(
 private fun EmptyContentPreview() {
     TodoTheme {
         EmptyContent(
-            title = stringResource(id = R.string.no_tasks)
+            title = stringResource(id = R.string.no_tasks),
         )
     }
 }

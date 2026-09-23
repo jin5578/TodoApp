@@ -75,49 +75,55 @@ internal fun SettingScreen(
         CategoryItemUiState(
             titleResId = DesignSystemR.string.about,
             iconResId = DesignSystemR.drawable.svg_information,
-            onClick = { openUrl(ABOUT_URL) }
+            onClick = { openUrl(ABOUT_URL) },
         ),
         CategoryItemUiState(
             titleResId = DesignSystemR.string.github,
             iconResId = DesignSystemR.drawable.svg_github,
-            onClick = { openUrl(GITHUB_URL) }
-        )
+            onClick = { openUrl(GITHUB_URL) },
+        ),
     )
 
     val systemCategory = persistentListOf(
         CategoryItemUiState(
             titleResId = DesignSystemR.string.language,
             iconResId =
-                if (languageType == LanguageType.KOREAN) DesignSystemR.drawable.svg_korean
-                else DesignSystemR.drawable.svg_english,
-            onClick = { showBottomSheet = BottomSheetType.LANGUAGE }
+            if (languageType == LanguageType.KOREAN) {
+                DesignSystemR.drawable.svg_korean
+            } else {
+                DesignSystemR.drawable.svg_english
+            },
+            onClick = { showBottomSheet = BottomSheetType.LANGUAGE },
         ),
         CategoryItemUiState(
             titleResId = DesignSystemR.string.theme,
             iconResId = DesignSystemR.drawable.svg_theme,
-            onClick = { showBottomSheet = BottomSheetType.THEME }
+            onClick = { showBottomSheet = BottomSheetType.THEME },
         ),
         CategoryItemUiState(
             titleResId = DesignSystemR.string.time_picker,
             iconResId = DesignSystemR.drawable.svg_clock,
-            onClick = { showBottomSheet = BottomSheetType.TIME_PICKER }
+            onClick = { showBottomSheet = BottomSheetType.TIME_PICKER },
         ),
         CategoryItemUiState(
             titleResId = DesignSystemR.string.category,
             iconResId = DesignSystemR.drawable.svg_category,
-            onClick = navigateManageCategories
+            onClick = navigateManageCategories,
         ),
         CategoryItemUiState(
             titleResId = DesignSystemR.string.password_and_security,
             iconResId =
-                if (hasExistingPassword) DesignSystemR.drawable.svg_lock
-                else DesignSystemR.drawable.svg_unlock,
-            onClick = navigateSecurity
+            if (hasExistingPassword) {
+                DesignSystemR.drawable.svg_lock
+            } else {
+                DesignSystemR.drawable.svg_unlock
+            },
+            onClick = navigateSecurity,
         ),
         CategoryItemUiState(
             titleResId = DesignSystemR.string.github_connect,
             iconResId = DesignSystemR.drawable.svg_github,
-            onClick = navigateGithubAuth
+            onClick = navigateGithubAuth,
         ),
     )
 
@@ -125,7 +131,7 @@ internal fun SettingScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
+                    containerColor = MaterialTheme.colorScheme.background,
                 ),
                 title = {},
                 navigationIcon = {
@@ -134,12 +140,12 @@ internal fun SettingScreen(
                             modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         if (showBottomSheet != BottomSheetType.IDLE) {
             ModalBottomSheet(
@@ -147,7 +153,7 @@ internal fun SettingScreen(
                 sheetState = bottomSheetState,
                 containerColor = MaterialTheme.colorScheme.background,
             ) {
-                Box() {
+                Box {
                     when (showBottomSheet) {
                         BottomSheetType.LANGUAGE -> {
                             SettingLanguageContent(
@@ -183,10 +189,10 @@ internal fun SettingScreen(
             Text(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                 text = stringResource(
-                    id = DesignSystemR.string.settings
+                    id = DesignSystemR.string.settings,
                 ),
                 style = TodoTheme.typography.bold_20,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             Spacer(modifier = Modifier.height(height = 40.dp))

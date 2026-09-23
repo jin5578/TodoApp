@@ -8,10 +8,12 @@ import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
 @HiltWorker
-class NotificationWorker @AssistedInject constructor(
+class NotificationWorker
+@AssistedInject
+constructor(
     @Assisted private val context: Context,
     @Assisted params: WorkerParameters,
-    private val notificationHelper: NotificationHelper
+    private val notificationHelper: NotificationHelper,
 ) : Worker(context, params) {
     override fun doWork(): Result {
         val id = inputData.getString(key = ID)

@@ -5,15 +5,20 @@ import com.example.model.LanguageType
 import java.util.Locale
 import javax.inject.Inject
 
-class UpdateLanguageUseCase @Inject constructor(
+class UpdateLanguageUseCase
+@Inject
+constructor(
     private val systemRepository: SystemRepository,
     private val updateLocaleUseCase: UpdateLocaleUseCase,
-    private val applyAppLocaleUseCase: ApplyAppLocaleUseCase
+    private val applyAppLocaleUseCase: ApplyAppLocaleUseCase,
 ) {
     suspend operator fun invoke(languageType: LanguageType) {
         val locale =
-            if (languageType == LanguageType.KOREAN) Locale.KOREA
-            else Locale.US
+            if (languageType == LanguageType.KOREAN) {
+                Locale.KOREA
+            } else {
+                Locale.US
+            }
 
         systemRepository.updateLanguage(languageType = languageType)
 

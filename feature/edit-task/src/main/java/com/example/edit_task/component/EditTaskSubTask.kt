@@ -71,7 +71,7 @@ internal fun EditTaskSubTask(
         mutableStateOf(
             value = subTasks.mapIndexed { index, subTask ->
                 DraftSubTaskItem(key = index.toLong(), subTask = subTask)
-            }
+            },
         )
     }
 
@@ -90,7 +90,7 @@ internal fun EditTaskSubTask(
     }
 
     Column(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         draftItems.forEach { item ->
             key(item.key) {
@@ -104,7 +104,7 @@ internal fun EditTaskSubTask(
                                 if (item.key == draggedKey) dragOffsetY else 0f
                         }
                         .zIndex(
-                            zIndex = if (item.key == draggedKey) 1f else 0f
+                            zIndex = if (item.key == draggedKey) 1f else 0f,
                         ),
                     subTask = item.subTask,
                     requestFocus = item.key == focusRequestKey,
@@ -112,11 +112,14 @@ internal fun EditTaskSubTask(
                     onUpdate = { updatedSubTask ->
                         syncSubTasks(
                             items = draftItems.map { draftItem ->
-                                if (draftItem.key == item.key) draftItem.copy(
-                                    subTask = updatedSubTask
-                                )
-                                else draftItem
-                            }
+                                if (draftItem.key == item.key) {
+                                    draftItem.copy(
+                                        subTask = updatedSubTask,
+                                    )
+                                } else {
+                                    draftItem
+                                }
+                            },
                         )
                     },
                     onDelete = {
@@ -124,7 +127,7 @@ internal fun EditTaskSubTask(
                         syncSubTasks(
                             items = draftItems.filterNot { draftItem ->
                                 draftItem.key == item.key
-                            }
+                            },
                         )
                     },
                     onDragStart = {
@@ -195,13 +198,13 @@ internal fun EditTaskSubTask(
                 }
                 .padding(horizontal = 26.dp, vertical = 24.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(space = 17.dp)
+            horizontalArrangement = Arrangement.spacedBy(space = 17.dp),
         ) {
             Icon(
                 modifier = Modifier.size(size = 16.dp),
                 imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_plus),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = MaterialTheme.colorScheme.onBackground,
             )
 
             Text(
@@ -246,14 +249,14 @@ private fun EditTaskSubTaskItem(
                 val updatedSubTask =
                     subTask.copy(isCompleted = !subTask.isCompleted)
                 onUpdate(updatedSubTask)
-            }
+            },
         ) {
             if (subTask.isCompleted) {
                 Icon(
                     modifier = Modifier.size(size = 18.dp),
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_check_circle),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.primary
+                    tint = MaterialTheme.colorScheme.primary,
                 )
             } else {
                 Box(
@@ -261,10 +264,10 @@ private fun EditTaskSubTaskItem(
                         .border(
                             width = 1.8.dp,
                             color = MaterialTheme.colorScheme.onBackground,
-                            shape = CircleShape
+                            shape = CircleShape,
                         ),
                     contentAlignment = Alignment.Center,
-                    content = {}
+                    content = {},
                 )
             }
         }
@@ -288,7 +291,7 @@ private fun EditTaskSubTaskItem(
                 cursorColor = MaterialTheme.colorScheme.onBackground,
             ),
             textStyle = TodoTheme.typography.medium_16.copy(
-                textDecoration = if (subTask.isCompleted) TextDecoration.LineThrough else null
+                textDecoration = if (subTask.isCompleted) TextDecoration.LineThrough else null,
             ),
             onValueChange = {
                 val updatedSubTask = subTask.copy(title = it)
@@ -298,15 +301,15 @@ private fun EditTaskSubTaskItem(
                 Text(
                     text = stringResource(id = DesignSystemR.string.input_the_subtask),
                     color = MaterialTheme.colorScheme.onBackground,
-                    style = TodoTheme.typography.medium_16
+                    style = TodoTheme.typography.medium_16,
                 )
             },
             keyboardOptions = KeyboardOptions(
                 capitalization = KeyboardCapitalization.Sentences,
-                imeAction = ImeAction.Done
+                imeAction = ImeAction.Done,
             ),
             keyboardActions = KeyboardActions(
-                onDone = { focusManager.clearFocus() }
+                onDone = { focusManager.clearFocus() },
             ),
         )
 
@@ -316,7 +319,7 @@ private fun EditTaskSubTaskItem(
                 val updatedSubTask =
                     subTask.copy(isCompleted = !subTask.isCompleted)
                 onUpdate(updatedSubTask)
-            }
+            },
         ) {
             if (isFocused) {
                 Icon(
@@ -324,7 +327,7 @@ private fun EditTaskSubTaskItem(
                         .clickable { onDelete(subTask) },
                     painter = painterResource(id = DesignSystemR.drawable.svg_cross_small),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             } else {
                 Icon(
@@ -340,12 +343,12 @@ private fun EditTaskSubTaskItem(
                                 onDrag = { change, dragAmount ->
                                     change.consume()
                                     onDrag(dragAmount.y)
-                                }
+                                },
                             )
                         },
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_menu),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }

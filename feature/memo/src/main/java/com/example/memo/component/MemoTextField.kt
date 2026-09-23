@@ -40,12 +40,12 @@ internal fun MemoTextField(
             Text(
                 text = stringResource(id = hintTextResId),
                 color = MaterialTheme.colorScheme.onBackground,
-                style = textStyle
+                style = textStyle,
             )
         },
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Sentences,
-            imeAction = ImeAction.Done
+            imeAction = ImeAction.Done,
         ),
     )
 }

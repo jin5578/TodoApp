@@ -6,6 +6,6 @@ fun randomNumberPadRows(): List<List<String>> {
         shuffledNumbers.subList(fromIndex = 0, toIndex = 3),
         shuffledNumbers.subList(fromIndex = 3, toIndex = 6),
         shuffledNumbers.subList(fromIndex = 6, toIndex = 9),
-        listOf("", shuffledNumbers[9], "←")
+        listOf("", shuffledNumbers[9], "←"),
     )
 }

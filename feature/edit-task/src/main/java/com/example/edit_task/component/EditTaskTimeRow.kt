@@ -48,7 +48,7 @@ internal fun EditTaskTimeRow(
                 .clickable { onTimeClick() }
                 .padding(all = 16.dp),
             horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Icon(
                 modifier = Modifier.size(size = 16.dp),
@@ -67,11 +67,11 @@ internal fun EditTaskTimeRow(
             Box(
                 modifier = Modifier.background(
                     color = MaterialTheme.colorScheme.surfaceContainer,
-                    shape = RoundedCornerShape(size = 8.dp)
+                    shape = RoundedCornerShape(size = 8.dp),
                 ).padding(
                     horizontal = 12.dp,
-                    vertical = 8.dp
-                )
+                    vertical = 8.dp,
+                ),
             ) {
                 val timeContent = time?.format(timeFormat)
                     ?: stringResource(id = DesignSystemR.string.no)
@@ -100,11 +100,11 @@ internal fun EditTaskTimeRow(
                 Box(
                     modifier = Modifier.background(
                         color = MaterialTheme.colorScheme.surfaceContainer,
-                        shape = RoundedCornerShape(size = 8.dp)
+                        shape = RoundedCornerShape(size = 8.dp),
                     ).padding(
                         horizontal = 12.dp,
-                        vertical = 8.dp
-                    )
+                        vertical = 8.dp,
+                    ),
                 ) {
                     val reminderContent = reminderTime?.format(timeFormat)
                         ?: stringResource(id = DesignSystemR.string.no)
@@ -130,7 +130,7 @@ private fun EditTaskTimeRowPreview() {
             time = LocalDateTime.now(),
             reminderTime = LocalDateTime.now(),
             onTimeClick = {},
-            onReminderTimeClick = {}
+            onReminderTimeClick = {},
         )
     }
 }

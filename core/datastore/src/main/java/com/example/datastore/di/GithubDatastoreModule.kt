@@ -18,7 +18,7 @@ object GithubDatastoreModule {
     private const val GITHUB_TOKEN_DATASTORE_NAME = "GITHUB_TOKEN_PREFERENCES"
 
     private val Context.githubTokenDataStore by preferencesDataStore(
-        GITHUB_TOKEN_DATASTORE_NAME
+        GITHUB_TOKEN_DATASTORE_NAME,
     )
 
     @Provides
@@ -26,6 +26,5 @@ object GithubDatastoreModule {
     @Named(value = "github_token")
     fun providesGithubTokenDataStore(
         @ApplicationContext context: Context,
-    ): DataStore<Preferences> =
-        context.githubTokenDataStore
+    ): DataStore<Preferences> = context.githubTokenDataStore
 }

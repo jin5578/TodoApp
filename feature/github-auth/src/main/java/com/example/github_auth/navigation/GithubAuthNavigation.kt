@@ -10,9 +10,8 @@ fun NavGraphBuilder.githubAuthNavGraph(
     popBackStack: () -> Unit,
 ) = composable<Route.GithubAuth> { navBackStackEntry ->
     GithubAuthRoute(
-        popBackStack = popBackStack
+        popBackStack = popBackStack,
     )
 }
 
-fun NavController.navigateGithubAuth() =
-    navigate(route = Route.GithubAuth)
+fun NavController.navigateGithubAuth() = navigate(route = Route.GithubAuth)

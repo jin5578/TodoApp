@@ -6,5 +6,5 @@ import java.time.LocalDate
 data class DateOption(
     @param:StringRes val resId: Int,
     val date: LocalDate,
-    val onClick: ((LocalDate) -> Unit)? = null
+    val onClick: ((LocalDate) -> Unit)? = null,
 )

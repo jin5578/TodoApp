@@ -24,160 +24,138 @@ import java.time.LocalTime
 import java.util.Locale
 import javax.inject.Inject
 
-class DefaultSystemRepository @Inject constructor(
-    private val systemDataSource: SystemPreferencesDataSource
+class DefaultSystemRepository
+@Inject
+constructor(
+    private val systemDataSource: SystemPreferencesDataSource,
 ) : SystemRepository {
-    override fun checkPassword(password: String): Flow<Boolean> =
-        systemDataSource.systemData.map { data ->
-            data.password == password
+    override fun checkPassword(password: String): Flow<Boolean> = systemDataSource.systemData.map { data ->
+        data.password == password
+    }
+
+    override fun getThemeType(): Flow<ThemeType> = systemDataSource.systemData.map { data ->
+        data.themeType.toThemeType()
+    }
+
+    override fun getSettingSystem(): Flow<SettingSystem> = systemDataSource.systemData.map { data ->
+        SettingSystem(
+            languageType = data.languageType.toLanguageType(),
+            themeType = data.themeType.toThemeType(),
+            sleepTime = LocalTime.parse(data.sleepTime),
+            timePickerType = data.timePickerType.toTimePickerType(),
+            buildVersion = data.buildVersion,
+            hasExistingPassword = data.password.isNotEmpty(),
+        )
+    }
+
+    override fun getAddTaskSystem(): Flow<AddTaskSystem> = systemDataSource.systemData.map { data ->
+        AddTaskSystem(
+            locale = data.locale.toLocale(),
+            timePickerType = data.timePickerType.toTimePickerType(),
+        )
+    }
+
+    override fun getEditTaskSystem(): Flow<EditTaskSystem> = systemDataSource.systemData.map { data ->
+        EditTaskSystem(
+            locale = data.locale.toLocale(),
+            timePickerType = data.timePickerType.toTimePickerType(),
+        )
+    }
+
+    override fun getMemoSystem(): Flow<MemoSystem> = systemDataSource.systemData.map { data ->
+        MemoSystem(
+            locale = data.locale.toLocale(),
+        )
+    }
+
+    override fun getCalendarSystem(): Flow<CalendarSystem> = systemDataSource.systemData.map { data ->
+        CalendarSystem(
+            locale = data.locale.toLocale(),
+            sortByType = data.sortByType.toSortByType(),
+            timePickerType = data.timePickerType.toTimePickerType(),
+        )
+    }
+
+    override fun getTasksSystem(): Flow<TasksSystem> = systemDataSource.systemData.map { data ->
+        TasksSystem(
+            sortByType = data.sortByType.toSortByType(),
+            locale = data.locale.toLocale(),
+            timePickerType = data.timePickerType.toTimePickerType(),
+        )
+    }
+
+    override fun getLockSetupSystem(): Flow<LockSetupSystem> = systemDataSource.systemData.map { data ->
+        LockSetupSystem(
+            hasExistingPassword = data.password.isNotEmpty(),
+            locale = data.locale.toLocale(),
+        )
+    }
+
+    override fun getSecuritySystem(): Flow<SecuritySystem> = systemDataSource.systemData.map { data ->
+        SecuritySystem(
+            hasExistingPassword = data.password.isNotEmpty(),
+            hasBiometricEnabled = data.isBiometricEnabled,
+        )
+    }
+
+    override fun getCompletedTasksSystem(): Flow<CompletedTasksSystem> = systemDataSource.systemData.map { data ->
+        CompletedTasksSystem(
+            locale = data.locale.toLocale(),
+        )
+    }
+
+    override fun getSearchTaskSystem(): Flow<SearchTaskSystem> = systemDataSource.systemData.map { data ->
+        SearchTaskSystem(
+            locale = data.locale.toLocale(),
+        )
+    }
+
+    override fun getProfileSystem(): Flow<ProfileSystem> = systemDataSource.systemData.map { data ->
+        ProfileSystem(
+            locale = data.locale.toLocale(),
+        )
+    }
+
+    override fun hasExistingPassword(): Flow<Boolean> = systemDataSource.systemData.map { data ->
+        data.password.isNotEmpty()
+    }
+
+    override fun hasBiometricEnabled(): Flow<Boolean> = systemDataSource.systemData.map { data ->
+        data.isBiometricEnabled
+    }
+
+    override fun getLastLocation(): Flow<Location> = systemDataSource.systemData.map { data ->
+        val latitude = data.lastLatitude
+        val longitude = data.lastLongitude
+        Location("").apply {
+            this.latitude = latitude
+            this.longitude = longitude
         }
+    }
 
-    override fun getThemeType(): Flow<ThemeType> =
-        systemDataSource.systemData.map { data ->
-            data.themeType.toThemeType()
-        }
+    override suspend fun updateSortByType(sortByType: SortByType) = systemDataSource.updateSortByType(sortByType = sortByType.key)
 
-    override fun getSettingSystem(): Flow<SettingSystem> =
-        systemDataSource.systemData.map { data ->
-            SettingSystem(
-                languageType = data.languageType.toLanguageType(),
-                themeType = data.themeType.toThemeType(),
-                sleepTime = LocalTime.parse(data.sleepTime),
-                timePickerType = data.timePickerType.toTimePickerType(),
-                buildVersion = data.buildVersion,
-                hasExistingPassword = data.password.isNotEmpty()
-            )
-        }
+    override suspend fun updateLanguage(languageType: LanguageType) = systemDataSource.updateLanguage(languageType = languageType.key)
 
-    override fun getAddTaskSystem(): Flow<AddTaskSystem> =
-        systemDataSource.systemData.map { data ->
-            AddTaskSystem(
-                locale = data.locale.toLocale(),
-                timePickerType = data.timePickerType.toTimePickerType()
-            )
-        }
+    override suspend fun updateLocale(locale: Locale) = systemDataSource.updateLocale(locale = locale.country)
 
-    override fun getEditTaskSystem(): Flow<EditTaskSystem> =
-        systemDataSource.systemData.map { data ->
-            EditTaskSystem(
-                locale = data.locale.toLocale(),
-                timePickerType = data.timePickerType.toTimePickerType()
-            )
-        }
+    override suspend fun updateThemeType(themeType: ThemeType) = systemDataSource.updateThemeType(themeType = themeType.key)
 
-    override fun getMemoSystem(): Flow<MemoSystem> =
-        systemDataSource.systemData.map { data ->
-            MemoSystem(
-                locale = data.locale.toLocale(),
-            )
-        }
+    override suspend fun updateTimePickerType(timePickerType: TimePickerType) = systemDataSource.updateTimePickerType(timePickerType = timePickerType.key)
 
-    override fun getCalendarSystem(): Flow<CalendarSystem> =
-        systemDataSource.systemData.map { data ->
-            CalendarSystem(
-                locale = data.locale.toLocale(),
-                sortByType = data.sortByType.toSortByType(),
-                timePickerType = data.timePickerType.toTimePickerType(),
-            )
-        }
+    override suspend fun updatePassword(password: String) = systemDataSource.updatePassword(password = password)
 
-    override fun getTasksSystem(): Flow<TasksSystem> =
-        systemDataSource.systemData.map { data ->
-            TasksSystem(
-                sortByType = data.sortByType.toSortByType(),
-                locale = data.locale.toLocale(),
-                timePickerType = data.timePickerType.toTimePickerType(),
-            )
-        }
-
-    override fun getLockSetupSystem(): Flow<LockSetupSystem> =
-        systemDataSource.systemData.map { data ->
-            LockSetupSystem(
-                hasExistingPassword = data.password.isNotEmpty(),
-                locale = data.locale.toLocale()
-            )
-        }
-
-    override fun getSecuritySystem(): Flow<SecuritySystem> =
-        systemDataSource.systemData.map { data ->
-            SecuritySystem(
-                hasExistingPassword = data.password.isNotEmpty(),
-                hasBiometricEnabled = data.isBiometricEnabled
-            )
-        }
-
-    override fun getCompletedTasksSystem(): Flow<CompletedTasksSystem> =
-        systemDataSource.systemData.map { data ->
-            CompletedTasksSystem(
-                locale = data.locale.toLocale()
-            )
-        }
-
-    override fun getSearchTaskSystem(): Flow<SearchTaskSystem> =
-        systemDataSource.systemData.map { data ->
-            SearchTaskSystem(
-                locale = data.locale.toLocale()
-            )
-        }
-
-    override fun getProfileSystem(): Flow<ProfileSystem> =
-        systemDataSource.systemData.map { data ->
-            ProfileSystem(
-                locale = data.locale.toLocale()
-            )
-        }
-
-    override fun hasExistingPassword(): Flow<Boolean> =
-        systemDataSource.systemData.map { data ->
-            data.password.isNotEmpty()
-        }
-
-    override fun hasBiometricEnabled(): Flow<Boolean> =
-        systemDataSource.systemData.map { data ->
-            data.isBiometricEnabled
-        }
-
-    override fun getLastLocation(): Flow<Location> =
-        systemDataSource.systemData.map { data ->
-            val latitude = data.lastLatitude
-            val longitude = data.lastLongitude
-            Location("").apply {
-                this.latitude = latitude
-                this.longitude = longitude
-            }
-        }
-
-    override suspend fun updateSortByType(sortByType: SortByType) =
-        systemDataSource.updateSortByType(sortByType = sortByType.key)
-
-    override suspend fun updateLanguage(languageType: LanguageType) =
-        systemDataSource.updateLanguage(languageType = languageType.key)
-
-    override suspend fun updateLocale(locale: Locale) =
-        systemDataSource.updateLocale(locale = locale.country)
-
-    override suspend fun updateThemeType(themeType: ThemeType) =
-        systemDataSource.updateThemeType(themeType = themeType.key)
-
-    override suspend fun updateTimePickerType(timePickerType: TimePickerType) =
-        systemDataSource.updateTimePickerType(timePickerType = timePickerType.key)
-
-    override suspend fun updatePassword(password: String) =
-        systemDataSource.updatePassword(password = password)
-
-    override suspend fun updateBiometricEnabled(enabled: Boolean) =
-        systemDataSource.updateBiometricEnabled(enabled = enabled)
+    override suspend fun updateBiometricEnabled(enabled: Boolean) = systemDataSource.updateBiometricEnabled(enabled = enabled)
 
     override suspend fun updateLastLocation(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
     ) = systemDataSource.updateLastLocation(
         latitude = latitude,
-        longitude = longitude
+        longitude = longitude,
     )
 
-    override suspend fun deleteAllData() =
-        systemDataSource.deleteAllData()
+    override suspend fun deleteAllData() = systemDataSource.deleteAllData()
 
     private fun String.toLanguageType() = when (this) {
         LanguageType.KOREAN.key -> LanguageType.KOREAN

@@ -55,16 +55,16 @@ class EditTaskViewModel @Inject constructor(
         MutableSharedFlow()
     val uiEffect = _uiEffect.asSharedFlow()
 
-    private val _titleChanges: MutableSharedFlow<Pair<Long, String>> =
+    private val titleChanges: MutableSharedFlow<Pair<Long, String>> =
         MutableSharedFlow(
             extraBufferCapacity = 1,
-            onBufferOverflow = BufferOverflow.DROP_OLDEST
+            onBufferOverflow = BufferOverflow.DROP_OLDEST,
         )
 
     private var fetchEditTaskJob: Job? = null
 
     init {
-        _titleChanges
+        titleChanges
             .debounce(timeoutMillis = 1000)
             .onEach { (taskId: Long, title: String) ->
                 updateTaskTitleUseCase(id = taskId, title = title)
@@ -81,7 +81,7 @@ class EditTaskViewModel @Inject constructor(
                     task = editTask.task.toUiModel(),
                     locale = editTaskSystem.locale,
                     timePickerType = editTaskSystem.timePickerType,
-                    categories = editTask.categories.toPersistentList()
+                    categories = editTask.categories.toPersistentList(),
                 )
             }.catch { throwable ->
                 _errorFlow.emit(value = throwable)
@@ -91,47 +91,42 @@ class EditTaskViewModel @Inject constructor(
         }
     }
 
-    fun updateCategory(taskId: Long, categoryId: Long) =
-        viewModelScope.launch {
-            updateTaskCategoryUseCase(taskId = taskId, categoryId = categoryId)
-        }
+    fun updateCategory(taskId: Long, categoryId: Long) = viewModelScope.launch {
+        updateTaskCategoryUseCase(taskId = taskId, categoryId = categoryId)
+    }
 
-    fun updateTitle(taskId: Long, title: String) =
-        _titleChanges.tryEmit(value = taskId to title)
+    fun updateTitle(taskId: Long, title: String) = titleChanges.tryEmit(value = taskId to title)
 
     fun updateDateTime(
         taskId: Long,
         date: LocalDate,
         time: LocalDateTime?,
-        reminderTime: LocalDateTime?
+        reminderTime: LocalDateTime?,
     ) = viewModelScope.launch {
         updateTaskDateTimeUseCase(
             id = taskId,
             date = date,
             time = time,
-            reminderTime = reminderTime
+            reminderTime = reminderTime,
         )
     }
 
-    fun updateCompleted(taskId: Long, isCompleted: Boolean) =
-        viewModelScope.launch {
-            updateTaskCompletedUseCase(
-                id = taskId,
-                isCompleted = isCompleted
-            )
-        }
+    fun updateCompleted(taskId: Long, isCompleted: Boolean) = viewModelScope.launch {
+        updateTaskCompletedUseCase(
+            id = taskId,
+            isCompleted = isCompleted,
+        )
+    }
 
-    fun deleteTask(taskId: Long, uuid: String) =
-        viewModelScope.launch {
-            fetchEditTaskJob?.cancelAndJoin()
-            deleteTaskByIdUseCase(id = taskId, uuid = uuid)
-            _uiEffect.emit(
-                value = EditTaskUiEffect.SuccessDeleteTask
-            )
-        }
+    fun deleteTask(taskId: Long, uuid: String) = viewModelScope.launch {
+        fetchEditTaskJob?.cancelAndJoin()
+        deleteTaskByIdUseCase(id = taskId, uuid = uuid)
+        _uiEffect.emit(
+            value = EditTaskUiEffect.SuccessDeleteTask,
+        )
+    }
 
-    fun syncSubTasks(parentId: Long, subTasks: List<SubTask>) =
-        viewModelScope.launch {
-            syncSubTasksUseCase(parentId = parentId, subTasks = subTasks)
-        }
+    fun syncSubTasks(parentId: Long, subTasks: List<SubTask>) = viewModelScope.launch {
+        syncSubTasksUseCase(parentId = parentId, subTasks = subTasks)
+    }
 }

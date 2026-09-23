@@ -4,5 +4,5 @@ enum class BottomSheetType {
     IDLE,
     THEME,
     TIME_PICKER,
-    LANGUAGE
+    LANGUAGE,
 }

@@ -8,23 +8,27 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
-class GetCalendarDataUseCase @Inject constructor(
+class GetCalendarDataUseCase
+@Inject
+constructor(
     private val taskRepository: TaskRepository,
     private val categoryRepository: CategoryRepository,
     private val systemRepository: SystemRepository,
 ) {
-    operator fun invoke(categoryId: Long): Flow<Calendar> =
-        combine(
-            flow =
-                if (categoryId == -1L) taskRepository.getTasks()
-                else taskRepository.getTasksByCategory(categoryId = categoryId),
-            flow2 = categoryRepository.getAllCategory(),
-            flow3 = systemRepository.getCalendarSystem()
-        ) { tasks, categories, calendarSystem ->
-            Calendar(
-                tasks = tasks,
-                categories = categories,
-                calendarSystem = calendarSystem
-            )
-        }
+    operator fun invoke(categoryId: Long): Flow<Calendar> = combine(
+        flow =
+        if (categoryId == -1L) {
+            taskRepository.getTasks()
+        } else {
+            taskRepository.getTasksByCategory(categoryId = categoryId)
+        },
+        flow2 = categoryRepository.getAllCategory(),
+        flow3 = systemRepository.getCalendarSystem(),
+    ) { tasks, categories, calendarSystem ->
+        Calendar(
+            tasks = tasks,
+            categories = categories,
+            calendarSystem = calendarSystem,
+        )
+    }
 }

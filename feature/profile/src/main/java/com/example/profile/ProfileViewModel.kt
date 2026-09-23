@@ -48,18 +48,18 @@ class ProfileViewModel @Inject constructor(
         MutableStateFlow(value = ProfileUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    private val _categoryTaskState: MutableStateFlow<ProfileTaskState> =
+    private val categoryTaskStateFlow: MutableStateFlow<ProfileTaskState> =
         MutableStateFlow(value = ProfileTaskState.COMPLETED)
-    private val _categoryTaskDuration: MutableStateFlow<ProfileTaskDuration> =
+    private val categoryTaskDurationFlow: MutableStateFlow<ProfileTaskDuration> =
         MutableStateFlow(value = ProfileTaskDuration.ALL)
-    private val _dailyDateRange: MutableStateFlow<List<LocalDate>> =
+    private val dailyDateRangeFlow: MutableStateFlow<List<LocalDate>> =
         MutableStateFlow(
             value = listOf(
                 LocalDate.now().minusDays(6),
-                LocalDate.now()
-            )
+                LocalDate.now(),
+            ),
         )
-    private val _githubHeatmapEntries: MutableStateFlow<ImmutableList<HeatmapEntry>> =
+    private val githubHeatmapEntriesFlow: MutableStateFlow<ImmutableList<HeatmapEntry>> =
         MutableStateFlow(value = persistentListOf())
 
     init {
@@ -68,15 +68,15 @@ class ProfileViewModel @Inject constructor(
     }
 
     fun onTaskStateChanged(state: ProfileTaskState) {
-        _categoryTaskState.value = state
+        categoryTaskStateFlow.value = state
     }
 
     fun onTaskDurationChanged(duration: ProfileTaskDuration) {
-        _categoryTaskDuration.value = duration
+        categoryTaskDurationFlow.value = duration
     }
 
     fun onDailyDateRangeChanged(fromDate: LocalDate, toDate: LocalDate) {
-        _dailyDateRange.value = listOf(fromDate, toDate)
+        dailyDateRangeFlow.value = listOf(fromDate, toDate)
     }
 
     private fun fetchProfileUiState() = viewModelScope.launch {
@@ -84,10 +84,10 @@ class ProfileViewModel @Inject constructor(
 
         combine(
             flow = getProfileDataUseCase(),
-            flow2 = _categoryTaskState,
-            flow3 = _categoryTaskDuration,
-            flow4 = _dailyDateRange,
-            flow5 = _githubHeatmapEntries
+            flow2 = categoryTaskStateFlow,
+            flow3 = categoryTaskDurationFlow,
+            flow4 = dailyDateRangeFlow,
+            flow5 = githubHeatmapEntriesFlow,
         ) { profile, categoryTaskState, categoryTaskDuration, dailyDateRange, githubHeatmapEntries ->
             val profileSystem = profile.profileSystem
             val totalTasksCount = profile.tasks.count()
@@ -98,7 +98,7 @@ class ProfileViewModel @Inject constructor(
                 incompletedTasksCount = incompletedTasksCount,
                 heatmapEntries = profile.tasks.toHeatmapEntries(
                     fromDate = today.minusWeeks(HEATMAP_WEEK_COUNT),
-                    toDate = today
+                    toDate = today,
                 ),
                 githubHeatmapEntries = githubHeatmapEntries,
                 categoryEntries = profile.tasks.toCategoryEntries(
@@ -136,33 +136,31 @@ class ProfileViewModel @Inject constructor(
                 }
             }
             .collect { entries ->
-                _githubHeatmapEntries.value = entries
+                githubHeatmapEntriesFlow.value = entries
             }
     }
 
     private fun List<Task>.toHeatmapEntries(
         fromDate: LocalDate,
-        toDate: LocalDate
-    ): ImmutableList<HeatmapEntry> =
-        this.filter { it.isCompleted }
-            .mapNotNull { it.completedAt?.toLocalDate() }
-            .filter { date -> !date.isBefore(fromDate) && !date.isAfter(toDate) }
-            .groupingBy { it }
-            .eachCount()
-            .map { (date, count) ->
-                HeatmapEntry(
-                    date = date,
-                    level = count.coerceAtMost(maximumValue = HEATMAP_MAX_LEVEL)
-                )
-            }.toPersistentList()
-
-    private fun List<GithubContributionDay>.toGithubHeatmapEntries(): ImmutableList<HeatmapEntry> =
-        this.map { day ->
+        toDate: LocalDate,
+    ): ImmutableList<HeatmapEntry> = this.filter { it.isCompleted }
+        .mapNotNull { it.completedAt?.toLocalDate() }
+        .filter { date -> !date.isBefore(fromDate) && !date.isAfter(toDate) }
+        .groupingBy { it }
+        .eachCount()
+        .map { (date, count) ->
             HeatmapEntry(
-                date = day.date,
-                level = day.contributionCount.toHeatmapLevel()
+                date = date,
+                level = count.coerceAtMost(maximumValue = HEATMAP_MAX_LEVEL),
             )
         }.toPersistentList()
+
+    private fun List<GithubContributionDay>.toGithubHeatmapEntries(): ImmutableList<HeatmapEntry> = this.map { day ->
+        HeatmapEntry(
+            date = day.date,
+            level = day.contributionCount.toHeatmapLevel(),
+        )
+    }.toPersistentList()
 
     private fun Int.toHeatmapLevel(): Int = when {
         this <= 0 -> 0
@@ -176,16 +174,18 @@ class ProfileViewModel @Inject constructor(
         today: LocalDate,
         isCompleted: Boolean,
         durationDays: Long?,
-        categories: List<Category>
+        categories: List<Category>,
     ): ImmutableList<ProfileCategoryEntry> {
         val categoriesById = categories.associateBy { it.id }
         val fromDate = durationDays?.let { today.minusDays(it) }
         return this.filter { task ->
             if (task.isCompleted != isCompleted) return@filter false
             val completedDate = task.completedAt?.toLocalDate()
-            fromDate == null || (completedDate != null && !completedDate.isBefore(
-                fromDate
-            ))
+            fromDate == null || (
+                completedDate != null && !completedDate.isBefore(
+                    fromDate,
+                )
+                )
         }
             .groupingBy { it.categoryId }
             .eachCount()
@@ -195,7 +195,7 @@ class ProfileViewModel @Inject constructor(
                 ProfileCategoryEntry(
                     name = category.title,
                     value = count.toFloat(),
-                    color = Color(color = category.colorValue)
+                    color = Color(color = category.colorValue),
                 )
             }
             .toPersistentList()

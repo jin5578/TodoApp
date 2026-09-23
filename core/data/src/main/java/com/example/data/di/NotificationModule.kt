@@ -15,7 +15,6 @@ internal object NotificationModule {
     @Provides
     @Singleton
     fun providesNotificationManager(
-        @ApplicationContext context: Context
-    ): NotificationManager =
-        context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        @ApplicationContext context: Context,
+    ): NotificationManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
 }

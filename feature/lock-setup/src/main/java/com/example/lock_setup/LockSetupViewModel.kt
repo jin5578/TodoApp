@@ -43,32 +43,32 @@ class LockSetupViewModel @Inject constructor(
         fetchLockSetupUiState()
     }
 
-    private fun fetchLockSetupUiState() =
-        viewModelScope.launch {
-            getLockSetupDataUseCase().map { lockSetupSystem ->
-                val lockSetupProcessType =
-                    if (lockSetupSystem.hasExistingPassword)
-                        LockSetupProcessType.ENTER_EXISTING_PASSWORD
-                    else
-                        LockSetupProcessType.ENTER_NEW_PASSWORD
-                LockSetupUiState.Screen(
-                    lockSetupProcessType = lockSetupProcessType,
-                    newInputPassword = "",
-                    locale = lockSetupSystem.locale
-                )
-            }.catch { throwable ->
-                _errorFlow.emit(value = throwable)
-            }.collect {
-                _uiState.value = it
-            }
+    private fun fetchLockSetupUiState() = viewModelScope.launch {
+        getLockSetupDataUseCase().map { lockSetupSystem ->
+            val lockSetupProcessType =
+                if (lockSetupSystem.hasExistingPassword) {
+                    LockSetupProcessType.ENTER_EXISTING_PASSWORD
+                } else {
+                    LockSetupProcessType.ENTER_NEW_PASSWORD
+                }
+            LockSetupUiState.Screen(
+                lockSetupProcessType = lockSetupProcessType,
+                newInputPassword = "",
+                locale = lockSetupSystem.locale,
+            )
+        }.catch { throwable ->
+            _errorFlow.emit(value = throwable)
+        }.collect {
+            _uiState.value = it
         }
+    }
 
     fun updateNewInputPassword(password: String) {
         _uiState.update { currentState ->
             if (currentState is LockSetupUiState.Screen) {
                 currentState.copy(
                     lockSetupProcessType = LockSetupProcessType.CONFIRM_NEW_PASSWORD,
-                    newInputPassword = password
+                    newInputPassword = password,
                 )
             } else {
                 currentState
@@ -87,7 +87,7 @@ class LockSetupViewModel @Inject constructor(
             }
         } else {
             _uiState.value = state.copy(
-                lockSetupProcessType = LockSetupProcessType.CONFIRM_NEW_PASSWORD_MISMATCHED
+                lockSetupProcessType = LockSetupProcessType.CONFIRM_NEW_PASSWORD_MISMATCHED,
             )
         }
     }
@@ -97,7 +97,7 @@ class LockSetupViewModel @Inject constructor(
         if (state !is LockSetupUiState.Screen) return
 
         _uiState.value = state.copy(
-            lockSetupProcessType = LockSetupProcessType.UNLOCK_PASSWORD
+            lockSetupProcessType = LockSetupProcessType.UNLOCK_PASSWORD,
         )
     }
 
@@ -118,10 +118,11 @@ class LockSetupViewModel @Inject constructor(
                 if (state !is LockSetupUiState.Screen) return@launch
 
                 val lockSetupProcessType =
-                    if (isPasswordMatched)
+                    if (isPasswordMatched) {
                         LockSetupProcessType.ENTER_NEW_PASSWORD
-                    else
+                    } else {
                         LockSetupProcessType.EXISTING_PASSWORD_MISMATCHED
+                    }
                 _uiState.value =
                     state.copy(lockSetupProcessType = lockSetupProcessType)
             }

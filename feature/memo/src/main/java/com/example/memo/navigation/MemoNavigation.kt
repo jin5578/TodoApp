@@ -7,9 +7,7 @@ import androidx.navigation.toRoute
 import com.example.memo.MemoRoute
 import com.example.navigation.Route
 
-fun NavGraphBuilder.memoNavGraph(
-    popBackStack: () -> Unit,
-) = composable<Route.Memo> { navBackStackEntry ->
+fun NavGraphBuilder.memoNavGraph(popBackStack: () -> Unit) = composable<Route.Memo> { navBackStackEntry ->
     val taskId = navBackStackEntry.toRoute<Route.Memo>().taskId
     MemoRoute(
         taskId = taskId,
@@ -17,5 +15,4 @@ fun NavGraphBuilder.memoNavGraph(
     )
 }
 
-fun NavController.navigateMemo(taskId: Long) =
-    navigate(route = Route.Memo(taskId = taskId))
+fun NavController.navigateMemo(taskId: Long) = navigate(route = Route.Memo(taskId = taskId))

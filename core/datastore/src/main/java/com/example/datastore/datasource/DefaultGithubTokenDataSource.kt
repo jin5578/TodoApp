@@ -13,7 +13,9 @@ import javax.inject.Named
 
 private const val GITHUB_TOKEN_KEY_ALIAS = "github_token_key"
 
-class DefaultGithubTokenDataSource @Inject constructor(
+class DefaultGithubTokenDataSource
+@Inject
+constructor(
     @Named(value = "github_token") private val dataStore: DataStore<Preferences>,
 ) : GithubTokenDataSource {
     private val cipher = KeystoreTokenCipher(keyAlias = GITHUB_TOKEN_KEY_ALIAS)
@@ -21,7 +23,10 @@ class DefaultGithubTokenDataSource @Inject constructor(
     override val githubUsername: Flow<String?> =
         dataStore.data.map { preferences -> preferences[PreferencesKey.USERNAME_KEY] }
 
-    override suspend fun saveToken(accessToken: String, username: String) {
+    override suspend fun saveToken(
+        accessToken: String,
+        username: String,
+    ) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.ACCESS_TOKEN_KEY] =
                 cipher.encrypt(plainText = accessToken)
@@ -37,8 +42,9 @@ class DefaultGithubTokenDataSource @Inject constructor(
     }
 
     override suspend fun getAccessToken(): String? {
-        val encrypted = dataStore.data.first()[PreferencesKey.ACCESS_TOKEN_KEY]
-            ?: return null
+        val encrypted =
+            dataStore.data.first()[PreferencesKey.ACCESS_TOKEN_KEY]
+                ?: return null
         return cipher.decrypt(encoded = encrypted)
     }
 

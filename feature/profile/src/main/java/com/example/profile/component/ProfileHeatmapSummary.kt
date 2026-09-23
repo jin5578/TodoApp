@@ -33,10 +33,10 @@ internal fun ProfileHeatmapSummary(
         modifier = modifier
             .background(
                 color = MaterialTheme.colorScheme.surfaceContainer,
-                shape = RoundedCornerShape(size = 8.dp)
+                shape = RoundedCornerShape(size = 8.dp),
             )
             .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 16.dp)
+        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
     ) {
         CustomTooltipBox(
             descriptionResId = descriptionResId,
@@ -44,7 +44,7 @@ internal fun ProfileHeatmapSummary(
             Text(
                 text = stringResource(id = titleResId),
                 style = TodoTheme.typography.medium_16,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
 
@@ -62,17 +62,21 @@ private fun ProfileHeatmapSummaryPreview() {
         val today = LocalDate.now()
         val heatmapEntries = (0..365).mapNotNull { offset ->
             val level = offset % 5
-            if (level == 0) null else HeatmapEntry(
-                date = today.minusDays(offset.toLong()),
-                level = level
-            )
+            if (level == 0) {
+                null
+            } else {
+                HeatmapEntry(
+                    date = today.minusDays(offset.toLong()),
+                    level = level,
+                )
+            }
         }.toPersistentList()
 
         ProfileHeatmapSummary(
             heatmapEntries = heatmapEntries,
             locale = Locale.KOREA,
             titleResId = DesignSystemR.string.heatmap,
-            descriptionResId = DesignSystemR.string.heatmap_description
+            descriptionResId = DesignSystemR.string.heatmap_description,
         )
     }
 }

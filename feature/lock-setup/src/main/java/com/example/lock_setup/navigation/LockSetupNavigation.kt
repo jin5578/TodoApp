@@ -14,5 +14,4 @@ fun NavGraphBuilder.lockSetupNavGraph(
     )
 }
 
-fun NavController.navigateLockSetup() =
-    navigate(route = Route.LockSetup)
+fun NavController.navigateLockSetup() = navigate(route = Route.LockSetup)

@@ -13,11 +13,11 @@ import java.time.LocalDateTime
 
 @Dao
 interface TaskDao {
-    /* INSERT */
+    // INSERT
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insertTask(entity: TaskEntity)
 
-    /* SELECT */
+    // SELECT
     @Transaction
     @Query(value = "SELECT * FROM task ORDER BY date ASC")
     fun getTasks(): Flow<List<TaskWithSubTasksEntity>>
@@ -30,7 +30,7 @@ interface TaskDao {
     @Query("SELECT * FROM task WHERE epochDay BETWEEN :fromDate AND :toDate ORDER BY date ASC")
     fun getTasksByEpochDayRange(
         fromDate: Long,
-        toDate: Long
+        toDate: Long,
     ): Flow<List<TaskWithSubTasksEntity>>
 
     @Transaction
@@ -44,9 +44,9 @@ interface TaskDao {
     @Transaction
     @Query(
         "SELECT * FROM task WHERE " +
-                "title LIKE '%' || :keyword || '%' OR " +
-                "memoTitle LIKE '%' || :keyword || '%' OR " +
-                "memoContent LIKE '%' || :keyword || '%'"
+            "title LIKE '%' || :keyword || '%' OR " +
+            "memoTitle LIKE '%' || :keyword || '%' OR " +
+            "memoContent LIKE '%' || :keyword || '%'",
     )
     fun getTasksByKeyword(keyword: String): Flow<List<TaskWithSubTasksEntity>>
 
@@ -54,66 +54,83 @@ interface TaskDao {
     @Query("SELECT * FROM task WHERE categoryId = :categoryId AND date = :date ORDER BY date ASC")
     fun getTasksByCategoryAndDate(
         categoryId: Long,
-        date: String
+        date: String,
     ): Flow<List<TaskWithSubTasksEntity>>
-
 
     @Transaction
     @Query("SELECT * FROM task WHERE id=:id")
     fun getTaskById(id: Long): Flow<TaskWithSubTasksEntity>
 
-    /* Update */
+    // Update
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateTask(entity: TaskEntity)
 
     @Query("UPDATE task SET symbol = :symbolId WHERE id = :taskId")
-    suspend fun updateTaskSymbol(taskId: Long, symbolId: Int)
+    suspend fun updateTaskSymbol(
+        taskId: Long,
+        symbolId: Int,
+    )
 
     @Query("UPDATE task SET memoTitle = :memoTitle, memoUpdatedAt = :memoUpdatedAt WHERE id = :id")
     suspend fun updateTaskMemoTitle(
         id: Long,
         memoTitle: String,
-        memoUpdatedAt: LocalDateTime?
+        memoUpdatedAt: LocalDateTime?,
     )
 
     @Query("UPDATE task SET memoContent = :memoContent, memoUpdatedAt = :memoUpdatedAt WHERE id = :id")
     suspend fun updateTaskMemoContent(
         id: Long,
         memoContent: String,
-        memoUpdatedAt: LocalDateTime?
+        memoUpdatedAt: LocalDateTime?,
     )
 
     @Query("UPDATE task SET categoryId = :categoryId WHERE id = :taskId")
-    suspend fun updateTaskCategory(taskId: Long, categoryId: Long)
+    suspend fun updateTaskCategory(
+        taskId: Long,
+        categoryId: Long,
+    )
 
     @Query("UPDATE task SET title = :title WHERE id = :id")
-    suspend fun updateTaskTitle(id: Long, title: String)
+    suspend fun updateTaskTitle(
+        id: Long,
+        title: String,
+    )
 
     @Query("UPDATE task SET date = :date WHERE id = :id")
-    suspend fun updateTaskDate(id: Long, date: LocalDate)
+    suspend fun updateTaskDate(
+        id: Long,
+        date: LocalDate,
+    )
 
     @Query("UPDATE task SET time = :time WHERE id = :id")
-    suspend fun updateTaskTime(id: Long, time: LocalDateTime)
+    suspend fun updateTaskTime(
+        id: Long,
+        time: LocalDateTime,
+    )
 
     @Query("UPDATE task SET reminderTime = :reminderTime WHERE id = :id")
-    suspend fun updateTaskReminderTime(id: Long, reminderTime: LocalDateTime)
+    suspend fun updateTaskReminderTime(
+        id: Long,
+        reminderTime: LocalDateTime,
+    )
 
     @Query("UPDATE task SET date = :date, time = :time, reminderTime = :reminderTime WHERE id = :id")
     suspend fun updateTaskDateTime(
         id: Long,
         date: LocalDate,
         time: LocalDateTime?,
-        reminderTime: LocalDateTime?
+        reminderTime: LocalDateTime?,
     )
 
     @Query("UPDATE task SET isCompleted = :isCompleted, completedAt = :completedAt WHERE id = :id")
     suspend fun updateTaskCompleted(
         id: Long,
         isCompleted: Boolean,
-        completedAt: LocalDateTime?
+        completedAt: LocalDateTime?,
     )
 
-    /* Delete */
+    // Delete
     @Query(value = "DELETE FROM task")
     suspend fun deleteAllTask()
 

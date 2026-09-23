@@ -48,7 +48,7 @@ internal fun EditTaskCategoryChip(
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainer,
                 )
-                .padding(all = 8.dp)
+                .padding(all = 8.dp),
         ) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
@@ -58,13 +58,13 @@ internal fun EditTaskCategoryChip(
                     text = categories.firstOrNull { it.id == taskCategoryId }?.title
                         ?: stringResource(id = DesignSystemR.string.no_category),
                     style = TodoTheme.typography.medium_12,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
                 Icon(
                     modifier = Modifier.size(size = 8.dp),
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_down),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }
@@ -74,8 +74,7 @@ internal fun EditTaskCategoryChip(
             isShowCategoryMenu = isShowCategoryMenu,
             onCloseClick = onCloseClick,
             onCategoryClick = onCategoryClick,
-            onCreateNewCategoryClick = onCreateNewCategoryClick
+            onCreateNewCategoryClick = onCreateNewCategoryClick,
         )
     }
-
 }

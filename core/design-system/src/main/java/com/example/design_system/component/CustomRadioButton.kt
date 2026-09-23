@@ -29,7 +29,7 @@ internal fun CustomRadioButton(
         RadioButton(
             colors = RadioButtonDefaults.colors(selectedColor = MaterialTheme.colorScheme.primary),
             selected = isSelected,
-            onClick = onClick
+            onClick = onClick,
         )
         Text(
             text = stringResource(id = titleResId),
@@ -46,7 +46,7 @@ private fun CustomRadioButtonPreview() {
         CustomRadioButton(
             titleResId = R.string.due_date_and_time,
             isSelected = true,
-            onClick = {}
+            onClick = {},
         )
     }
 }

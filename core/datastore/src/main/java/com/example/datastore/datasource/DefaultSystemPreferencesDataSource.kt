@@ -13,34 +13,47 @@ import java.time.LocalTime
 import javax.inject.Inject
 import javax.inject.Named
 
-class DefaultSystemPreferencesDataSource @Inject constructor(
-    @param:Named(value = "system") private val dataStore: DataStore<Preferences>
+class DefaultSystemPreferencesDataSource
+@Inject
+constructor(
+    @param:Named(value = "system") private val dataStore: DataStore<Preferences>,
 ) : SystemPreferencesDataSource {
     override val systemData: Flow<SystemData> =
         dataStore.data.map { preferences ->
             SystemData(
-                sleepTime = preferences[PreferencesKey.SLEEP_TIME_KEY]
+                sleepTime =
+                preferences[PreferencesKey.SLEEP_TIME_KEY]
                     ?: DEFAULT_SLEEP_TIME,
-                sortByType = preferences[PreferencesKey.SORT_BY_KEY]
+                sortByType =
+                preferences[PreferencesKey.SORT_BY_KEY]
                     ?: DEFAULT_SORT_BY,
-                languageType = preferences[PreferencesKey.LANGUAGE_TYPE_KEY]
+                languageType =
+                preferences[PreferencesKey.LANGUAGE_TYPE_KEY]
                     ?: DEFAULT_LANGUAGE_TYPE,
-                themeType = preferences[PreferencesKey.THEME_KEY]
+                themeType =
+                preferences[PreferencesKey.THEME_KEY]
                     ?: DEFAULT_THEME,
-                timePickerType = preferences[PreferencesKey.TIME_PICKER_KEY]
+                timePickerType =
+                preferences[PreferencesKey.TIME_PICKER_KEY]
                     ?: DEFAULT_TIME_PICKER,
-                locale = preferences[PreferencesKey.LOCALE_KEY]
+                locale =
+                preferences[PreferencesKey.LOCALE_KEY]
                     ?: DEFAULT_LOCALE,
-                buildVersion = preferences[PreferencesKey.BUILD_VERSION_KEY]
+                buildVersion =
+                preferences[PreferencesKey.BUILD_VERSION_KEY]
                     ?: DEFAULT_BUILD_VERSION,
-                password = preferences[PreferencesKey.PASSWORD_KEY]
+                password =
+                preferences[PreferencesKey.PASSWORD_KEY]
                     ?: DEFAULT_PASSWORD,
-                isBiometricEnabled = preferences[PreferencesKey.BIOMETRIC_ENABLED_KEY]
+                isBiometricEnabled =
+                preferences[PreferencesKey.BIOMETRIC_ENABLED_KEY]
                     ?: DEFAULT_BIOMETRIC_ENABLED,
-                lastLatitude = preferences[PreferencesKey.LAST_LATITUDE_KEY]
+                lastLatitude =
+                preferences[PreferencesKey.LAST_LATITUDE_KEY]
                     ?: DEFAULT_LAST_LATITUDE,
-                lastLongitude = preferences[PreferencesKey.LAST_LONGITUDE_KEY]
-                    ?: DEFAULT_LAST_LONGITUDE
+                lastLongitude =
+                preferences[PreferencesKey.LAST_LONGITUDE_KEY]
+                    ?: DEFAULT_LAST_LONGITUDE,
             )
         }
 
@@ -88,7 +101,7 @@ class DefaultSystemPreferencesDataSource @Inject constructor(
 
     override suspend fun updateLastLocation(
         latitude: Double,
-        longitude: Double
+        longitude: Double,
     ) {
         dataStore.edit { preferences ->
             preferences[PreferencesKey.LAST_LATITUDE_KEY] = latitude

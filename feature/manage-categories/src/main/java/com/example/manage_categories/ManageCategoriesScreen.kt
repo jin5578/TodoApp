@@ -61,7 +61,7 @@ internal fun ManageCategoriesScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
+                    containerColor = MaterialTheme.colorScheme.background,
                 ),
                 title = {
                     Text(
@@ -81,7 +81,7 @@ internal fun ManageCategoriesScreen(
                     }
                 },
             )
-        }
+        },
     ) { paddingValues ->
         if (isShowAddCategoryDialog) {
             CategoryDialog(
@@ -90,7 +90,7 @@ internal fun ManageCategoriesScreen(
                 onSaveClick = { title, type ->
                     onCategoryAdd(title, type)
                     isShowAddCategoryDialog = false
-                }
+                },
             )
         }
 
@@ -104,20 +104,20 @@ internal fun ManageCategoriesScreen(
                 onUpdateClick = { id, title, type ->
                     onCategoryUpdate(id, title, type)
                     isShowEditCategoryDialog = false
-                }
+                },
             )
         }
 
         Column(
             modifier = modifier.fillMaxSize()
-                .padding(paddingValues = paddingValues)
+                .padding(paddingValues = paddingValues),
         ) {
-            LazyColumn() {
+            LazyColumn {
                 itemsIndexed(
                     items = categoryUiModels,
                     key = { _, categoryUiModel ->
                         categoryUiModel.category.id
-                    }
+                    },
                 ) { _, categoryUiModel ->
                     val category = categoryUiModel.category
                     val type = CategoryColorType.entries.filter {
@@ -134,7 +134,7 @@ internal fun ManageCategoriesScreen(
                             editColorType = type
                             isShowEditCategoryDialog = true
                         },
-                        onDeleteClick = onCategoryDelete
+                        onDeleteClick = onCategoryDelete,
                     )
                 }
             }
@@ -146,7 +146,7 @@ internal fun ManageCategoriesScreen(
                     }
                     .padding(horizontal = 20.dp, vertical = 16.dp),
                 horizontalArrangement = Arrangement.spacedBy(space = 10.dp),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Icon(
                     modifier = Modifier.size(size = 20.dp),
@@ -159,7 +159,7 @@ internal fun ManageCategoriesScreen(
                     modifier = Modifier.weight(weight = 1f),
                     text = stringResource(id = DesignSystemR.string.create_new),
                     style = TodoTheme.typography.medium_16,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }

@@ -43,12 +43,12 @@ internal fun CustomTooltipBox(
     TooltipBox(
         modifier = modifier,
         positionProvider = TooltipDefaults.rememberTooltipPositionProvider(
-            positioning = TooltipAnchorPosition.Below
+            positioning = TooltipAnchorPosition.Below,
         ),
         tooltip = {
             PlainTooltip(
                 containerColor = MaterialTheme.colorScheme.background,
-                shadowElevation = 4.dp
+                shadowElevation = 4.dp,
             ) {
                 Text(
                     modifier = Modifier.padding(top = 2.dp),
@@ -58,11 +58,11 @@ internal fun CustomTooltipBox(
                 )
             }
         },
-        state = tooltipState
+        state = tooltipState,
     ) {
         Row(
             horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             content()
 
@@ -72,7 +72,7 @@ internal fun CustomTooltipBox(
                     .clickable { coroutineScope.launch { tooltipState.show() } },
                 imageVector = ImageVector.vectorResource(id = R.drawable.svg_information),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
     }
@@ -88,7 +88,7 @@ private fun CustomTooltipBoxPreview() {
             Text(
                 text = "Label",
                 style = TodoTheme.typography.medium_16,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
     }

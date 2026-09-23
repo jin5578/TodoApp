@@ -33,13 +33,13 @@ import com.example.design_system.R as DesignSystemR
 internal fun SettingLanguageContent(
     modifier: Modifier = Modifier,
     languageType: LanguageType,
-    onSelect: (LanguageType) -> Unit
+    onSelect: (LanguageType) -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
             .padding(bottom = 30.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.spacedBy(space = 30.dp)
+        verticalArrangement = Arrangement.spacedBy(space = 30.dp),
     ) {
         Text(
             text = stringResource(id = DesignSystemR.string.choose_language),
@@ -50,17 +50,18 @@ internal fun SettingLanguageContent(
         Row(
             modifier = Modifier.fillMaxWidth()
                 .padding(horizontal = 20.dp),
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.Center,
         ) {
             LanguageType.entries.forEachIndexed { index, type ->
                 SettingLanguageItem(
                     modifier = Modifier.weight(weight = 1f),
                     languageType = type,
                     isSelected = languageType == type,
-                    onClick = { onSelect(type) }
+                    onClick = { onSelect(type) },
                 )
-                if (index == 0)
+                if (index == 0) {
                     Spacer(modifier = Modifier.width(width = 10.dp))
+                }
             }
         }
     }
@@ -83,11 +84,14 @@ private fun SettingLanguageItem(
                 .clip(shape = RoundedCornerShape(size = 8.dp))
                 .background(
                     color =
-                        if (isSelected) MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.background
+                    if (isSelected) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.background
+                    },
                 )
                 .clickable { onClick() },
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 modifier = Modifier.padding(
@@ -97,8 +101,11 @@ private fun SettingLanguageItem(
                 text = languageType.title,
                 style = TodoTheme.typography.medium_16,
                 color =
-                    if (isSelected) MaterialTheme.colorScheme.onPrimary
-                    else MaterialTheme.colorScheme.onBackground
+                if (isSelected) {
+                    MaterialTheme.colorScheme.onPrimary
+                } else {
+                    MaterialTheme.colorScheme.onBackground
+                },
             )
         }
 
@@ -110,7 +117,7 @@ private fun SettingLanguageItem(
             LaunchedEffect(key1 = Unit) {
                 animValue.animateTo(
                     targetValue = 1f,
-                    animationSpec = tween(durationMillis = 300)
+                    animationSpec = tween(durationMillis = 300),
                 )
             }
 
@@ -120,7 +127,7 @@ private fun SettingLanguageItem(
                     .background(
                         color = MaterialTheme.colorScheme.primary,
                         shape = RoundedCornerShape(size = 8.dp),
-                    )
+                    ),
             )
         }
     }
@@ -132,7 +139,7 @@ private fun SettingLanguageContentPreview() {
     TodoTheme {
         SettingLanguageContent(
             languageType = LanguageType.KOREAN,
-            onSelect = {}
+            onSelect = {},
         )
     }
 }

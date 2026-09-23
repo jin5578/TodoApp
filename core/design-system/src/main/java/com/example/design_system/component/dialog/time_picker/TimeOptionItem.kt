@@ -29,13 +29,16 @@ internal fun TimeOptionItem(
         modifier = modifier.clip(shape = RoundedCornerShape(size = 8.dp))
             .background(
                 color =
-                    if (isClicked) MaterialTheme.colorScheme.secondaryContainer
-                    else MaterialTheme.colorScheme.surfaceContainer,
+                if (isClicked) {
+                    MaterialTheme.colorScheme.secondaryContainer
+                } else {
+                    MaterialTheme.colorScheme.surfaceContainer
+                },
             ).clickable {
                 onClick(timeOption.time)
             }.padding(
-                all = 8.dp
-            )
+                all = 8.dp,
+            ),
     ) {
         Text(
             text = stringResource(id = timeOption.resId),
@@ -56,7 +59,7 @@ private fun TimeOptionItemPreview() {
         TimeOptionItem(
             timeOption = timeOption,
             isClicked = true,
-            onClick = {}
+            onClick = {},
         )
     }
 }

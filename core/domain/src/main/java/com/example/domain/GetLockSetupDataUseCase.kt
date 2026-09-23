@@ -5,9 +5,10 @@ import com.example.model.lock_setup.LockSetupSystem
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetLockSetupDataUseCase @Inject constructor(
-    private val systemRepository: SystemRepository
+class GetLockSetupDataUseCase
+@Inject
+constructor(
+    private val systemRepository: SystemRepository,
 ) {
-    operator fun invoke(): Flow<LockSetupSystem> =
-        systemRepository.getLockSetupSystem()
+    operator fun invoke(): Flow<LockSetupSystem> = systemRepository.getLockSetupSystem()
 }

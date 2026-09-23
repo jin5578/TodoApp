@@ -18,25 +18,23 @@ internal object DatabaseModule {
     @Singleton
     fun providesCategoryDatabase(
         @ApplicationContext context: Context,
-    ): CategoryDatabase =
-        Room.databaseBuilder(
+    ): CategoryDatabase = Room
+        .databaseBuilder(
             context = context,
             klass = CategoryDatabase::class.java,
-            name = "category"
-        )
-            .fallbackToDestructiveMigration(dropAllTables = true)
-            .build()
+            name = "category",
+        ).fallbackToDestructiveMigration(dropAllTables = true)
+        .build()
 
     @Provides
     @Singleton
     fun providesTaskDatabase(
         @ApplicationContext context: Context,
-    ): TaskDatabase =
-        Room.databaseBuilder(
+    ): TaskDatabase = Room
+        .databaseBuilder(
             context = context,
             klass = TaskDatabase::class.java,
-            name = "task"
-        )
-            .fallbackToDestructiveMigration(dropAllTables = true)
-            .build()
+            name = "task",
+        ).fallbackToDestructiveMigration(dropAllTables = true)
+        .build()
 }

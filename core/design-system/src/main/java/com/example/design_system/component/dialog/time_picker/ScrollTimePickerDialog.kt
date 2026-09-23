@@ -59,23 +59,23 @@ fun ScrollTimePickerDialog(
 
     Dialog(
         onDismissRequest = { onCloseClick() },
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
         Card(
             modifier = Modifier.fillMaxWidth()
                 .padding(horizontal = 16.dp),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
-            )
+                containerColor = MaterialTheme.colorScheme.background,
+            ),
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth().padding(
                     horizontal = 2.dp,
-                    vertical = 16.dp
+                    vertical = 16.dp,
                 ),
                 verticalArrangement = Arrangement.spacedBy(space = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth()
@@ -83,7 +83,7 @@ fun ScrollTimePickerDialog(
                     text = stringResource(id = R.string.set_time),
                     style = TodoTheme.typography.bold_20,
                     color = MaterialTheme.colorScheme.onBackground,
-                    textAlign = TextAlign.Start
+                    textAlign = TextAlign.Start,
                 )
 
                 key(pickerSyncTime) {
@@ -91,7 +91,7 @@ fun ScrollTimePickerDialog(
                         initTime = pickerSyncTime.toLocalTime(),
                         onSelect = { time ->
                             selectedTaskTime = LocalDateTime.of(taskDate, time)
-                        }
+                        },
                     )
                 }
 
@@ -99,7 +99,7 @@ fun ScrollTimePickerDialog(
                     modifier = Modifier.fillMaxWidth()
                         .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-                    verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+                    verticalArrangement = Arrangement.spacedBy(space = 8.dp),
                 ) {
                     timeOptions.forEach { timeOption ->
                         TimeOptionItem(
@@ -110,7 +110,7 @@ fun ScrollTimePickerDialog(
                                 if (dateTime != null) {
                                     pickerSyncTime = dateTime
                                 }
-                            }
+                            },
                         )
                     }
                 }
@@ -118,18 +118,18 @@ fun ScrollTimePickerDialog(
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(end = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.End,
                 ) {
                     Text(
                         modifier = Modifier.clickable {
                             onCloseClick()
                         }.padding(
                             horizontal = 8.dp,
-                            vertical = 4.dp
+                            vertical = 4.dp,
                         ),
                         text = stringResource(id = R.string.cancel),
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.inversePrimary
+                        color = MaterialTheme.colorScheme.inversePrimary,
                     )
 
                     Text(
@@ -137,11 +137,11 @@ fun ScrollTimePickerDialog(
                             onConfirmClick(selectedTaskTime)
                         }.padding(
                             horizontal = 8.dp,
-                            vertical = 4.dp
+                            vertical = 4.dp,
                         ),
                         text = stringResource(id = R.string.confirm),
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
                     )
                 }
             }
@@ -157,14 +157,14 @@ private fun ScrollTimePicker(
     AnimatedVisibility(
         visible = true,
         enter = fadeIn() + expandVertically(),
-        exit = fadeOut() + shrinkVertically(animationSpec = tween(durationMillis = 0))
+        exit = fadeOut() + shrinkVertically(animationSpec = tween(durationMillis = 0)),
     ) {
         WheelTimePicker(
             timeFormat = TimeFormat.AM_PM,
             startTime = initTime,
             textColor = MaterialTheme.colorScheme.onBackground,
             textStyle = TodoTheme.typography.bold_16,
-            onSnappedTime = onSelect
+            onSnappedTime = onSelect,
         )
     }
 }
@@ -177,7 +177,7 @@ private fun ScrollTimePickerDialogPreview() {
             taskDate = LocalDate.now(),
             taskTime = LocalDateTime.now(),
             onCloseClick = {},
-            onConfirmClick = {}
+            onConfirmClick = {},
         )
     }
 }
@@ -188,7 +188,7 @@ private fun ScrollTimePickerPreview() {
     TodoTheme {
         ScrollTimePicker(
             initTime = LocalTime.now(),
-            onSelect = {}
+            onSelect = {},
         )
     }
 }

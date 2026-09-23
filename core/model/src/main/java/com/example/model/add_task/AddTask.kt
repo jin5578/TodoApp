@@ -7,5 +7,5 @@ data class AddTask(
     val date: LocalDate,
     val taskCount: Int,
     val categories: List<Category>,
-    val addTaskSystem: AddTaskSystem
+    val addTaskSystem: AddTaskSystem,
 )

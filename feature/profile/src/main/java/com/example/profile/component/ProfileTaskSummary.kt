@@ -29,7 +29,7 @@ internal fun ProfileTaskSummary(
     Row(
         modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         ProfileTaskSummaryItem(
             modifier = Modifier.weight(weight = 1f),
@@ -58,8 +58,8 @@ private fun ProfileTaskSummaryItem(
         modifier = modifier
             .background(
                 color = MaterialTheme.colorScheme.surfaceContainer,
-                shape = RoundedCornerShape(size = 8.dp)
-            )
+                shape = RoundedCornerShape(size = 8.dp),
+            ),
     ) {
         Column(
             modifier = Modifier.fillMaxWidth()
@@ -67,10 +67,10 @@ private fun ProfileTaskSummaryItem(
                     start = 8.dp,
                     top = if (isVisibleIcon) 8.dp else 28.dp,
                     end = 8.dp,
-                    bottom = 24.dp
+                    bottom = 24.dp,
                 ),
             horizontalAlignment = Alignment.End,
-            verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+            verticalArrangement = Arrangement.spacedBy(space = 8.dp),
         ) {
             if (isVisibleIcon) {
                 CustomTooltipBox(
@@ -83,7 +83,7 @@ private fun ProfileTaskSummaryItem(
                 text = stringResource(id = titleResId),
                 style = TodoTheme.typography.medium_12,
                 color = MaterialTheme.colorScheme.onBackground,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
 
             Text(
@@ -91,7 +91,7 @@ private fun ProfileTaskSummaryItem(
                 text = content,
                 style = TodoTheme.typography.bold_20,
                 color = MaterialTheme.colorScheme.onBackground,
-                textAlign = TextAlign.Center
+                textAlign = TextAlign.Center,
             )
         }
     }
@@ -103,7 +103,7 @@ private fun ProfileTaskSummaryPreview() {
     TodoTheme {
         ProfileTaskSummary(
             completedTasksCount = 7,
-            incompletedTasksCount = 7
+            incompletedTasksCount = 7,
         )
     }
 }

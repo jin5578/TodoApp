@@ -69,7 +69,7 @@ internal fun EditTaskMemoRow(
                 modifier = Modifier.padding(start = 24.dp, end = 30.dp),
                 text = memoTitle,
                 style = TodoTheme.typography.regular_12,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
 
@@ -80,7 +80,7 @@ internal fun EditTaskMemoRow(
                 modifier = Modifier.padding(start = 24.dp, end = 30.dp),
                 text = memoContent,
                 style = TodoTheme.typography.regular_12,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
     }
@@ -94,7 +94,7 @@ private fun EditTaskMemoRowPreview() {
             id = -1L,
             memoTitle = "",
             memoContent = "",
-            navigateMemo = {}
+            navigateMemo = {},
         )
     }
 }

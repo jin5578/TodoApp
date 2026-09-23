@@ -8,9 +8,7 @@ import java.util.Locale
 object LocalDateConverter {
     @TypeConverter
     @JvmStatic
-    fun fromString(value: String?): LocalDate? {
-        return value?.let { LocalDate.parse(it) }
-    }
+    fun fromString(value: String?): LocalDate? = value?.let { LocalDate.parse(it) }
 
     @TypeConverter
     @JvmStatic

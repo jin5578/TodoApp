@@ -33,7 +33,7 @@ import com.example.design_system.R as DesignSystemR
 internal fun SettingTimePickerContent(
     modifier: Modifier = Modifier,
     timePickerType: TimePickerType,
-    onSelect: (TimePickerType) -> Unit
+    onSelect: (TimePickerType) -> Unit,
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
@@ -57,10 +57,11 @@ internal fun SettingTimePickerContent(
                     modifier = Modifier.weight(weight = 1f),
                     timePickerType = type,
                     isSelected = timePickerType == type,
-                    onClick = { onSelect(type) }
+                    onClick = { onSelect(type) },
                 )
-                if (index == 0)
+                if (index == 0) {
                     Spacer(modifier = Modifier.width(width = 10.dp))
+                }
             }
         }
     }
@@ -83,11 +84,14 @@ private fun SettingTimePickerItem(
                 .clip(shape = RoundedCornerShape(size = 8.dp))
                 .background(
                     color =
-                        if (isSelected) MaterialTheme.colorScheme.primary
-                        else MaterialTheme.colorScheme.background
+                    if (isSelected) {
+                        MaterialTheme.colorScheme.primary
+                    } else {
+                        MaterialTheme.colorScheme.background
+                    },
                 )
                 .clickable { onClick() },
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 modifier = Modifier.padding(
@@ -97,8 +101,11 @@ private fun SettingTimePickerItem(
                 text = timePickerType.title,
                 style = TodoTheme.typography.medium_16,
                 color =
-                    if (isSelected) MaterialTheme.colorScheme.onPrimary
-                    else MaterialTheme.colorScheme.onBackground
+                if (isSelected) {
+                    MaterialTheme.colorScheme.onPrimary
+                } else {
+                    MaterialTheme.colorScheme.onBackground
+                },
             )
         }
 
@@ -110,7 +117,7 @@ private fun SettingTimePickerItem(
             LaunchedEffect(key1 = Unit) {
                 animValue.animateTo(
                     targetValue = 1f,
-                    animationSpec = tween(durationMillis = 300)
+                    animationSpec = tween(durationMillis = 300),
                 )
             }
 
@@ -119,8 +126,8 @@ private fun SettingTimePickerItem(
                     .height(height = 4.dp)
                     .background(
                         color = MaterialTheme.colorScheme.primary,
-                        shape = RoundedCornerShape(size = 8.dp)
-                    )
+                        shape = RoundedCornerShape(size = 8.dp),
+                    ),
             )
         }
     }
@@ -132,7 +139,7 @@ private fun SettingTimePickerContentPreview() {
     TodoTheme {
         SettingTimePickerContent(
             timePickerType = TimePickerType.SCROLL_TIME_PICKER,
-            onSelect = {}
+            onSelect = {},
         )
     }
 }

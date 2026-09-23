@@ -16,9 +16,11 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SecurityViewModel @Inject constructor(
+class SecurityViewModel
+@Inject
+constructor(
     private val getSecurityDataUseCase: GetSecurityDataUseCase,
-    private val updateBiometricEnabledUseCase: UpdateBiometricEnabledUseCase
+    private val updateBiometricEnabledUseCase: UpdateBiometricEnabledUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -31,22 +33,21 @@ class SecurityViewModel @Inject constructor(
         fetchSecurityUiState()
     }
 
-    private fun fetchSecurityUiState() =
-        viewModelScope.launch {
-            getSecurityDataUseCase().map { securitySystem ->
+    private fun fetchSecurityUiState() = viewModelScope.launch {
+        getSecurityDataUseCase()
+            .map { securitySystem ->
                 SecurityUiState.Screen(
                     hasExistingPassword = securitySystem.hasExistingPassword,
-                    hasBiometricEnabled = securitySystem.hasBiometricEnabled
+                    hasBiometricEnabled = securitySystem.hasBiometricEnabled,
                 )
             }.catch { throwable ->
                 _errorFlow.emit(value = throwable)
             }.collect {
                 _uiState.value = it
             }
-        }
+    }
 
-    fun updateBiometricEnabled(isChecked: Boolean) =
-        viewModelScope.launch {
-            updateBiometricEnabledUseCase(enabled = isChecked)
-        }
+    fun updateBiometricEnabled(isChecked: Boolean) = viewModelScope.launch {
+        updateBiometricEnabledUseCase(enabled = isChecked)
+    }
 }

@@ -61,7 +61,7 @@ internal fun LockSetupScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
+                    containerColor = MaterialTheme.colorScheme.background,
                 ),
                 title = {},
                 navigationIcon = {
@@ -70,35 +70,35 @@ internal fun LockSetupScreen(
                             modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
                 },
                 actions = {
                     IconButton(
-                        onClick = onPasswordRemove
+                        onClick = onPasswordRemove,
                     ) {
                         Icon(
                             modifier = modifier.size(size = 21.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_unlock),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         Column(
             modifier = modifier.fillMaxSize()
                 .padding(paddingValues = paddingValues),
             verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Column(
                 modifier = Modifier.weight(weight = 0.4f).fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 val title =
                     getTitle(lockSetupProcessType = lockSetupProcessType)
@@ -106,20 +106,21 @@ internal fun LockSetupScreen(
                     text = title,
                     style = TodoTheme.typography.bold_16,
                     color = MaterialTheme.colorScheme.onBackground,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
 
                 Spacer(modifier = Modifier.height(height = 20.dp))
 
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(space = 10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(space = 10.dp),
                 ) {
                     repeat(times = PASSWORD_LENGTH) { index ->
                         CircleIndicator(
-                            backgroundColor = if (index < inputPassword.size)
+                            backgroundColor = if (index < inputPassword.size) {
                                 Color.Gray
-                            else
+                            } else {
                                 Color.LightGray
+                            },
                         )
                     }
                 }
@@ -128,12 +129,12 @@ internal fun LockSetupScreen(
             Column(
                 modifier = Modifier.weight(weight = 0.6f).fillMaxWidth(),
                 verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 numberPadRows.forEach { row ->
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
+                        horizontalArrangement = Arrangement.SpaceEvenly,
                     ) {
                         row.forEach { number ->
                             NumberPadButton(
@@ -149,21 +150,23 @@ internal fun LockSetupScreen(
                                         when (lockSetupProcessType) {
                                             LockSetupProcessType.ENTER_EXISTING_PASSWORD,
                                             LockSetupProcessType.EXISTING_PASSWORD_MISMATCHED,
-                                            LockSetupProcessType.UNLOCK_PASSWORD ->
+                                            LockSetupProcessType.UNLOCK_PASSWORD,
+                                            ->
                                                 onPasswordCheck(password)
 
                                             LockSetupProcessType.ENTER_NEW_PASSWORD ->
                                                 onNewInputPasswordCheck(password)
 
                                             LockSetupProcessType.CONFIRM_NEW_PASSWORD,
-                                            LockSetupProcessType.CONFIRM_NEW_PASSWORD_MISMATCHED ->
+                                            LockSetupProcessType.CONFIRM_NEW_PASSWORD_MISMATCHED,
+                                            ->
                                                 onPasswordUpdate(password)
                                         }
                                     }
                                 },
                                 onDeleteClick = {
                                     inputPassword.removeLastOrNull()
-                                }
+                                },
                             )
                         }
                     }
@@ -196,7 +199,7 @@ private fun LockSetupScreenPreview() {
             onPasswordCheck = { _ -> },
             onNewInputPasswordCheck = { _ -> },
             onPasswordUpdate = { _ -> },
-            onPasswordRemove = {}
+            onPasswordRemove = {},
         )
     }
 }

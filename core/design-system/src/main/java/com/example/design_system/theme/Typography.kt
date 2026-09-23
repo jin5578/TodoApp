@@ -13,7 +13,7 @@ private val Spoqa = FontFamily(
     Font(R.font.spoqa_light, FontWeight.Light),
     Font(R.font.spoqa_regular, FontWeight.Normal),
     Font(R.font.spoqa_medium, FontWeight.Medium),
-    Font(R.font.spoqa_bold, FontWeight.SemiBold)
+    Font(R.font.spoqa_bold, FontWeight.SemiBold),
 )
 
 private val SpoqaLight = TextStyle(
@@ -23,83 +23,83 @@ private val SpoqaLight = TextStyle(
 
 private val SpoqaRegular = TextStyle(
     fontFamily = Spoqa,
-    fontWeight = FontWeight.Normal
+    fontWeight = FontWeight.Normal,
 )
 
 private val SpoqaMedium = TextStyle(
     fontFamily = Spoqa,
-    fontWeight = FontWeight.Medium
+    fontWeight = FontWeight.Medium,
 )
 
 private val SpoqaBold = TextStyle(
     fontFamily = Spoqa,
-    fontWeight = FontWeight.Bold
+    fontWeight = FontWeight.Bold,
 )
 
 internal val Typography = TodoTypography(
     bold_32 = SpoqaBold.copy(
-        fontSize = 32.sp
+        fontSize = 32.sp,
     ),
     bold_28 = SpoqaBold.copy(
-        fontSize = 28.sp
+        fontSize = 28.sp,
     ),
     bold_24 = SpoqaBold.copy(
-        fontSize = 24.sp
+        fontSize = 24.sp,
     ),
     bold_20 = SpoqaBold.copy(
-        fontSize = 20.sp
+        fontSize = 20.sp,
     ),
     bold_16 = SpoqaBold.copy(
-        fontSize = 16.sp
+        fontSize = 16.sp,
     ),
     bold_12 = SpoqaBold.copy(
-        fontSize = 12.sp
+        fontSize = 12.sp,
     ),
     bold_08 = SpoqaBold.copy(
-        fontSize = 8.sp
+        fontSize = 8.sp,
     ),
     medium_32 = SpoqaMedium.copy(
-        fontSize = 32.sp
+        fontSize = 32.sp,
     ),
     medium_28 = SpoqaMedium.copy(
-        fontSize = 28.sp
+        fontSize = 28.sp,
     ),
     medium_24 = SpoqaMedium.copy(
-        fontSize = 24.sp
+        fontSize = 24.sp,
     ),
     medium_20 = SpoqaMedium.copy(
-        fontSize = 20.sp
+        fontSize = 20.sp,
     ),
     medium_16 = SpoqaMedium.copy(
-        fontSize = 16.sp
+        fontSize = 16.sp,
     ),
     medium_12 = SpoqaMedium.copy(
-        fontSize = 12.sp
+        fontSize = 12.sp,
     ),
     medium_08 = SpoqaMedium.copy(
-        fontSize = 8.sp
+        fontSize = 8.sp,
     ),
     regular_32 = SpoqaRegular.copy(
-        fontSize = 32.sp
+        fontSize = 32.sp,
     ),
     regular_28 = SpoqaRegular.copy(
-        fontSize = 28.sp
+        fontSize = 28.sp,
     ),
     regular_24 = SpoqaRegular.copy(
-        fontSize = 24.sp
+        fontSize = 24.sp,
     ),
     regular_20 = SpoqaRegular.copy(
-        fontSize = 20.sp
+        fontSize = 20.sp,
     ),
     regular_16 = SpoqaRegular.copy(
-        fontSize = 16.sp
+        fontSize = 16.sp,
     ),
     regular_12 = SpoqaRegular.copy(
-        fontSize = 12.sp
+        fontSize = 12.sp,
     ),
     regular_08 = SpoqaRegular.copy(
-        fontSize = 8.sp
-    )
+        fontSize = 8.sp,
+    ),
 )
 
 @Immutable

@@ -6,5 +6,5 @@ import com.example.model.Task
 data class Profile(
     val tasks: List<Task>,
     val categories: List<Category>,
-    val profileSystem: ProfileSystem
+    val profileSystem: ProfileSystem,
 )

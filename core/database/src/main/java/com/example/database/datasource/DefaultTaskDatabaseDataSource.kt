@@ -9,61 +9,57 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 
-class DefaultTaskDatabaseDataSource @Inject constructor(
-    private val taskDatabase: TaskDatabase
+class DefaultTaskDatabaseDataSource
+@Inject
+constructor(
+    private val taskDatabase: TaskDatabase,
 ) : TaskDatabaseDataSource {
-    override suspend fun insertTask(entity: TaskEntity) =
-        taskDatabase.taskDao().insertTask(entity = entity)
+    override suspend fun insertTask(entity: TaskEntity) = taskDatabase.taskDao().insertTask(entity = entity)
 
-    override fun getTasks(): Flow<List<TaskWithSubTasksEntity>> =
-        taskDatabase.taskDao().getTasks()
+    override fun getTasks(): Flow<List<TaskWithSubTasksEntity>> = taskDatabase.taskDao().getTasks()
 
-    override fun getTasksByDate(date: LocalDate): Flow<List<TaskWithSubTasksEntity>> =
-        taskDatabase.taskDao().getTasksByDate(date = date.toString())
+    override fun getTasksByDate(date: LocalDate): Flow<List<TaskWithSubTasksEntity>> = taskDatabase.taskDao().getTasksByDate(date = date.toString())
 
-    override fun getTaskCountByDate(date: LocalDate): Flow<Int> =
-        taskDatabase.taskDao().getTasksByDate(date = date.toString())
-            .map { it.count() }
+    override fun getTaskCountByDate(date: LocalDate): Flow<Int> = taskDatabase
+        .taskDao()
+        .getTasksByDate(date = date.toString())
+        .map { it.count() }
 
     override fun getTasksByDateRange(
         fromDate: LocalDate,
-        toDate: LocalDate
-    ): Flow<List<TaskWithSubTasksEntity>> =
-        taskDatabase.taskDao().getTasksByEpochDayRange(
-            fromDate = fromDate.toEpochDay(),
-            toDate = toDate.toEpochDay()
-        )
+        toDate: LocalDate,
+    ): Flow<List<TaskWithSubTasksEntity>> = taskDatabase.taskDao().getTasksByEpochDayRange(
+        fromDate = fromDate.toEpochDay(),
+        toDate = toDate.toEpochDay(),
+    )
 
-    override fun getTasksByState(isCompleted: Boolean): Flow<List<TaskWithSubTasksEntity>> =
-        taskDatabase.taskDao().getTasksByState(isCompleted = isCompleted)
+    override fun getTasksByState(isCompleted: Boolean): Flow<List<TaskWithSubTasksEntity>> = taskDatabase.taskDao().getTasksByState(isCompleted = isCompleted)
 
-    override fun getTasksByCategory(categoryId: Long): Flow<List<TaskWithSubTasksEntity>> =
-        taskDatabase.taskDao().getTasksByCategory(categoryId)
+    override fun getTasksByCategory(categoryId: Long): Flow<List<TaskWithSubTasksEntity>> = taskDatabase.taskDao().getTasksByCategory(categoryId)
 
-    override fun getTasksByKeyword(keyword: String): Flow<List<TaskWithSubTasksEntity>> =
-        taskDatabase.taskDao().getTasksByKeyword(keyword = keyword)
+    override fun getTasksByKeyword(keyword: String): Flow<List<TaskWithSubTasksEntity>> = taskDatabase.taskDao().getTasksByKeyword(keyword = keyword)
 
     override fun getTasksByCategoryAndDate(
         categoryId: Long,
-        date: LocalDate
-    ): Flow<List<TaskWithSubTasksEntity>> =
-        taskDatabase.taskDao()
-            .getTasksByCategoryAndDate(
-                categoryId = categoryId,
-                date = date.toString()
-            )
-
-    override fun getTaskById(id: Long): Flow<TaskWithSubTasksEntity> =
-        taskDatabase.taskDao().getTaskById(id = id)
-
-    override suspend fun updateTask(entity: TaskEntity) =
-        taskDatabase.taskDao().updateTask(entity = entity)
-
-    override suspend fun updateTaskSymbol(taskId: Long, symbolId: Int) =
-        taskDatabase.taskDao().updateTaskSymbol(
-            taskId = taskId,
-            symbolId = symbolId
+        date: LocalDate,
+    ): Flow<List<TaskWithSubTasksEntity>> = taskDatabase
+        .taskDao()
+        .getTasksByCategoryAndDate(
+            categoryId = categoryId,
+            date = date.toString(),
         )
+
+    override fun getTaskById(id: Long): Flow<TaskWithSubTasksEntity> = taskDatabase.taskDao().getTaskById(id = id)
+
+    override suspend fun updateTask(entity: TaskEntity) = taskDatabase.taskDao().updateTask(entity = entity)
+
+    override suspend fun updateTaskSymbol(
+        taskId: Long,
+        symbolId: Int,
+    ) = taskDatabase.taskDao().updateTaskSymbol(
+        taskId = taskId,
+        symbolId = symbolId,
+    )
 
     override suspend fun updateTaskMemoTitle(
         id: Long,
@@ -71,70 +67,80 @@ class DefaultTaskDatabaseDataSource @Inject constructor(
     ) = taskDatabase.taskDao().updateTaskMemoTitle(
         id = id,
         memoTitle = memoTitle,
-        memoUpdatedAt = LocalDateTime.now()
+        memoUpdatedAt = LocalDateTime.now(),
     )
 
     override suspend fun updateTaskMemoContent(
         id: Long,
-        memoContent: String
+        memoContent: String,
     ) = taskDatabase.taskDao().updateTaskMemoContent(
         id = id,
         memoContent = memoContent,
-        memoUpdatedAt = LocalDateTime.now()
+        memoUpdatedAt = LocalDateTime.now(),
     )
 
-    override suspend fun updateTaskCategory(taskId: Long, categoryId: Long) =
-        taskDatabase.taskDao()
-            .updateTaskCategory(taskId = taskId, categoryId = categoryId)
+    override suspend fun updateTaskCategory(
+        taskId: Long,
+        categoryId: Long,
+    ) = taskDatabase
+        .taskDao()
+        .updateTaskCategory(taskId = taskId, categoryId = categoryId)
 
-    override suspend fun updateTaskTitle(id: Long, title: String) =
-        taskDatabase.taskDao()
-            .updateTaskTitle(id = id, title = title)
+    override suspend fun updateTaskTitle(
+        id: Long,
+        title: String,
+    ) = taskDatabase
+        .taskDao()
+        .updateTaskTitle(id = id, title = title)
 
-    override suspend fun updateTaskDate(id: Long, date: LocalDate) =
-        taskDatabase.taskDao()
-            .updateTaskDate(id = id, date = date)
+    override suspend fun updateTaskDate(
+        id: Long,
+        date: LocalDate,
+    ) = taskDatabase
+        .taskDao()
+        .updateTaskDate(id = id, date = date)
 
-    override suspend fun updateTaskTime(id: Long, time: LocalDateTime) =
-        taskDatabase.taskDao()
-            .updateTaskTime(id = id, time = time)
+    override suspend fun updateTaskTime(
+        id: Long,
+        time: LocalDateTime,
+    ) = taskDatabase
+        .taskDao()
+        .updateTaskTime(id = id, time = time)
 
     override suspend fun updateTaskReminderTime(
         id: Long,
-        reminderTime: LocalDateTime
+        reminderTime: LocalDateTime,
     ) = taskDatabase.taskDao().updateTaskReminderTime(
         id = id,
-        reminderTime = reminderTime
+        reminderTime = reminderTime,
     )
 
     override suspend fun updateTaskDateTime(
         id: Long,
         date: LocalDate,
         time: LocalDateTime?,
-        reminderTime: LocalDateTime?
+        reminderTime: LocalDateTime?,
     ) = taskDatabase.taskDao().updateTaskDateTime(
         id = id,
         date = date,
         time = time,
-        reminderTime = reminderTime
+        reminderTime = reminderTime,
     )
 
-    override suspend fun updateTaskCompleted(id: Long, isCompleted: Boolean) =
-        taskDatabase.taskDao().updateTaskCompleted(
-            id = id,
-            isCompleted = isCompleted,
-            completedAt = if (isCompleted) LocalDateTime.now() else null
-        )
+    override suspend fun updateTaskCompleted(
+        id: Long,
+        isCompleted: Boolean,
+    ) = taskDatabase.taskDao().updateTaskCompleted(
+        id = id,
+        isCompleted = isCompleted,
+        completedAt = if (isCompleted) LocalDateTime.now() else null,
+    )
 
-    override suspend fun deleteAllTask() =
-        taskDatabase.taskDao().deleteAllTask()
+    override suspend fun deleteAllTask() = taskDatabase.taskDao().deleteAllTask()
 
-    override suspend fun deleteTaskById(id: Long) =
-        taskDatabase.taskDao().deleteTaskById(id = id)
+    override suspend fun deleteTaskById(id: Long) = taskDatabase.taskDao().deleteTaskById(id = id)
 
-    override suspend fun deleteTaskByEntity(entity: TaskEntity) =
-        taskDatabase.taskDao().deleteTaskByEntity(entity = entity)
+    override suspend fun deleteTaskByEntity(entity: TaskEntity) = taskDatabase.taskDao().deleteTaskByEntity(entity = entity)
 
-    override suspend fun deleteTasksByState(isCompleted: Boolean) =
-        taskDatabase.taskDao().deleteTasksByState(isCompleted = isCompleted)
+    override suspend fun deleteTasksByState(isCompleted: Boolean) = taskDatabase.taskDao().deleteTasksByState(isCompleted = isCompleted)
 }

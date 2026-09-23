@@ -16,5 +16,4 @@ fun NavGraphBuilder.securityNavGraph(
     )
 }
 
-fun NavController.navigateSecurity() =
-    navigate(route = Route.Security)
+fun NavController.navigateSecurity() = navigate(route = Route.Security)

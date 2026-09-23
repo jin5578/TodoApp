@@ -34,7 +34,7 @@ include(
     ":core:domain",
     ":core:model",
     ":core:navigation",
-    ":core:utils"
+    ":core:utils",
 )
 include(
     ":feature:calendar",
@@ -49,5 +49,5 @@ include(
     ":feature:search-task",
     ":feature:security",
     ":feature:setting",
-    ":feature:tasks"
+    ":feature:tasks",
 )

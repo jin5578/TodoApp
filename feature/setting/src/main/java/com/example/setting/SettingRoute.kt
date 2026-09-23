@@ -35,7 +35,7 @@ internal fun SettingRoute(
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
             snackbarHostState.showSnackbar(
-                message = throwable.toErrorMessage(resources = contextResources)
+                message = throwable.toErrorMessage(resources = contextResources),
             )
         }
     }
@@ -67,6 +67,7 @@ private fun SettingContent(
 ) {
     when (uiState) {
         is SettingUiState.Loading -> Loading()
+
         is SettingUiState.Screen -> SettingScreen(
             languageType = uiState.languageType,
             themeType = uiState.themeType,

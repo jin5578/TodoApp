@@ -72,31 +72,30 @@ class TasksViewModel @Inject constructor(
         MutableStateFlow(value = -1L)
     private var isTasksUiStateObserved = false
 
-    private val _weatherInfo: MutableStateFlow<WeatherInfo?> =
+    private val weatherInfoFlow: MutableStateFlow<WeatherInfo?> =
         MutableStateFlow(value = null)
 
     init {
         executeLockProcess()
     }
 
-    private fun executeLockProcess() =
-        viewModelScope.launch {
-            val hasBiometricEnabled = getHasBiometricEnabledUseCase().first()
-            if (hasBiometricEnabled) {
-                _uiState.value = TasksUiState.Biometric
-                return@launch
-            }
-
-            val hasExistingPassword = getHasExistingPasswordUseCase().first()
-            if (hasExistingPassword) {
-                _uiState.value = TasksUiState.Password(
-                    tasksPasswordProcessType = TasksPasswordProcessType.ENTER_EXISTING_PASSWORD
-                )
-                return@launch
-            }
-
-            fetchTasksUiState()
+    private fun executeLockProcess() = viewModelScope.launch {
+        val hasBiometricEnabled = getHasBiometricEnabledUseCase().first()
+        if (hasBiometricEnabled) {
+            _uiState.value = TasksUiState.Biometric
+            return@launch
         }
+
+        val hasExistingPassword = getHasExistingPasswordUseCase().first()
+        if (hasExistingPassword) {
+            _uiState.value = TasksUiState.Password(
+                tasksPasswordProcessType = TasksPasswordProcessType.ENTER_EXISTING_PASSWORD,
+            )
+            return@launch
+        }
+
+        fetchTasksUiState()
+    }
 
     fun fetchTasksUiState(categoryId: Long = -1L) {
         selectedCategoryId.value = categoryId
@@ -113,11 +112,11 @@ class TasksViewModel @Inject constructor(
                 flow = selectedCategoryId.flatMapLatest { id ->
                     getTasksDataUseCase(categoryId = id)
                 },
-                flow2 = _weatherInfo,
+                flow2 = weatherInfoFlow,
             ) { tasks, weatherInfo ->
                 val tasksSystem = tasks.tasksSystem
                 val taskStateGroups = tasks.tasks.toTaskStateGroups(
-                    sortByType = tasksSystem.sortByType
+                    sortByType = tasksSystem.sortByType,
                 )
                 val isVisibleCompletedTask =
                     tasks.tasks.any { task ->
@@ -155,91 +154,83 @@ class TasksViewModel @Inject constructor(
             longitude = coordinates.longitude
             updateLastLocationUseCase(
                 latitude = latitude,
-                longitude = longitude
+                longitude = longitude,
             )
         }
 
         runCatching {
             getOpenWeatherUseCase(
                 lat = latitude,
-                lon = longitude
+                lon = longitude,
             )
         }.onSuccess { weatherInfo ->
-            _weatherInfo.value = weatherInfo
+            weatherInfoFlow.value = weatherInfo
         }.onFailure { throwable ->
             _errorFlow.emit(value = throwable)
         }
     }
 
-    fun checkPassword(password: String) =
-        viewModelScope.launch {
-            val isPasswordMatched =
-                checkPasswordUseCase(password = password).first()
-            if (isPasswordMatched) {
-                fetchTasksUiState()
-            } else {
-                val state = _uiState.value
-                if (state !is TasksUiState.Password) return@launch
+    fun checkPassword(password: String) = viewModelScope.launch {
+        val isPasswordMatched =
+            checkPasswordUseCase(password = password).first()
+        if (isPasswordMatched) {
+            fetchTasksUiState()
+        } else {
+            val state = _uiState.value
+            if (state !is TasksUiState.Password) return@launch
 
-                _uiState.value = state.copy(
-                    tasksPasswordProcessType = TasksPasswordProcessType.EXISTING_PASSWORD_MISMATCHED
-                )
-            }
+            _uiState.value = state.copy(
+                tasksPasswordProcessType = TasksPasswordProcessType.EXISTING_PASSWORD_MISMATCHED,
+            )
         }
+    }
 
-    fun deleteAllData() =
-        viewModelScope.launch {
-            deleteAllDataUseCase()
-        }
+    fun deleteAllData() = viewModelScope.launch {
+        deleteAllDataUseCase()
+    }
 
     fun executePasswordAuth() {
         _uiState.value = TasksUiState.Password(
-            tasksPasswordProcessType = TasksPasswordProcessType.ENTER_EXISTING_PASSWORD
+            tasksPasswordProcessType = TasksPasswordProcessType.ENTER_EXISTING_PASSWORD,
         )
     }
 
-    fun insertTask(task: Task) =
-        viewModelScope.launch {
-            insertTaskUseCase(task)
-        }
+    fun insertTask(task: Task) = viewModelScope.launch {
+        insertTaskUseCase(task)
+    }
 
-    fun insertCategory(title: String, colorValue: Long) =
-        viewModelScope.launch {
-            val category = Category(
-                title = title,
-                colorValue = colorValue
-            )
-            insertCategoryUseCase(category = category)
-        }
+    fun insertCategory(title: String, colorValue: Long) = viewModelScope.launch {
+        val category = Category(
+            title = title,
+            colorValue = colorValue,
+        )
+        insertCategoryUseCase(category = category)
+    }
 
-    fun updateTaskSymbol(taskId: Long, symbolId: Int) =
-        viewModelScope.launch {
-            updateTaskSymbolUseCase(
-                taskId = taskId,
-                symbolId = symbolId
-            )
-        }
+    fun updateTaskSymbol(taskId: Long, symbolId: Int) = viewModelScope.launch {
+        updateTaskSymbolUseCase(
+            taskId = taskId,
+            symbolId = symbolId,
+        )
+    }
 
-    fun updateTaskCompleted(id: Long, isCompleted: Boolean) =
-        viewModelScope.launch {
-            updateTaskCompletedUseCase(
-                id = id,
-                isCompleted = isCompleted
-            )
-        }
+    fun updateTaskCompleted(id: Long, isCompleted: Boolean) = viewModelScope.launch {
+        updateTaskCompletedUseCase(
+            id = id,
+            isCompleted = isCompleted,
+        )
+    }
 
-    fun updateSubTaskCompleted(subTaskId: Long, isCompleted: Boolean) =
-        viewModelScope.launch {
-            updateSubTaskCompletedUseCase(
-                id = subTaskId,
-                isCompleted = isCompleted
-            )
-        }
+    fun updateSubTaskCompleted(subTaskId: Long, isCompleted: Boolean) = viewModelScope.launch {
+        updateSubTaskCompletedUseCase(
+            id = subTaskId,
+            isCompleted = isCompleted,
+        )
+    }
 
-    fun updateSortByType(sortByType: SortByType) =
-        viewModelScope.launch {
-            updateSortByTypeUseCase(sortByType = sortByType)
-        }
+    fun updateSortByType(sortByType: SortByType) = viewModelScope.launch {
+        updateSortByTypeUseCase(sortByType = sortByType)
+    }
 
     private fun List<Task>.toTaskStateGroups(sortByType: SortByType): ImmutableList<TaskStateGroup> {
         val (completedTasks, previousTasks) = partition { task -> task.isCompleted }
@@ -251,28 +242,29 @@ class TasksViewModel @Inject constructor(
             previousTasks.takeIf { it.isNotEmpty() }?.let { tasks ->
                 TaskStateGroup(
                     taskState = TaskState.PREVIOUS,
-                    tasks = tasks.sortedBy(sortByType).toUiModels()
+                    tasks = tasks.sortedBy(sortByType).toUiModels(),
                 )
             },
             completedTodayTasks.takeIf { it.isNotEmpty() }?.let { tasks ->
                 TaskStateGroup(
                     taskState = TaskState.COMPLETED_TODAY,
-                    tasks = tasks.sortedBy(sortByType).toUiModels()
+                    tasks = tasks.sortedBy(sortByType).toUiModels(),
                 )
-            }
+            },
         ).toPersistentList()
     }
 
-    private fun List<Task>.sortedBy(sortByType: SortByType): List<Task> =
-        when (sortByType) {
-            SortByType.DUE_DATE_AND_TIME ->
-                sortedWith(
-                    compareBy(
-                        { it.date },
-                        { it.time ?: LocalDateTime.MAX })
-                )
+    private fun List<Task>.sortedBy(sortByType: SortByType): List<Task> = when (sortByType) {
+        SortByType.DUE_DATE_AND_TIME ->
+            sortedWith(
+                compareBy(
+                    { it.date },
+                    { it.time ?: LocalDateTime.MAX },
+                ),
+            )
 
-            SortByType.TASK_CREATION_TIME_ASC -> sortedBy { it.createdAt }
-            SortByType.TASK_CREATION_TIME_DESC -> sortedByDescending { it.createdAt }
-        }
+        SortByType.TASK_CREATION_TIME_ASC -> sortedBy { it.createdAt }
+
+        SortByType.TASK_CREATION_TIME_DESC -> sortedByDescending { it.createdAt }
+    }
 }

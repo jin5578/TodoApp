@@ -7,9 +7,9 @@ import androidx.compose.ui.platform.LocalResources
 import androidx.compose.ui.res.stringResource
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.design_system.component.Loading
 import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.utils.LocalSnackbarScope
-import com.example.design_system.component.Loading
 import com.example.design_system.utils.toErrorMessage
 import com.example.lock_setup.model.LockSetupUiEffect
 import com.example.lock_setup.model.LockSetupUiState
@@ -36,7 +36,7 @@ internal fun LockSetupRoute(
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
             snackbarHostState.showSnackbar(
-                message = throwable.toErrorMessage(resources = contextResources)
+                message = throwable.toErrorMessage(resources = contextResources),
             )
         }
     }
@@ -59,7 +59,7 @@ internal fun LockSetupRoute(
         onPasswordCheck = viewModel::checkPassword,
         onNewInputPasswordCheck = viewModel::updateNewInputPassword,
         onPasswordUpdate = viewModel::updatePassword,
-        onPasswordRemove = viewModel::removePassword
+        onPasswordRemove = viewModel::removePassword,
     )
 }
 
@@ -70,7 +70,7 @@ private fun LockSetupContent(
     onPasswordCheck: (String) -> Unit,
     onNewInputPasswordCheck: (String) -> Unit,
     onPasswordUpdate: (String) -> Unit,
-    onPasswordRemove: () -> Unit
+    onPasswordRemove: () -> Unit,
 ) {
     when (uiState) {
         is LockSetupUiState.Loading ->
@@ -83,7 +83,7 @@ private fun LockSetupContent(
                 onPasswordCheck = onPasswordCheck,
                 onNewInputPasswordCheck = onNewInputPasswordCheck,
                 onPasswordUpdate = onPasswordUpdate,
-                onPasswordRemove = onPasswordRemove
+                onPasswordRemove = onPasswordRemove,
             )
     }
 }

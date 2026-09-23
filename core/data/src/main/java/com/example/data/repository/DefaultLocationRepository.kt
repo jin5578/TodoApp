@@ -23,20 +23,22 @@ internal class DefaultLocationRepository(
 
         val cancellationTokenSource = CancellationTokenSource()
         return suspendCancellableCoroutine { continuation ->
-            fusedLocationProviderClient.getCurrentLocation(
-                Priority.PRIORITY_BALANCED_POWER_ACCURACY,
-                cancellationTokenSource.token
-            ).addOnSuccessListener { location ->
-                val coordinates = location?.let {
-                    Coordinates(
-                        latitude = it.latitude,
-                        longitude = it.longitude
-                    )
+            fusedLocationProviderClient
+                .getCurrentLocation(
+                    Priority.PRIORITY_BALANCED_POWER_ACCURACY,
+                    cancellationTokenSource.token,
+                ).addOnSuccessListener { location ->
+                    val coordinates =
+                        location?.let {
+                            Coordinates(
+                                latitude = it.latitude,
+                                longitude = it.longitude,
+                            )
+                        }
+                    continuation.resume(coordinates)
+                }.addOnFailureListener {
+                    continuation.resume(null)
                 }
-                continuation.resume(coordinates)
-            }.addOnFailureListener {
-                continuation.resume(null)
-            }
 
             continuation.invokeOnCancellation {
                 cancellationTokenSource.cancel()
@@ -44,9 +46,8 @@ internal class DefaultLocationRepository(
         }
     }
 
-    private fun hasLocationPermission(): Boolean =
-        ContextCompat.checkSelfPermission(
-            context,
-            Manifest.permission.ACCESS_COARSE_LOCATION
-        ) == PackageManager.PERMISSION_GRANTED
+    private fun hasLocationPermission(): Boolean = ContextCompat.checkSelfPermission(
+        context,
+        Manifest.permission.ACCESS_COARSE_LOCATION,
+    ) == PackageManager.PERMISSION_GRANTED
 }

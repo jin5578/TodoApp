@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
         setContent {
             val themeType by viewModel.themeType.collectAsStateWithLifecycle(
                 initialValue = ThemeType.SYSTEM,
-                lifecycleOwner = this
+                lifecycleOwner = this,
             )
 
             val navigator = rememberMainNavigator()
@@ -62,7 +62,7 @@ class MainActivity : AppCompatActivity() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU &&
             ContextCompat.checkSelfPermission(
                 this,
-                Manifest.permission.POST_NOTIFICATIONS
+                Manifest.permission.POST_NOTIFICATIONS,
             ) != PackageManager.PERMISSION_GRANTED
         ) {
             requestNotificationPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)

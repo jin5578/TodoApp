@@ -70,7 +70,7 @@ internal fun TasksPasswordScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
+                    containerColor = MaterialTheme.colorScheme.background,
                 ),
                 title = {},
                 navigationIcon = {
@@ -79,17 +79,17 @@ internal fun TasksPasswordScreen(
                             modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         if (isShowForgotPasswordDialog) {
             ForgotPasswordDialog(
                 onClose = { isShowForgotPasswordDialog = false },
-                onConfirm = onDeleteAllData
+                onConfirm = onDeleteAllData,
             )
         }
 
@@ -97,31 +97,32 @@ internal fun TasksPasswordScreen(
             modifier = modifier.fillMaxSize()
                 .padding(paddingValues = paddingValues),
             verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             Column(
                 modifier = Modifier.weight(weight = 0.3f).fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     text = stringResource(id = tasksPasswordProcessType.getTitleResId()),
                     style = TodoTheme.typography.bold_16,
                     color = MaterialTheme.colorScheme.onBackground,
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
                 )
 
                 Spacer(modifier = Modifier.height(height = 20.dp))
 
                 Row(
-                    horizontalArrangement = Arrangement.spacedBy(space = 10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(space = 10.dp),
                 ) {
                     repeat(times = PASSWORD_LENGTH) { index ->
                         CircleIndicator(
-                            backgroundColor = if (index < inputPassword.size)
+                            backgroundColor = if (index < inputPassword.size) {
                                 Color.Gray
-                            else
+                            } else {
                                 Color.LightGray
+                            },
                         )
                     }
                 }
@@ -130,12 +131,12 @@ internal fun TasksPasswordScreen(
             Column(
                 modifier = Modifier.weight(weight = 0.7f).fillMaxWidth(),
                 verticalArrangement = Arrangement.SpaceBetween,
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 numberPadRows.forEach { row ->
                     Row(
                         modifier = Modifier.fillMaxWidth(),
-                        horizontalArrangement = Arrangement.SpaceEvenly
+                        horizontalArrangement = Arrangement.SpaceEvenly,
                     ) {
                         row.forEach { number ->
                             NumberPadButton(
@@ -153,14 +154,14 @@ internal fun TasksPasswordScreen(
                                 },
                                 onDeleteClick = {
                                     inputPassword.removeLastOrNull()
-                                }
+                                },
                             )
                         }
                     }
                 }
 
                 Box(
-                    modifier = Modifier.padding(all = 20.dp)
+                    modifier = Modifier.padding(all = 20.dp),
                 ) {
                     Button(
                         modifier = Modifier.fillMaxWidth(),
@@ -169,12 +170,12 @@ internal fun TasksPasswordScreen(
                             contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
                         ),
                         shape = RoundedCornerShape(size = 16.dp),
-                        onClick = { isShowForgotPasswordDialog = true }
+                        onClick = { isShowForgotPasswordDialog = true },
                     ) {
                         Text(
                             modifier = Modifier.padding(all = 8.dp),
                             text = stringResource(id = DesignSystemR.string.forgot_password),
-                            style = TodoTheme.typography.bold_16
+                            style = TodoTheme.typography.bold_16,
                         )
                     }
                 }

@@ -98,7 +98,7 @@ fun AddTaskBottomSheetContent(
     Column(
         modifier = modifier.fillMaxWidth()
             .padding(start = 20.dp, end = 20.dp, bottom = 20.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 10.dp)
+        verticalArrangement = Arrangement.spacedBy(space = 10.dp),
     ) {
         if (isShowCalendarDialog) {
             CalendarDialog(
@@ -127,7 +127,7 @@ fun AddTaskBottomSheetContent(
                     onConfirmClick = { dateTime ->
                         taskTime = dateTime
                         isShowTimePickerDialog = false
-                    }
+                    },
                 )
             } else {
                 ScrollTimePickerDialog(
@@ -137,7 +137,7 @@ fun AddTaskBottomSheetContent(
                     onConfirmClick = { dateTime ->
                         taskTime = dateTime
                         isShowTimePickerDialog = false
-                    }
+                    },
                 )
             }
         }
@@ -153,13 +153,13 @@ fun AddTaskBottomSheetContent(
                 onConfirmClick = { dateTime ->
                     taskReminderTime = dateTime
                     isShowReminderDialog = false
-                }
+                },
             )
         }
 
         TaskTitleTextField(
             taskTitle = taskTitle,
-            onValueChange = { taskTitle = it }
+            onValueChange = { taskTitle = it },
         )
 
         TaskActionRow(
@@ -193,15 +193,16 @@ fun AddTaskBottomSheetContent(
                     reminderTime = taskReminderTime,
                     priority = taskPriorityType.ordinal,
                     categoryId = taskCategory,
-                    createdAt = LocalDateTime.now()
+                    createdAt = LocalDateTime.now(),
                 )
 
                 val (isValid, errorMessage) = checkValidTask(task = task)
-                if (isValid)
+                if (isValid) {
                     onAddTaskClick(task)
-                else
+                } else {
                     onShowMessageSnackbar(errorMessage)
-            }
+                }
+            },
         )
     }
 }
@@ -238,8 +239,8 @@ private fun TaskTitleTextField(
         shape = RoundedCornerShape(size = 8.dp),
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Sentences,
-            imeAction = ImeAction.Done
-        )
+            imeAction = ImeAction.Done,
+        ),
     )
 }
 
@@ -259,20 +260,20 @@ private fun TaskActionRow(
     onDateClick: () -> Unit,
     onPriorityMenuStateChanged: (Boolean) -> Unit,
     onPriorityTypeClick: (PriorityType) -> Unit,
-    onAddTaskClick: () -> Unit
+    onAddTaskClick: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
     Row(
         modifier = modifier.fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
             modifier = Modifier.weight(weight = 1f)
                 .horizontalScroll(state = scrollState),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(space = 10.dp)
+            horizontalArrangement = Arrangement.spacedBy(space = 10.dp),
         ) {
             TaskActionCategoryItem(
                 categories = categories,
@@ -287,17 +288,17 @@ private fun TaskActionRow(
                 onCreateNewCategoryClick = {
                     onCreateNewCategoryClick()
                     onCategoryMenuStateChanged(false)
-                }
+                },
             )
 
             val dateFormat = DateTimeFormatter.ofPattern(
                 DateFormat.getBestDateTimePattern(locale, "MMMMd"),
-                locale
+                locale,
             )
             TaskActionItem(
                 iconResId = R.drawable.svg_calendar,
                 title = taskDate.format(dateFormat),
-                onClick = onDateClick
+                onClick = onDateClick,
             )
 
             TaskActionPriorityItem(
@@ -308,7 +309,7 @@ private fun TaskActionRow(
                 onPriorityTypeClick = { type ->
                     onPriorityTypeClick(type)
                     onPriorityMenuStateChanged(false)
-                }
+                },
             )
         }
 
@@ -317,7 +318,7 @@ private fun TaskActionRow(
                 modifier = Modifier.size(size = 20.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.svg_paper_plane),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onBackground
+                tint = MaterialTheme.colorScheme.onBackground,
             )
         }
     }
@@ -339,13 +340,13 @@ private fun TaskActionCategoryItem(
             .clip(shape = RoundedCornerShape(size = 16.dp))
             .background(color = MaterialTheme.colorScheme.surfaceContainer)
             .padding(all = 8.dp)
-            .clickable { onOpenClick() }
+            .clickable { onOpenClick() },
     ) {
         Text(
             text = categories.firstOrNull { it.id == taskCategory }?.title
                 ?: stringResource(id = R.string.no_category),
             style = TodoTheme.typography.medium_12,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 
@@ -354,7 +355,7 @@ private fun TaskActionCategoryItem(
         isShowCategoryMenu = isShowCategoryMenu,
         onCloseClick = onCloseClick,
         onCategoryClick = onCategoryClick,
-        onCreateNewCategoryClick = onCreateNewCategoryClick
+        onCreateNewCategoryClick = onCreateNewCategoryClick,
     )
 }
 
@@ -371,7 +372,7 @@ private fun TaskActionPriorityItem(
         TaskActionItem(
             iconResId = R.drawable.svg_priority,
             title = stringResource(id = titleResId),
-            onClick = onOpenClick
+            onClick = onOpenClick,
         )
 
         PriorityDropdownMenu(
@@ -392,13 +393,13 @@ private fun TaskActionItem(
     Row(
         modifier = modifier.clickable { onClick() },
         horizontalArrangement = Arrangement.spacedBy(space = 5.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             modifier = Modifier.size(size = 20.dp),
             imageVector = ImageVector.vectorResource(id = iconResId),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onBackground
+            tint = MaterialTheme.colorScheme.onBackground,
         )
 
         Text(
@@ -418,13 +419,13 @@ private fun PriorityDropdownMenu(
     DropdownMenu(
         containerColor = MaterialTheme.colorScheme.background,
         expanded = isShowPriorityMenu,
-        onDismissRequest = onCloseClick
+        onDismissRequest = onCloseClick,
     ) {
         PriorityType.entries.forEach { priority ->
             val titleResId = priority.getTitleResId()
             BasicDropdownMenuItem(
                 title = stringResource(id = titleResId),
-                onClick = { onPriorityTypeClick(priority) }
+                onClick = { onPriorityTypeClick(priority) },
             )
         }
     }
@@ -439,8 +440,10 @@ private fun AddTaskBottomSheetContentPreview() {
         val snackbarScope = rememberCoroutineScope()
         val categories = persistentListOf(
             Category(
-                id = 3690, title = "solet", colorValue = 3145
-            )
+                id = 3690,
+                title = "solet",
+                colorValue = 3145,
+            ),
         )
         CompositionLocalProvider(
             LocalSnackbarHostState provides snackbarHostState,

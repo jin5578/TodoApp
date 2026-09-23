@@ -134,9 +134,9 @@ internal fun TasksScreen(
             CustomFloatingActionButton(
                 onClick = {
                     isShowAddTaskBottomSheet = true
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         if (isShowAddTaskBottomSheet) {
             ModalBottomSheet(
@@ -177,7 +177,7 @@ internal fun TasksScreen(
                 onSelectClick = { sortByType ->
                     onSortByTypeChanged(sortByType)
                     isShowSortByDialog = false
-                }
+                },
             )
         }
 
@@ -188,7 +188,7 @@ internal fun TasksScreen(
                 onSaveClick = { categoryTitle, categoryColorType ->
                     onAddCategoryClick(categoryTitle, categoryColorType)
                     isShowAddCategoryDialog = false
-                }
+                },
             )
         }
 
@@ -213,7 +213,7 @@ internal fun TasksScreen(
 
         Box(
             modifier = modifier.fillMaxSize()
-                .padding(paddingValues = paddingValues)
+                .padding(paddingValues = paddingValues),
         ) {
             if (weatherInfo != null) {
                 TasksWeatherHeader(
@@ -231,12 +231,12 @@ internal fun TasksScreen(
                 )
             }
 
-            if (taskStateGroups.isEmpty())
+            if (taskStateGroups.isEmpty()) {
                 EmptyContent(
                     modifier = Modifier.padding(top = weatherHeaderHeightDp),
-                    title = stringResource(id = DesignSystemR.string.no_tasks)
+                    title = stringResource(id = DesignSystemR.string.no_tasks),
                 )
-            else
+            } else {
                 LazyColumn(
                     state = taskListState,
                     modifier = Modifier.fillMaxSize(),
@@ -259,7 +259,7 @@ internal fun TasksScreen(
                                 collapsedTaskStates =
                                     collapsedTaskStates.toggled(element = key)
                             },
-                            onSubTaskToggleClick = onSubTaskToggleClick
+                            onSubTaskToggleClick = onSubTaskToggleClick,
                         )
                     }
 
@@ -273,11 +273,12 @@ internal fun TasksScreen(
                                 textAlign = TextAlign.Center,
                                 style = TodoTheme.typography.medium_12,
                                 textDecoration = TextDecoration.Underline,
-                                color = MaterialTheme.colorScheme.onBackground
+                                color = MaterialTheme.colorScheme.onBackground,
                             )
                         }
                     }
                 }
+            }
         }
     }
 }
@@ -298,14 +299,14 @@ private fun TasksTopAppBar(
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
         ),
         title = {
             if (categories.isEmpty()) {
                 Text(
                     text = stringResource(id = DesignSystemR.string.app_name),
                     style = TodoTheme.typography.bold_20,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
             } else {
                 Row(
@@ -313,18 +314,18 @@ private fun TasksTopAppBar(
                         .padding(end = 4.dp)
                         .horizontalScroll(state = scrollState),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(space = 10.dp)
+                    horizontalArrangement = Arrangement.spacedBy(space = 10.dp),
                 ) {
                     CategoryItem(
                         id = -1L,
                         title = stringResource(id = DesignSystemR.string.entire),
-                        onClick = onCategoryClick
+                        onClick = onCategoryClick,
                     )
                     categories.forEach { category ->
                         CategoryItem(
                             id = category.id,
                             title = category.title,
-                            onClick = onCategoryClick
+                            onClick = onCategoryClick,
                         )
                     }
                 }
@@ -334,26 +335,26 @@ private fun TasksTopAppBar(
             IconButton(
                 onClick = {
                     isShowDropdownMenu = true
-                }
+                },
             ) {
                 Icon(
                     modifier = modifier.size(size = 18.dp),
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_menu_dots),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
 
                 DropdownMenu(
                     containerColor = MaterialTheme.colorScheme.background,
                     expanded = isShowDropdownMenu,
-                    onDismissRequest = { isShowDropdownMenu = false }
+                    onDismissRequest = { isShowDropdownMenu = false },
                 ) {
                     BasicDropdownMenuItem(
                         title = stringResource(id = DesignSystemR.string.search),
                         onClick = {
                             onSearchClick()
                             isShowDropdownMenu = false
-                        }
+                        },
                     )
 
                     BasicDropdownMenuItem(
@@ -361,7 +362,7 @@ private fun TasksTopAppBar(
                         onClick = {
                             onSortByClick()
                             isShowDropdownMenu = false
-                        }
+                        },
                     )
 
                     BasicDropdownMenuItem(
@@ -369,7 +370,7 @@ private fun TasksTopAppBar(
                         onClick = {
                             onManageCategoriesClick()
                             isShowDropdownMenu = false
-                        }
+                        },
                     )
 
                     BasicDropdownMenuItem(
@@ -377,11 +378,11 @@ private fun TasksTopAppBar(
                         onClick = {
                             onSettingClick()
                             isShowDropdownMenu = false
-                        }
+                        },
                     )
                 }
             }
-        }
+        },
     )
 }
 
@@ -399,14 +400,14 @@ private fun CategoryItem(
             )
             .padding(
                 horizontal = 8.dp,
-                vertical = 4.dp
+                vertical = 4.dp,
             )
             .clickable { onClick(id) },
     ) {
         Text(
             text = title,
             style = TodoTheme.typography.bold_16,
-            color = MaterialTheme.colorScheme.onPrimary
+            color = MaterialTheme.colorScheme.onPrimary,
         )
     }
 }
@@ -421,45 +422,45 @@ private fun TasksWeatherHeader(
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
-            .padding(all = 16.dp)
+            .padding(all = 16.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(
                 horizontalAlignment = Alignment.Start,
-                verticalArrangement = Arrangement.spacedBy(space = 2.dp)
+                verticalArrangement = Arrangement.spacedBy(space = 2.dp),
             ) {
                 Text(
                     text = "${temp.roundToInt()} °",
                     style = TodoTheme.typography.bold_32,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
 
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(space = 2.dp)
+                    horizontalArrangement = Arrangement.spacedBy(space = 2.dp),
                 ) {
                     Icon(
                         modifier = Modifier.size(size = 8.dp),
                         imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_marker),
                         contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onBackground
+                        tint = MaterialTheme.colorScheme.onBackground,
                     )
 
                     Text(
                         text = name,
                         style = TodoTheme.typography.medium_12,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
             }
 
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.spacedBy(space = 2.dp)
+                verticalArrangement = Arrangement.spacedBy(space = 2.dp),
             ) {
                 Icon(
                     modifier = Modifier.size(size = 36.dp),
@@ -471,27 +472,26 @@ private fun TasksWeatherHeader(
                 Text(
                     text = description,
                     style = TodoTheme.typography.medium_12,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }
     }
 }
 
-private fun String.toIconResId(): Int =
-    when (this) {
-        "01d" -> DesignSystemR.drawable.svg_weather_01
-        "01n" -> DesignSystemR.drawable.svg_weather_02
-        "02d" -> DesignSystemR.drawable.svg_weather_03
-        "02n" -> DesignSystemR.drawable.svg_weather_04
-        "03d", "03n" -> DesignSystemR.drawable.svg_weather_05
-        "04d", "04n" -> DesignSystemR.drawable.svg_weather_06
-        "09d", "09n" -> DesignSystemR.drawable.svg_weather_07
-        "10d", "10n" -> DesignSystemR.drawable.svg_weather_08
-        "11d", "11n" -> DesignSystemR.drawable.svg_weather_09
-        "13d", "13n" -> DesignSystemR.drawable.svg_weather_10
-        else -> DesignSystemR.drawable.svg_weather_11
-    }
+private fun String.toIconResId(): Int = when (this) {
+    "01d" -> DesignSystemR.drawable.svg_weather_01
+    "01n" -> DesignSystemR.drawable.svg_weather_02
+    "02d" -> DesignSystemR.drawable.svg_weather_03
+    "02n" -> DesignSystemR.drawable.svg_weather_04
+    "03d", "03n" -> DesignSystemR.drawable.svg_weather_05
+    "04d", "04n" -> DesignSystemR.drawable.svg_weather_06
+    "09d", "09n" -> DesignSystemR.drawable.svg_weather_07
+    "10d", "10n" -> DesignSystemR.drawable.svg_weather_08
+    "11d", "11n" -> DesignSystemR.drawable.svg_weather_09
+    "13d", "13n" -> DesignSystemR.drawable.svg_weather_10
+    else -> DesignSystemR.drawable.svg_weather_11
+}
 
 @Preview(showBackground = true)
 @Composable
@@ -502,8 +502,8 @@ private fun TasksScreenPreview() {
             Category(
                 id = 1,
                 title = "운동",
-                colorValue = Color.Red.toColorLong()
-            )
+                colorValue = Color.Red.toColorLong(),
+            ),
         )
         CompositionLocalProvider(LocalSnackbarHostState provides snackbarHostState) {
             TasksScreen(
@@ -526,7 +526,7 @@ private fun TasksScreenPreview() {
                 onCompletedTasksClick = {},
                 onSearchClick = {},
                 onManageCategoriesClick = {},
-                onSettingClick = {}
+                onSettingClick = {},
             )
         }
     }
@@ -543,7 +543,7 @@ private fun TasksTopAppBarPreview() {
             onSearchClick = {},
             onSortByClick = {},
             onManageCategoriesClick = {},
-            onSettingClick = {}
+            onSettingClick = {},
         )
     }
 }
@@ -555,7 +555,7 @@ private fun CategoryItemPreview() {
         CategoryItem(
             id = -1L,
             title = "",
-            onClick = {}
+            onClick = {},
         )
     }
 }
@@ -568,7 +568,7 @@ private fun TasksWeatherHeaderPreview() {
             temp = 24.0,
             name = "Bucheon-si",
             description = "맑음",
-            iconResId = DesignSystemR.drawable.svg_weather_01
+            iconResId = DesignSystemR.drawable.svg_weather_01,
         )
     }
 }

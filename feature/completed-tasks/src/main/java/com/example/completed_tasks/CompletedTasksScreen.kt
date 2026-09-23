@@ -48,31 +48,31 @@ internal fun CompletedTasksScreen(
         topBar = {
             CompletedTasksTopAppBar(
                 onDeleteClick = onDeleteClick,
-                popBackStack = popBackStack
+                popBackStack = popBackStack,
             )
-        }
+        },
     ) { paddingValues ->
         if (taskDateGroups.isEmpty()) {
             EmptyContent(
                 modifier = modifier.padding(paddingValues = paddingValues),
-                title = stringResource(id = DesignSystemR.string.no_completed_tasks)
+                title = stringResource(id = DesignSystemR.string.no_completed_tasks),
             )
         } else {
             Column(
                 modifier = modifier.fillMaxSize()
-                    .padding(paddingValues = paddingValues)
+                    .padding(paddingValues = paddingValues),
             ) {
                 Text(
                     modifier = Modifier.padding(
                         horizontal = 16.dp,
-                        vertical = 8.dp
+                        vertical = 8.dp,
                     ),
                     text = stringResource(id = DesignSystemR.string.completed_time),
                     style = TodoTheme.typography.bold_16,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
 
-                LazyColumn() {
+                LazyColumn {
                     taskDateGroups.forEachIndexed { index, taskDateGroup ->
                         taskDateGroup(
                             index = index,
@@ -83,7 +83,7 @@ internal fun CompletedTasksScreen(
                             onTaskEditClick = onTaskEditClick,
                             onDeleteSymbolClick = onDeleteSymbolClick,
                             onSymbolClick = onSymbolClick,
-                            onSubTaskToggleClick = onSubTaskToggleClick
+                            onSubTaskToggleClick = onSubTaskToggleClick,
                         )
                     }
                 }
@@ -101,7 +101,7 @@ private fun CompletedTasksTopAppBar(
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
         ),
         title = {},
         navigationIcon = {
@@ -110,22 +110,22 @@ private fun CompletedTasksTopAppBar(
                     modifier = modifier.size(size = 24.dp),
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
         },
         actions = {
             IconButton(
-                onClick = onDeleteClick
+                onClick = onDeleteClick,
             ) {
                 Icon(
                     modifier = modifier.size(size = 18.dp),
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_trash),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
-        }
+        },
     )
 }
 
@@ -142,7 +142,7 @@ private fun CompletedTasksScreenPreview() {
             onDeleteSymbolClick = {},
             onSymbolClick = { _, _ -> },
             onSubTaskToggleClick = { _, _ -> },
-            popBackStack = {}
+            popBackStack = {},
         )
     }
 }

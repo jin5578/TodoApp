@@ -15,6 +15,6 @@ sealed interface MemoUiState {
         val memoTitle: String,
         val memoContent: String,
         val memoUpdatedAt: LocalDateTime?,
-        val locale: Locale
+        val locale: Locale,
     ) : MemoUiState
 }

@@ -60,7 +60,6 @@ private val DailyChartWeekDays = listOf(
     DayOfWeek.SATURDAY,
 )
 
-
 @Composable
 internal fun ProfileDailySummary(
     modifier: Modifier = Modifier,
@@ -74,10 +73,10 @@ internal fun ProfileDailySummary(
         modifier = modifier
             .background(
                 color = MaterialTheme.colorScheme.surfaceContainer,
-                shape = RoundedCornerShape(size = 8.dp)
+                shape = RoundedCornerShape(size = 8.dp),
             )
             .padding(all = 16.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 16.dp)
+        verticalArrangement = Arrangement.spacedBy(space = 16.dp),
     ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
@@ -86,12 +85,12 @@ internal fun ProfileDailySummary(
             Text(
                 text = stringResource(id = DesignSystemR.string.daily_completed),
                 style = TodoTheme.typography.medium_12,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(space = 4.dp)
+                horizontalArrangement = Arrangement.spacedBy(space = 4.dp),
             ) {
                 Icon(
                     modifier = Modifier.size(size = 12.dp)
@@ -103,16 +102,16 @@ internal fun ProfileDailySummary(
                         },
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left_small),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
 
                 val dateFormat = DateTimeFormatter.ofPattern("M/dd")
                 Text(
                     text = "${fromDate.format(dateFormat)}" +
-                            "-" +
-                            "${toDate.format(dateFormat)}",
+                        "-" +
+                        "${toDate.format(dateFormat)}",
                     style = TodoTheme.typography.medium_12,
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 )
 
                 Icon(
@@ -125,7 +124,7 @@ internal fun ProfileDailySummary(
                         },
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_right_small),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
         }
@@ -148,13 +147,13 @@ private fun ProfileDailyChart(
     val barColor = MaterialTheme.colorScheme.primary
 
     val axisLabel = rememberAxisLabelComponent(
-        style = TextStyle(color = labelColor, fontSize = 10.sp)
+        style = TextStyle(color = labelColor, fontSize = 10.sp),
     )
     val axisLine = rememberAxisLineComponent(
-        fill = Fill(color = lineColor)
+        fill = Fill(color = lineColor),
     )
     val axisTick = rememberAxisTickComponent(
-        fill = Fill(color = lineColor)
+        fill = Fill(color = lineColor),
     )
 
     val startAxis = VerticalAxis.rememberStart(
@@ -173,7 +172,7 @@ private fun ProfileDailyChart(
             CartesianValueFormatter { _, value, _ ->
                 DailyChartWeekDays[value.toInt()].getDisplayName(
                     java.time.format.TextStyle.SHORT,
-                    locale
+                    locale,
                 )
             }
         },
@@ -186,13 +185,13 @@ private fun ProfileDailyChart(
                     fill = Fill(color = barColor),
                     thickness = 8.dp,
                     shape = RoundedCornerShape(topStart = 4.dp, topEnd = 4.dp),
-                )
-            )
+                ),
+            ),
         ),
         rangeProvider = remember {
             CartesianLayerRangeProvider.fixed(
                 minY = 0.0,
-                maxY = 16.0
+                maxY = 16.0,
             )
         },
     )
@@ -206,11 +205,13 @@ private fun ProfileDailyChart(
     val model = remember(key1 = dailyEntries) {
         CartesianChartModel(
             models =
-                arrayOf(ColumnCartesianLayerModel.build {
+            arrayOf(
+                ColumnCartesianLayerModel.build {
                     series(
-                        y = dailyEntries
+                        y = dailyEntries,
                     )
-                })
+                },
+            ),
         )
     }
 
@@ -233,7 +234,7 @@ private fun ProfileDailySummaryPreview() {
             fromDate = today.minusDays(6),
             toDate = today,
             locale = Locale.KOREA,
-            onDailyDateRangeChanged = { _, _ -> }
+            onDailyDateRangeChanged = { _, _ -> },
         )
     }
 }

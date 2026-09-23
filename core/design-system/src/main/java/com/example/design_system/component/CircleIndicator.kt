@@ -15,12 +15,12 @@ import com.example.design_system.theme.TodoTheme
 @Composable
 fun CircleIndicator(
     modifier: Modifier = Modifier,
-    backgroundColor: Color
+    backgroundColor: Color,
 ) {
     Box(
         modifier = modifier.size(size = 14.dp)
             .clip(shape = CircleShape)
-            .background(color = backgroundColor)
+            .background(color = backgroundColor),
     )
 }
 
@@ -29,7 +29,7 @@ fun CircleIndicator(
 private fun CircleIndicatorPreview() {
     TodoTheme {
         CircleIndicator(
-            backgroundColor = Color.LightGray
+            backgroundColor = Color.LightGray,
         )
     }
 }

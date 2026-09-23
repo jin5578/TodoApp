@@ -5,5 +5,5 @@ import java.util.Locale
 
 data class EditTaskSystem(
     val locale: Locale,
-    val timePickerType: TimePickerType
+    val timePickerType: TimePickerType,
 )

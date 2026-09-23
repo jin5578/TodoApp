@@ -7,13 +7,10 @@ import androidx.navigation.compose.composable
 import com.example.calendar.CalendarRoute
 import com.example.navigation.Route
 
-fun NavGraphBuilder.calendarNavGraph(
-    navigateEditTask: (Long) -> Unit,
-) = composable<Route.Calendar> {
+fun NavGraphBuilder.calendarNavGraph(navigateEditTask: (Long) -> Unit) = composable<Route.Calendar> {
     CalendarRoute(
         navigateEditTask = navigateEditTask,
     )
 }
 
-fun NavController.navigateCalendar(navOptions: NavOptions? = null) =
-    navigate(route = Route.Calendar, navOptions = navOptions)
+fun NavController.navigateCalendar(navOptions: NavOptions? = null) = navigate(route = Route.Calendar, navOptions = navOptions)

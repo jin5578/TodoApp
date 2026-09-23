@@ -42,15 +42,15 @@ internal fun GithubAuthScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
+                    containerColor = MaterialTheme.colorScheme.background,
                 ),
                 title = {
                     Text(
                         text = stringResource(
-                            id = DesignSystemR.string.github_auth_title
+                            id = DesignSystemR.string.github_auth_title,
                         ),
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 },
                 navigationIcon = {
@@ -58,15 +58,15 @@ internal fun GithubAuthScreen(
                         Icon(
                             modifier = Modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(
-                                id = DesignSystemR.drawable.svg_arrow_left
+                                id = DesignSystemR.drawable.svg_arrow_left,
                             ),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         Column(
             modifier = modifier.fillMaxSize()
@@ -79,10 +79,10 @@ internal fun GithubAuthScreen(
                 is GithubAuthUiState.Loading -> {
                     Text(
                         text = stringResource(
-                            id = DesignSystemR.string.github_auth_waiting
+                            id = DesignSystemR.string.github_auth_waiting,
                         ),
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
 
@@ -90,17 +90,17 @@ internal fun GithubAuthScreen(
                     Text(
                         text = stringResource(
                             id = DesignSystemR.string.github_auth_connected_as,
-                            uiState.username
+                            uiState.username,
                         ),
                         style = TodoTheme.typography.bold_20,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
 
                     Button(onClick = onDisconnectClick) {
                         Text(
                             text = stringResource(
-                                id = DesignSystemR.string.github_auth_disconnect
-                            )
+                                id = DesignSystemR.string.github_auth_disconnect,
+                            ),
                         )
                     }
                 }
@@ -108,36 +108,36 @@ internal fun GithubAuthScreen(
                 is GithubAuthUiState.AwaitingUser -> {
                     Text(
                         text = stringResource(
-                            id = DesignSystemR.string.github_auth_code_description
+                            id = DesignSystemR.string.github_auth_code_description,
                         ),
                         style = TodoTheme.typography.medium_16,
                         color = MaterialTheme.colorScheme.onBackground,
-                        textAlign = TextAlign.Center
+                        textAlign = TextAlign.Center,
                     )
 
                     Text(
                         text = uiState.userCode,
                         style = TodoTheme.typography.bold_20,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
 
                     Button(
-                        onClick = { onOpenGithubClick(uiState.verificationUri) }
+                        onClick = { onOpenGithubClick(uiState.verificationUri) },
                     ) {
                         Text(
                             text = stringResource(
-                                id = DesignSystemR.string.github_auth_open_button
-                            )
+                                id = DesignSystemR.string.github_auth_open_button,
+                            ),
                         )
                     }
 
                     if (uiState.isPolling) {
                         Text(
                             text = stringResource(
-                                id = DesignSystemR.string.github_auth_waiting
+                                id = DesignSystemR.string.github_auth_waiting,
                             ),
                             style = TodoTheme.typography.medium_12,
-                            color = MaterialTheme.colorScheme.onBackground
+                            color = MaterialTheme.colorScheme.onBackground,
                         )
                     }
                 }
@@ -145,10 +145,10 @@ internal fun GithubAuthScreen(
                 is GithubAuthUiState.Success -> {
                     Text(
                         text = stringResource(
-                            id = DesignSystemR.string.github_auth_success
+                            id = DesignSystemR.string.github_auth_success,
                         ),
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 }
 
@@ -169,14 +169,14 @@ internal fun GithubAuthScreen(
                     Text(
                         text = stringResource(id = messageResId),
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.onBackground
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
 
                     Button(onClick = onRetryClick) {
                         Text(
                             text = stringResource(
-                                id = DesignSystemR.string.github_auth_retry
-                            )
+                                id = DesignSystemR.string.github_auth_retry,
+                            ),
                         )
                     }
                 }
@@ -195,7 +195,7 @@ private fun GithubAuthScreenPreview() {
             onOpenGithubClick = {},
             onDisconnectClick = {},
             onRetryClick = {},
-            popBackStack = {}
+            popBackStack = {},
         )
     }
 }

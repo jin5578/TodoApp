@@ -39,66 +39,59 @@ internal object NetworkModule {
     fun providesGithubDeviceFlowService(
         okHttpClient: OkHttpClient,
         json: Json,
-    ): GithubDeviceFlowService =
-        Retrofit.Builder()
-            .baseUrl(GITHUB_AUTH_BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-            .build()
-            .create(GithubDeviceFlowService::class.java)
+    ): GithubDeviceFlowService = Retrofit
+        .Builder()
+        .baseUrl(GITHUB_AUTH_BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        .build()
+        .create(GithubDeviceFlowService::class.java)
 
     @Provides
     @Singleton
     fun providesGithubApiService(
         okHttpClient: OkHttpClient,
-        json: Json
-    ): GithubApiService =
-        Retrofit.Builder()
-            .baseUrl(GITHUB_API_BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-            .build()
-            .create(GithubApiService::class.java)
+        json: Json,
+    ): GithubApiService = Retrofit
+        .Builder()
+        .baseUrl(GITHUB_API_BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        .build()
+        .create(GithubApiService::class.java)
 
     @Provides
     @Singleton
     fun providesOpenWeatherService(
         okHttpClient: OkHttpClient,
-        json: Json
-    ): OpenWeatherService =
-        Retrofit.Builder()
-            .baseUrl(OPEN_WEATHER_BASE_URL)
-            .client(okHttpClient)
-            .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
-            .build()
-            .create(OpenWeatherService::class.java)
+        json: Json,
+    ): OpenWeatherService = Retrofit
+        .Builder()
+        .baseUrl(OPEN_WEATHER_BASE_URL)
+        .client(okHttpClient)
+        .addConverterFactory(json.asConverterFactory("application/json".toMediaType()))
+        .build()
+        .create(OpenWeatherService::class.java)
 
     @Provides
     @Singleton
     fun providesGithubDeviceCodeApi(
         deviceFlowService: GithubDeviceFlowService,
         apiService: GithubApiService,
-    ): GithubDeviceCodeApi =
-        GithubDeviceCodeApi(
-            deviceFlowService = deviceFlowService,
-            apiService = apiService,
-            clientId = BuildConfig.GITHUB_CLIENT_ID,
-        )
+    ): GithubDeviceCodeApi = GithubDeviceCodeApi(
+        deviceFlowService = deviceFlowService,
+        apiService = apiService,
+        clientId = BuildConfig.GITHUB_CLIENT_ID,
+    )
 
     @Provides
     @Singleton
-    fun providesGithubGraphQlApi(
-        apiService: GithubApiService
-    ): GithubGraphQlApi =
-        GithubGraphQlApi(apiService = apiService)
+    fun providesGithubGraphQlApi(apiService: GithubApiService): GithubGraphQlApi = GithubGraphQlApi(apiService = apiService)
 
     @Provides
     @Singleton
-    fun providesOpenWeatherApi(
-        service: OpenWeatherService,
-    ): OpenWeatherApi =
-        OpenWeatherApi(
-            service = service,
-            appid = BuildConfig.OPEN_WEATHER_APP_ID
-        )
+    fun providesOpenWeatherApi(service: OpenWeatherService): OpenWeatherApi = OpenWeatherApi(
+        service = service,
+        appid = BuildConfig.OPEN_WEATHER_APP_ID,
+    )
 }

@@ -76,12 +76,12 @@ internal fun EditTaskScreen(
                 onCompletedChanged = { isCompleted ->
                     onCompletedChanged(
                         task.id,
-                        isCompleted
+                        isCompleted,
                     )
                 },
-                onDeleteClick = { onDeleteClick(task.id, task.uuid) }
+                onDeleteClick = { onDeleteClick(task.id, task.uuid) },
             )
-        }
+        },
     ) { paddingValues ->
         if (isShowCalendarDialog) {
             CalendarDialog(
@@ -112,7 +112,7 @@ internal fun EditTaskScreen(
                     onConfirmClick = { dateTime ->
                         onDateTimeChanged(task.id, task.date, dateTime, null)
                         isShowTimePickerDialog = false
-                    }
+                    },
                 )
             } else {
                 ScrollTimePickerDialog(
@@ -122,7 +122,7 @@ internal fun EditTaskScreen(
                     onConfirmClick = { dateTime ->
                         onDateTimeChanged(task.id, task.date, dateTime, null)
                         isShowTimePickerDialog = false
-                    }
+                    },
                 )
             }
         }
@@ -138,13 +138,13 @@ internal fun EditTaskScreen(
                 onConfirmClick = { dateTime ->
                     onDateTimeChanged(task.id, task.date, task.time, dateTime)
                     isShowReminderDialog = false
-                }
+                },
             )
         }
 
         Column(
             modifier = modifier.padding(paddingValues = paddingValues)
-                .verticalScroll(state = scrollState)
+                .verticalScroll(state = scrollState),
         ) {
             EditTaskCategoryChip(
                 categories = categories,
@@ -168,7 +168,7 @@ internal fun EditTaskScreen(
                 onValueChange = { title ->
                     taskTitle = title
                     onTitleValueChanged(task.id, title)
-                }
+                },
             )
 
             EditTaskSubTask(
@@ -179,18 +179,18 @@ internal fun EditTaskScreen(
 
             HorizontalDivider(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.surfaceDim
+                color = MaterialTheme.colorScheme.surfaceDim,
             )
 
             EditTaskDateRow(
                 date = task.date,
                 locale = locale,
-                onClick = { isShowCalendarDialog = true }
+                onClick = { isShowCalendarDialog = true },
             )
 
             HorizontalDivider(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.surfaceDim
+                color = MaterialTheme.colorScheme.surfaceDim,
             )
 
             EditTaskTimeRow(
@@ -202,19 +202,19 @@ internal fun EditTaskScreen(
                 },
                 onReminderTimeClick = {
                     isShowReminderDialog = true
-                }
+                },
             )
 
             HorizontalDivider(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
-                color = MaterialTheme.colorScheme.surfaceDim
+                color = MaterialTheme.colorScheme.surfaceDim,
             )
 
             EditTaskMemoRow(
                 id = task.id,
                 memoTitle = task.memoTitle,
                 memoContent = task.memoContent,
-                navigateMemo = navigateMemo
+                navigateMemo = navigateMemo,
             )
         }
     }

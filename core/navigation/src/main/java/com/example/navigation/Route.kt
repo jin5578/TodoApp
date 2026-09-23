@@ -20,7 +20,7 @@ sealed interface Route {
 
     @Serializable
     data class EditTask(
-        val taskId: Long
+        val taskId: Long,
     ) : Route
 
     @Serializable
@@ -31,7 +31,7 @@ sealed interface Route {
 
     @Serializable
     data class Memo(
-        val taskId: Long
+        val taskId: Long,
     )
 
     @Serializable

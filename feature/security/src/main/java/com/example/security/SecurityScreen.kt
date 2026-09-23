@@ -44,7 +44,7 @@ internal fun SecurityScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background
+                    containerColor = MaterialTheme.colorScheme.background,
                 ),
                 title = {},
                 navigationIcon = {
@@ -53,12 +53,12 @@ internal fun SecurityScreen(
                             modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
-                }
+                },
             )
-        }
+        },
     ) { paddingValues ->
         Column(
             modifier = modifier.fillMaxSize()
@@ -68,35 +68,41 @@ internal fun SecurityScreen(
             Text(
                 modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                 text = stringResource(
-                    id = DesignSystemR.string.security
+                    id = DesignSystemR.string.security,
                 ),
                 style = TodoTheme.typography.bold_20,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             Spacer(modifier = Modifier.height(height = 40.dp))
 
             val lockIconResId =
-                if (hasExistingPassword) DesignSystemR.drawable.svg_lock
-                else DesignSystemR.drawable.svg_unlock
+                if (hasExistingPassword) {
+                    DesignSystemR.drawable.svg_lock
+                } else {
+                    DesignSystemR.drawable.svg_unlock
+                }
             SecurityItem(
                 iconResId = lockIconResId,
                 iconColor = MaterialTheme.colorScheme.onBackground,
                 title = stringResource(
-                    id = DesignSystemR.string.password_setting
+                    id = DesignSystemR.string.password_setting,
                 ),
-                onClick = { onPasswordSettingClick() }
+                onClick = { onPasswordSettingClick() },
             )
 
             if (hasExistingPassword) {
                 val fingerPrintIconColor =
-                    if (hasBiometricEnabled) MaterialTheme.colorScheme.onBackground
-                    else MaterialTheme.colorScheme.error
+                    if (hasBiometricEnabled) {
+                        MaterialTheme.colorScheme.onBackground
+                    } else {
+                        MaterialTheme.colorScheme.error
+                    }
                 SecurityItem(
                     iconResId = DesignSystemR.drawable.svg_fingerprint,
                     iconColor = fingerPrintIconColor,
                     title = stringResource(id = DesignSystemR.string.biometric_authentication_setting),
-                    onClick = { onBiometricEnabledChanged(!hasBiometricEnabled) }
+                    onClick = { onBiometricEnabledChanged(!hasBiometricEnabled) },
                 )
             }
         }
@@ -115,7 +121,7 @@ private fun SecurityItem(
             .clickable { onClick() }
             .padding(horizontal = 20.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(space = 10.dp)
+        horizontalArrangement = Arrangement.spacedBy(space = 10.dp),
     ) {
         Icon(
             modifier = Modifier.size(size = 18.dp),

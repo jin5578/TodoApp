@@ -33,38 +33,38 @@ fun SortTaskDialog(
     var selectedSortTaskType by remember { mutableStateOf(value = sortByType) }
 
     Dialog(
-        onDismissRequest = onCloseClick
+        onDismissRequest = onCloseClick,
     ) {
         Card(
             modifier = Modifier.fillMaxWidth(fraction = 1f),
             colors = CardDefaults.cardColors(
                 containerColor = MaterialTheme.colorScheme.background,
-            )
+            ),
         ) {
             Text(
                 modifier = Modifier.padding(all = 20.dp),
                 text = stringResource(id = R.string.sort_tasks_by),
                 style = TodoTheme.typography.bold_20,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             SortByType.entries.forEach { type ->
                 CustomRadioButton(
                     titleResId = type.getTitleResId(),
                     isSelected = selectedSortTaskType == type,
-                    onClick = { selectedSortTaskType = type }
+                    onClick = { selectedSortTaskType = type },
                 )
             }
 
             Text(
                 modifier = Modifier.padding(
                     bottom = 24.dp,
-                    end = 32.dp
+                    end = 32.dp,
                 ).clickable { onSelectClick(selectedSortTaskType) }
                     .align(alignment = Alignment.End),
                 text = stringResource(id = R.string.select),
                 style = TodoTheme.typography.medium_16,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
     }
@@ -77,7 +77,7 @@ private fun SortTaskDialogPreview() {
         SortTaskDialog(
             sortByType = SortByType.DUE_DATE_AND_TIME,
             onCloseClick = {},
-            onSelectClick = {}
+            onSelectClick = {},
         )
     }
 }

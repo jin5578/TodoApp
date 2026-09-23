@@ -17,7 +17,9 @@ import timber.log.Timber
 import javax.inject.Inject
 
 @HiltAndroidApp
-class TodoApplication : Application(), Configuration.Provider {
+class TodoApplication :
+    Application(),
+    Configuration.Provider {
     @Inject
     lateinit var workerFactory: HiltWorkerFactory
 
@@ -31,11 +33,13 @@ class TodoApplication : Application(), Configuration.Provider {
         CoroutineScope(context = SupervisorJob() + Dispatchers.Main.immediate)
 
     override val workManagerConfiguration: Configuration
-        get() = Configuration.Builder()
-            .setWorkerFactory(workerFactory = workerFactory)
-            .setMinimumLoggingLevel(loggingLevel = Log.INFO)
-            .setExecutor(executor = Dispatchers.Default.asExecutor())
-            .build()
+        get() =
+            Configuration
+                .Builder()
+                .setWorkerFactory(workerFactory = workerFactory)
+                .setMinimumLoggingLevel(loggingLevel = Log.INFO)
+                .setExecutor(executor = Dispatchers.Default.asExecutor())
+                .build()
 
     override fun onCreate() {
         super.onCreate()
@@ -44,13 +48,13 @@ class TodoApplication : Application(), Configuration.Provider {
     }
 
     private fun initTimber() {
-        if (BuildConfig.DEBUG)
+        if (BuildConfig.DEBUG) {
             Timber.plant(tree = Timber.DebugTree())
+        }
     }
 
-    private fun applyPersistedLocale() =
-        applicationScope.launch {
-            val languageType = getSettingDataUseCase().first().languageType
-            applyAppLocaleUseCase(languageType = languageType)
-        }
+    private fun applyPersistedLocale() = applicationScope.launch {
+        val languageType = getSettingDataUseCase().first().languageType
+        applyAppLocaleUseCase(languageType = languageType)
+    }
 }

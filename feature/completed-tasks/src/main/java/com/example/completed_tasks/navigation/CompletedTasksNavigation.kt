@@ -16,5 +16,4 @@ fun NavGraphBuilder.completedTasksNavGraph(
     )
 }
 
-fun NavController.navigateCompletedTasks() =
-    navigate(route = Route.CompletedTasks)
+fun NavController.navigateCompletedTasks() = navigate(route = Route.CompletedTasks)

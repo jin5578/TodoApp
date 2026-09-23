@@ -57,7 +57,7 @@ fun CategoryDialog(
     categoryColorType: CategoryColorType = CategoryColorType.entries.first(),
     onCloseClick: () -> Unit,
     onSaveClick: ((title: String, type: CategoryColorType) -> Unit)? = null,
-    onUpdateClick: ((id: Long, title: String, type: CategoryColorType) -> Unit)? = null
+    onUpdateClick: ((id: Long, title: String, type: CategoryColorType) -> Unit)? = null,
 ) {
     val focusRequester = remember { FocusRequester() }
 
@@ -70,19 +70,19 @@ fun CategoryDialog(
 
     Dialog(
         onDismissRequest = { onCloseClick() },
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
         Card(
             modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
-            )
+                containerColor = MaterialTheme.colorScheme.background,
+            ),
         ) {
             Column(
                 modifier = Modifier.padding(
                     horizontal = 18.dp,
-                    vertical = 16.dp
+                    vertical = 16.dp,
                 ),
             ) {
                 Text(
@@ -114,12 +114,12 @@ fun CategoryDialog(
                         Text(
                             text = stringResource(id = R.string.input_here),
                             color = MaterialTheme.colorScheme.onBackground,
-                            style = TodoTheme.typography.medium_12
+                            style = TodoTheme.typography.medium_12,
                         )
                     },
                     keyboardOptions = KeyboardOptions(
                         capitalization = KeyboardCapitalization.Sentences,
-                        imeAction = ImeAction.Done
+                        imeAction = ImeAction.Done,
                     ),
                 )
 
@@ -142,19 +142,19 @@ fun CategoryDialog(
                 Spacer(modifier = Modifier.height(height = 16.dp))
 
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+                    verticalArrangement = Arrangement.spacedBy(space = 8.dp),
                 ) {
                     CategoryColorType.entries.chunked(size = COLORS_PER_ROW)
                         .forEach { rowColorTypes ->
                             Row(
                                 modifier = Modifier.fillMaxWidth(),
-                                horizontalArrangement = Arrangement.SpaceBetween
+                                horizontalArrangement = Arrangement.SpaceBetween,
                             ) {
                                 rowColorTypes.forEach { type ->
                                     CategoryColorItem(
                                         type = type,
                                         isSelected = selectedColorType == type,
-                                        onSelect = { selectedColorType = it }
+                                        onSelect = { selectedColorType = it },
                                     )
                                 }
                             }
@@ -166,18 +166,18 @@ fun CategoryDialog(
                 Row(
                     modifier = Modifier.fillMaxWidth(),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.End,
                 ) {
                     Text(
                         modifier = Modifier.clickable {
                             onCloseClick()
                         }.padding(
                             horizontal = 8.dp,
-                            vertical = 4.dp
+                            vertical = 4.dp,
                         ),
                         text = stringResource(id = DesignSystemR.string.cancel),
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.inversePrimary
+                        color = MaterialTheme.colorScheme.inversePrimary,
                     )
 
                     Text(
@@ -188,7 +188,7 @@ fun CategoryDialog(
                                 onSaveClick?.let {
                                     it(
                                         categoryTitle,
-                                        selectedColorType
+                                        selectedColorType,
                                     )
                                 }
                             } else {
@@ -196,17 +196,17 @@ fun CategoryDialog(
                                     it(
                                         id,
                                         categoryTitle,
-                                        selectedColorType
+                                        selectedColorType,
                                     )
                                 }
                             }
                         }.padding(
                             horizontal = 8.dp,
-                            vertical = 4.dp
+                            vertical = 4.dp,
                         ),
                         text = stringResource(id = DesignSystemR.string.save),
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
                     )
                 }
             }
@@ -235,10 +235,10 @@ private fun CategoryColorItem(
                     modifier = Modifier.size(size = 12.dp),
                     imageVector = ImageVector.vectorResource(id = R.drawable.svg_check),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
-        }
+        },
     )
 }
 
@@ -250,7 +250,7 @@ private fun CategoryDialogPreview() {
             titleResId = DesignSystemR.string.create_new_category,
             onCloseClick = {},
             onSaveClick = { _, _ -> },
-            onUpdateClick = { _, _, _ -> }
+            onUpdateClick = { _, _, _ -> },
         )
     }
 }

@@ -38,7 +38,7 @@ internal fun EditTaskDateRow(
             .clickable { onClick() }
             .padding(all = 16.dp),
         horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Icon(
             modifier = Modifier.size(size = 16.dp),
@@ -55,17 +55,18 @@ internal fun EditTaskDateRow(
         )
 
         val dateFormat = DateTimeFormatter.ofPattern(
-            "yyyy/MM/dd", locale
+            "yyyy/MM/dd",
+            locale,
         )
         val dateContent = date.format(dateFormat)
         Box(
             modifier = Modifier.background(
                 color = MaterialTheme.colorScheme.surfaceContainer,
-                shape = RoundedCornerShape(size = 8.dp)
+                shape = RoundedCornerShape(size = 8.dp),
             ).padding(
                 horizontal = 12.dp,
-                vertical = 8.dp
-            )
+                vertical = 8.dp,
+            ),
         ) {
             Text(
                 text = dateContent,
@@ -83,7 +84,7 @@ private fun EditTaskDateRowPreview() {
         EditTaskDateRow(
             date = LocalDate.now(),
             locale = Locale.KOREA,
-            onClick = {}
+            onClick = {},
         )
     }
 }

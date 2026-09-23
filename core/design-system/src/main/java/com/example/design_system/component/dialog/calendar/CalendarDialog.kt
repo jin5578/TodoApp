@@ -106,7 +106,7 @@ fun CalendarDialog(
     }
     var selectedReminderTime by remember(key1 = reminderTime) {
         mutableStateOf(
-            value = reminderTime
+            value = reminderTime,
         )
     }
 
@@ -125,27 +125,27 @@ fun CalendarDialog(
         startMonth = currentMonth,
         endMonth = currentMonth.plusMonths(12),
         firstVisibleMonth = currentMonth,
-        firstDayOfWeek = firstDayOfWeek
+        firstDayOfWeek = firstDayOfWeek,
     )
 
     Dialog(
         onDismissRequest = { onCloseClick() },
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
         Card(
             modifier = Modifier.fillMaxWidth()
                 .padding(horizontal = 16.dp),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
-            )
+                containerColor = MaterialTheme.colorScheme.background,
+            ),
         ) {
             Column(
                 modifier = Modifier.padding(
                     horizontal = 2.dp,
-                    vertical = 16.dp
+                    vertical = 16.dp,
                 ),
-                verticalArrangement = Arrangement.spacedBy(space = 16.dp)
+                verticalArrangement = Arrangement.spacedBy(space = 16.dp),
             ) {
                 Text(
                     modifier = Modifier.padding(horizontal = 16.dp),
@@ -156,7 +156,7 @@ fun CalendarDialog(
 
                 Column(
                     modifier = Modifier.fillMaxWidth()
-                        .verticalScroll(state = verticalScrollState)
+                        .verticalScroll(state = verticalScrollState),
                 ) {
                     Row(
                         modifier = Modifier.fillMaxWidth(),
@@ -169,11 +169,11 @@ fun CalendarDialog(
                                 coroutineScope.launch {
                                     calendarState.animateScrollToMonth(
                                         month = calendarState.firstVisibleMonth.yearMonth.minusMonths(
-                                            1
-                                        )
+                                            1,
+                                        ),
                                     )
                                 }
-                            }
+                            },
                         )
 
                         Spacer(modifier = Modifier.width(width = 16.dp))
@@ -185,8 +185,8 @@ fun CalendarDialog(
                                 visibleMonth.format(
                                     DateTimeFormatter.ofPattern(
                                         "MMMM yyyy",
-                                        locale
-                                    )
+                                        locale,
+                                    ),
                                 )
                             },
                             style = TodoTheme.typography.bold_16,
@@ -201,11 +201,11 @@ fun CalendarDialog(
                                 coroutineScope.launch {
                                     calendarState.animateScrollToMonth(
                                         month = calendarState.firstVisibleMonth.yearMonth.plusMonths(
-                                            1
-                                        )
+                                            1,
+                                        ),
                                     )
                                 }
-                            }
+                            },
                         )
                     }
 
@@ -219,7 +219,7 @@ fun CalendarDialog(
                             }
                             DaysOfWeek(
                                 daysOfWeek = daysOfWeek,
-                                locale = locale
+                                locale = locale,
                             )
                         },
                         dayContent = { day ->
@@ -238,13 +238,13 @@ fun CalendarDialog(
                         modifier = Modifier.fillMaxWidth()
                             .horizontalScroll(state = horizontalScrollState)
                             .padding(horizontal = 16.dp),
-                        horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+                        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
                     ) {
                         dateOptions.forEach { dateOption ->
                             DateOptionItem(
                                 dateOption = dateOption,
                                 isClicked = dateOption.date == selectedTaskDate,
-                                onClick = onDateChange
+                                onClick = onDateChange,
                             )
                         }
                     }
@@ -262,7 +262,7 @@ fun CalendarDialog(
                         titleColor = MaterialTheme.colorScheme.onBackground,
                         content = timeContent,
                         enabled = true,
-                        onClick = onTimeClick
+                        onClick = onTimeClick,
                     )
 
                     val reminderContent =
@@ -284,18 +284,18 @@ fun CalendarDialog(
                         modifier = Modifier.fillMaxWidth()
                             .padding(end = 16.dp),
                         verticalAlignment = Alignment.CenterVertically,
-                        horizontalArrangement = Arrangement.End
+                        horizontalArrangement = Arrangement.End,
                     ) {
                         Text(
                             modifier = Modifier.clickable {
                                 onCloseClick()
                             }.padding(
                                 horizontal = 8.dp,
-                                vertical = 4.dp
+                                vertical = 4.dp,
                             ),
                             text = stringResource(id = R.string.cancel),
                             style = TodoTheme.typography.medium_16,
-                            color = MaterialTheme.colorScheme.inversePrimary
+                            color = MaterialTheme.colorScheme.inversePrimary,
                         )
 
                         Text(
@@ -303,15 +303,15 @@ fun CalendarDialog(
                                 onConfirmClick(
                                     selectedTaskDate,
                                     selectedTaskTime,
-                                    selectedReminderTime
+                                    selectedReminderTime,
                                 )
                             }.padding(
                                 horizontal = 8.dp,
-                                vertical = 4.dp
+                                vertical = 4.dp,
                             ),
                             text = stringResource(id = R.string.confirm),
                             style = TodoTheme.typography.medium_16,
-                            color = MaterialTheme.colorScheme.primary
+                            color = MaterialTheme.colorScheme.primary,
                         )
                     }
                 }
@@ -333,7 +333,7 @@ private fun CalendarArrowIcon(
             .padding(all = 4.dp),
         imageVector = ImageVector.vectorResource(id = iconResId),
         contentDescription = null,
-        tint = MaterialTheme.colorScheme.onBackground
+        tint = MaterialTheme.colorScheme.onBackground,
     )
 }
 
@@ -349,20 +349,26 @@ private fun DateOptionItem(
             .clip(shape = RoundedCornerShape(size = 8.dp))
             .background(
                 color =
-                    if (isClicked) MaterialTheme.colorScheme.secondaryContainer
-                    else MaterialTheme.colorScheme.surfaceContainer,
+                if (isClicked) {
+                    MaterialTheme.colorScheme.secondaryContainer
+                } else {
+                    MaterialTheme.colorScheme.surfaceContainer
+                },
             ).clickable {
                 onClick(dateOption.date)
             }.padding(
-                all = 8.dp
-            )
+                all = 8.dp,
+            ),
     ) {
         Text(
             text = stringResource(id = dateOption.resId),
             style = TodoTheme.typography.medium_12,
             color =
-                if (isClicked) MaterialTheme.colorScheme.onSecondaryContainer
-                else MaterialTheme.colorScheme.onBackground,
+            if (isClicked) {
+                MaterialTheme.colorScheme.onSecondaryContainer
+            } else {
+                MaterialTheme.colorScheme.onBackground
+            },
         )
     }
 }
@@ -404,9 +410,9 @@ private fun CalendarActionRow(
                 .clip(shape = RoundedCornerShape(size = 8.dp))
                 .background(
                     color = MaterialTheme.colorScheme.surfaceContainer,
-                    shape = RoundedCornerShape(size = 8.dp)
+                    shape = RoundedCornerShape(size = 8.dp),
                 )
-                .padding(horizontal = 8.dp, vertical = 8.dp)
+                .padding(horizontal = 8.dp, vertical = 8.dp),
         ) {
             Text(
                 text = content,
@@ -440,7 +446,7 @@ private fun CalendarArrowIconPreview() {
     TodoTheme {
         CalendarArrowIcon(
             iconResId = -1,
-            onClick = {}
+            onClick = {},
         )
     }
 }
@@ -456,7 +462,7 @@ private fun DateOptionItemPreview() {
         DateOptionItem(
             dateOption = dateOption,
             isClicked = false,
-            onClick = {}
+            onClick = {},
 
         )
     }
@@ -473,7 +479,7 @@ private fun CalendarActionRowPreview() {
             titleColor = Color.Black,
             content = "",
             enabled = true,
-            onClick = {}
+            onClick = {},
         )
     }
 }

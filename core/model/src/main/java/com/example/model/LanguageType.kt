@@ -8,11 +8,11 @@ enum class LanguageType(
     KOREAN(
         key = "korean",
         title = "한국어",
-        languageTag = "ko"
+        languageTag = "ko",
     ),
     ENGLISH(
         key = "english",
         title = "English",
-        languageTag = "en"
-    )
+        languageTag = "en",
+    ),
 }

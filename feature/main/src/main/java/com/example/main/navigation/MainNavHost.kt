@@ -27,11 +27,11 @@ internal fun MainNavHost(
 ) {
     Box(
         modifier = modifier.fillMaxSize()
-            .background(color = MaterialTheme.colorScheme.background)
+            .background(color = MaterialTheme.colorScheme.background),
     ) {
         NavHost(
             navController = navigator.navController,
-            startDestination = navigator.startDestination
+            startDestination = navigator.startDestination,
         ) {
             tasksNavGraph(
                 exitApp = navigator::exitApp,
@@ -39,7 +39,7 @@ internal fun MainNavHost(
                 navigateCompletedTasks = navigator::navigateCompletedTasks,
                 navigateSearchTask = navigator::navigateSearchTask,
                 navigateManageCategories = navigator::navigateManageCategories,
-                navigateSetting = navigator::navigateSetting
+                navigateSetting = navigator::navigateSetting,
             )
             calendarNavGraph(
                 navigateEditTask = navigator::navigateEditTask,
@@ -75,10 +75,10 @@ internal fun MainNavHost(
             )
             searchTaskNavGraph(
                 navigateEditTask = navigator::navigateEditTask,
-                popBackStack = navigator::popBackStackIfNotTasks
+                popBackStack = navigator::popBackStackIfNotTasks,
             )
             githubAuthNavGraph(
-                popBackStack = navigator::popBackStackIfNotTasks
+                popBackStack = navigator::popBackStackIfNotTasks,
             )
         }
     }

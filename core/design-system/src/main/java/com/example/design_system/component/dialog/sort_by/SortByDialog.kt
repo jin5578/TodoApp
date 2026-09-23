@@ -44,22 +44,22 @@ fun SortByDialog(
 
     Dialog(
         onDismissRequest = { onCloseClick() },
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
         Card(
             modifier = Modifier.fillMaxWidth()
                 .padding(horizontal = 16.dp),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
-            )
+                containerColor = MaterialTheme.colorScheme.background,
+            ),
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth().padding(
                     horizontal = 2.dp,
-                    vertical = 16.dp
+                    vertical = 16.dp,
                 ),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth()
@@ -67,7 +67,7 @@ fun SortByDialog(
                     text = stringResource(id = DesignSystemR.string.tasks_sorted_by),
                     style = TodoTheme.typography.bold_20,
                     color = MaterialTheme.colorScheme.onBackground,
-                    textAlign = TextAlign.Start
+                    textAlign = TextAlign.Start,
                 )
 
                 Spacer(modifier = Modifier.height(height = 16.dp))
@@ -78,7 +78,7 @@ fun SortByDialog(
                         isSelected = selectedSortByType == sortByType,
                         onClick = {
                             selectedSortByType = sortByType
-                        }
+                        },
                     )
                 }
 
@@ -87,18 +87,18 @@ fun SortByDialog(
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(end = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.End,
                 ) {
                     Text(
                         modifier = Modifier.clickable {
                             onSelectClick(selectedSortByType)
                         }.padding(
                             horizontal = 8.dp,
-                            vertical = 4.dp
+                            vertical = 4.dp,
                         ),
                         text = stringResource(id = DesignSystemR.string.select),
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
                     )
                 }
             }
@@ -113,7 +113,7 @@ private fun SortByDialogPreview() {
         SortByDialog(
             sortByType = SortByType.DUE_DATE_AND_TIME,
             onCloseClick = {},
-            onSelectClick = {}
+            onSelectClick = {},
         )
     }
 }

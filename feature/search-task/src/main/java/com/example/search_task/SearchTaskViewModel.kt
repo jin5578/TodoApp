@@ -68,27 +68,24 @@ class SearchTaskViewModel @Inject constructor(
         }
     }
 
-    fun updateTaskCompletion(id: Long, isCompleted: Boolean) =
-        viewModelScope.launch {
-            updateTaskCompletedUseCase(
-                id = id,
-                isCompleted = isCompleted
-            )
-        }
+    fun updateTaskCompletion(id: Long, isCompleted: Boolean) = viewModelScope.launch {
+        updateTaskCompletedUseCase(
+            id = id,
+            isCompleted = isCompleted,
+        )
+    }
 
-    fun updateTaskSymbol(taskId: Long, symbolId: Int) =
-        viewModelScope.launch {
-            updateTaskSymbolUseCase(
-                taskId = taskId,
-                symbolId = symbolId
-            )
-        }
+    fun updateTaskSymbol(taskId: Long, symbolId: Int) = viewModelScope.launch {
+        updateTaskSymbolUseCase(
+            taskId = taskId,
+            symbolId = symbolId,
+        )
+    }
 
-    fun toggleSubTaskCompletion(subTaskId: Long, isCompleted: Boolean) =
-        viewModelScope.launch {
-            updateSubTaskCompletedUseCase(
-                id = subTaskId,
-                isCompleted = isCompleted
-            )
-        }
+    fun toggleSubTaskCompletion(subTaskId: Long, isCompleted: Boolean) = viewModelScope.launch {
+        updateSubTaskCompletedUseCase(
+            id = subTaskId,
+            isCompleted = isCompleted,
+        )
+    }
 }

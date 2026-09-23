@@ -6,5 +6,5 @@ import com.example.model.Task
 data class EditTask(
     val task: Task,
     val categories: List<Category>,
-    val editTaskSystem: EditTaskSystem
+    val editTaskSystem: EditTaskSystem,
 )

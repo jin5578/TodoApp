@@ -65,7 +65,7 @@ fun Heatmap(
     val weeks = remember(key1 = endDate, key2 = weekCount) {
         /*
             endDate(기본 오늘)가 속한 주의 일요일(lastWeekStart)을 구하고, 거시서 weekCount - 1주만큼 거슬러 올라가 firstWeekStart를 구함.
-        */
+         */
         val lastWeekStart =
             endDate.with(TemporalAdjusters.previousOrSame(DayOfWeek.SUNDAY))
         val firstWeekStart = lastWeekStart.minusWeeks((weekCount - 1).toLong())
@@ -73,7 +73,7 @@ fun Heatmap(
         /*
             이후 주 단위로 weekCount개((기본 53주 ≈ 1년치)의 List<LocalDate>(각 7일)를 만들어 weeks: List<List<LocalDate>>를 완성
             즉, weeks[weekIndex][dayIndex]가 하나의 날짜
-        */
+         */
         (0 until weekCount).map { weekIndex ->
             val weekStart = firstWeekStart.plusWeeks(weekIndex.toLong())
             (0 until DAYS_IN_WEEK).map { dayIndex ->
@@ -86,19 +86,19 @@ fun Heatmap(
         초기 진입 시 가장 최근 주(오른쪽 끝)가 보이도록 리스트 상태의 시작 인덱스를 마지막 주로 지정.
      */
     val listState = rememberLazyListState(
-        initialFirstVisibleItemIndex = (weeks.size - 1).coerceAtLeast(minimumValue = 0)
+        initialFirstVisibleItemIndex = (weeks.size - 1).coerceAtLeast(minimumValue = 0),
     )
 
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.spacedBy(space = CellSpacing)
+        horizontalArrangement = Arrangement.spacedBy(space = CellSpacing),
     ) {
         DaysOfWeekLabels(locale = locale)
 
         LazyRow(
             modifier = Modifier.weight(weight = 1f),
             state = listState,
-            horizontalArrangement = Arrangement.spacedBy(space = CellSpacing)
+            horizontalArrangement = Arrangement.spacedBy(space = CellSpacing),
         ) {
             itemsIndexed(items = weeks) { weekIndex, week ->
                 val monthLabel = week.first().takeIf { date ->
@@ -110,13 +110,17 @@ fun Heatmap(
                         text = monthLabel,
                         style = TodoTheme.typography.regular_08,
                         color = MaterialTheme.colorScheme.onBackground,
-                        maxLines = 1
+                        maxLines = 1,
                     )
 
                     week.forEach { date ->
                         HeatmapCell(
-                            level = if (date.isAfter(endDate)) null else levelByDate[date]
-                                ?: 0
+                            level = if (date.isAfter(endDate)) {
+                                null
+                            } else {
+                                levelByDate[date]
+                                    ?: 0
+                            },
                         )
                     }
                 }
@@ -131,22 +135,22 @@ private fun DaysOfWeekLabels(locale: Locale) {
         Text(
             text = "",
             style = TodoTheme.typography.regular_08,
-            maxLines = 1
+            maxLines = 1,
         )
 
         WeekDaysOrderedFromSunday.forEach { dayOfWeek ->
             Box(
                 modifier = Modifier.height(height = CellSize),
-                contentAlignment = Alignment.CenterStart
+                contentAlignment = Alignment.CenterStart,
             ) {
                 Text(
                     text = dayOfWeek.getDisplayName(
                         TextStyle.SHORT,
-                        locale
+                        locale,
                     ),
                     style = TodoTheme.typography.regular_08,
                     color = MaterialTheme.colorScheme.onBackground,
-                    maxLines = 1
+                    maxLines = 1,
                 )
             }
         }
@@ -157,9 +161,11 @@ private fun DaysOfWeekLabels(locale: Locale) {
 private fun HeatmapCell(level: Int?) {
     val color = when {
         level == null -> Color.Transparent
+
         level <= 0 -> MaterialTheme.colorScheme.surfaceContainerHighest
+
         else -> MaterialTheme.colorScheme.primary.copy(
-            alpha = level.coerceAtMost(maximumValue = MAX_LEVEL) / MAX_LEVEL.toFloat()
+            alpha = level.coerceAtMost(maximumValue = MAX_LEVEL) / MAX_LEVEL.toFloat(),
         )
     }
 
@@ -167,7 +173,7 @@ private fun HeatmapCell(level: Int?) {
         modifier = Modifier
             .size(size = CellSize)
             .clip(shape = RoundedCornerShape(size = 2.dp))
-            .background(color = color)
+            .background(color = color),
     )
 }
 
@@ -184,7 +190,7 @@ private fun HeatmapPreview() {
     TodoTheme {
         Heatmap(
             entries = entries,
-            locale = Locale.KOREA
+            locale = Locale.KOREA,
         )
     }
 }

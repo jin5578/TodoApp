@@ -8,7 +8,9 @@ import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
+class MainViewModel
+@Inject
+constructor(
     private val getThemeTypeUseCase: GetThemeTypeUseCase,
 ) : ViewModel() {
     val themeType: Flow<ThemeType> = getThemeTypeUseCase()

@@ -15,8 +15,6 @@ internal object WorkerModule {
     @Provides
     @Singleton
     fun providesWorkManager(
-        @ApplicationContext context: Context
-    ): WorkManager {
-        return WorkManager.getInstance(context)
-    }
+        @ApplicationContext context: Context,
+    ): WorkManager = WorkManager.getInstance(context)
 }

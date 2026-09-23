@@ -12,12 +12,12 @@ enum class ProfileTaskState(
 ) : ProfileCategoryOption {
     COMPLETED(
         titleResId = DesignSystemR.string.completed_tasks,
-        isCompleted = true
+        isCompleted = true,
     ),
     PENDING(
         titleResId = DesignSystemR.string.pending_tasks,
-        isCompleted = false
-    )
+        isCompleted = false,
+    ),
 }
 
 enum class ProfileTaskDuration(
@@ -26,14 +26,14 @@ enum class ProfileTaskDuration(
 ) : ProfileCategoryOption {
     SEVEN_DAYS(
         titleResId = DesignSystemR.string.in_7_days,
-        days = 7L
+        days = 7L,
     ),
     THIRTY_DAYS(
         titleResId = DesignSystemR.string.in_30_days,
-        days = 30L
+        days = 30L,
     ),
     ALL(
         titleResId = DesignSystemR.string.all,
-        days = null
+        days = null,
     ),
 }

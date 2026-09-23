@@ -21,31 +21,21 @@ import javax.inject.Singleton
 internal abstract class DataModule {
     @Binds
     @Singleton
-    abstract fun bindsSystemPreferencesDataSource(
-        dataSource: DefaultSystemPreferencesDataSource
-    ): SystemPreferencesDataSource
+    abstract fun bindsSystemPreferencesDataSource(dataSource: DefaultSystemPreferencesDataSource): SystemPreferencesDataSource
 
     @Binds
     @Singleton
-    abstract fun bindsGithubTokenDataSource(
-        dataSource: DefaultGithubTokenDataSource,
-    ): GithubTokenDataSource
+    abstract fun bindsGithubTokenDataSource(dataSource: DefaultGithubTokenDataSource): GithubTokenDataSource
 
     @Binds
     @Singleton
-    abstract fun bindsCategoryDatabaseDataSource(
-        dataSource: DefaultCategoryDatabaseDataSource
-    ): CategoryDatabaseDataSource
+    abstract fun bindsCategoryDatabaseDataSource(dataSource: DefaultCategoryDatabaseDataSource): CategoryDatabaseDataSource
 
     @Binds
     @Singleton
-    abstract fun bindsTaskDatabaseDataSource(
-        dataSource: DefaultTaskDatabaseDataSource
-    ): TaskDatabaseDataSource
+    abstract fun bindsTaskDatabaseDataSource(dataSource: DefaultTaskDatabaseDataSource): TaskDatabaseDataSource
 
     @Binds
     @Singleton
-    abstract fun bindsSubTaskDatabaseDataSource(
-        dataSource: DefaultSubTaskDatabaseDataSource
-    ): SubTaskDatabaseDataSource
+    abstract fun bindsSubTaskDatabaseDataSource(dataSource: DefaultSubTaskDatabaseDataSource): SubTaskDatabaseDataSource
 }

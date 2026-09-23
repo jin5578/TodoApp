@@ -72,34 +72,37 @@ internal fun SearchTaskScreen(
                     searchedText = text
                     onKeywordChanged(text)
                 },
-                popBackStack = popBackStack
+                popBackStack = popBackStack,
             )
-        }
+        },
     ) { paddingValues ->
-        if (tasks.isEmpty())
+        if (tasks.isEmpty()) {
             EmptyContent(
                 modifier = modifier.padding(paddingValues = paddingValues),
-                title = stringResource(id = DesignSystemR.string.no_tasks)
+                title = stringResource(id = DesignSystemR.string.no_tasks),
             )
-        else
+        } else {
             LazyColumn(
                 modifier = modifier.fillMaxSize()
                     .padding(paddingValues = paddingValues),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 itemsIndexed(
                     items = tasks,
-                    key = { index, task -> task.id }
+                    key = { index, task -> task.id },
                 ) { index, task ->
                     val bottomPadding =
-                        if (index != tasks.size - 1) 8.dp
-                        else 0.dp
+                        if (index != tasks.size - 1) {
+                            8.dp
+                        } else {
+                            0.dp
+                        }
                     TaskCard(
                         modifier = Modifier.fillMaxWidth()
                             .padding(
                                 start = 16.dp,
                                 end = 16.dp,
-                                bottom = bottomPadding
+                                bottom = bottomPadding,
                             ),
                         task = task,
                         locale = locale,
@@ -107,10 +110,11 @@ internal fun SearchTaskScreen(
                         onTaskEditClick = onTaskEditClick,
                         onDeleteSymbolClick = onDeleteSymbolClick,
                         onSymbolClick = onSymbolClick,
-                        onSubTaskToggleClick = onSubTaskToggleClick
+                        onSubTaskToggleClick = onSubTaskToggleClick,
                     )
                 }
             }
+        }
     }
 }
 
@@ -130,7 +134,7 @@ private fun SearchTaskTopAppBar(
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
         ),
         title = {
             val interactionSource = remember { MutableInteractionSource() }
@@ -140,12 +144,12 @@ private fun SearchTaskTopAppBar(
                 value = text,
                 onValueChange = { onValueChange(it) },
                 textStyle = TodoTheme.typography.medium_16.copy(
-                    color = MaterialTheme.colorScheme.onBackground
+                    color = MaterialTheme.colorScheme.onBackground,
                 ),
                 cursorBrush = SolidColor(MaterialTheme.colorScheme.onBackground),
                 keyboardOptions = KeyboardOptions(
                     capitalization = KeyboardCapitalization.Sentences,
-                    imeAction = ImeAction.Done
+                    imeAction = ImeAction.Done,
                 ),
                 interactionSource = interactionSource,
                 decorationBox = { innerTextField ->
@@ -160,7 +164,7 @@ private fun SearchTaskTopAppBar(
                             Text(
                                 text = stringResource(id = DesignSystemR.string.search),
                                 color = MaterialTheme.colorScheme.onBackground,
-                                style = TodoTheme.typography.medium_16
+                                style = TodoTheme.typography.medium_16,
                             )
                         },
                         colors = TextFieldDefaults.colors(
@@ -174,7 +178,7 @@ private fun SearchTaskTopAppBar(
                         ),
                         contentPadding = PaddingValues(0.dp),
                     )
-                }
+                },
             )
         },
         navigationIcon = {
@@ -183,10 +187,10 @@ private fun SearchTaskTopAppBar(
                     modifier = modifier.size(size = 24.dp),
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
-        }
+        },
     )
 }
 
@@ -203,7 +207,7 @@ private fun SearchTaskScreenPreview() {
             onDeleteSymbolClick = {},
             onSymbolClick = { _, _ -> },
             onSubTaskToggleClick = { _, _ -> },
-            popBackStack = {}
+            popBackStack = {},
         )
     }
 }

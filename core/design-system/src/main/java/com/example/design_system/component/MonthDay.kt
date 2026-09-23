@@ -33,16 +33,26 @@ fun MonthDay(
     onClick: (LocalDate) -> Unit,
 ) {
     val backgroundColor =
-        if (isSelected) MaterialTheme.colorScheme.primaryContainer
-        else Color.Transparent
+        if (isSelected) {
+            MaterialTheme.colorScheme.primaryContainer
+        } else {
+            Color.Transparent
+        }
     val borderWidth = if (isSelected) 1.dp else (-1).dp
     val textColor =
-        if (day.date == LocalDate.now()) MaterialTheme.colorScheme.error
-        else if (isSelected) MaterialTheme.colorScheme.onPrimaryContainer
-        else MaterialTheme.colorScheme.onBackground
+        if (day.date == LocalDate.now()) {
+            MaterialTheme.colorScheme.error
+        } else if (isSelected) {
+            MaterialTheme.colorScheme.onPrimaryContainer
+        } else {
+            MaterialTheme.colorScheme.onBackground
+        }
     val fontStyle =
-        if (isSelected) TodoTheme.typography.bold_12
-        else TodoTheme.typography.medium_12
+        if (isSelected) {
+            TodoTheme.typography.bold_12
+        } else {
+            TodoTheme.typography.medium_12
+        }
 
     BoxWithConstraints(
         modifier = modifier.aspectRatio(ratio = 1f)
@@ -52,17 +62,17 @@ fun MonthDay(
             .border(
                 width = borderWidth,
                 color = MaterialTheme.colorScheme.onBackground,
-                shape = RoundedCornerShape(size = 8.dp)
+                shape = RoundedCornerShape(size = 8.dp),
             )
             .clickable {
                 onClick(day.date)
             },
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         Text(
             text = day.date.dayOfMonth.toString(),
             style = fontStyle,
-            color = textColor
+            color = textColor,
         )
 
         if (isVisibleIndicator) {
@@ -73,7 +83,7 @@ fun MonthDay(
                     .size(4.dp)
                     .background(
                         color = Color.Red,
-                        shape = CircleShape
+                        shape = CircleShape,
                     ),
             )
         }
@@ -87,7 +97,7 @@ private fun MonthDayPreview() {
         MonthDay(
             day = CalendarDay(
                 date = LocalDate.now(),
-                position = DayPosition.MonthDate
+                position = DayPosition.MonthDate,
             ),
             isSelected = false,
             isVisibleIndicator = true,

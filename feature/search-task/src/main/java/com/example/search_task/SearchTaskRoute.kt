@@ -16,7 +16,7 @@ import kotlinx.coroutines.flow.collectLatest
 internal fun SearchTaskRoute(
     viewModel: SearchTaskViewModel = hiltViewModel(),
     navigateEditTask: (Long) -> Unit,
-    popBackStack: () -> Unit
+    popBackStack: () -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -26,7 +26,7 @@ internal fun SearchTaskRoute(
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
             snackbarHostState.showSnackbar(
-                message = throwable.toErrorMessage(resources = contextResources)
+                message = throwable.toErrorMessage(resources = contextResources),
             )
         }
     }
@@ -38,7 +38,7 @@ internal fun SearchTaskRoute(
         onTaskSymbolChanged = viewModel::updateTaskSymbol,
         onSubTaskToggleChanged = viewModel::toggleSubTaskCompletion,
         navigateEditTask = navigateEditTask,
-        popBackStack = popBackStack
+        popBackStack = popBackStack,
     )
 }
 
@@ -50,7 +50,7 @@ private fun SearchTaskContent(
     onTaskSymbolChanged: (taskId: Long, symbolId: Int) -> Unit,
     onSubTaskToggleChanged: (subTaskId: Long, isCompleted: Boolean) -> Unit,
     navigateEditTask: (Long) -> Unit,
-    popBackStack: () -> Unit
+    popBackStack: () -> Unit,
 ) {
     when (uiState) {
         is SearchTaskUiState.Loading ->
@@ -66,12 +66,12 @@ private fun SearchTaskContent(
                 onDeleteSymbolClick = { taskId ->
                     onTaskSymbolChanged(
                         taskId,
-                        -1
+                        -1,
                     )
                 },
                 onSymbolClick = onTaskSymbolChanged,
                 onSubTaskToggleClick = onSubTaskToggleChanged,
-                popBackStack = popBackStack
+                popBackStack = popBackStack,
             )
     }
 }

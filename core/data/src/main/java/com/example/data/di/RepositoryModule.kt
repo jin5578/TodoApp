@@ -36,62 +36,45 @@ import javax.inject.Singleton
 internal object RepositoryModule {
     @Provides
     @Singleton
-    fun providesSystemRepository(
-        systemDataSource: SystemPreferencesDataSource
-    ): SystemRepository =
-        DefaultSystemRepository(systemDataSource = systemDataSource)
+    fun providesSystemRepository(systemDataSource: SystemPreferencesDataSource): SystemRepository = DefaultSystemRepository(systemDataSource = systemDataSource)
 
     @Provides
     @Singleton
-    fun providesCategoryRepository(
-        categoryDataSource: CategoryDatabaseDataSource,
-    ): CategoryRepository =
-        DefaultCategoryRepository(categoryDataSource = categoryDataSource)
+    fun providesCategoryRepository(categoryDataSource: CategoryDatabaseDataSource): CategoryRepository = DefaultCategoryRepository(categoryDataSource = categoryDataSource)
 
     @Provides
     @Singleton
-    fun providesTaskRepository(
-        taskDataSource: TaskDatabaseDataSource,
-    ): TaskRepository =
-        DefaultTaskRepository(taskDataSource = taskDataSource)
+    fun providesTaskRepository(taskDataSource: TaskDatabaseDataSource): TaskRepository = DefaultTaskRepository(taskDataSource = taskDataSource)
 
     @Provides
     @Singleton
-    fun providesSubTaskRepository(
-        subTaskDataSource: SubTaskDatabaseDataSource
-    ): SubTaskRepository =
-        DefaultSubTaskRepository(subTaskDataSource = subTaskDataSource)
+    fun providesSubTaskRepository(subTaskDataSource: SubTaskDatabaseDataSource): SubTaskRepository = DefaultSubTaskRepository(subTaskDataSource = subTaskDataSource)
 
     @Provides
     @Singleton
     fun providesGithubRepository(
         deviceCodeApi: GithubDeviceCodeApi,
         graphQlApi: GithubGraphQlApi,
-        tokenDataSource: GithubTokenDataSource
-    ): GithubRepository =
-        DefaultGithubRepository(
-            deviceCodeApi = deviceCodeApi,
-            graphQlApi = graphQlApi,
-            tokenDataSource = tokenDataSource
-        )
+        tokenDataSource: GithubTokenDataSource,
+    ): GithubRepository = DefaultGithubRepository(
+        deviceCodeApi = deviceCodeApi,
+        graphQlApi = graphQlApi,
+        tokenDataSource = tokenDataSource,
+    )
 
     @Provides
     @Singleton
-    fun providesOpenWeatherRepository(
-        openWeatherApi: OpenWeatherApi
-    ): OpenWeatherRepository =
-        DefaultOpenWeatherRepository(
-            openWeatherApi = openWeatherApi
-        )
+    fun providesOpenWeatherRepository(openWeatherApi: OpenWeatherApi): OpenWeatherRepository = DefaultOpenWeatherRepository(
+        openWeatherApi = openWeatherApi,
+    )
 
     @Provides
     @Singleton
     fun providesLocationRepository(
         @ApplicationContext context: Context,
         fusedLocationProviderClient: FusedLocationProviderClient,
-    ): LocationRepository =
-        DefaultLocationRepository(
-            context = context,
-            fusedLocationProviderClient = fusedLocationProviderClient
-        )
+    ): LocationRepository = DefaultLocationRepository(
+        context = context,
+        fusedLocationProviderClient = fusedLocationProviderClient,
+    )
 }

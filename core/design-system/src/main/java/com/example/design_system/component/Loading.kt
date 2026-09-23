@@ -11,11 +11,11 @@ import com.example.design_system.theme.TodoTheme
 
 @Composable
 fun Loading(
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         CircularProgressIndicator()
     }

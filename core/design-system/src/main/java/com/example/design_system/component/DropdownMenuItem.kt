@@ -10,17 +10,17 @@ import com.example.design_system.theme.TodoTheme
 @Composable
 fun BasicDropdownMenuItem(
     title: String,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     DropdownMenuItem(
         text = {
             Text(
                 text = title,
                 style = TodoTheme.typography.medium_12,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         },
-        onClick = onClick
+        onClick = onClick,
     )
 }
 
@@ -30,7 +30,7 @@ private fun BasicDropdownMenuItemPreview() {
     TodoTheme {
         BasicDropdownMenuItem(
             title = "Title",
-            onClick = {}
+            onClick = {},
         )
     }
 }

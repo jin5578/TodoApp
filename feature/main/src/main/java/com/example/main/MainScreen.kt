@@ -69,7 +69,7 @@ private fun MainScreen(
                     )
                 }
             },
-            snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+            snackbarHost = { SnackbarHost(hostState = snackbarHostState) },
         )
     }
 }

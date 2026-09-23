@@ -7,10 +7,8 @@ import androidx.navigation.compose.composable
 import com.example.navigation.Route
 import com.example.profile.ProfileRoute
 
-fun NavGraphBuilder.profileNavGraph() =
-    composable<Route.Profile> { navBackStackEntry ->
-        ProfileRoute()
-    }
+fun NavGraphBuilder.profileNavGraph() = composable<Route.Profile> { navBackStackEntry ->
+    ProfileRoute()
+}
 
-fun NavController.navigateProfile(navOptions: NavOptions? = null) =
-    navigate(route = Route.Profile, navOptions = navOptions)
+fun NavController.navigateProfile(navOptions: NavOptions? = null) = navigate(route = Route.Profile, navOptions = navOptions)

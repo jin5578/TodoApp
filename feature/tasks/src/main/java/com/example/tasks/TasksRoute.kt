@@ -41,7 +41,7 @@ internal fun TasksRoute(
     val contextResources = LocalResources.current
 
     val requestLocationPermissionLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.RequestPermission()
+        contract = ActivityResultContracts.RequestPermission(),
     ) { isGranted ->
         if (isGranted) viewModel.fetchWeather()
     }
@@ -49,7 +49,7 @@ internal fun TasksRoute(
     LaunchedEffect(key1 = Unit) {
         val hasLocationPermission = ContextCompat.checkSelfPermission(
             context,
-            Manifest.permission.ACCESS_COARSE_LOCATION
+            Manifest.permission.ACCESS_COARSE_LOCATION,
         ) == PackageManager.PERMISSION_GRANTED
 
         if (hasLocationPermission) {
@@ -71,7 +71,7 @@ internal fun TasksRoute(
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
             snackbarHostState.showSnackbar(
-                message = throwable.toErrorMessage(resources = contextResources)
+                message = throwable.toErrorMessage(resources = contextResources),
             )
         }
     }
@@ -90,7 +90,7 @@ internal fun TasksRoute(
         onAddCategory = { categoryTitle, categoryColorType ->
             viewModel.insertCategory(
                 title = categoryTitle,
-                colorValue = categoryColorType.colorValue
+                colorValue = categoryColorType.colorValue,
             )
         },
         onSortByTypeChanged = viewModel::updateSortByType,
@@ -131,7 +131,7 @@ private fun TasksContent(
         is TasksUiState.Biometric ->
             TasksBiometricScreen(
                 onBiometricAuthSucceeded = onBiometricAuthSucceeded,
-                onBiometricAuthError = onBiometricAuthError
+                onBiometricAuthError = onBiometricAuthError,
             )
 
         is TasksUiState.Password ->
@@ -139,7 +139,7 @@ private fun TasksContent(
                 tasksPasswordProcessType = uiState.tasksPasswordProcessType,
                 exitApp = exitApp,
                 onPasswordCheck = passwordCheck,
-                onDeleteAllData = onDeleteAllData
+                onDeleteAllData = onDeleteAllData,
             )
 
         is TasksUiState.Screen ->
@@ -157,7 +157,7 @@ private fun TasksContent(
                 onDeleteSymbolClick = { taskId ->
                     onTaskSymbolChanged(
                         taskId,
-                        -1
+                        -1,
                     )
                 },
                 onAddTaskClick = onAddTask,

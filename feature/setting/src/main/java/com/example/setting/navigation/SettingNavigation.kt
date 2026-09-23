@@ -20,5 +20,4 @@ fun NavGraphBuilder.settingNavGraph(
     )
 }
 
-fun NavController.navigateSetting() =
-    navigate(route = Route.Setting)
+fun NavController.navigateSetting() = navigate(route = Route.Setting)

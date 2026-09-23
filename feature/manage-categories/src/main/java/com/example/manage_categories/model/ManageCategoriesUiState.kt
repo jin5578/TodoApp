@@ -12,6 +12,6 @@ sealed interface ManageCategoriesUiState {
 
     @Immutable
     data class Screen(
-        val categoryUiModels: ImmutableList<ManageCategoryUiModel> = persistentListOf()
+        val categoryUiModels: ImmutableList<ManageCategoryUiModel> = persistentListOf(),
     ) : ManageCategoriesUiState
 }

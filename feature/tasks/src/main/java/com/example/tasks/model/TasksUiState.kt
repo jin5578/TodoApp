@@ -20,7 +20,7 @@ sealed interface TasksUiState {
 
     @Immutable
     data class Password(
-        val tasksPasswordProcessType: TasksPasswordProcessType
+        val tasksPasswordProcessType: TasksPasswordProcessType,
     ) : TasksUiState
 
     @Immutable

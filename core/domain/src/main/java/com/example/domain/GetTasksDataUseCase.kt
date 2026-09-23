@@ -8,23 +8,27 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject
 
-class GetTasksDataUseCase @Inject constructor(
+class GetTasksDataUseCase
+@Inject
+constructor(
     private val systemRepository: SystemRepository,
     private val categoryRepository: CategoryRepository,
-    private val taskRepository: TaskRepository
+    private val taskRepository: TaskRepository,
 ) {
-    operator fun invoke(categoryId: Long): Flow<Tasks> =
-        combine(
-            flow =
-                if (categoryId == -1L) taskRepository.getTasks()
-                else taskRepository.getTasksByCategory(categoryId = categoryId),
-            flow2 = categoryRepository.getAllCategory(),
-            flow3 = systemRepository.getTasksSystem()
-        ) { tasks, categories, tasksSystem ->
-            Tasks(
-                tasks = tasks,
-                categories = categories,
-                tasksSystem = tasksSystem
-            )
-        }
+    operator fun invoke(categoryId: Long): Flow<Tasks> = combine(
+        flow =
+        if (categoryId == -1L) {
+            taskRepository.getTasks()
+        } else {
+            taskRepository.getTasksByCategory(categoryId = categoryId)
+        },
+        flow2 = categoryRepository.getAllCategory(),
+        flow3 = systemRepository.getTasksSystem(),
+    ) { tasks, categories, tasksSystem ->
+        Tasks(
+            tasks = tasks,
+            categories = categories,
+            tasksSystem = tasksSystem,
+        )
+    }
 }

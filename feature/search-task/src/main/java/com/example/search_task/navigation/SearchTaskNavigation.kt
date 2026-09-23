@@ -12,9 +12,8 @@ fun NavGraphBuilder.searchTaskNavGraph(
 ) = composable<Route.SearchTask> { _ ->
     SearchTaskRoute(
         navigateEditTask = navigateEditTask,
-        popBackStack = popBackStack
+        popBackStack = popBackStack,
     )
 }
 
-fun NavController.navigateSearchTask() =
-    navigate(route = Route.SearchTask)
+fun NavController.navigateSearchTask() = navigate(route = Route.SearchTask)

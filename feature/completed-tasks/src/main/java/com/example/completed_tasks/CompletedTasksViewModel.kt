@@ -29,7 +29,7 @@ class CompletedTasksViewModel @Inject constructor(
     private val updateTaskCompletedUseCase: UpdateTaskCompletedUseCase,
     private val updateTaskSymbolUseCase: UpdateTaskSymbolUseCase,
     private val updateSubTaskCompletedUseCase: UpdateSubTaskCompletedUseCase,
-    private val deleteTasksByStateUseCase: DeleteTasksByStateUseCase
+    private val deleteTasksByStateUseCase: DeleteTasksByStateUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -42,62 +42,55 @@ class CompletedTasksViewModel @Inject constructor(
         fetchCompletedTasksUiState()
     }
 
-    private fun fetchCompletedTasksUiState() =
-        viewModelScope.launch {
-            getCompletedTasksDataUseCase().map { completedTasks ->
-                val taskDateGroups = completedTasks.tasks.toTaskDateGroups()
-                val completedTasksSystem = completedTasks.completedTasksSystem
+    private fun fetchCompletedTasksUiState() = viewModelScope.launch {
+        getCompletedTasksDataUseCase().map { completedTasks ->
+            val taskDateGroups = completedTasks.tasks.toTaskDateGroups()
+            val completedTasksSystem = completedTasks.completedTasksSystem
 
-                CompletedTasksUiState.Screen(
-                    taskDateGroups = taskDateGroups,
-                    locale = completedTasksSystem.locale,
-                )
-            }.catch { throwable ->
-                _errorFlow.emit(value = throwable)
-            }.collect {
-                _uiState.value = it
-            }
-        }
-
-    fun updateTaskCompletion(id: Long, isCompleted: Boolean) =
-        viewModelScope.launch {
-            updateTaskCompletedUseCase(
-                id = id,
-                isCompleted = isCompleted
+            CompletedTasksUiState.Screen(
+                taskDateGroups = taskDateGroups,
+                locale = completedTasksSystem.locale,
             )
+        }.catch { throwable ->
+            _errorFlow.emit(value = throwable)
+        }.collect {
+            _uiState.value = it
         }
+    }
 
-    fun deleteAllCompletedTasks() =
-        viewModelScope.launch {
-            deleteTasksByStateUseCase(isCompleted = true)
-        }
+    fun updateTaskCompletion(id: Long, isCompleted: Boolean) = viewModelScope.launch {
+        updateTaskCompletedUseCase(
+            id = id,
+            isCompleted = isCompleted,
+        )
+    }
 
-    fun updateTaskSymbol(taskId: Long, symbolId: Int) =
-        viewModelScope.launch {
-            updateTaskSymbolUseCase(
-                taskId = taskId,
-                symbolId = symbolId
+    fun deleteAllCompletedTasks() = viewModelScope.launch {
+        deleteTasksByStateUseCase(isCompleted = true)
+    }
+
+    fun updateTaskSymbol(taskId: Long, symbolId: Int) = viewModelScope.launch {
+        updateTaskSymbolUseCase(
+            taskId = taskId,
+            symbolId = symbolId,
+        )
+    }
+
+    fun toggleSubTaskCompletion(subTaskId: Long, isCompleted: Boolean) = viewModelScope.launch {
+        updateSubTaskCompletedUseCase(
+            id = subTaskId,
+            isCompleted = isCompleted,
+        )
+    }
+
+    private fun List<Task>.toTaskDateGroups(): ImmutableList<TaskDateGroup> = filter { task -> task.completedAt != null }
+        .groupBy { task -> task.completedAt!!.toLocalDate() }
+        .toSortedMap()
+        .map { (date, tasks) ->
+            TaskDateGroup(
+                taskDate = date,
+                tasks = tasks.map { task -> task.toUiModel() }
+                    .toPersistentList(),
             )
-        }
-
-    fun toggleSubTaskCompletion(subTaskId: Long, isCompleted: Boolean) =
-        viewModelScope.launch {
-            updateSubTaskCompletedUseCase(
-                id = subTaskId,
-                isCompleted = isCompleted
-            )
-        }
-
-    private fun List<Task>.toTaskDateGroups(): ImmutableList<TaskDateGroup> =
-        filter { task -> task.completedAt != null }
-            .groupBy { task -> task.completedAt!!.toLocalDate() }
-            .toSortedMap()
-            .map { (date, tasks) ->
-                TaskDateGroup(
-                    taskDate = date,
-                    tasks = tasks.map { task -> task.toUiModel() }
-                        .toPersistentList()
-                )
-            }.toPersistentList()
-
+        }.toPersistentList()
 }

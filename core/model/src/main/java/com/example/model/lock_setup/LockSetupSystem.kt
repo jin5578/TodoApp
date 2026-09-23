@@ -4,5 +4,5 @@ import java.util.Locale
 
 data class LockSetupSystem(
     val hasExistingPassword: Boolean,
-    val locale: Locale
+    val locale: Locale,
 )

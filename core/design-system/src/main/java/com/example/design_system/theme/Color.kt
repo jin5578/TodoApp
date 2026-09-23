@@ -2,8 +2,8 @@ package com.example.design_system.theme
 
 import androidx.compose.ui.graphics.Color
 
-//Light - SunRise
-//Light Default
+// Light - SunRise
+// Light Default
 val primarySunRise = Color(0xFF9C4200)
 val onPrimarySunRise = Color(0xFFFFFFFF)
 val primaryContainerSunRise = Color(0xFFFFDBC8)
@@ -40,7 +40,7 @@ val surfaceContainerSunRise = Color(0xFFFCEAE1)
 val surfaceContainerHighSunRise = Color(0xFFF7E4DC)
 val surfaceContainerHighestSunRise = Color(0xFFF1DED6)
 
-//Light - Ocean
+// Light - Ocean
 val primaryOcean = Color(0xFF0061A4)
 val onPrimaryOcean = Color(0xFFFFFFFF)
 val primaryContainerOcean = Color(0xFFD1E4FF)
@@ -77,7 +77,7 @@ val surfaceContainerOcean = Color(0xFFEEEDF1)
 val surfaceContainerHighOcean = Color(0xFFE8E7EB)
 val surfaceContainerHighestOcean = Color(0xFFE2E2E6)
 
-//Light - Meadow
+// Light - Meadow
 val primaryMeadow = Color(0xFF3C6939)
 val onPrimaryMeadow = Color(0xFFFFFFFF)
 val primaryContainerMeadow = Color(0xFFBEF0B5)
@@ -114,8 +114,8 @@ val surfaceContainerMeadow = Color(0xFFF0F1E9)
 val surfaceContainerHighMeadow = Color(0xFFEAEBE4)
 val surfaceContainerHighestMeadow = Color(0xFFE5E6DE)
 
-//Dark - Midnight
-//Dark Default
+// Dark - Midnight
+// Dark Default
 val primaryMidnight = Color(0xFFC6B0FF)
 val onPrimaryMidnight = Color(0xFF3A1A78)
 val primaryContainerMidnight = Color(0xFF523190)
@@ -152,7 +152,7 @@ val surfaceContainerMidnight = Color(0xFF29232C)
 val surfaceContainerHighMidnight = Color(0xFF332D37)
 val surfaceContainerHighestMidnight = Color(0xFF3F3742)
 
-//Dark - DeepSpace
+// Dark - DeepSpace
 val primaryDeepSpace = Color(0xFFADC6FF)
 val onPrimaryDeepSpace = Color(0xFF002F6C)
 val primaryContainerDeepSpace = Color(0xFF00458F)
@@ -189,7 +189,7 @@ val surfaceContainerDeepSpace = Color(0xFF27272B)
 val surfaceContainerHighDeepSpace = Color(0xFF313035)
 val surfaceContainerHighestDeepSpace = Color(0xFF3C3B40)
 
-//Dark - Ember
+// Dark - Ember
 val primaryEmber = Color(0xFFFFB59C)
 val onPrimaryEmber = Color(0xFF5C1A00)
 val primaryContainerEmber = Color(0xFF812800)

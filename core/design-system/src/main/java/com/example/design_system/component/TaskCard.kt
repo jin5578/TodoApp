@@ -79,20 +79,20 @@ fun TaskCard(
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(space = 16.dp)
+                horizontalArrangement = Arrangement.spacedBy(space = 16.dp),
             ) {
                 IconButton(
                     modifier = Modifier.size(size = 18.dp),
                     onClick = {
                         onTaskToggleClick(task.id, !task.isCompleted)
-                    }
+                    },
                 ) {
                     if (task.isCompleted) {
                         Icon(
                             modifier = Modifier.size(18.dp),
                             painter = painterResource(id = R.drawable.svg_check_circle),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.primary
+                            tint = MaterialTheme.colorScheme.primary,
                         )
                     } else {
                         Box(
@@ -100,10 +100,10 @@ fun TaskCard(
                                 .border(
                                     width = 1.8.dp,
                                     color = MaterialTheme.colorScheme.onBackground,
-                                    shape = CircleShape
+                                    shape = CircleShape,
                                 ),
                             contentAlignment = Alignment.Center,
-                            content = {}
+                            content = {},
                         )
                     }
                 }
@@ -111,7 +111,7 @@ fun TaskCard(
                 Column(
                     modifier = Modifier.weight(weight = 0.8f),
                     verticalArrangement = Arrangement.spacedBy(space = 8.dp),
-                    horizontalAlignment = Alignment.Start
+                    horizontalAlignment = Alignment.Start,
                 ) {
                     Text(
                         modifier = Modifier.fillMaxWidth().basicMarquee(),
@@ -123,7 +123,7 @@ fun TaskCard(
 
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         val dateFormat =
                             DateTimeFormatter.ofPattern("MM-dd", locale)
@@ -139,7 +139,7 @@ fun TaskCard(
                             Text(
                                 text = time.format(timeFormat),
                                 style = TodoTheme.typography.medium_12,
-                                color = MaterialTheme.colorScheme.onBackground
+                                color = MaterialTheme.colorScheme.onBackground,
                             )
                         }
 
@@ -147,20 +147,20 @@ fun TaskCard(
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(
-                                    space = 4.dp
-                                )
+                                    space = 4.dp,
+                                ),
                             ) {
                                 Icon(
                                     modifier = Modifier.size(size = 12.dp),
                                     imageVector = ImageVector.vectorResource(id = R.drawable.svg_reminder),
                                     contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onBackground
+                                    tint = MaterialTheme.colorScheme.onBackground,
                                 )
 
                                 Text(
                                     text = reminderTime.format(timeFormat),
                                     style = TodoTheme.typography.medium_12,
-                                    color = MaterialTheme.colorScheme.onBackground
+                                    color = MaterialTheme.colorScheme.onBackground,
                                 )
                             }
                         }
@@ -170,7 +170,7 @@ fun TaskCard(
                                 modifier = Modifier.size(size = 12.dp),
                                 imageVector = ImageVector.vectorResource(id = R.drawable.svg_note),
                                 contentDescription = null,
-                                tint = MaterialTheme.colorScheme.onBackground
+                                tint = MaterialTheme.colorScheme.onBackground,
                             )
                         }
 
@@ -178,14 +178,14 @@ fun TaskCard(
                             Row(
                                 verticalAlignment = Alignment.CenterVertically,
                                 horizontalArrangement = Arrangement.spacedBy(
-                                    space = 4.dp
-                                )
+                                    space = 4.dp,
+                                ),
                             ) {
                                 Icon(
                                     modifier = Modifier.size(size = 12.dp),
                                     imageVector = ImageVector.vectorResource(id = R.drawable.svg_subtask),
                                     contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.onBackground
+                                    tint = MaterialTheme.colorScheme.onBackground,
                                 )
 
                                 val completedCount =
@@ -193,7 +193,7 @@ fun TaskCard(
                                 Text(
                                     text = "$completedCount/${task.subTasks.size}",
                                     style = TodoTheme.typography.medium_12,
-                                    color = MaterialTheme.colorScheme.onBackground
+                                    color = MaterialTheme.colorScheme.onBackground,
                                 )
                             }
                         }
@@ -205,7 +205,7 @@ fun TaskCard(
                         modifier = Modifier.size(size = 20.dp),
                         onClick = {
                             isShowFlagMenu = true
-                        }
+                        },
                     ) {
                         val selectedSymbol = TaskSymbolType.entries
                             .flatMap { it.taskSymbols }
@@ -227,7 +227,7 @@ fun TaskCard(
                                 modifier = Modifier.size(18.dp),
                                 imageVector = ImageVector.vectorResource(id = iconResId),
                                 contentDescription = null,
-                                tint = iconTint
+                                tint = iconTint,
                             )
                         }
                     }
@@ -239,28 +239,28 @@ fun TaskCard(
                         ),
                         containerColor = MaterialTheme.colorScheme.background,
                         expanded = isShowFlagMenu,
-                        onDismissRequest = { isShowFlagMenu = false }
+                        onDismissRequest = { isShowFlagMenu = false },
                     ) {
                         Row(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalArrangement = Arrangement.SpaceBetween,
-                            verticalAlignment = Alignment.CenterVertically
+                            verticalAlignment = Alignment.CenterVertically,
                         ) {
                             Text(
                                 text = stringResource(id = R.string.marked_with_a_symbol),
                                 style = TodoTheme.typography.medium_12,
-                                color = MaterialTheme.colorScheme.onBackground
+                                color = MaterialTheme.colorScheme.onBackground,
                             )
 
                             Text(
                                 modifier = Modifier.clickable {
                                     onDeleteSymbolClick(
-                                        task.id
+                                        task.id,
                                     )
                                 },
                                 text = stringResource(id = R.string.delete),
                                 style = TodoTheme.typography.medium_12,
-                                color = MaterialTheme.colorScheme.error
+                                color = MaterialTheme.colorScheme.error,
                             )
                         }
 
@@ -275,8 +275,9 @@ fun TaskCard(
                                 },
                             )
 
-                            if (index != TaskSymbolType.entries.size - 1)
+                            if (index != TaskSymbolType.entries.size - 1) {
                                 Spacer(modifier = Modifier.height(height = 10.dp))
+                            }
                         }
                     }
                 }
@@ -284,30 +285,30 @@ fun TaskCard(
 
             if (task.subTasks.isNotEmpty()) {
                 Column(
-                    verticalArrangement = Arrangement.spacedBy(space = 12.dp)
+                    verticalArrangement = Arrangement.spacedBy(space = 12.dp),
                 ) {
                     task.subTasks.forEachIndexed { index, subTask ->
                         Row(
                             modifier = Modifier.fillMaxWidth()
                                 .padding(horizontal = 34.dp),
                             verticalAlignment = Alignment.CenterVertically,
-                            horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+                            horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
                         ) {
                             IconButton(
                                 modifier = Modifier.size(size = 16.dp),
                                 onClick = {
                                     onSubTaskToggleClick(
                                         subTask.id,
-                                        !subTask.isCompleted
+                                        !subTask.isCompleted,
                                     )
-                                }
+                                },
                             ) {
                                 if (subTask.isCompleted) {
                                     Icon(
                                         modifier = Modifier.size(16.dp),
                                         painter = painterResource(id = R.drawable.svg_check_circle),
                                         contentDescription = null,
-                                        tint = MaterialTheme.colorScheme.primary
+                                        tint = MaterialTheme.colorScheme.primary,
                                     )
                                 } else {
                                     Box(
@@ -315,10 +316,10 @@ fun TaskCard(
                                             .border(
                                                 width = 1.8.dp,
                                                 color = MaterialTheme.colorScheme.onBackground,
-                                                shape = CircleShape
+                                                shape = CircleShape,
                                             ),
                                         contentAlignment = Alignment.Center,
-                                        content = {}
+                                        content = {},
                                     )
                                 }
                             }
@@ -327,7 +328,7 @@ fun TaskCard(
                                 text = subTask.title,
                                 style = TodoTheme.typography.medium_16,
                                 color = MaterialTheme.colorScheme.onBackground,
-                                textDecoration = if (subTask.isCompleted) TextDecoration.LineThrough else null
+                                textDecoration = if (subTask.isCompleted) TextDecoration.LineThrough else null,
                             )
                         }
                     }
@@ -346,18 +347,18 @@ private fun DropdownMenuElement(
     Column(
         modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.Start,
-        verticalArrangement = Arrangement.spacedBy(space = 10.dp)
+        verticalArrangement = Arrangement.spacedBy(space = 10.dp),
     ) {
         Text(
             text = stringResource(id = taskSymbolType.titleResId),
             style = TodoTheme.typography.medium_08,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(space = 20.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             taskSymbolType.taskSymbols.forEach { symbol ->
                 if (symbol.symbolIcon != null) {
@@ -365,7 +366,7 @@ private fun DropdownMenuElement(
                         id = symbol.id,
                         iconResId = symbol.symbolIcon.iconResId,
                         iconColor = symbol.symbolIcon.iconColor,
-                        onClick = onSymbolClick
+                        onClick = onSymbolClick,
                     )
                     return@forEach
                 }
@@ -374,7 +375,7 @@ private fun DropdownMenuElement(
                     TaskEmojiIconButton(
                         id = symbol.id,
                         emojiIcon = symbol.emojiIcon,
-                        onClick = onSymbolClick
+                        onClick = onSymbolClick,
                     )
                     return@forEach
                 }
@@ -393,15 +394,15 @@ private fun TaskSymbolIconButton(
 ) {
     IconButton(
         modifier = modifier.size(size = 24.dp),
-        onClick = { onClick(id) }
+        onClick = { onClick(id) },
     ) {
         Icon(
             modifier = Modifier.size(size = 20.dp),
             imageVector = ImageVector.vectorResource(
-                id = iconResId
+                id = iconResId,
             ),
             contentDescription = null,
-            tint = iconColor
+            tint = iconColor,
         )
     }
 }
@@ -416,7 +417,7 @@ private fun TaskEmojiIconButton(
     TextButton(
         modifier = modifier.size(size = 24.dp),
         contentPadding = PaddingValues(all = 0.dp),
-        onClick = { onClick(id) }
+        onClick = { onClick(id) },
     ) {
         Text(
             text = emojiIcon,
@@ -467,7 +468,7 @@ private fun TaskCardPreview() {
             onTaskEditClick = {},
             onDeleteSymbolClick = {},
             onSymbolClick = { _, _ -> },
-            onSubTaskToggleClick = { _, _ -> }
+            onSubTaskToggleClick = { _, _ -> },
         )
     }
 }

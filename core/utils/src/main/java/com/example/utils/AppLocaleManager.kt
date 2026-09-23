@@ -9,12 +9,17 @@ import androidx.core.os.LocaleListCompat
 import com.example.model.LanguageType
 
 object AppLocaleManager {
-    fun applyLocale(context: Context, languageType: LanguageType) {
+    fun applyLocale(
+        context: Context,
+        languageType: LanguageType,
+    ) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
             val platformLocaleManager =
                 context.getSystemService(LocaleManager::class.java)
             val currentTag =
-                platformLocaleManager?.applicationLocales?.toLanguageTags()
+                platformLocaleManager
+                    ?.applicationLocales
+                    ?.toLanguageTags()
                     .orEmpty()
             if (currentTag != languageType.languageTag) {
                 platformLocaleManager?.applicationLocales =
@@ -25,7 +30,7 @@ object AppLocaleManager {
                 AppCompatDelegate.getApplicationLocales().toLanguageTags()
             if (currentTag != languageType.languageTag) {
                 AppCompatDelegate.setApplicationLocales(
-                    LocaleListCompat.forLanguageTags(languageType.languageTag)
+                    LocaleListCompat.forLanguageTags(languageType.languageTag),
                 )
             }
         }

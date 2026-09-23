@@ -50,17 +50,17 @@ internal fun ProfileScreen(
 ) {
     val scrollState = rememberScrollState()
 
-    Scaffold() { paddingValues ->
+    Scaffold { paddingValues ->
         Column(
             modifier = modifier.fillMaxSize()
                 .verticalScroll(state = scrollState)
                 .padding(paddingValues = paddingValues)
                 .padding(all = 16.dp),
-            verticalArrangement = Arrangement.spacedBy(space = 16.dp)
+            verticalArrangement = Arrangement.spacedBy(space = 16.dp),
         ) {
             ProfileTaskSummary(
                 completedTasksCount = completedTasksCount,
-                incompletedTasksCount = incompletedTasksCount
+                incompletedTasksCount = incompletedTasksCount,
             )
 
             ProfileHeatmapSummary(
@@ -75,7 +75,7 @@ internal fun ProfileScreen(
                     heatmapEntries = githubHeatmapEntries,
                     locale = locale,
                     titleResId = DesignSystemR.string.github_heatmap,
-                    descriptionResId = DesignSystemR.string.github_heatmap_description
+                    descriptionResId = DesignSystemR.string.github_heatmap_description,
                 )
             }
 
@@ -85,7 +85,7 @@ internal fun ProfileScreen(
                 taskDuration = categoryTaskDuration,
                 locale = locale,
                 onTaskStateChanged = onTaskStateChanged,
-                onTaskDurationChanged = onTaskDurationChanged
+                onTaskDurationChanged = onTaskDurationChanged,
             )
 
             ProfileDailySummary(
@@ -93,7 +93,7 @@ internal fun ProfileScreen(
                 fromDate = dailyFromDate,
                 toDate = dailyToDate,
                 locale = locale,
-                onDailyDateRangeChanged = onDailyDateRangeChanged
+                onDailyDateRangeChanged = onDailyDateRangeChanged,
             )
         }
     }
@@ -105,32 +105,36 @@ private fun ProfileScreenPreview() {
     val today = LocalDate.now()
     val heatmapEntries = (0..365).mapNotNull { offset ->
         val level = offset % 5
-        if (level == 0) null else HeatmapEntry(
-            date = today.minusDays(offset.toLong()),
-            level = level
-        )
+        if (level == 0) {
+            null
+        } else {
+            HeatmapEntry(
+                date = today.minusDays(offset.toLong()),
+                level = level,
+            )
+        }
     }.toPersistentList()
 
     val profileCategoryEntries = listOf(
         ProfileCategoryEntry(
             name = "Work",
             value = 40f,
-            color = Color(color = 0xFF4C6FFF)
+            color = Color(color = 0xFF4C6FFF),
         ),
         ProfileCategoryEntry(
             name = "Study",
             value = 25f,
-            color = Color(color = 0xFF00C2A8)
+            color = Color(color = 0xFF00C2A8),
         ),
         ProfileCategoryEntry(
             name = "Exercise",
             value = 20f,
-            color = Color(color = 0xFFFFB020)
+            color = Color(color = 0xFFFFB020),
         ),
         ProfileCategoryEntry(
             name = "Etc",
             value = 15f,
-            color = Color(color = 0xFFF6416C)
+            color = Color(color = 0xFFF6416C),
         ),
     ).toPersistentList()
 
@@ -152,7 +156,7 @@ private fun ProfileScreenPreview() {
             locale = Locale.KOREA,
             onTaskStateChanged = {},
             onTaskDurationChanged = {},
-            onDailyDateRangeChanged = { _, _ -> }
+            onDailyDateRangeChanged = { _, _ -> },
         )
     }
 }

@@ -32,7 +32,7 @@ class GithubAuthViewModel @Inject constructor(
     private val getGithubUsernameUseCase: GetGithubUsernameUseCase,
     private val requestGithubDeviceCodeUseCase: RequestGithubDeviceCodeUseCase,
     private val pollGithubAccessTokenUseCase: PollGithubAccessTokenUseCase,
-    private val disconnectGithubUseCase: DisconnectGithubUseCase
+    private val disconnectGithubUseCase: DisconnectGithubUseCase,
 ) : ViewModel() {
     private val _uiState: MutableStateFlow<GithubAuthUiState> =
         MutableStateFlow(value = GithubAuthUiState.Loading)
@@ -51,14 +51,16 @@ class GithubAuthViewModel @Inject constructor(
                 isAppInForeground = true
                 pollTrigger.trySend(Unit)
             }
+
             Lifecycle.Event.ON_STOP -> isAppInForeground = false
+
             else -> Unit
         }
     }
 
     init {
         ProcessLifecycleOwner.get().lifecycle.addObserver(
-            observer = processLifecycleObserver
+            observer = processLifecycleObserver,
         )
         checkConnectionState()
     }
@@ -80,37 +82,35 @@ class GithubAuthViewModel @Inject constructor(
         checkConnectionState()
     }
 
-    private fun checkConnectionState() =
-        viewModelScope.launch {
-            val username = getGithubUsernameUseCase().first()
-            if (username != null) {
-                _uiState.value =
-                    GithubAuthUiState.Connected(username = username)
-            } else {
-                startDeviceFlow()
-            }
+    private fun checkConnectionState() = viewModelScope.launch {
+        val username = getGithubUsernameUseCase().first()
+        if (username != null) {
+            _uiState.value =
+                GithubAuthUiState.Connected(username = username)
+        } else {
+            startDeviceFlow()
         }
+    }
 
-    private fun startDeviceFlow() =
-        viewModelScope.launch {
-            runCatching { requestGithubDeviceCodeUseCase() }
-                .onSuccess { deviceCode ->
-                    _uiState.value = GithubAuthUiState.AwaitingUser(
-                        userCode = deviceCode.userCode,
-                        verificationUri = deviceCode.verificationUri,
-                        isPolling = false,
-                    )
-                    startPolling(
-                        deviceCode = deviceCode.deviceCode,
-                        intervalSeconds = deviceCode.intervalSeconds,
-                    )
-                }
-                .onFailure { throwable ->
-                    _uiState.value = GithubAuthUiState.Error(
-                        reason = throwable.toGithubAuthErrorReason()
-                    )
-                }
-        }
+    private fun startDeviceFlow() = viewModelScope.launch {
+        runCatching { requestGithubDeviceCodeUseCase() }
+            .onSuccess { deviceCode ->
+                _uiState.value = GithubAuthUiState.AwaitingUser(
+                    userCode = deviceCode.userCode,
+                    verificationUri = deviceCode.verificationUri,
+                    isPolling = false,
+                )
+                startPolling(
+                    deviceCode = deviceCode.deviceCode,
+                    intervalSeconds = deviceCode.intervalSeconds,
+                )
+            }
+            .onFailure { throwable ->
+                _uiState.value = GithubAuthUiState.Error(
+                    reason = throwable.toGithubAuthErrorReason(),
+                )
+            }
+    }
 
     private fun startPolling(deviceCode: String, intervalSeconds: Int) {
         lastPolledAtMillis = 0L
@@ -179,8 +179,9 @@ class GithubAuthViewModel @Inject constructor(
         }
     }
 
-
-    private fun Throwable.toGithubAuthErrorReason(): GithubAuthErrorReason =
-        if (this is IOException) GithubAuthErrorReason.NETWORK
-        else GithubAuthErrorReason.UNKNOWN
+    private fun Throwable.toGithubAuthErrorReason(): GithubAuthErrorReason = if (this is IOException) {
+        GithubAuthErrorReason.NETWORK
+    } else {
+        GithubAuthErrorReason.UNKNOWN
+    }
 }

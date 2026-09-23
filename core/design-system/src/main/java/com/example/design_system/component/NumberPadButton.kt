@@ -36,15 +36,15 @@ fun NumberPadButton(
                     }
 
                     else -> Modifier
-                }
+                },
             ),
-        contentAlignment = Alignment.Center
+        contentAlignment = Alignment.Center,
     ) {
         if (title.isNotEmpty()) {
             Text(
                 text = title,
                 style = TodoTheme.typography.bold_20,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
     }
@@ -57,7 +57,7 @@ private fun NumberPadButtonPreview() {
         NumberPadButton(
             title = "1",
             onNumberClick = {},
-            onDeleteClick = {}
+            onDeleteClick = {},
         )
     }
 }

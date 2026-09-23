@@ -7,5 +7,5 @@ import java.util.Locale
 data class CalendarSystem(
     val locale: Locale,
     val sortByType: SortByType,
-    val timePickerType: TimePickerType
+    val timePickerType: TimePickerType,
 )

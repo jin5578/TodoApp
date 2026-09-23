@@ -33,7 +33,7 @@ internal fun GithubAuthRoute(
         onOpenGithubClick = { url -> openUrl(context = context, url = url) },
         onDisconnectClick = viewModel::disconnect,
         onRetryClick = viewModel::retry,
-        popBackStack = popBackStack
+        popBackStack = popBackStack,
     )
 }
 
@@ -50,6 +50,6 @@ private fun GithubAuthContent(
         onOpenGithubClick = onOpenGithubClick,
         onDisconnectClick = onDisconnectClick,
         onRetryClick = onRetryClick,
-        popBackStack = popBackStack
+        popBackStack = popBackStack,
     )
 }

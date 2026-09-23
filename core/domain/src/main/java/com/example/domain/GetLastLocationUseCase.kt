@@ -5,9 +5,10 @@ import com.example.data_api.repository.SystemRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
-class GetLastLocationUseCase @Inject constructor(
-    private val systemRepository: SystemRepository
+class GetLastLocationUseCase
+@Inject
+constructor(
+    private val systemRepository: SystemRepository,
 ) {
-    operator fun invoke(): Flow<Location> =
-        systemRepository.getLastLocation()
+    operator fun invoke(): Flow<Location> = systemRepository.getLastLocation()
 }

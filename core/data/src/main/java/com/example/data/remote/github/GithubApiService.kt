@@ -11,7 +11,7 @@ import retrofit2.http.POST
 internal interface GithubApiService {
     @GET("user")
     suspend fun getUser(
-        @Header("Authorization") authorization: String
+        @Header("Authorization") authorization: String,
     ): GithubUserResponse
 
     @POST("graphql")
@@ -30,19 +30,19 @@ internal data class GithubUserResponse(
 @OptIn(InternalSerializationApi::class)
 @Serializable
 internal data class GraphQlRequestBody(
-    val query: String
+    val query: String,
 )
 
 @OptIn(InternalSerializationApi::class)
 @Serializable
 internal data class GraphQlResponse(
-    val data: GraphQlData? = null
+    val data: GraphQlData? = null,
 )
 
 @OptIn(InternalSerializationApi::class)
 @Serializable
 internal data class GraphQlData(
-    val viewer: GraphQlViewer
+    val viewer: GraphQlViewer,
 )
 
 @OptIn(InternalSerializationApi::class)
@@ -61,13 +61,13 @@ internal data class GraphQlContributionsCollection(
 @OptIn(InternalSerializationApi::class)
 @Serializable
 internal data class GraphQlContributionCalendar(
-    val weeks: List<GraphQlWeek>
+    val weeks: List<GraphQlWeek>,
 )
 
 @OptIn(InternalSerializationApi::class)
 @Serializable
 internal data class GraphQlWeek(
-    val contributionDays: List<GraphQlContributionDay>
+    val contributionDays: List<GraphQlContributionDay>,
 )
 
 @OptIn(InternalSerializationApi::class)

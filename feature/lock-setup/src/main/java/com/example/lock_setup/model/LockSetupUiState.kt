@@ -14,6 +14,6 @@ sealed interface LockSetupUiState {
     data class Screen(
         val lockSetupProcessType: LockSetupProcessType,
         val newInputPassword: String,
-        val locale: Locale
+        val locale: Locale,
     ) : LockSetupUiState
 }

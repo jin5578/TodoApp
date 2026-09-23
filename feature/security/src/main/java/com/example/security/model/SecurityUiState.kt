@@ -11,6 +11,6 @@ sealed interface SecurityUiState {
     @Immutable
     data class Screen(
         val hasExistingPassword: Boolean,
-        val hasBiometricEnabled: Boolean
+        val hasBiometricEnabled: Boolean,
     ) : SecurityUiState
 }

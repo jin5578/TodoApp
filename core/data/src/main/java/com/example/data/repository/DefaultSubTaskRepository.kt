@@ -8,55 +8,51 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-internal class DefaultSubTaskRepository @Inject constructor(
-    private val subTaskDataSource: SubTaskDatabaseDataSource
+internal class DefaultSubTaskRepository
+@Inject
+constructor(
+    private val subTaskDataSource: SubTaskDatabaseDataSource,
 ) : SubTaskRepository {
-    override fun getSubTasksByParentId(parentId: Long): Flow<List<SubTask>> =
-        subTaskDataSource.getSubTasksByParentId(parentId = parentId)
-            .map { entities ->
-                entities.map { entity ->
-                    entity.toSubTask()
-                }
+    override fun getSubTasksByParentId(parentId: Long): Flow<List<SubTask>> = subTaskDataSource
+        .getSubTasksByParentId(parentId = parentId)
+        .map { entities ->
+            entities.map { entity ->
+                entity.toSubTask()
             }
+        }
 
-    override suspend fun insertSubTask(subTask: SubTask) =
-        subTaskDataSource.insertSubTask(entity = subTask.toSubTaskEntity())
+    override suspend fun insertSubTask(subTask: SubTask) = subTaskDataSource.insertSubTask(entity = subTask.toSubTaskEntity())
 
+    override suspend fun updateSubTask(subTask: SubTask) = subTaskDataSource.updateSubTask(entity = subTask.toSubTaskEntity())
 
-    override suspend fun updateSubTask(subTask: SubTask) =
-        subTaskDataSource.updateSubTask(entity = subTask.toSubTaskEntity())
-
-    override suspend fun updateSubTasks(subTasks: List<SubTask>) =
-        subTaskDataSource.updateSubTasks(
-            entities =
-                subTasks.map { subTask -> subTask.toSubTaskEntity() }
-        )
+    override suspend fun updateSubTasks(subTasks: List<SubTask>) = subTaskDataSource.updateSubTasks(
+        entities =
+        subTasks.map { subTask -> subTask.toSubTaskEntity() },
+    )
 
     override suspend fun updateSubTaskTitle(
         id: Long,
-        title: String
+        title: String,
     ) = subTaskDataSource.updateSubTaskTitle(id = id, title = title)
 
     override suspend fun updateSubTaskCompleted(
         id: Long,
-        isCompleted: Boolean
+        isCompleted: Boolean,
     ) = subTaskDataSource.updateSubTaskCompleted(
         id = id,
-        isCompleted = isCompleted
+        isCompleted = isCompleted,
     )
 
-    override suspend fun deleteSubTaskById(id: Long) =
-        subTaskDataSource.deleteSubTaskById(id = id)
+    override suspend fun deleteSubTaskById(id: Long) = subTaskDataSource.deleteSubTaskById(id = id)
 
-    override suspend fun deleteSubTaskBySubTask(subTask: SubTask) =
-        subTaskDataSource.deleteSubTaskByEntity(entity = subTask.toSubTaskEntity())
+    override suspend fun deleteSubTaskBySubTask(subTask: SubTask) = subTaskDataSource.deleteSubTaskByEntity(entity = subTask.toSubTaskEntity())
 
     override suspend fun syncSubTasks(
         parentId: Long,
-        subTasks: List<SubTask>
+        subTasks: List<SubTask>,
     ) = subTaskDataSource.syncSubTasks(
         parentId = parentId,
-        entities = subTasks.map { subTask -> subTask.toSubTaskEntity() }
+        entities = subTasks.map { subTask -> subTask.toSubTaskEntity() },
     )
 
     private fun SubTaskEntity.toSubTask() = SubTask(

@@ -13,7 +13,7 @@ interface TaskRepository {
     fun getTaskCountByDate(date: LocalDate): Flow<Int>
     fun getTasksByDateRange(
         fromDate: LocalDate,
-        toDate: LocalDate
+        toDate: LocalDate,
     ): Flow<List<Task>>
 
     fun getTasksByState(isCompleted: Boolean): Flow<List<Task>>
@@ -21,7 +21,7 @@ interface TaskRepository {
     fun getTasksByKeyword(keyword: String): Flow<List<Task>>
     fun getTasksByCategoryAndDate(
         categoryId: Long,
-        date: LocalDate
+        date: LocalDate,
     ): Flow<List<Task>>
 
     fun getTaskById(id: Long): Flow<Task>
@@ -38,7 +38,7 @@ interface TaskRepository {
         id: Long,
         date: LocalDate,
         time: LocalDateTime?,
-        reminderTime: LocalDateTime?
+        reminderTime: LocalDateTime?,
     )
 
     suspend fun updateTaskCompleted(id: Long, isCompleted: Boolean)

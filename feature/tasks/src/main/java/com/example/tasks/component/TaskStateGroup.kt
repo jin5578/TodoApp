@@ -46,14 +46,14 @@ internal fun LazyListScope.taskStateGroup(
         TaskStateGroupHeader(
             title = stringResource(id = taskState.getTitleResId()),
             isExpanded = isExpanded,
-            onClick = { onTaskStateGroupHeaderClick(taskStateKey) }
+            onClick = { onTaskStateGroupHeaderClick(taskStateKey) },
         )
     }
 
     if (isExpanded) {
         itemsIndexed(
             items = taskStateGroup.tasks,
-            key = { _, task -> task.id }
+            key = { _, task -> task.id },
         ) { index, task ->
             TaskCard(
                 modifier = Modifier.fillMaxWidth()
@@ -61,7 +61,7 @@ internal fun LazyListScope.taskStateGroup(
                     .padding(
                         start = 16.dp,
                         end = 16.dp,
-                        bottom = 8.dp
+                        bottom = 8.dp,
                     ),
                 task = task,
                 locale = locale,
@@ -69,7 +69,7 @@ internal fun LazyListScope.taskStateGroup(
                 onTaskEditClick = onTaskEditClick,
                 onDeleteSymbolClick = onDeleteSymbolClick,
                 onSymbolClick = onSymbolClick,
-                onSubTaskToggleClick = onSubTaskToggleClick
+                onSubTaskToggleClick = onSubTaskToggleClick,
             )
         }
     }
@@ -93,17 +93,20 @@ private fun TaskStateGroupHeader(
             modifier = Modifier.weight(weight = 1f),
             text = title,
             style = TodoTheme.typography.bold_20,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         val iconResId =
-            if (isExpanded) DesignSystemR.drawable.svg_arrow_up
-            else DesignSystemR.drawable.svg_arrow_down
+            if (isExpanded) {
+                DesignSystemR.drawable.svg_arrow_up
+            } else {
+                DesignSystemR.drawable.svg_arrow_down
+            }
         Icon(
             modifier = Modifier.size(size = 20.dp),
             imageVector = ImageVector.vectorResource(id = iconResId),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onBackground
+            tint = MaterialTheme.colorScheme.onBackground,
         )
     }
 }
@@ -115,7 +118,7 @@ private fun TaskStateGroupHeaderPreview() {
         TaskStateGroupHeader(
             title = "",
             isExpanded = true,
-            onClick = {}
+            onClick = {},
         )
     }
 }

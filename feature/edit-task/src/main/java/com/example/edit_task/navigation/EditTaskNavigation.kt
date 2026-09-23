@@ -21,5 +21,4 @@ fun NavGraphBuilder.editTaskNavGraph(
     )
 }
 
-fun NavController.navigateEditTask(taskId: Long) =
-    navigate(route = Route.EditTask(taskId = taskId))
+fun NavController.navigateEditTask(taskId: Long) = navigate(route = Route.EditTask(taskId = taskId))

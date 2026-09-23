@@ -59,7 +59,7 @@ internal fun MainBottomNavigationBar(
                     unselectedIconColor = MaterialTheme.colorScheme.onBackground,
                     unselectedTextColor = MaterialTheme.colorScheme.onBackground,
                     indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-                )
+                ),
             )
         }
     }

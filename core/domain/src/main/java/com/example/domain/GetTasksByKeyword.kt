@@ -3,9 +3,10 @@ package com.example.domain
 import com.example.data_api.repository.TaskRepository
 import javax.inject.Inject
 
-class GetTasksByKeyword @Inject constructor(
-    private val taskRepository: TaskRepository
+class GetTasksByKeyword
+@Inject
+constructor(
+    private val taskRepository: TaskRepository,
 ) {
-    operator fun invoke(keyword: String) =
-        taskRepository.getTasksByKeyword(keyword = keyword)
+    operator fun invoke(keyword: String) = taskRepository.getTasksByKeyword(keyword = keyword)
 }

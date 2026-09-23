@@ -35,36 +35,36 @@ internal fun CategoryCard(
     type: CategoryColorType,
     taskCount: Int,
     onEditClick: (id: Long, title: String, type: CategoryColorType) -> Unit,
-    onDeleteClick: (id: Long) -> Unit
+    onDeleteClick: (id: Long) -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth()
             .clickable { onEditClick(id, title, type) }
             .padding(
                 horizontal = 16.dp,
-                vertical = 16.dp
+                vertical = 16.dp,
             ),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(space = 8.dp)
+        horizontalArrangement = Arrangement.spacedBy(space = 8.dp),
     ) {
         Box(
             modifier = Modifier.size(size = 20.dp)
                 .background(
                     color = Color(color = type.colorValue),
-                    shape = CircleShape
+                    shape = CircleShape,
                 ),
             contentAlignment = Alignment.Center,
-            content = {}
+            content = {},
         )
 
         Row(
             Modifier.weight(weight = 1f),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
                 text = title,
                 style = TodoTheme.typography.medium_16,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             Spacer(modifier = Modifier.width(width = 8.dp))
@@ -81,7 +81,7 @@ internal fun CategoryCard(
             Text(
                 text = taskCount.toString(),
                 style = TodoTheme.typography.medium_12,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
 
@@ -93,7 +93,7 @@ internal fun CategoryCard(
                 modifier = Modifier.size(size = 20.dp),
                 imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_cancel_small),
                 tint = MaterialTheme.colorScheme.onBackground,
-                contentDescription = null
+                contentDescription = null,
             )
         }
     }
@@ -109,7 +109,7 @@ private fun CategoryCardPreview() {
             type = CategoryColorType.RED,
             taskCount = 3,
             onEditClick = { _, _, _ -> },
-            onDeleteClick = {}
+            onDeleteClick = {},
         )
     }
 }

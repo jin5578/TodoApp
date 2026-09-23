@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.utils.toErrorMessage
 import com.example.security.model.SecurityUiState
 import kotlinx.coroutines.flow.collectLatest
@@ -26,7 +26,7 @@ internal fun SecurityRoute(
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
             snackbarHostState.showSnackbar(
-                message = throwable.toErrorMessage(resources = contextResources)
+                message = throwable.toErrorMessage(resources = contextResources),
             )
         }
     }
@@ -35,7 +35,7 @@ internal fun SecurityRoute(
         uiState = uiState,
         navigateLockSetup = navigateLockSetup,
         popBackStack = popBackStack,
-        onBiometricEnabledChanged = viewModel::updateBiometricEnabled
+        onBiometricEnabledChanged = viewModel::updateBiometricEnabled,
     )
 }
 
@@ -48,6 +48,7 @@ private fun SecurityContent(
 ) {
     when (uiState) {
         is SecurityUiState.Loading -> Loading()
+
         is SecurityUiState.Screen -> SecurityScreen(
             hasExistingPassword = uiState.hasExistingPassword,
             hasBiometricEnabled = uiState.hasBiometricEnabled,

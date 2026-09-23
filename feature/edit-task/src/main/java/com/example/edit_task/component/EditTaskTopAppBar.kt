@@ -36,7 +36,7 @@ internal fun EditTaskTopAppBar(
 
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
         ),
         title = {},
         navigationIcon = {
@@ -45,7 +45,7 @@ internal fun EditTaskTopAppBar(
                     modifier = modifier.size(size = 24.dp),
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
         },
@@ -53,28 +53,31 @@ internal fun EditTaskTopAppBar(
             IconButton(
                 onClick = {
                     isShowDropdownMenu = true
-                }
+                },
             ) {
                 Icon(
                     modifier = modifier.size(size = 18.dp),
                     imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_menu_dots),
                     contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onBackground
+                    tint = MaterialTheme.colorScheme.onBackground,
                 )
 
                 DropdownMenu(
                     containerColor = MaterialTheme.colorScheme.background,
                     expanded = isShowDropdownMenu,
-                    onDismissRequest = { isShowDropdownMenu = false }
+                    onDismissRequest = { isShowDropdownMenu = false },
                 ) {
                     BasicDropdownMenuItem(
                         title =
-                            if (isCompleted) stringResource(id = DesignSystemR.string.mark_as_undone)
-                            else stringResource(id = DesignSystemR.string.mark_as_done),
+                        if (isCompleted) {
+                            stringResource(id = DesignSystemR.string.mark_as_undone)
+                        } else {
+                            stringResource(id = DesignSystemR.string.mark_as_done)
+                        },
                         onClick = {
                             onCompletedChanged(!isCompleted)
                             isShowDropdownMenu = false
-                        }
+                        },
                     )
 
                     BasicDropdownMenuItem(
@@ -82,11 +85,11 @@ internal fun EditTaskTopAppBar(
                         onClick = {
                             onDeleteClick()
                             isShowDropdownMenu = false
-                        }
+                        },
                     )
                 }
             }
-        }
+        },
     )
 }
 
@@ -98,7 +101,7 @@ private fun EditTaskTopAppBarPreview() {
             popBackStack = {},
             isCompleted = false,
             onCompletedChanged = {},
-            onDeleteClick = {}
+            onDeleteClick = {},
         )
     }
 }

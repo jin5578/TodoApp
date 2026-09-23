@@ -45,29 +45,33 @@ internal fun LazyListScope.taskDateGroup(
 ) {
     stickyHeader(key = taskDateGroup.taskDate) {
         val dateFormat = DateTimeFormatter.ofPattern(
-            "yyyy/MM/dd", locale
+            "yyyy/MM/dd",
+            locale,
         )
         val dateContent = taskDateGroup.taskDate.format(dateFormat)
         TaskDateGroupHeader(
             index = index,
-            title = dateContent
+            title = dateContent,
         )
     }
 
     itemsIndexed(
         items = taskDateGroup.tasks,
-        key = { _, task -> task.id }
+        key = { _, task -> task.id },
     ) { itemIndex, task ->
         Row(
             modifier = Modifier.fillMaxWidth()
                 .height(IntrinsicSize.Max)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = 16.dp),
         ) {
             TimelineLineIndicator()
 
             val bottomPadding =
-                if (itemIndex != taskDateGroup.tasks.size - 1) 8.dp
-                else 0.dp
+                if (itemIndex != taskDateGroup.tasks.size - 1) {
+                    8.dp
+                } else {
+                    0.dp
+                }
             TaskCard(
                 modifier = Modifier.fillMaxWidth()
                     .padding(start = 14.dp, bottom = bottomPadding),
@@ -77,13 +81,13 @@ internal fun LazyListScope.taskDateGroup(
                 onTaskEditClick = onTaskEditClick,
                 onDeleteSymbolClick = onDeleteSymbolClick,
                 onSymbolClick = onSymbolClick,
-                onSubTaskToggleClick = onSubTaskToggleClick
+                onSubTaskToggleClick = onSubTaskToggleClick,
             )
         }
 
         if (index == groupSize - 1 && itemIndex == taskDateGroup.tasks.size - 1) {
             Spacer(
-                modifier = Modifier.height(height = 8.dp)
+                modifier = Modifier.height(height = 8.dp),
             )
         }
     }
@@ -101,7 +105,7 @@ private fun TaskDateGroupHeader(
             .background(color = MaterialTheme.colorScheme.background)
             .padding(horizontal = 16.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(space = 14.dp)
+        horizontalArrangement = Arrangement.spacedBy(space = 14.dp),
     ) {
         when (index) {
             0 -> {
@@ -117,7 +121,7 @@ private fun TaskDateGroupHeader(
             modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
             text = title,
             style = TodoTheme.typography.bold_12,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
     }
 }
@@ -131,7 +135,7 @@ private fun TimelineStartIndicator(
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Canvas(
-        modifier = modifier.width(outerCircleSize).fillMaxHeight()
+        modifier = modifier.width(outerCircleSize).fillMaxHeight(),
     ) {
         val strokeWidthPx = strokeWidth.toPx()
         val gapPx = gap.toPx()
@@ -142,21 +146,21 @@ private fun TimelineStartIndicator(
             color = color,
             radius = outerRadius - strokeWidthPx / 2f,
             center = center,
-            style = Stroke(width = strokeWidthPx)
+            style = Stroke(width = strokeWidthPx),
         )
 
         val innerRadius = outerRadius - strokeWidthPx - gapPx
         drawCircle(
             color = color,
             radius = innerRadius,
-            center = center
+            center = center,
         )
 
         drawLine(
             color = color,
             start = Offset(x = center.x, y = center.y + innerRadius),
             end = Offset(x = center.x, y = size.height),
-            strokeWidth = strokeWidthPx
+            strokeWidth = strokeWidthPx,
         )
     }
 }
@@ -209,7 +213,7 @@ private fun TimelineMiddleIndicator(
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Canvas(
-        modifier = modifier.width(outerCircleSize).fillMaxHeight()
+        modifier = modifier.width(outerCircleSize).fillMaxHeight(),
     ) {
         val strokeWidthPx = strokeWidth.toPx()
         val gapPx = gap.toPx()
@@ -220,28 +224,28 @@ private fun TimelineMiddleIndicator(
             color = color,
             radius = outerRadius - strokeWidthPx / 2f,
             center = center,
-            style = Stroke(width = strokeWidthPx)
+            style = Stroke(width = strokeWidthPx),
         )
 
         val innerRadius = outerRadius - strokeWidthPx - gapPx
         drawCircle(
             color = color,
             radius = innerRadius,
-            center = center
+            center = center,
         )
 
         drawLine(
             color = color,
             start = Offset(x = center.x, y = 0f),
             end = Offset(x = center.x, y = center.y - innerRadius),
-            strokeWidth = strokeWidthPx
+            strokeWidth = strokeWidthPx,
         )
 
         drawLine(
             color = color,
             start = Offset(x = center.x, y = center.y + innerRadius),
             end = Offset(x = center.x, y = size.height),
-            strokeWidth = strokeWidthPx
+            strokeWidth = strokeWidthPx,
         )
     }
 }
@@ -254,7 +258,7 @@ private fun TimelineLineIndicator(
     color: Color = MaterialTheme.colorScheme.primary,
 ) {
     Canvas(
-        modifier = modifier.width(outerCircleSize).fillMaxHeight()
+        modifier = modifier.width(outerCircleSize).fillMaxHeight(),
     ) {
         val strokeWidthPx = strokeWidth.toPx()
         val centerX = size.width / 2f
@@ -263,7 +267,7 @@ private fun TimelineLineIndicator(
             color = color,
             start = Offset(x = centerX, y = 0f),
             end = Offset(x = centerX, y = size.height),
-            strokeWidth = strokeWidthPx
+            strokeWidth = strokeWidthPx,
         )
     }
 }
@@ -274,7 +278,7 @@ private fun TaskDateGroupPreview() {
     TodoTheme {
         TaskDateGroup(
             taskDate = LocalDate.now(),
-            tasks = persistentListOf()
+            tasks = persistentListOf(),
         )
     }
 }

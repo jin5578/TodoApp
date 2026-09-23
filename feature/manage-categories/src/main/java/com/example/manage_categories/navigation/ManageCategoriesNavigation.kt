@@ -14,5 +14,4 @@ fun NavGraphBuilder.manageCategoriesNavGraph(
     )
 }
 
-fun NavController.navigateManageCategories() =
-    navigate(route = Route.ManageCategories)
+fun NavController.navigateManageCategories() = navigate(route = Route.ManageCategories)

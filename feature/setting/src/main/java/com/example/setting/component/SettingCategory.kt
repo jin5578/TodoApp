@@ -33,16 +33,16 @@ import com.example.design_system.R as DesignSystemR
 internal fun SettingCategory(
     modifier: Modifier = Modifier,
     @StringRes titleResId: Int,
-    category: ImmutableList<CategoryItemUiState>
+    category: ImmutableList<CategoryItemUiState>,
 ) {
     Column(
-        verticalArrangement = Arrangement.spacedBy(space = 10.dp)
+        verticalArrangement = Arrangement.spacedBy(space = 10.dp),
     ) {
         Text(
             modifier = Modifier.padding(horizontal = 20.dp),
             text = stringResource(id = titleResId),
             style = TodoTheme.typography.bold_20,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Column {
@@ -50,10 +50,11 @@ internal fun SettingCategory(
                 SettingCategoryItem(
                     titleResId = state.titleResId,
                     iconResId = state.iconResId,
-                    onClick = state.onClick
+                    onClick = state.onClick,
                 )
-                if (index != category.lastIndex)
+                if (index != category.lastIndex) {
                     Spacer(modifier = Modifier.height(height = 5.dp))
+                }
             }
         }
     }
@@ -64,14 +65,14 @@ private fun SettingCategoryItem(
     modifier: Modifier = Modifier,
     @StringRes titleResId: Int,
     @DrawableRes iconResId: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Row(
         modifier = modifier.fillMaxWidth()
             .clickable { onClick() }
             .padding(horizontal = 20.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(space = 10.dp)
+        horizontalArrangement = Arrangement.spacedBy(space = 10.dp),
     ) {
         Icon(
             modifier = Modifier.size(size = 18.dp),
@@ -84,14 +85,14 @@ private fun SettingCategoryItem(
             modifier = Modifier.weight(weight = 1f),
             text = stringResource(id = titleResId),
             style = TodoTheme.typography.medium_16,
-            color = MaterialTheme.colorScheme.onBackground
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Icon(
             modifier = Modifier.size(size = 18.dp),
             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_right_twin),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onBackground
+            tint = MaterialTheme.colorScheme.onBackground,
         )
     }
 }
@@ -103,18 +104,18 @@ private fun SettingCategoryPreview() {
         CategoryItemUiState(
             titleResId = DesignSystemR.string.about,
             iconResId = DesignSystemR.drawable.svg_information,
-            onClick = {}
+            onClick = {},
         ),
         CategoryItemUiState(
             titleResId = DesignSystemR.string.github,
             iconResId = DesignSystemR.drawable.svg_github,
-            onClick = {}
-        )
+            onClick = {},
+        ),
     )
     TodoTheme {
         SettingCategory(
             titleResId = DesignSystemR.string.info,
-            category = categoryItemUiStates
+            category = categoryItemUiStates,
         )
     }
 }

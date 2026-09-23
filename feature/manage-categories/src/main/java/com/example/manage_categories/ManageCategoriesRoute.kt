@@ -6,8 +6,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.utils.toErrorMessage
 import com.example.manage_categories.model.ManageCategoriesUiState
 import com.example.model.CategoryColorType
@@ -26,7 +26,7 @@ internal fun ManageCategoriesRoute(
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
             snackbarHostState.showSnackbar(
-                message = throwable.toErrorMessage(resources = contextResources)
+                message = throwable.toErrorMessage(resources = contextResources),
             )
         }
     }
@@ -36,7 +36,7 @@ internal fun ManageCategoriesRoute(
         onCategoryAdd = { title, type ->
             viewModel.insertCategory(
                 title = title,
-                colorValue = type.colorValue
+                colorValue = type.colorValue,
             )
         },
         onCategoryDelete = viewModel::deleteCategory,
@@ -44,7 +44,7 @@ internal fun ManageCategoriesRoute(
             viewModel.updateCategory(
                 id = id,
                 title = title,
-                colorValue = type.colorValue
+                colorValue = type.colorValue,
             )
         },
         popBackStack = popBackStack,

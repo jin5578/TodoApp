@@ -41,19 +41,19 @@ internal fun EditTaskTitleTextField(
             cursorColor = MaterialTheme.colorScheme.onBackground,
         ),
         textStyle = TodoTheme.typography.bold_20.copy(
-            textDecoration = if (isCompleted) TextDecoration.LineThrough else null
+            textDecoration = if (isCompleted) TextDecoration.LineThrough else null,
         ),
         onValueChange = onValueChange,
         placeholder = {
             Text(
                 text = stringResource(id = R.string.please_enter_what_you_need_to_do),
                 color = MaterialTheme.colorScheme.onBackground,
-                style = TodoTheme.typography.bold_20
+                style = TodoTheme.typography.bold_20,
             )
         },
         keyboardOptions = KeyboardOptions(
             capitalization = KeyboardCapitalization.Sentences,
-            imeAction = ImeAction.Done
+            imeAction = ImeAction.Done,
         ),
     )
 }
@@ -65,7 +65,7 @@ private fun EditTaskTitleTextFieldPreview() {
         EditTaskTitleTextField(
             title = "Title",
             isCompleted = true,
-            onValueChange = {}
+            onValueChange = {},
         )
     }
 }

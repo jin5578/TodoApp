@@ -18,6 +18,6 @@ sealed interface EditTaskUiState {
         val task: TaskUiModel,
         val locale: Locale,
         val timePickerType: TimePickerType,
-        val categories: ImmutableList<Category>
+        val categories: ImmutableList<Category>,
     ) : EditTaskUiState
 }

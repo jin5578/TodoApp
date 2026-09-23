@@ -31,7 +31,7 @@ internal data class Weather(
     val id: Int,
     val main: String,
     val description: String,
-    val icon: String
+    val icon: String,
 )
 
 @OptIn(InternalSerializationApi::class)
@@ -44,12 +44,12 @@ internal data class Main(
     val pressure: Double,
     val humidity: Double,
     @SerialName("sea_level") val seaLevel: Int,
-    @SerialName("grnd_level") val groundLevel: Int
+    @SerialName("grnd_level") val groundLevel: Int,
 )
 
 @OptIn(InternalSerializationApi::class)
 @Serializable
 internal data class Wind(
     val speed: Double,
-    val deg: Int
+    val deg: Int,
 )

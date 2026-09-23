@@ -8,5 +8,5 @@ import androidx.compose.runtime.Immutable
 data class CategoryItemUiState(
     @param:StringRes val titleResId: Int,
     @param:DrawableRes val iconResId: Int,
-    val onClick: () -> Unit
+    val onClick: () -> Unit,
 )

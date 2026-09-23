@@ -20,16 +20,16 @@ import com.example.design_system.R as DesignSystemR
 @Composable
 internal fun MemoTopAppBar(
     modifier: Modifier = Modifier,
-    popBackStack: () -> Unit
+    popBackStack: () -> Unit,
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
-            containerColor = MaterialTheme.colorScheme.background
+            containerColor = MaterialTheme.colorScheme.background,
         ),
         title = {},
         navigationIcon = {
             IconButton(
-                onClick = popBackStack
+                onClick = popBackStack,
             ) {
                 Icon(
                     modifier = modifier.size(size = 24.dp),
@@ -38,7 +38,7 @@ internal fun MemoTopAppBar(
                     tint = MaterialTheme.colorScheme.onBackground,
                 )
             }
-        }
+        },
     )
 }
 
@@ -47,7 +47,7 @@ internal fun MemoTopAppBar(
 private fun MemoTopAppBarPreview() {
     TodoTheme {
         MemoTopAppBar(
-            popBackStack = {}
+            popBackStack = {},
         )
     }
 }

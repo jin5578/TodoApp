@@ -42,13 +42,13 @@ class CalendarViewModel @Inject constructor(
         MutableStateFlow(value = CalendarUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    private val _selectedCategoryId: MutableStateFlow<Long> =
+    private val selectedCategoryId: MutableStateFlow<Long> =
         MutableStateFlow(value = -1L)
-    private val _selectedDate: MutableStateFlow<LocalDate> =
+    private val selectedDate: MutableStateFlow<LocalDate> =
         MutableStateFlow(value = LocalDate.now())
 
     @OptIn(ExperimentalCoroutinesApi::class)
-    private val calendarDataFlow = _selectedCategoryId.flatMapLatest { categoryId ->
+    private val calendarDataFlow = selectedCategoryId.flatMapLatest { categoryId ->
         getCalendarDataUseCase(categoryId = categoryId)
     }
 
@@ -57,18 +57,18 @@ class CalendarViewModel @Inject constructor(
     }
 
     fun onCategorySelected(categoryId: Long) {
-        _selectedCategoryId.value = categoryId
+        selectedCategoryId.value = categoryId
     }
 
     fun onDateSelected(date: LocalDate) {
-        _selectedDate.value = date
+        selectedDate.value = date
     }
 
     private fun observeCalendarUiState() = viewModelScope.launch {
         combine(
             flow = calendarDataFlow,
-            flow2 = _selectedCategoryId,
-            flow3 = _selectedDate,
+            flow2 = selectedCategoryId,
+            flow3 = selectedDate,
         ) { calendar, categoryId, date ->
             val calendarSystem = calendar.calendarSystem
             val calendarTasks =
@@ -94,38 +94,33 @@ class CalendarViewModel @Inject constructor(
         }
     }
 
-    fun insertCategory(title: String, colorValue: Long) =
-        viewModelScope.launch {
-            val category = Category(
-                title = title,
-                colorValue = colorValue
-            )
-            insertCategoryUseCase(category = category)
-        }
+    fun insertCategory(title: String, colorValue: Long) = viewModelScope.launch {
+        val category = Category(
+            title = title,
+            colorValue = colorValue,
+        )
+        insertCategoryUseCase(category = category)
+    }
 
-    fun insertTask(task: Task) =
-        viewModelScope.launch {
-            insertTaskUseCase(task)
-        }
+    fun insertTask(task: Task) = viewModelScope.launch {
+        insertTaskUseCase(task)
+    }
 
-    fun updateTaskSymbol(taskId: Long, symbolId: Int) =
-        viewModelScope.launch {
-            updateTaskSymbolUseCase(
-                taskId = taskId,
-                symbolId = symbolId
-            )
-        }
+    fun updateTaskSymbol(taskId: Long, symbolId: Int) = viewModelScope.launch {
+        updateTaskSymbolUseCase(
+            taskId = taskId,
+            symbolId = symbolId,
+        )
+    }
 
-    fun updateTaskCompleted(taskId: Long, isCompleted: Boolean) =
-        viewModelScope.launch {
-            updateTaskCompletedUseCase(id = taskId, isCompleted = isCompleted)
-        }
+    fun updateTaskCompleted(taskId: Long, isCompleted: Boolean) = viewModelScope.launch {
+        updateTaskCompletedUseCase(id = taskId, isCompleted = isCompleted)
+    }
 
-    fun updateSubTaskCompleted(subTaskId: Long, isCompleted: Boolean) =
-        viewModelScope.launch {
-            updateSubTaskCompletedUseCase(
-                id = subTaskId,
-                isCompleted = isCompleted
-            )
-        }
+    fun updateSubTaskCompleted(subTaskId: Long, isCompleted: Boolean) = viewModelScope.launch {
+        updateSubTaskCompletedUseCase(
+            id = subTaskId,
+            isCompleted = isCompleted,
+        )
+    }
 }

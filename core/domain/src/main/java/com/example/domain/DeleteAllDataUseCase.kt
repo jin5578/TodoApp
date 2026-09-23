@@ -7,10 +7,12 @@ import kotlinx.coroutines.coroutineScope
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-class DeleteAllDataUseCase @Inject constructor(
+class DeleteAllDataUseCase
+@Inject
+constructor(
     private val systemRepository: SystemRepository,
     private val categoryRepository: CategoryRepository,
-    private val taskRepository: TaskRepository
+    private val taskRepository: TaskRepository,
 ) {
     suspend operator fun invoke() = coroutineScope {
         launch { systemRepository.deleteAllData() }

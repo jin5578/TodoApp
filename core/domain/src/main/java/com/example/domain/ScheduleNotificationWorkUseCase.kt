@@ -10,7 +10,9 @@ import java.time.ZoneOffset
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-class ScheduleNotificationWorkUseCase @Inject constructor(
+class ScheduleNotificationWorkUseCase
+@Inject
+constructor(
     private val workManager: WorkManager,
 ) {
     operator fun invoke(task: Task) {
@@ -24,11 +26,13 @@ class ScheduleNotificationWorkUseCase @Inject constructor(
 
         val delaySec = reminderDateTimeSec - currentDateTimeSec
         if (delaySec > 0) {
-            val data = Data.Builder()
-                .putString(ID, task.uuid)
-                .putString(TITLE, task.title)
-                .putString(TIME, task.time.toString())
-                .build()
+            val data =
+                Data
+                    .Builder()
+                    .putString(ID, task.uuid)
+                    .putString(TITLE, task.title)
+                    .putString(TIME, task.time.toString())
+                    .build()
             val workRequest =
                 OneTimeWorkRequestBuilder<NotificationWorker>()
                     .setInitialDelay(delaySec, TimeUnit.SECONDS)

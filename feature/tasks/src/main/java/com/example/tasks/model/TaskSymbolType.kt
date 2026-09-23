@@ -8,153 +8,172 @@ import com.example.design_system.R as DesignSystemR
 
 enum class TaskSymbolType(
     val titleResId: Int,
-    val taskSymbols: ImmutableList<TaskSymbol>
+    val taskSymbols: ImmutableList<TaskSymbol>,
 ) {
     FLAG(
         titleResId = DesignSystemR.string.flag,
-        taskSymbols = persistentListOf(
+        taskSymbols =
+        persistentListOf(
             TaskSymbol(
                 id = 0,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_flag,
                     iconColor = flagColors[0],
-                )
+                ),
             ),
             TaskSymbol(
                 id = 1,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_flag,
                     iconColor = flagColors[1],
-                )
+                ),
             ),
             TaskSymbol(
                 id = 2,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_flag,
                     iconColor = flagColors[2],
-                )
+                ),
             ),
             TaskSymbol(
                 id = 3,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_flag,
                     iconColor = flagColors[3],
-                )
+                ),
             ),
             TaskSymbol(
                 id = 4,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_flag,
                     iconColor = flagColors[4],
-                )
-            )
-        )
+                ),
+            ),
+        ),
     ),
     NUMBER(
         titleResId = DesignSystemR.string.number,
-        taskSymbols = persistentListOf(
+        taskSymbols =
+        persistentListOf(
             TaskSymbol(
                 id = 5,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_circle_one,
                     iconColor = flagColors[0],
-                )
+                ),
             ),
             TaskSymbol(
                 id = 6,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_circle_two,
                     iconColor = flagColors[1],
-                )
+                ),
             ),
             TaskSymbol(
                 id = 7,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_circle_three,
                     iconColor = flagColors[2],
-                )
+                ),
             ),
             TaskSymbol(
                 id = 8,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_circle_four,
                     iconColor = flagColors[3],
-                )
+                ),
             ),
             TaskSymbol(
                 id = 9,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_circle_five,
                     iconColor = flagColors[4],
-                )
+                ),
             ),
-        )
+        ),
     ),
     PROGRESS(
         titleResId = DesignSystemR.string.progress,
-        taskSymbols = persistentListOf(
+        taskSymbols =
+        persistentListOf(
             TaskSymbol(
                 id = 10,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_percent_20,
                     iconColor = flagColors[0],
-                )
+                ),
             ),
             TaskSymbol(
                 id = 11,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_percent_40,
                     iconColor = flagColors[1],
-                )
+                ),
             ),
             TaskSymbol(
                 id = 12,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_percent_60,
                     iconColor = flagColors[2],
-                )
+                ),
             ),
             TaskSymbol(
                 id = 13,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_percent_80,
                     iconColor = flagColors[3],
-                )
+                ),
             ),
             TaskSymbol(
                 id = 14,
-                symbolIcon = TaskSymbolIcon(
+                symbolIcon =
+                TaskSymbolIcon(
                     iconResId = DesignSystemR.drawable.svg_percent_100,
                     iconColor = flagColors[4],
-                )
-            )
-        )
+                ),
+            ),
+        ),
     ),
     MOOD(
         titleResId = DesignSystemR.string.mood,
-        taskSymbols = persistentListOf(
+        taskSymbols =
+        persistentListOf(
             TaskSymbol(
                 id = 15,
-                emojiIcon = "😀"
+                emojiIcon = "😀",
             ),
             TaskSymbol(
                 id = 16,
-                emojiIcon = "😊"
+                emojiIcon = "😊",
             ),
             TaskSymbol(
                 id = 17,
-                emojiIcon = "😐"
+                emojiIcon = "😐",
             ),
             TaskSymbol(
                 id = 18,
-                emojiIcon = "😔"
+                emojiIcon = "😔",
             ),
             TaskSymbol(
                 id = 19,
-                emojiIcon = "😖"
-            )
-        )
-    )
+                emojiIcon = "😖",
+            ),
+        ),
+    ),
 }
 
 data class TaskSymbol(

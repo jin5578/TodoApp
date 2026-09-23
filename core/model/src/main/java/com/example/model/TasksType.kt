@@ -1,10 +1,12 @@
 package com.example.model
 
-enum class TasksType(val title: String) {
+enum class TasksType(
+    val title: String,
+) {
     COMPLETED(title = "Completed"),
     INCOMPLETE(title = "Incompleted"),
     THIS_WEEK(title = "This week"),
-    ALL(title = "All")
+    ALL(title = "All"),
 }
 
 fun String.toTasksType() = when (this) {

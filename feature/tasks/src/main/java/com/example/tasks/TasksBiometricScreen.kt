@@ -15,15 +15,15 @@ import com.example.design_system.R as DesignSystemR
 @Composable
 internal fun TasksBiometricScreen(
     onBiometricAuthSucceeded: () -> Unit,
-    onBiometricAuthError: () -> Unit
+    onBiometricAuthError: () -> Unit,
 ) {
     val context = LocalContext.current
     val activity = context as? FragmentActivity
     val isBiometricAvailable = remember(key1 = activity) {
         activity != null &&
-                BiometricManager.from(activity).canAuthenticate(
-                    BiometricManager.Authenticators.BIOMETRIC_STRONG
-                ) == BiometricManager.BIOMETRIC_SUCCESS
+            BiometricManager.from(activity).canAuthenticate(
+                BiometricManager.Authenticators.BIOMETRIC_STRONG,
+            ) == BiometricManager.BIOMETRIC_SUCCESS
     }
 
     if (activity != null && isBiometricAvailable) {
@@ -32,7 +32,7 @@ internal fun TasksBiometricScreen(
             ContextCompat.getMainExecutor(activity),
             object : BiometricPrompt.AuthenticationCallback() {
                 override fun onAuthenticationSucceeded(
-                    result: BiometricPrompt.AuthenticationResult
+                    result: BiometricPrompt.AuthenticationResult,
                 ) {
                     super.onAuthenticationSucceeded(result)
                     onBiometricAuthSucceeded()
@@ -40,12 +40,12 @@ internal fun TasksBiometricScreen(
 
                 override fun onAuthenticationError(
                     errorCode: Int,
-                    errString: CharSequence
+                    errString: CharSequence,
                 ) {
                     super.onAuthenticationError(errorCode, errString)
                     if (errorCode == 13) onBiometricAuthError()
                 }
-            }
+            },
         )
         val title =
             stringResource(id = DesignSystemR.string.please_authenticate_your_biometric_info)

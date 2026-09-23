@@ -7,8 +7,8 @@ import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.completed_tasks.model.CompletedTasksUiState
-import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.LocalSnackbarHostState
 import com.example.design_system.utils.toErrorMessage
 import kotlinx.coroutines.flow.collectLatest
 
@@ -26,7 +26,7 @@ internal fun CompletedTasksRoute(
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
             snackbarHostState.showSnackbar(
-                message = throwable.toErrorMessage(resources = contextResources)
+                message = throwable.toErrorMessage(resources = contextResources),
             )
         }
     }
@@ -38,7 +38,7 @@ internal fun CompletedTasksRoute(
         onTaskSymbolChanged = viewModel::updateTaskSymbol,
         onSubTaskToggleChanged = viewModel::toggleSubTaskCompletion,
         navigateEditTask = navigateEditTask,
-        popBackStack = popBackStack
+        popBackStack = popBackStack,
     )
 }
 
@@ -54,6 +54,7 @@ private fun CompletedTasksContent(
 ) {
     when (uiState) {
         is CompletedTasksUiState.Loading -> Loading()
+
         is CompletedTasksUiState.Screen -> CompletedTasksScreen(
             taskDateGroups = uiState.taskDateGroups,
             locale = uiState.locale,
@@ -63,12 +64,12 @@ private fun CompletedTasksContent(
             onDeleteSymbolClick = { taskId ->
                 onTaskSymbolChanged(
                     taskId,
-                    -1
+                    -1,
                 )
             },
             onSymbolClick = onTaskSymbolChanged,
             onSubTaskToggleClick = onSubTaskToggleChanged,
-            popBackStack = popBackStack
+            popBackStack = popBackStack,
         )
     }
 }

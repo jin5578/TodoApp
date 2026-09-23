@@ -41,11 +41,11 @@ internal fun MemoScreen(
     Scaffold(
         topBar = {
             MemoTopAppBar(popBackStack = popBackStack)
-        }
+        },
     ) { paddingValues ->
         Column(
             modifier = modifier.fillMaxSize()
-                .padding(paddingValues = paddingValues)
+                .padding(paddingValues = paddingValues),
         ) {
             MemoTextField(
                 text = memoTitle,
@@ -54,7 +54,7 @@ internal fun MemoScreen(
                 onValueChange = { title ->
                     memoTitle = title
                     onTitleValueChanged(taskId, title)
-                }
+                },
             )
 
             if (updatedAt != null) {
@@ -64,7 +64,7 @@ internal fun MemoScreen(
                     modifier = Modifier.padding(horizontal = 16.dp),
                     text = stringResource(
                         id = DesignSystemR.string.last_update_time,
-                        updatedAt.format(dateTimeFormat)
+                        updatedAt.format(dateTimeFormat),
                     ),
                     style = TodoTheme.typography.medium_12,
                     color = MaterialTheme.colorScheme.onBackground,
@@ -78,7 +78,7 @@ internal fun MemoScreen(
                 onValueChange = { content ->
                     memoContent = content
                     onContentValueChanged(taskId, content)
-                }
+                },
             )
         }
     }

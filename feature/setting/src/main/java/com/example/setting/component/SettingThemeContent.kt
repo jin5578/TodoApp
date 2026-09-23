@@ -62,13 +62,14 @@ internal fun SettingThemeContent(
                 if (index == ThemeType.entries.size - 1) return
 
                 var themeColor = ThemeColor.entries[index]
-                if (index == 0 && isSystemInDarkTheme)
+                if (index == 0 && isSystemInDarkTheme) {
                     themeColor = ThemeColor.DARK_SYSTEM_THEME
+                }
                 SettingThemeItem(
                     title = type.title,
                     themeColor = themeColor,
                     isSelected = type == themeType,
-                    onClick = { onSelect(type) }
+                    onClick = { onSelect(type) },
                 )
             }
         }
@@ -93,7 +94,7 @@ private fun SettingThemeItem(
                 .clip(shape = RoundedCornerShape(size = 8.dp))
                 .background(color = themeColor.backgroundColor)
                 .clickable { onClick() },
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 modifier = Modifier.padding(
@@ -102,7 +103,7 @@ private fun SettingThemeItem(
                 ),
                 text = title,
                 style = TodoTheme.typography.medium_16,
-                color = themeColor.textColor
+                color = themeColor.textColor,
             )
         }
 
@@ -114,7 +115,7 @@ private fun SettingThemeItem(
             LaunchedEffect(key1 = Unit) {
                 animValue.animateTo(
                     targetValue = 1f,
-                    animationSpec = tween(durationMillis = 300)
+                    animationSpec = tween(durationMillis = 300),
                 )
             }
 
@@ -123,8 +124,8 @@ private fun SettingThemeItem(
                     .height(height = 4.dp)
                     .background(
                         color = themeColor.dividerColor,
-                        shape = RoundedCornerShape(size = 8.dp)
-                    )
+                        shape = RoundedCornerShape(size = 8.dp),
+                    ),
             )
         }
     }
@@ -136,7 +137,7 @@ private fun SettingThemeContentPreview() {
     TodoTheme {
         SettingThemeContent(
             themeType = ThemeType.SUN_RISE,
-            onSelect = {}
+            onSelect = {},
         )
     }
 }

@@ -8,7 +8,7 @@ enum class ReminderTimeType(
     ON_TIME(
         title = "On time",
         subtitle = "On",
-        minutesBefore = 0
+        minutesBefore = 0,
     ),
     TEN_MINUTES_BEFORE(
         title = "10 min before",
@@ -24,5 +24,5 @@ enum class ReminderTimeType(
         title = "1 hour before",
         subtitle = "-1h",
         minutesBefore = 60,
-    )
+    ),
 }

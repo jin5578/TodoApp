@@ -20,11 +20,11 @@ import java.util.Locale
 fun DaysOfWeek(
     modifier: Modifier = Modifier,
     daysOfWeek: List<DayOfWeek>,
-    locale: Locale
+    locale: Locale,
 ) {
     Row(
         modifier = modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         for (dayOfWeek in daysOfWeek) {
             Text(
@@ -32,7 +32,7 @@ fun DaysOfWeek(
                 text = dayOfWeek.getDisplayName(TextStyle.SHORT, locale),
                 textAlign = TextAlign.Center,
                 style = TodoTheme.typography.medium_12,
-                color = MaterialTheme.colorScheme.onBackground
+                color = MaterialTheme.colorScheme.onBackground,
             )
         }
     }

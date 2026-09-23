@@ -49,7 +49,7 @@ val SunRiseColorScheme = lightColorScheme(
     surfaceContainerHighest = surfaceContainerHighestSunRise,
     surfaceContainerLow = surfaceContainerLowSunRise,
     surfaceContainerLowest = surfaceContainerLowestSunRise,
-    surfaceDim = surfaceDimSunRise
+    surfaceDim = surfaceDimSunRise,
 )
 
 val OceanColorScheme = lightColorScheme(
@@ -87,7 +87,7 @@ val OceanColorScheme = lightColorScheme(
     surfaceContainerHighest = surfaceContainerHighestOcean,
     surfaceContainerLow = surfaceContainerLowOcean,
     surfaceContainerLowest = surfaceContainerLowestOcean,
-    surfaceDim = surfaceDimOcean
+    surfaceDim = surfaceDimOcean,
 )
 
 val MeadowColorScheme = lightColorScheme(
@@ -125,7 +125,7 @@ val MeadowColorScheme = lightColorScheme(
     surfaceContainerHighest = surfaceContainerHighestMeadow,
     surfaceContainerLow = surfaceContainerLowMeadow,
     surfaceContainerLowest = surfaceContainerLowestMeadow,
-    surfaceDim = surfaceDimMeadow
+    surfaceDim = surfaceDimMeadow,
 )
 
 val MidnightColorScheme = darkColorScheme(
@@ -163,7 +163,7 @@ val MidnightColorScheme = darkColorScheme(
     surfaceContainerHighest = surfaceContainerHighestMidnight,
     surfaceContainerLow = surfaceContainerLowMidnight,
     surfaceContainerLowest = surfaceContainerLowestMidnight,
-    surfaceDim = surfaceDimMidnight
+    surfaceDim = surfaceDimMidnight,
 )
 
 val DeepSpaceColorScheme = darkColorScheme(
@@ -201,7 +201,7 @@ val DeepSpaceColorScheme = darkColorScheme(
     surfaceContainerHighest = surfaceContainerHighestDeepSpace,
     surfaceContainerLow = surfaceContainerLowDeepSpace,
     surfaceContainerLowest = surfaceContainerLowestDeepSpace,
-    surfaceDim = surfaceDimDeepSpace
+    surfaceDim = surfaceDimDeepSpace,
 )
 
 val EmberColorScheme = darkColorScheme(
@@ -239,7 +239,7 @@ val EmberColorScheme = darkColorScheme(
     surfaceContainerHighest = surfaceContainerHighestEmber,
     surfaceContainerLow = surfaceContainerLowEmber,
     surfaceContainerLowest = surfaceContainerLowestEmber,
-    surfaceDim = surfaceDimEmber
+    surfaceDim = surfaceDimEmber,
 )
 
 val LocalDarkTheme = compositionLocalOf { true }
@@ -251,23 +251,29 @@ fun TodoTheme(
 ) {
     val colorScheme = when (theme) {
         ThemeType.SYSTEM -> {
-            if (isSystemInDarkTheme())
+            if (isSystemInDarkTheme()) {
                 MidnightColorScheme
-            else
+            } else {
                 SunRiseColorScheme
+            }
         }
 
         ThemeType.SUN_RISE -> SunRiseColorScheme
+
         ThemeType.OCEAN -> OceanColorScheme
+
         ThemeType.MEADOW -> MeadowColorScheme
+
         ThemeType.MIDNIGHT -> MidnightColorScheme
+
         ThemeType.DEEP_SPACE -> DeepSpaceColorScheme
+
         else -> EmberColorScheme
     }
 
     val isLightKey = colorScheme == SunRiseColorScheme ||
-            colorScheme == OceanColorScheme ||
-            colorScheme == MeadowColorScheme
+        colorScheme == OceanColorScheme ||
+        colorScheme == MeadowColorScheme
 
     if (!LocalInspectionMode.current) {
         val view = LocalView.current
@@ -286,7 +292,7 @@ fun TodoTheme(
     ) {
         MaterialTheme(
             colorScheme = colorScheme,
-            content = content
+            content = content,
         )
     }
 }

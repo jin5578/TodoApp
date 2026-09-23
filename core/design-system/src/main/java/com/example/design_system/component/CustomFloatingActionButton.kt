@@ -38,7 +38,7 @@ fun CustomFloatingActionButton(
         animationSpec = infiniteRepeatable(
             animation = tween(
                 durationMillis = 2500,
-                easing = LinearOutSlowInEasing
+                easing = LinearOutSlowInEasing,
             ),
             repeatMode = RepeatMode.Restart,
         ),
@@ -50,7 +50,7 @@ fun CustomFloatingActionButton(
         animationSpec = infiniteRepeatable(
             animation = tween(
                 durationMillis = 2500,
-                easing = LinearOutSlowInEasing
+                easing = LinearOutSlowInEasing,
             ),
             repeatMode = RepeatMode.Restart,
         ),
@@ -66,20 +66,20 @@ fun CustomFloatingActionButton(
                 .background(
                     color = MaterialTheme.colorScheme.primaryContainer,
                     shape = CircleShape,
-                )
+                ),
         )
 
         FloatingActionButton(
             shape = CircleShape,
             containerColor = MaterialTheme.colorScheme.primaryContainer,
             contentColor = MaterialTheme.colorScheme.primaryContainer,
-            onClick = onClick
+            onClick = onClick,
         ) {
             Icon(
                 modifier = modifier.size(size = 32.dp),
                 imageVector = ImageVector.vectorResource(id = R.drawable.svg_plus_small),
                 contentDescription = null,
-                tint = MaterialTheme.colorScheme.onPrimaryContainer
+                tint = MaterialTheme.colorScheme.onPrimaryContainer,
             )
         }
     }
@@ -90,7 +90,7 @@ fun CustomFloatingActionButton(
 private fun CustomFloatingActionButtonPreview() {
     TodoTheme {
         CustomFloatingActionButton(
-            onClick = {}
+            onClick = {},
         )
     }
 }

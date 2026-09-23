@@ -21,9 +21,8 @@ fun NavGraphBuilder.tasksNavGraph(
         navigateCompletedTasks = navigateCompletedTasks,
         navigateSearchTask = navigateSearchTask,
         navigateManageCategories = navigateManageCategories,
-        navigateSetting = navigateSetting
+        navigateSetting = navigateSetting,
     )
 }
 
-fun NavController.navigateTasks(navOptions: NavOptions? = null) =
-    navigate(route = Route.Tasks, navOptions = navOptions)
+fun NavController.navigateTasks(navOptions: NavOptions? = null) = navigate(route = Route.Tasks, navOptions = navOptions)

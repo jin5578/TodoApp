@@ -21,11 +21,13 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SettingViewModel @Inject constructor(
+class SettingViewModel
+@Inject
+constructor(
     private val getSettingDataUseCase: GetSettingDataUseCase,
     private val updateLanguageUseCase: UpdateLanguageUseCase,
     private val updateThemeTypeUseCase: UpdateThemeTypeUseCase,
-    private val updateTimePickerTypeUseCase: UpdateTimePickerTypeUseCase
+    private val updateTimePickerTypeUseCase: UpdateTimePickerTypeUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -38,36 +40,33 @@ class SettingViewModel @Inject constructor(
         fetchSettingUiState()
     }
 
-    private fun fetchSettingUiState() =
-        viewModelScope.launch {
-            getSettingDataUseCase().map { settingSystem ->
+    private fun fetchSettingUiState() = viewModelScope.launch {
+        getSettingDataUseCase()
+            .map { settingSystem ->
                 SettingUiState.Screen(
                     languageType = settingSystem.languageType,
                     themeType = settingSystem.themeType,
                     sleepTime = settingSystem.sleepTime,
                     timePickerType = settingSystem.timePickerType,
                     buildVersion = settingSystem.buildVersion,
-                    hasExistingPassword = settingSystem.hasExistingPassword
+                    hasExistingPassword = settingSystem.hasExistingPassword,
                 )
             }.catch { throwable ->
                 _errorFlow.emit(value = throwable)
             }.collect {
                 _uiState.value = it
             }
-        }
+    }
 
-    fun updateLanguageType(languageType: LanguageType) =
-        viewModelScope.launch {
-            updateLanguageUseCase(languageType = languageType)
-        }
+    fun updateLanguageType(languageType: LanguageType) = viewModelScope.launch {
+        updateLanguageUseCase(languageType = languageType)
+    }
 
-    fun updateThemeType(themeType: ThemeType) =
-        viewModelScope.launch {
-            updateThemeTypeUseCase(themeType = themeType)
-        }
+    fun updateThemeType(themeType: ThemeType) = viewModelScope.launch {
+        updateThemeTypeUseCase(themeType = themeType)
+    }
 
-    fun updateTimePickerType(timePickerType: TimePickerType) =
-        viewModelScope.launch {
-            updateTimePickerTypeUseCase(timePickerType = timePickerType)
-        }
+    fun updateTimePickerType(timePickerType: TimePickerType) = viewModelScope.launch {
+        updateTimePickerTypeUseCase(timePickerType = timePickerType)
+    }
 }

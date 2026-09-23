@@ -55,19 +55,19 @@ fun ReminderDialog(
         ),
         ReminderOption(
             resId = DesignSystemR.string.reminder_5_minutes_before,
-            time = taskTime.minusMinutes(5)
+            time = taskTime.minusMinutes(5),
         ),
         ReminderOption(
             resId = DesignSystemR.string.reminder_15_minutes_before,
-            time = taskTime.minusMinutes(15)
+            time = taskTime.minusMinutes(15),
         ),
         ReminderOption(
             resId = DesignSystemR.string.reminder_30_minutes_before,
-            time = taskTime.minusMinutes(30)
+            time = taskTime.minusMinutes(30),
         ),
         ReminderOption(
             resId = DesignSystemR.string.reminder_1_day_before,
-            time = taskTime.minusDays(1)
+            time = taskTime.minusDays(1),
         ),
     )
 
@@ -77,23 +77,23 @@ fun ReminderDialog(
 
     Dialog(
         onDismissRequest = { onCloseClick() },
-        properties = DialogProperties(usePlatformDefaultWidth = false)
+        properties = DialogProperties(usePlatformDefaultWidth = false),
     ) {
         Card(
             modifier = Modifier.fillMaxWidth()
                 .padding(horizontal = 16.dp),
             shape = RoundedCornerShape(size = 16.dp),
             colors = CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.background
-            )
+                containerColor = MaterialTheme.colorScheme.background,
+            ),
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth().padding(
                     horizontal = 2.dp,
-                    vertical = 16.dp
+                    vertical = 16.dp,
                 ),
                 verticalArrangement = Arrangement.spacedBy(space = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
                     modifier = Modifier.fillMaxWidth()
@@ -101,7 +101,7 @@ fun ReminderDialog(
                     text = stringResource(id = DesignSystemR.string.reminder),
                     style = TodoTheme.typography.bold_20,
                     color = MaterialTheme.colorScheme.onBackground,
-                    textAlign = TextAlign.Start
+                    textAlign = TextAlign.Start,
                 )
 
                 reminderOptions.forEach { reminderOption ->
@@ -110,25 +110,25 @@ fun ReminderDialog(
                         isClicked = reminderOption.time == selectedReminderTime,
                         onClick = { dateTime ->
                             selectedReminderTime = dateTime
-                        }
+                        },
                     )
                 }
 
                 Row(
                     modifier = Modifier.fillMaxWidth().padding(end = 16.dp),
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.End
+                    horizontalArrangement = Arrangement.End,
                 ) {
                     Text(
                         modifier = Modifier.clickable {
                             onCloseClick()
                         }.padding(
                             horizontal = 8.dp,
-                            vertical = 4.dp
+                            vertical = 4.dp,
                         ),
                         text = stringResource(id = DesignSystemR.string.cancel),
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.inversePrimary
+                        color = MaterialTheme.colorScheme.inversePrimary,
                     )
 
                     Text(
@@ -136,11 +136,11 @@ fun ReminderDialog(
                             onConfirmClick(selectedReminderTime)
                         }.padding(
                             horizontal = 8.dp,
-                            vertical = 4.dp
+                            vertical = 4.dp,
                         ),
                         text = stringResource(id = DesignSystemR.string.confirm),
                         style = TodoTheme.typography.medium_16,
-                        color = MaterialTheme.colorScheme.primary
+                        color = MaterialTheme.colorScheme.primary,
                     )
                 }
             }
@@ -160,11 +160,11 @@ private fun ReminderOptionItem(
             onClick(reminderOption.time)
         }.padding(horizontal = 16.dp, vertical = 8.dp),
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(space = 16.dp)
+        horizontalArrangement = Arrangement.spacedBy(space = 16.dp),
     ) {
         Box(
             modifier = Modifier.size(size = 18.dp),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             if (isClicked) {
                 Icon(
@@ -179,10 +179,10 @@ private fun ReminderOptionItem(
                         .border(
                             width = 1.8.dp,
                             color = MaterialTheme.colorScheme.onBackground,
-                            shape = CircleShape
+                            shape = CircleShape,
                         ),
                     contentAlignment = Alignment.Center,
-                    content = {}
+                    content = {},
                 )
             }
         }
@@ -203,7 +203,7 @@ private fun ReminderDialogPreview() {
             taskTime = LocalDateTime.now(),
             reminderTime = LocalDateTime.now(),
             onCloseClick = {},
-            onConfirmClick = {}
+            onConfirmClick = {},
         )
     }
 }

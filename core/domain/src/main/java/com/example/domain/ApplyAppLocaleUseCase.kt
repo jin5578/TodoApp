@@ -6,13 +6,15 @@ import com.example.utils.AppLocaleManager
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class ApplyAppLocaleUseCase @Inject constructor(
-    @param:ApplicationContext private val context: Context
+class ApplyAppLocaleUseCase
+@Inject
+constructor(
+    @param:ApplicationContext private val context: Context,
 ) {
     operator fun invoke(languageType: LanguageType) {
         AppLocaleManager.applyLocale(
             context = context,
-            languageType = languageType
+            languageType = languageType,
         )
     }
 }
