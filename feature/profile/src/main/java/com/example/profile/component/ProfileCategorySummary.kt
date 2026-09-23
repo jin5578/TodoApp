@@ -25,6 +25,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -43,7 +44,6 @@ import com.patrykandpatrick.vico.compose.pie.data.PieChartModel
 import com.patrykandpatrick.vico.compose.pie.rememberPieChart
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
-import java.util.Locale
 import com.example.design_system.R as DesignSystemR
 
 @Composable
@@ -225,6 +225,7 @@ private fun ProfileCategoryProportion(
     total: Float,
 ) {
     val percent = if (total > 0f) entry.value / total * 100f else 0f
+    val locale = LocalConfiguration.current.locales[0]
 
     Row(
         modifier = modifier.wrapContentSize(),
@@ -244,7 +245,7 @@ private fun ProfileCategoryProportion(
         )
 
         Text(
-            text = String.format(Locale.getDefault(), "%.0f%%", percent),
+            text = String.format(locale, "%.0f%%", percent),
             style = TodoTheme.typography.medium_12,
             color = MaterialTheme.colorScheme.onBackground
         )
