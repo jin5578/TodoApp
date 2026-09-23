@@ -35,4 +35,6 @@ dependencies {
     ksp(libs.hilt.android.compiler)
 
     implementation(libs.androidx.work.runtime.ktx)
+
+    implementation(libs.timber)
 }

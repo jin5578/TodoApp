@@ -3,7 +3,7 @@ package com.example.domain
 import com.example.data_api.repository.CategoryRepository
 import com.example.data_api.repository.SystemRepository
 import com.example.data_api.repository.TaskRepository
-import com.example.model.addtask.AddTask
+import com.example.model.add_task.AddTask
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import java.time.LocalDate

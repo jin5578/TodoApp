@@ -36,15 +36,15 @@ internal fun SecurityScreen(
     modifier: Modifier = Modifier,
     hasExistingPassword: Boolean,
     hasBiometricEnabled: Boolean,
-    popBackStack: () -> Unit,
     onBiometricEnabledChanged: (Boolean) -> Unit,
     onPasswordSettingClick: () -> Unit,
+    popBackStack: () -> Unit,
 ) {
     Scaffold(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.background
                 ),
                 title = {},
                 navigationIcon = {
@@ -53,7 +53,7 @@ internal fun SecurityScreen(
                             modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -63,72 +63,72 @@ internal fun SecurityScreen(
         Column(
             modifier = modifier.fillMaxSize()
                 .padding(paddingValues = paddingValues)
-                .padding(vertical = 20.dp),
+                .padding(top = 40.dp, bottom = 20.dp),
         ) {
             Text(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
                 text = stringResource(
                     id = DesignSystemR.string.security
                 ),
-                style = TodoTheme.typography.headlineMedium,
-                color = MaterialTheme.colorScheme.onSurface
+                style = TodoTheme.typography.bold_20,
+                color = MaterialTheme.colorScheme.onBackground
             )
 
-            Spacer(modifier = Modifier.height(height = 20.dp))
+            Spacer(modifier = Modifier.height(height = 40.dp))
 
-            Row(
-                modifier = Modifier.fillMaxWidth()
-                    .clickable { onPasswordSettingClick() }
-                    .padding(all = 16.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.SpaceBetween
-            ) {
-                Text(
-                    text = stringResource(
-                        id = DesignSystemR.string.password_setting
-                    ),
-                    style = TodoTheme.typography.infoDescTextStyle,
-                    color = MaterialTheme.colorScheme.onSurface,
-                )
-
-                val lockIconResId =
-                    if (hasExistingPassword) DesignSystemR.drawable.svg_lock
-                    else DesignSystemR.drawable.svg_unlock
-
-                Icon(
-                    modifier = Modifier.size(size = 18.dp),
-                    imageVector = ImageVector.vectorResource(id = lockIconResId),
-                    contentDescription = null,
-                    tint = MaterialTheme.colorScheme.onSecondaryContainer,
-                )
-            }
+            val lockIconResId =
+                if (hasExistingPassword) DesignSystemR.drawable.svg_lock
+                else DesignSystemR.drawable.svg_unlock
+            SecurityItem(
+                iconResId = lockIconResId,
+                iconColor = MaterialTheme.colorScheme.onBackground,
+                title = stringResource(
+                    id = DesignSystemR.string.password_setting
+                ),
+                onClick = { onPasswordSettingClick() }
+            )
 
             if (hasExistingPassword) {
-                Row(
-                    modifier = Modifier.fillMaxWidth()
-                        .clickable { onBiometricEnabledChanged(!hasBiometricEnabled) }
-                        .padding(all = 16.dp),
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.SpaceBetween
-                ) {
-                    Text(
-                        text = stringResource(id = DesignSystemR.string.biometric_authentication_setting),
-                        style = TodoTheme.typography.infoDescTextStyle,
-                        color = MaterialTheme.colorScheme.onSurface
-                    )
-
-                    val fingerPrintIconColor =
-                        if (hasBiometricEnabled) MaterialTheme.colorScheme.onSecondaryContainer
-                        else MaterialTheme.colorScheme.error
-                    Icon(
-                        modifier = Modifier.size(size = 18.dp),
-                        imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_fingerprint),
-                        contentDescription = null,
-                        tint = fingerPrintIconColor
-                    )
-                }
+                val fingerPrintIconColor =
+                    if (hasBiometricEnabled) MaterialTheme.colorScheme.onBackground
+                    else MaterialTheme.colorScheme.error
+                SecurityItem(
+                    iconResId = DesignSystemR.drawable.svg_fingerprint,
+                    iconColor = fingerPrintIconColor,
+                    title = stringResource(id = DesignSystemR.string.biometric_authentication_setting),
+                    onClick = { onBiometricEnabledChanged(!hasBiometricEnabled) }
+                )
             }
         }
+    }
+}
+
+@Composable
+private fun SecurityItem(
+    iconResId: Int,
+    iconColor: Color,
+    title: String,
+    onClick: () -> Unit,
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth()
+            .clickable { onClick() }
+            .padding(horizontal = 20.dp, vertical = 10.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(space = 10.dp)
+    ) {
+        Icon(
+            modifier = Modifier.size(size = 18.dp),
+            imageVector = ImageVector.vectorResource(id = iconResId),
+            contentDescription = null,
+            tint = iconColor,
+        )
+
+        Text(
+            text = title,
+            style = TodoTheme.typography.medium_16,
+            color = MaterialTheme.colorScheme.onBackground,
+        )
     }
 }
 
@@ -139,9 +139,9 @@ private fun SecurityScreenPreview() {
         SecurityScreen(
             hasExistingPassword = true,
             hasBiometricEnabled = true,
-            popBackStack = {},
             onBiometricEnabledChanged = { _ -> },
-            onPasswordSettingClick = {}
+            onPasswordSettingClick = {},
+            popBackStack = {},
         )
     }
 }

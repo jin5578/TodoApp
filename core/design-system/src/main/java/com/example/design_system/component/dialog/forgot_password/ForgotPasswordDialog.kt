@@ -6,13 +6,16 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -42,9 +45,10 @@ private fun ForgotPasswordDialogContent(
     onConfirm: () -> Unit,
 ) {
     Card(
+        modifier = Modifier.fillMaxWidth(fraction = 1f),
         shape = RoundedCornerShape(size = 16.dp),
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+            containerColor = MaterialTheme.colorScheme.background,
         )
     ) {
         Column(
@@ -54,13 +58,13 @@ private fun ForgotPasswordDialogContent(
         ) {
             Text(
                 text = stringResource(id = DesignSystemR.string.forgot_password_dialog_title),
-                style = TodoTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
+                style = TodoTheme.typography.bold_20,
+                color = MaterialTheme.colorScheme.onBackground,
             )
 
             Text(
                 text = stringResource(id = DesignSystemR.string.forgot_password_dialog_message),
-                style = TodoTheme.typography.taskDescTextStyle,
+                style = TodoTheme.typography.medium_16,
                 textAlign = TextAlign.Center
             )
 
@@ -78,13 +82,37 @@ private fun ForgotPasswordDialogContent(
 
                 ForgotPasswordTextButton(
                     modifier = Modifier.weight(weight = 1f),
-                    backgroundColor = MaterialTheme.colorScheme.error,
-                    textColor = MaterialTheme.colorScheme.onError,
+                    backgroundColor = MaterialTheme.colorScheme.primary,
+                    textColor = MaterialTheme.colorScheme.onPrimary,
                     title = stringResource(id = DesignSystemR.string.yes),
                     onClick = onConfirm
                 )
             }
         }
+    }
+}
+
+@Composable
+private fun ForgotPasswordTextButton(
+    modifier: Modifier = Modifier,
+    backgroundColor: Color,
+    textColor: Color,
+    title: String,
+    onClick: () -> Unit,
+) {
+    TextButton(
+        modifier = modifier,
+        onClick = onClick,
+        shape = RoundedCornerShape(size = 8.dp),
+        colors = ButtonDefaults.textButtonColors(
+            containerColor = backgroundColor
+        )
+    ) {
+        Text(
+            text = title,
+            style = TodoTheme.typography.medium_16,
+            color = textColor,
+        )
     }
 }
 
@@ -106,6 +134,19 @@ private fun ForgotPasswordDialogContentPreview() {
         ForgotPasswordDialogContent(
             onClose = {},
             onConfirm = {}
+        )
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun ForgotPasswordTextButtonPreview() {
+    TodoTheme {
+        ForgotPasswordTextButton(
+            backgroundColor = MaterialTheme.colorScheme.error,
+            textColor = MaterialTheme.colorScheme.onError,
+            title = "예",
+            onClick = {}
         )
     }
 }

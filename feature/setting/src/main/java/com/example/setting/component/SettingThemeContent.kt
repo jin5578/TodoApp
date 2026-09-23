@@ -27,7 +27,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.example.design_system.theme.TodoTheme
 import com.example.model.ThemeType
 import com.example.setting.model.ThemeColor
@@ -50,8 +49,8 @@ internal fun SettingThemeContent(
     ) {
         Text(
             text = stringResource(id = DesignSystemR.string.choose_theme_style),
-            style = TodoTheme.typography.headlineSmall,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            style = TodoTheme.typography.bold_20,
+            color = MaterialTheme.colorScheme.onBackground,
         )
 
         Row(
@@ -102,7 +101,7 @@ private fun SettingThemeItem(
                     vertical = 16.dp,
                 ),
                 text = title,
-                style = TodoTheme.typography.infoTextStyle.copy(fontSize = 16.sp),
+                style = TodoTheme.typography.medium_16,
                 color = themeColor.textColor
             )
         }

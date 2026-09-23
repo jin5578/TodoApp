@@ -4,9 +4,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.design_system.component.Loading
+import com.example.design_system.utils.LocalSnackbarHostState
+import com.example.design_system.utils.toErrorMessage
 import com.example.model.LanguageType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
@@ -17,44 +20,50 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 internal fun SettingRoute(
     viewModel: SettingViewModel = hiltViewModel(),
-    navigateInfo: () -> Unit,
     navigateManageCategories: () -> Unit,
     navigateSecurity: () -> Unit,
+    navigateGithubAuth: () -> Unit,
     popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
 
     val context = LocalContext.current
 
+    val snackbarHostState = LocalSnackbarHostState.current
+    val contextResources = LocalResources.current
+
     LaunchedEffect(key1 = Unit) {
         viewModel.errorFlow.collectLatest { throwable ->
-            onShowErrorSnackbar(throwable)
+            snackbarHostState.showSnackbar(
+                message = throwable.toErrorMessage(resources = contextResources)
+            )
         }
     }
 
     SettingContent(
         uiState = uiState,
-        navigateManageCategories = navigateManageCategories,
-        navigateSecurity = navigateSecurity,
-        popBackStack = popBackStack,
         openUrl = { url -> openUrl(context = context, url = url) },
         onLanguageTypeChanged = viewModel::updateLanguageType,
         onThemeTypeChanged = viewModel::updateThemeType,
         onTimePickerTypeChanged = viewModel::updateTimePickerType,
+        navigateManageCategories = navigateManageCategories,
+        navigateSecurity = navigateSecurity,
+        navigateGithubAuth = navigateGithubAuth,
+        popBackStack = popBackStack,
     )
 }
 
 @Composable
 private fun SettingContent(
     uiState: SettingUiState,
-    navigateManageCategories: () -> Unit,
-    navigateSecurity: () -> Unit,
-    popBackStack: () -> Unit,
     openUrl: (String) -> Unit,
     onLanguageTypeChanged: (LanguageType) -> Unit,
     onThemeTypeChanged: (ThemeType) -> Unit,
     onTimePickerTypeChanged: (TimePickerType) -> Unit,
+    navigateManageCategories: () -> Unit,
+    navigateSecurity: () -> Unit,
+    navigateGithubAuth: () -> Unit,
+    popBackStack: () -> Unit,
 ) {
     when (uiState) {
         is SettingUiState.Loading -> Loading()
@@ -64,13 +73,14 @@ private fun SettingContent(
             timePickerType = uiState.timePickerType,
             buildVersion = uiState.buildVersion,
             hasExistingPassword = uiState.hasExistingPassword,
-            navigateManageCategories = navigateManageCategories,
-            navigateSecurity = navigateSecurity,
-            popBackStack = popBackStack,
             openUrl = openUrl,
             onLanguageTypeChanged = onLanguageTypeChanged,
             onThemeTypeChanged = onThemeTypeChanged,
             onTimePickerTypeChanged = onTimePickerTypeChanged,
+            navigateManageCategories = navigateManageCategories,
+            navigateSecurity = navigateSecurity,
+            navigateGithubAuth = navigateGithubAuth,
+            popBackStack = popBackStack,
         )
     }
 }

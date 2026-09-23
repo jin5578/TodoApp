@@ -2,35 +2,64 @@ package com.example.tasks
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.DeleteTaskUseCase
-import com.example.domain.GetAllTaskUseCase
-import com.example.domain.GetTaskByIdUseCase
-import com.example.domain.GetTasksByDateRangeUseCase
-import com.example.domain.GetTasksByStateUseCase
-import com.example.domain.UpdateTaskUseCase
-import com.example.model.TasksType
+import com.example.domain.CheckPasswordUseCase
+import com.example.domain.DeleteAllDataUseCase
+import com.example.domain.GetCurrentLocationUseCase
+import com.example.domain.GetHasBiometricEnabledUseCase
+import com.example.domain.GetHasExistingPasswordUseCase
+import com.example.domain.GetLastLocationUseCase
+import com.example.domain.GetOpenWeatherUseCase
+import com.example.domain.GetTasksDataUseCase
+import com.example.domain.InsertCategoryUseCase
+import com.example.domain.InsertTaskUseCase
+import com.example.domain.UpdateLastLocationUseCase
+import com.example.domain.UpdateSortByTypeUseCase
+import com.example.domain.UpdateSubTaskCompletedUseCase
+import com.example.domain.UpdateTaskCompletedUseCase
+import com.example.domain.UpdateTaskSymbolUseCase
+import com.example.model.Category
+import com.example.model.SortByType
+import com.example.model.Task
+import com.example.model.open_weather.WeatherInfo
+import com.example.model.toUiModels
+import com.example.tasks.model.TaskState
+import com.example.tasks.model.TaskStateGroup
+import com.example.tasks.model.TasksPasswordProcessType
 import com.example.tasks.model.TasksUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
-import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.combine
+import kotlinx.coroutines.flow.first
+import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.launch
-import java.time.DayOfWeek
 import java.time.LocalDate
+import java.time.LocalDateTime
 import javax.inject.Inject
 
 @HiltViewModel
 class TasksViewModel @Inject constructor(
-    private val getTasksByStateUseCase: GetTasksByStateUseCase,
-    private val getTasksByDateRangeUseCase: GetTasksByDateRangeUseCase,
-    private val getAllTaskUseCase: GetAllTaskUseCase,
-    private val getTaskByIdUseCase: GetTaskByIdUseCase,
-    private val updateTaskUseCase: UpdateTaskUseCase,
-    private val deleteTaskUseCase: DeleteTaskUseCase,
+    private val getHasBiometricEnabledUseCase: GetHasBiometricEnabledUseCase,
+    private val getHasExistingPasswordUseCase: GetHasExistingPasswordUseCase,
+    private val getTasksDataUseCase: GetTasksDataUseCase,
+    private val checkPasswordUseCase: CheckPasswordUseCase,
+    private val deleteAllDataUseCase: DeleteAllDataUseCase,
+    private val insertTaskUseCase: InsertTaskUseCase,
+    private val insertCategoryUseCase: InsertCategoryUseCase,
+    private val updateTaskSymbolUseCase: UpdateTaskSymbolUseCase,
+    private val updateTaskCompletedUseCase: UpdateTaskCompletedUseCase,
+    private val updateSubTaskCompletedUseCase: UpdateSubTaskCompletedUseCase,
+    private val updateSortByTypeUseCase: UpdateSortByTypeUseCase,
+    private val getCurrentLocationUseCase: GetCurrentLocationUseCase,
+    private val getOpenWeatherUseCase: GetOpenWeatherUseCase,
+    private val getLastLocationUseCase: GetLastLocationUseCase,
+    private val updateLastLocationUseCase: UpdateLastLocationUseCase,
 ) : ViewModel() {
     private val _errorFlow: MutableSharedFlow<Throwable> = MutableSharedFlow()
     val errorFlow = _errorFlow.asSharedFlow()
@@ -39,30 +68,70 @@ class TasksViewModel @Inject constructor(
         MutableStateFlow(value = TasksUiState.Loading)
     val uiState = _uiState.asStateFlow()
 
-    fun fetchTasks(type: TasksType) =
-        when (type) {
-            TasksType.COMPLETED -> fetchTasksByState(isCompleted = true)
-            TasksType.INCOMPLETE -> fetchTasksByState(isCompleted = false)
-            TasksType.THIS_WEEK -> {
-                val currentDate = LocalDate.now()
-                val fromDate = currentDate.with(DayOfWeek.MONDAY)
-                val toDate = currentDate.with(DayOfWeek.SUNDAY)
-                fetchTasksByDateRange(
-                    fromDate = fromDate,
-                    toDate = toDate
-                )
+    private val selectedCategoryId: MutableStateFlow<Long> =
+        MutableStateFlow(value = -1L)
+    private var isTasksUiStateObserved = false
+
+    private val _weatherInfo: MutableStateFlow<WeatherInfo?> =
+        MutableStateFlow(value = null)
+
+    init {
+        executeLockProcess()
+    }
+
+    private fun executeLockProcess() =
+        viewModelScope.launch {
+            val hasBiometricEnabled = getHasBiometricEnabledUseCase().first()
+            if (hasBiometricEnabled) {
+                _uiState.value = TasksUiState.Biometric
+                return@launch
             }
 
-            else -> fetchAllTasks()
+            val hasExistingPassword = getHasExistingPasswordUseCase().first()
+            if (hasExistingPassword) {
+                _uiState.value = TasksUiState.Password(
+                    tasksPasswordProcessType = TasksPasswordProcessType.ENTER_EXISTING_PASSWORD
+                )
+                return@launch
+            }
+
+            fetchTasksUiState()
         }
 
-    private fun fetchTasksByState(isCompleted: Boolean) =
+    fun fetchTasksUiState(categoryId: Long = -1L) {
+        selectedCategoryId.value = categoryId
+        startObservingTasksUiState()
+    }
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    private fun startObservingTasksUiState() {
+        if (isTasksUiStateObserved) return
+        isTasksUiStateObserved = true
+
         viewModelScope.launch {
-            getTasksByStateUseCase(isCompleted = isCompleted).map {
+            combine(
+                flow = selectedCategoryId.flatMapLatest { id ->
+                    getTasksDataUseCase(categoryId = id)
+                },
+                flow2 = _weatherInfo,
+            ) { tasks, weatherInfo ->
+                val tasksSystem = tasks.tasksSystem
+                val taskStateGroups = tasks.tasks.toTaskStateGroups(
+                    sortByType = tasksSystem.sortByType
+                )
+                val isVisibleCompletedTask =
+                    tasks.tasks.any { task ->
+                        task.isCompleted && task.completedAt?.toLocalDate() != LocalDate.now()
+                    }
+
                 TasksUiState.Screen(
-                    tasks = it.tasks.toPersistentList(),
-                    categories = it.categories.toPersistentList(),
-                    locale = it.tasksSystem.locale
+                    taskStateGroups = taskStateGroups,
+                    categories = tasks.categories.toPersistentList(),
+                    weatherInfo = weatherInfo,
+                    sortByType = tasksSystem.sortByType,
+                    locale = tasksSystem.locale,
+                    timePickerType = tasksSystem.timePickerType,
+                    isVisibleCompletedTask = isVisibleCompletedTask,
                 )
             }.catch { throwable ->
                 _errorFlow.emit(value = throwable)
@@ -70,50 +139,140 @@ class TasksViewModel @Inject constructor(
                 _uiState.value = it
             }
         }
+    }
 
-    private fun fetchTasksByDateRange(fromDate: LocalDate, toDate: LocalDate) =
+    fun fetchWeather() = viewModelScope.launch {
+        val coordinates = getCurrentLocationUseCase()
+        val latitude: Double
+        val longitude: Double
+
+        if (coordinates == null) {
+            val lastLocation = getLastLocationUseCase().first()
+            latitude = lastLocation.latitude
+            longitude = lastLocation.longitude
+        } else {
+            latitude = coordinates.latitude
+            longitude = coordinates.longitude
+            updateLastLocationUseCase(
+                latitude = latitude,
+                longitude = longitude
+            )
+        }
+
+        runCatching {
+            getOpenWeatherUseCase(
+                lat = latitude,
+                lon = longitude
+            )
+        }.onSuccess { weatherInfo ->
+            _weatherInfo.value = weatherInfo
+        }.onFailure { throwable ->
+            _errorFlow.emit(value = throwable)
+        }
+    }
+
+    fun checkPassword(password: String) =
         viewModelScope.launch {
-            getTasksByDateRangeUseCase(
-                fromDate = fromDate,
-                toDate = toDate
-            ).map {
-                TasksUiState.Screen(
-                    tasks = it.tasks.toPersistentList(),
-                    categories = it.categories.toPersistentList(),
-                    locale = it.tasksSystem.locale,
+            val isPasswordMatched =
+                checkPasswordUseCase(password = password).first()
+            if (isPasswordMatched) {
+                fetchTasksUiState()
+            } else {
+                val state = _uiState.value
+                if (state !is TasksUiState.Password) return@launch
+
+                _uiState.value = state.copy(
+                    tasksPasswordProcessType = TasksPasswordProcessType.EXISTING_PASSWORD_MISMATCHED
                 )
-            }.catch { throwable ->
-                _errorFlow.emit(value = throwable)
-            }.collect {
-                _uiState.value = it
             }
         }
 
-    private fun fetchAllTasks() =
+    fun deleteAllData() =
         viewModelScope.launch {
-            getAllTaskUseCase().map {
-                TasksUiState.Screen(
-                    tasks = it.tasks.toPersistentList(),
-                    categories = it.categories.toPersistentList(),
-                    locale = it.tasksSystem.locale
+            deleteAllDataUseCase()
+        }
+
+    fun executePasswordAuth() {
+        _uiState.value = TasksUiState.Password(
+            tasksPasswordProcessType = TasksPasswordProcessType.ENTER_EXISTING_PASSWORD
+        )
+    }
+
+    fun insertTask(task: Task) =
+        viewModelScope.launch {
+            insertTaskUseCase(task)
+        }
+
+    fun insertCategory(title: String, colorValue: Long) =
+        viewModelScope.launch {
+            val category = Category(
+                title = title,
+                colorValue = colorValue
+            )
+            insertCategoryUseCase(category = category)
+        }
+
+    fun updateTaskSymbol(taskId: Long, symbolId: Int) =
+        viewModelScope.launch {
+            updateTaskSymbolUseCase(
+                taskId = taskId,
+                symbolId = symbolId
+            )
+        }
+
+    fun updateTaskCompleted(id: Long, isCompleted: Boolean) =
+        viewModelScope.launch {
+            updateTaskCompletedUseCase(
+                id = id,
+                isCompleted = isCompleted
+            )
+        }
+
+    fun updateSubTaskCompleted(subTaskId: Long, isCompleted: Boolean) =
+        viewModelScope.launch {
+            updateSubTaskCompletedUseCase(
+                id = subTaskId,
+                isCompleted = isCompleted
+            )
+        }
+
+    fun updateSortByType(sortByType: SortByType) =
+        viewModelScope.launch {
+            updateSortByTypeUseCase(sortByType = sortByType)
+        }
+
+    private fun List<Task>.toTaskStateGroups(sortByType: SortByType): ImmutableList<TaskStateGroup> {
+        val (completedTasks, previousTasks) = partition { task -> task.isCompleted }
+        val completedTodayTasks = completedTasks.filter { task ->
+            task.completedAt?.toLocalDate() == LocalDate.now()
+        }
+
+        return listOfNotNull(
+            previousTasks.takeIf { it.isNotEmpty() }?.let { tasks ->
+                TaskStateGroup(
+                    taskState = TaskState.PREVIOUS,
+                    tasks = tasks.sortedBy(sortByType).toUiModels()
                 )
-            }.catch { throwable ->
-                _errorFlow.emit(value = throwable)
-            }.collect {
-                _uiState.value = it
+            },
+            completedTodayTasks.takeIf { it.isNotEmpty() }?.let { tasks ->
+                TaskStateGroup(
+                    taskState = TaskState.COMPLETED_TODAY,
+                    tasks = tasks.sortedBy(sortByType).toUiModels()
+                )
             }
-        }
+        ).toPersistentList()
+    }
 
-    fun toggleTaskCompletion(taskId: Long, isCompleted: Boolean) =
-        viewModelScope.launch {
-            val task =
-                getTaskByIdUseCase(id = taskId).copy(isCompleted = isCompleted)
-            updateTaskUseCase(task = task)
-        }
+    private fun List<Task>.sortedBy(sortByType: SortByType): List<Task> =
+        when (sortByType) {
+            SortByType.DUE_DATE_AND_TIME ->
+                sortedWith(
+                    compareBy(
+                        { it.date },
+                        { it.time ?: LocalDateTime.MAX })
+                )
 
-    fun deleteTask(taskId: Long) =
-        viewModelScope.launch {
-            val task = getTaskByIdUseCase(id = taskId)
-            deleteTaskUseCase(task = task)
+            SortByType.TASK_CREATION_TIME_ASC -> sortedBy { it.createdAt }
+            SortByType.TASK_CREATION_TIME_DESC -> sortedByDescending { it.createdAt }
         }
 }

@@ -2,7 +2,6 @@ package com.example.manage_categories.model
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import com.example.model.Category
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 
@@ -13,6 +12,6 @@ sealed interface ManageCategoriesUiState {
 
     @Immutable
     data class Screen(
-        val categories: ImmutableList<Category> = persistentListOf()
+        val categoryUiModels: ImmutableList<ManageCategoryUiModel> = persistentListOf()
     ) : ManageCategoriesUiState
 }

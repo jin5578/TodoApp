@@ -1,9 +1,11 @@
 package com.example.model.calendar
 
-import com.example.model.SortTaskType
+import com.example.model.SortByType
+import com.example.model.TimePickerType
 import java.util.Locale
 
 data class CalendarSystem(
     val locale: Locale,
-    val sortTaskType: SortTaskType,
+    val sortByType: SortByType,
+    val timePickerType: TimePickerType
 )

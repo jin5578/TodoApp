@@ -37,13 +37,16 @@ include(
     ":core:utils"
 )
 include(
-    ":feature:add-task",
     ":feature:calendar",
+    ":feature:completed-tasks",
     ":feature:edit-task",
-    ":feature:home",
+    ":feature:github-auth",
     ":feature:lock-setup",
     ":feature:main",
     ":feature:manage-categories",
+    ":feature:memo",
+    ":feature:profile",
+    ":feature:search-task",
     ":feature:security",
     ":feature:setting",
     ":feature:tasks"

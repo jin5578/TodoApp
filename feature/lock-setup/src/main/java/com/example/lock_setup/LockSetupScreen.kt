@@ -61,7 +61,7 @@ internal fun LockSetupScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.background
                 ),
                 title = {},
                 navigationIcon = {
@@ -70,7 +70,7 @@ internal fun LockSetupScreen(
                             modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 },
@@ -82,7 +82,7 @@ internal fun LockSetupScreen(
                             modifier = modifier.size(size = 21.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_unlock),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -104,8 +104,8 @@ internal fun LockSetupScreen(
                     getTitle(lockSetupProcessType = lockSetupProcessType)
                 Text(
                     text = title,
-                    style = TodoTheme.typography.headlineSmall,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    style = TodoTheme.typography.bold_16,
+                    color = MaterialTheme.colorScheme.onBackground,
                     textAlign = TextAlign.Center
                 )
 

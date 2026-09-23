@@ -2,9 +2,13 @@ package com.example.data.di
 
 import com.example.database.datasource.CategoryDatabaseDataSource
 import com.example.database.datasource.DefaultCategoryDatabaseDataSource
+import com.example.database.datasource.DefaultSubTaskDatabaseDataSource
 import com.example.database.datasource.DefaultTaskDatabaseDataSource
+import com.example.database.datasource.SubTaskDatabaseDataSource
 import com.example.database.datasource.TaskDatabaseDataSource
+import com.example.datastore.datasource.DefaultGithubTokenDataSource
 import com.example.datastore.datasource.DefaultSystemPreferencesDataSource
+import com.example.datastore.datasource.GithubTokenDataSource
 import com.example.datastore.datasource.SystemPreferencesDataSource
 import dagger.Binds
 import dagger.Module
@@ -23,6 +27,12 @@ internal abstract class DataModule {
 
     @Binds
     @Singleton
+    abstract fun bindsGithubTokenDataSource(
+        dataSource: DefaultGithubTokenDataSource,
+    ): GithubTokenDataSource
+
+    @Binds
+    @Singleton
     abstract fun bindsCategoryDatabaseDataSource(
         dataSource: DefaultCategoryDatabaseDataSource
     ): CategoryDatabaseDataSource
@@ -32,4 +42,10 @@ internal abstract class DataModule {
     abstract fun bindsTaskDatabaseDataSource(
         dataSource: DefaultTaskDatabaseDataSource
     ): TaskDatabaseDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsSubTaskDatabaseDataSource(
+        dataSource: DefaultSubTaskDatabaseDataSource
+    ): SubTaskDatabaseDataSource
 }

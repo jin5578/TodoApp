@@ -13,4 +13,5 @@ kotlin {
 }
 dependencies {
     implementation(libs.androidx.annotation.jvm)
+    api(libs.kotlinx.immutable)
 }

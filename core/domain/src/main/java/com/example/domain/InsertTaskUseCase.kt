@@ -10,7 +10,7 @@ class InsertTaskUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(task: Task) {
         taskRepository.insertTask(task = task)
-        if (task.isRemind) {
+        if (task.reminderTime != null) {
             scheduleNotificationWorkUseCase(task = task)
         }
     }

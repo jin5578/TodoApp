@@ -1,9 +1,11 @@
 package com.example.setting
 
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.rememberScrollState
@@ -23,9 +25,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -57,13 +57,14 @@ internal fun SettingScreen(
     timePickerType: TimePickerType,
     buildVersion: String,
     hasExistingPassword: Boolean,
-    navigateManageCategories: () -> Unit,
-    navigateSecurity: () -> Unit,
-    popBackStack: () -> Unit,
     openUrl: (String) -> Unit,
     onLanguageTypeChanged: (LanguageType) -> Unit,
     onThemeTypeChanged: (ThemeType) -> Unit,
-    onTimePickerTypeChanged: (TimePickerType) -> Unit
+    onTimePickerTypeChanged: (TimePickerType) -> Unit,
+    navigateManageCategories: () -> Unit,
+    navigateSecurity: () -> Unit,
+    navigateGithubAuth: () -> Unit,
+    popBackStack: () -> Unit,
 ) {
     val scrollState = rememberScrollState()
 
@@ -112,29 +113,28 @@ internal fun SettingScreen(
                 if (hasExistingPassword) DesignSystemR.drawable.svg_lock
                 else DesignSystemR.drawable.svg_unlock,
             onClick = navigateSecurity
-        )
+        ),
+        CategoryItemUiState(
+            titleResId = DesignSystemR.string.github_connect,
+            iconResId = DesignSystemR.drawable.svg_github,
+            onClick = navigateGithubAuth
+        ),
     )
 
     Scaffold(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.background
                 ),
-                title = {
-                    Text(
-                        text = stringResource(id = DesignSystemR.string.settings),
-                        style = TodoTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
-                    )
-                },
+                title = {},
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
                         Icon(
                             modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
+                            tint = MaterialTheme.colorScheme.onBackground
                         )
                     }
                 }
@@ -145,7 +145,7 @@ internal fun SettingScreen(
             ModalBottomSheet(
                 onDismissRequest = { showBottomSheet = BottomSheetType.IDLE },
                 sheetState = bottomSheetState,
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                containerColor = MaterialTheme.colorScheme.background,
             ) {
                 Box() {
                     when (showBottomSheet) {
@@ -176,30 +176,31 @@ internal fun SettingScreen(
 
         Column(
             modifier = modifier.fillMaxSize()
-                .padding(paddingValues = paddingValues),
-            verticalArrangement = Arrangement.SpaceBetween,
-            horizontalAlignment = Alignment.CenterHorizontally
+                .padding(paddingValues = paddingValues)
+                .padding(top = 40.dp, bottom = 20.dp)
+                .verticalScroll(state = scrollState),
         ) {
-            Column(
-                modifier = Modifier.verticalScroll(state = scrollState),
-                verticalArrangement = Arrangement.spacedBy(space = 24.dp),
-            ) {
-                SettingCategory(
-                    titleResId = DesignSystemR.string.info,
-                    category = infoCategory,
-                )
-
-                SettingCategory(
-                    titleResId = DesignSystemR.string.system_setting,
-                    category = systemCategory,
-                )
-            }
-
             Text(
-                modifier = Modifier.padding(bottom = 20.dp),
-                text = "Version $buildVersion",
-                style = TodoTheme.typography.infoDescTextStyle,
-                color = MaterialTheme.colorScheme.onSurface,
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 20.dp),
+                text = stringResource(
+                    id = DesignSystemR.string.settings
+                ),
+                style = TodoTheme.typography.bold_20,
+                color = MaterialTheme.colorScheme.onBackground
+            )
+
+            Spacer(modifier = Modifier.height(height = 40.dp))
+
+            SettingCategory(
+                titleResId = DesignSystemR.string.info,
+                category = infoCategory,
+            )
+
+            Spacer(modifier = Modifier.height(height = 20.dp))
+
+            SettingCategory(
+                titleResId = DesignSystemR.string.system_setting,
+                category = systemCategory,
             )
         }
     }
@@ -215,13 +216,14 @@ private fun SettingScreenPreview() {
             timePickerType = TimePickerType.SCROLL_TIME_PICKER,
             buildVersion = "1.0.0",
             hasExistingPassword = true,
-            navigateManageCategories = {},
-            navigateSecurity = {},
-            popBackStack = {},
             openUrl = {},
             onLanguageTypeChanged = {},
             onThemeTypeChanged = {},
-            onTimePickerTypeChanged = {}
+            onTimePickerTypeChanged = {},
+            navigateManageCategories = {},
+            navigateSecurity = {},
+            navigateGithubAuth = {},
+            popBackStack = {},
         )
     }
 }

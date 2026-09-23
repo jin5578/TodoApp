@@ -43,8 +43,8 @@ fun NumberPadButton(
         if (title.isNotEmpty()) {
             Text(
                 text = title,
-                style = TodoTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.onSurface
+                style = TodoTheme.typography.bold_20,
+                color = MaterialTheme.colorScheme.onBackground
             )
         }
     }

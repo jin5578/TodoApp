@@ -8,16 +8,16 @@ import com.example.edit_task.EditTaskRoute
 import com.example.navigation.Route
 
 fun NavGraphBuilder.editTaskNavGraph(
+    navigateManageCategories: () -> Unit,
+    navigateMemo: (Long) -> Unit,
     popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) = composable<Route.EditTask> { navBackStackEntry ->
     val taskId = navBackStackEntry.toRoute<Route.EditTask>().taskId
     EditTaskRoute(
         taskId = taskId,
+        navigateManageCategories = navigateManageCategories,
+        navigateMemo = navigateMemo,
         popBackStack = popBackStack,
-        onShowErrorSnackbar = onShowErrorSnackbar,
-        onShowMessageSnackbar = onShowMessageSnackbar
     )
 }
 

@@ -30,6 +30,7 @@ dependencies {
     implementation(project(":core:domain"))
     implementation(project(":core:model"))
     implementation(project(":core:navigation"))
+    implementation(project(":core:utils"))
 
     implementation(libs.kotlinx.immutable)
     implementation(libs.kotlinx.coroutines.core)
@@ -40,12 +41,20 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.navigation)
+    implementation(libs.androidx.activity.compose)
 
     implementation(libs.androidx.lifecycle.runtime.ktx)
 
     implementation(libs.hilt.android)
     implementation(libs.hilt.navigation.compose)
     ksp(libs.hilt.android.compiler)
+
+    implementation(libs.androidx.biometric)
+
+    implementation(libs.timber)
+
+    implementation(libs.coil.compose)
+    implementation(libs.coil.network.okhttp)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

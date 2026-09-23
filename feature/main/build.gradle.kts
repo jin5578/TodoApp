@@ -37,12 +37,15 @@ dependencies {
     implementation(project(":core:navigation"))
     implementation(project(":core:utils"))
 
-    implementation(project(":feature:add-task"))
     implementation(project(":feature:calendar"))
+    implementation(project(":feature:completed-tasks"))
     implementation(project(":feature:edit-task"))
-    implementation(project(":feature:home"))
+    implementation(project(":feature:github-auth"))
     implementation(project(":feature:lock-setup"))
     implementation(project(":feature:manage-categories"))
+    implementation(project(":feature:memo"))
+    implementation(project(":feature:profile"))
+    implementation(project(":feature:search-task"))
     implementation(project(":feature:security"))
     implementation(project(":feature:setting"))
     implementation(project(":feature:tasks"))
@@ -53,8 +56,10 @@ dependencies {
     implementation(libs.androidx.core.splashscreen)
 
     implementation(platform(libs.androidx.compose.bom))
+    implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.navigation)
 
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -2,7 +2,6 @@ package com.example.setting.component
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -12,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -38,14 +36,13 @@ internal fun SettingCategory(
     category: ImmutableList<CategoryItemUiState>
 ) {
     Column(
-        modifier = modifier.padding(horizontal = 16.dp, vertical = 0.dp),
-        verticalArrangement = Arrangement.spacedBy(space = 8.dp)
+        verticalArrangement = Arrangement.spacedBy(space = 10.dp)
     ) {
         Text(
-            modifier = Modifier.padding(start = 8.dp),
+            modifier = Modifier.padding(horizontal = 20.dp),
             text = stringResource(id = titleResId),
-            style = TodoTheme.typography.infoDescTextStyle,
-            color = MaterialTheme.colorScheme.onSurface
+            style = TodoTheme.typography.bold_20,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Column {
@@ -56,7 +53,7 @@ internal fun SettingCategory(
                     onClick = state.onClick
                 )
                 if (index != category.lastIndex)
-                    Spacer(modifier = Modifier.height(height = 4.dp))
+                    Spacer(modifier = Modifier.height(height = 5.dp))
             }
         }
     }
@@ -72,11 +69,7 @@ private fun SettingCategoryItem(
     Row(
         modifier = modifier.fillMaxWidth()
             .clickable { onClick() }
-            .background(
-                color = MaterialTheme.colorScheme.secondaryContainer,
-                shape = RoundedCornerShape(size = 8.dp)
-            )
-            .padding(all = 16.dp),
+            .padding(horizontal = 20.dp, vertical = 10.dp),
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(space = 10.dp)
     ) {
@@ -84,21 +77,21 @@ private fun SettingCategoryItem(
             modifier = Modifier.size(size = 18.dp),
             painter = painterResource(id = iconResId),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSecondaryContainer,
+            tint = MaterialTheme.colorScheme.onBackground,
         )
 
         Text(
             modifier = Modifier.weight(weight = 1f),
             text = stringResource(id = titleResId),
-            style = TodoTheme.typography.infoTextStyle,
-            color = MaterialTheme.colorScheme.onSecondaryContainer
+            style = TodoTheme.typography.medium_16,
+            color = MaterialTheme.colorScheme.onBackground
         )
 
         Icon(
             modifier = Modifier.size(size = 18.dp),
             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_right_twin),
             contentDescription = null,
-            tint = MaterialTheme.colorScheme.onSecondaryContainer
+            tint = MaterialTheme.colorScheme.onBackground
         )
     }
 }

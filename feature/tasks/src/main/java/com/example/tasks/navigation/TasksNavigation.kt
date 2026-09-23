@@ -2,27 +2,28 @@ package com.example.tasks.navigation
 
 import androidx.navigation.NavController
 import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavOptions
 import androidx.navigation.compose.composable
-import androidx.navigation.toRoute
-import com.example.model.toTasksType
 import com.example.navigation.Route
 import com.example.tasks.TasksRoute
 
 fun NavGraphBuilder.tasksNavGraph(
-    popBackStack: () -> Unit,
+    exitApp: () -> Unit,
     navigateEditTask: (Long) -> Unit,
-    onShowErrorSnackBar: (Throwable?) -> Unit,
-    onShowMessageSnackBar: (String) -> Unit,
-) = composable<Route.Tasks> { navBackStackEntry ->
-    val type = navBackStackEntry.toRoute<Route.Tasks>().type.toTasksType()
+    navigateCompletedTasks: () -> Unit,
+    navigateSearchTask: () -> Unit,
+    navigateManageCategories: () -> Unit,
+    navigateSetting: () -> Unit,
+) = composable<Route.Tasks> {
     TasksRoute(
-        type = type,
-        popBackStack = popBackStack,
+        exitApp = exitApp,
         navigateEditTask = navigateEditTask,
-        onShowErrorSnackbar = onShowErrorSnackBar,
-        onShowMessageSnackbar = onShowMessageSnackBar
+        navigateCompletedTasks = navigateCompletedTasks,
+        navigateSearchTask = navigateSearchTask,
+        navigateManageCategories = navigateManageCategories,
+        navigateSetting = navigateSetting
     )
 }
 
-fun NavController.navigateTasks(type: String) =
-    navigate(route = Route.Tasks(type = type))
+fun NavController.navigateTasks(navOptions: NavOptions? = null) =
+    navigate(route = Route.Tasks, navOptions = navOptions)

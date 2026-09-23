@@ -14,18 +14,15 @@ class ScheduleNotificationWorkUseCase @Inject constructor(
     private val workManager: WorkManager,
 ) {
     operator fun invoke(task: Task) {
-        val startDateTimeSec =
-            LocalDateTime.of(
-                task.date,
-                task.time
-            ).toEpochSecond(ZoneOffset.UTC)
+        val reminderDateTime = task.reminderTime ?: return
+
+        val reminderDateTimeSec =
+            reminderDateTime.toEpochSecond(ZoneOffset.UTC)
 
         val currentDateTimeSec =
             LocalDateTime.now().toEpochSecond(ZoneOffset.UTC)
 
-        val minutesBefore =
-            TimeUnit.MINUTES.toSeconds(task.reminderTime.toLong())
-        val delaySec = startDateTimeSec - currentDateTimeSec - minutesBefore
+        val delaySec = reminderDateTimeSec - currentDateTimeSec
         if (delaySec > 0) {
             val data = Data.Builder()
                 .putString(ID, task.uuid)

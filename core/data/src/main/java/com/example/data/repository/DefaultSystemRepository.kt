@@ -1,16 +1,20 @@
 package com.example.data.repository
 
+import android.location.Location
 import com.example.data_api.repository.SystemRepository
 import com.example.datastore.datasource.SystemPreferencesDataSource
 import com.example.model.LanguageType
-import com.example.model.SortTaskType
+import com.example.model.SortByType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
-import com.example.model.addtask.AddTaskSystem
+import com.example.model.add_task.AddTaskSystem
 import com.example.model.calendar.CalendarSystem
-import com.example.model.edittask.EditTaskSystem
-import com.example.model.home.HomeSystem
+import com.example.model.completed_tasks.CompletedTasksSystem
+import com.example.model.edit_task.EditTaskSystem
 import com.example.model.lock_setup.LockSetupSystem
+import com.example.model.memo.MemoSystem
+import com.example.model.profile.ProfileSystem
+import com.example.model.search_task.SearchTaskSystem
 import com.example.model.security.SecuritySystem
 import com.example.model.setting.SettingSystem
 import com.example.model.tasks.TasksSystem
@@ -31,17 +35,6 @@ class DefaultSystemRepository @Inject constructor(
     override fun getThemeType(): Flow<ThemeType> =
         systemDataSource.systemData.map { data ->
             data.themeType.toThemeType()
-        }
-
-    override fun getHomeSystem(): Flow<HomeSystem> =
-        systemDataSource.systemData.map { data ->
-            HomeSystem(
-                sleepTime = LocalTime.parse(data.sleepTime),
-                sortTaskType = data.sortTaskType.toSortTaskType(),
-                themeType = data.themeType.toThemeType(),
-                buildVersion = data.buildVersion,
-                locale = data.locale.toLocale(),
-            )
         }
 
     override fun getSettingSystem(): Flow<SettingSystem> =
@@ -72,18 +65,28 @@ class DefaultSystemRepository @Inject constructor(
             )
         }
 
+    override fun getMemoSystem(): Flow<MemoSystem> =
+        systemDataSource.systemData.map { data ->
+            MemoSystem(
+                locale = data.locale.toLocale(),
+            )
+        }
+
     override fun getCalendarSystem(): Flow<CalendarSystem> =
         systemDataSource.systemData.map { data ->
             CalendarSystem(
                 locale = data.locale.toLocale(),
-                sortTaskType = data.sortTaskType.toSortTaskType()
+                sortByType = data.sortByType.toSortByType(),
+                timePickerType = data.timePickerType.toTimePickerType(),
             )
         }
 
     override fun getTasksSystem(): Flow<TasksSystem> =
         systemDataSource.systemData.map { data ->
             TasksSystem(
-                locale = data.locale.toLocale()
+                sortByType = data.sortByType.toSortByType(),
+                locale = data.locale.toLocale(),
+                timePickerType = data.timePickerType.toTimePickerType(),
             )
         }
 
@@ -103,6 +106,27 @@ class DefaultSystemRepository @Inject constructor(
             )
         }
 
+    override fun getCompletedTasksSystem(): Flow<CompletedTasksSystem> =
+        systemDataSource.systemData.map { data ->
+            CompletedTasksSystem(
+                locale = data.locale.toLocale()
+            )
+        }
+
+    override fun getSearchTaskSystem(): Flow<SearchTaskSystem> =
+        systemDataSource.systemData.map { data ->
+            SearchTaskSystem(
+                locale = data.locale.toLocale()
+            )
+        }
+
+    override fun getProfileSystem(): Flow<ProfileSystem> =
+        systemDataSource.systemData.map { data ->
+            ProfileSystem(
+                locale = data.locale.toLocale()
+            )
+        }
+
     override fun hasExistingPassword(): Flow<Boolean> =
         systemDataSource.systemData.map { data ->
             data.password.isNotEmpty()
@@ -113,8 +137,18 @@ class DefaultSystemRepository @Inject constructor(
             data.isBiometricEnabled
         }
 
-    override suspend fun updateSortTaskType(sortTaskType: SortTaskType) =
-        systemDataSource.updateSortTaskType(sortTaskType = sortTaskType.key)
+    override fun getLastLocation(): Flow<Location> =
+        systemDataSource.systemData.map { data ->
+            val latitude = data.lastLatitude
+            val longitude = data.lastLongitude
+            Location("").apply {
+                this.latitude = latitude
+                this.longitude = longitude
+            }
+        }
+
+    override suspend fun updateSortByType(sortByType: SortByType) =
+        systemDataSource.updateSortByType(sortByType = sortByType.key)
 
     override suspend fun updateLanguage(languageType: LanguageType) =
         systemDataSource.updateLanguage(languageType = languageType.key)
@@ -134,6 +168,14 @@ class DefaultSystemRepository @Inject constructor(
     override suspend fun updateBiometricEnabled(enabled: Boolean) =
         systemDataSource.updateBiometricEnabled(enabled = enabled)
 
+    override suspend fun updateLastLocation(
+        latitude: Double,
+        longitude: Double
+    ) = systemDataSource.updateLastLocation(
+        latitude = latitude,
+        longitude = longitude
+    )
+
     override suspend fun deleteAllData() =
         systemDataSource.deleteAllData()
 
@@ -150,20 +192,19 @@ class DefaultSystemRepository @Inject constructor(
     private fun String.toThemeType() = when (this) {
         ThemeType.SYSTEM.key -> ThemeType.SYSTEM
         ThemeType.SUN_RISE.key -> ThemeType.SUN_RISE
-        ThemeType.SKY_BLUE.key -> ThemeType.SKY_BLUE
-        ThemeType.MIST_GRAY.key -> ThemeType.MIST_GRAY
-        ThemeType.MIDNIGHT_BLUE.key -> ThemeType.MIDNIGHT_BLUE
-        ThemeType.CHARCOAL_BLACK.key -> ThemeType.CHARCOAL_BLACK
-        else -> ThemeType.DEEP_FOREST_GREEN
+        ThemeType.OCEAN.key -> ThemeType.OCEAN
+        ThemeType.MEADOW.key -> ThemeType.MEADOW
+        ThemeType.MIDNIGHT.key -> ThemeType.MIDNIGHT
+        ThemeType.DEEP_SPACE.key -> ThemeType.DEEP_SPACE
+        else -> ThemeType.EMBER
     }
 
-    private fun String.toSortTaskType() = when (this) {
-        SortTaskType.BY_PRIORITY_ASCENDING.key -> SortTaskType.BY_PRIORITY_ASCENDING
-        SortTaskType.BY_PRIORITY_DESCENDING.key -> SortTaskType.BY_PRIORITY_DESCENDING
-        SortTaskType.BY_TIME_ASCENDING.key -> SortTaskType.BY_TIME_ASCENDING
-        SortTaskType.BY_TIME_DESCENDING.key -> SortTaskType.BY_TIME_DESCENDING
-        SortTaskType.BY_CREATE_TIME_ASCENDING.key -> SortTaskType.BY_CREATE_TIME_ASCENDING
-        else -> SortTaskType.BY_CREATE_TIME_DESCENDING
+    private fun String.toSortByType() = when (this) {
+        SortByType.DUE_DATE_AND_TIME.key -> SortByType.DUE_DATE_AND_TIME
+        SortByType.TASK_CREATION_TIME_ASC.key -> SortByType.TASK_CREATION_TIME_ASC
+        else -> SortByType.TASK_CREATION_TIME_DESC
+        /*SortByType.TASK_CREATION_TIME_DESC.key -> SortByType.TASK_CREATION_TIME_DESC
+        else -> SortByType.MANUAL*/
     }
 
     private fun String.toTimePickerType() = when (this) {

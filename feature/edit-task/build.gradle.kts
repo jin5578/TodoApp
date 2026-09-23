@@ -50,4 +50,6 @@ dependencies {
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
+
+    implementation(libs.timber)
 }

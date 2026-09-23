@@ -1,51 +1,39 @@
 package com.example.main
 
+import androidx.compose.foundation.layout.consumeWindowInsets
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalResources
-import kotlinx.coroutines.launch
-import java.net.UnknownHostException
-import com.example.design_system.R as DesignSystemR
+import com.example.design_system.utils.LocalHideBottomBar
+import com.example.design_system.utils.LocalSnackbarHostState
+import com.example.design_system.utils.LocalSnackbarScope
+import com.example.main.component.MainBottomNavigationBar
+import com.example.main.navigation.MainNavHost
+import com.example.main.navigation.MainNavigator
+import com.example.main.navigation.rememberMainNavigator
+import kotlinx.coroutines.CoroutineScope
 
 @Composable
 internal fun MainRoute(
     navigator: MainNavigator = rememberMainNavigator(),
 ) {
     val snackbarHostState = remember { SnackbarHostState() }
-    val coroutineScope = rememberCoroutineScope()
-
-    val localContextResources = LocalResources.current
-
-    val onShowErrorSnackbar: (throwable: Throwable?) -> Unit = { throwable ->
-        coroutineScope.launch {
-            snackbarHostState.showSnackbar(
-                message = when (throwable) {
-                    is UnknownHostException -> localContextResources.getString(
-                        DesignSystemR.string.error_message_unknown
-                    )
-
-                    else -> localContextResources.getString(DesignSystemR.string.error_message_network)
-                }
-            )
-        }
-    }
-
-    val onShowMessageSnackbar: (message: String) -> Unit = { message ->
-        coroutineScope.launch {
-            snackbarHostState.showSnackbar(message = message)
-        }
-    }
+    val snackbarScope = rememberCoroutineScope()
+    val hideBottomBar = remember { mutableStateOf(value = false) }
 
     MainScreen(
         navigator = navigator,
         snackbarHostState = snackbarHostState,
-        onShowErrorSnackbar = onShowErrorSnackbar,
-        onShowMessageSnackbar = onShowMessageSnackbar,
+        snackbarScope = snackbarScope,
+        hideBottomBar = hideBottomBar,
     )
 }
 
@@ -54,18 +42,34 @@ private fun MainScreen(
     modifier: Modifier = Modifier,
     navigator: MainNavigator,
     snackbarHostState: SnackbarHostState,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
+    snackbarScope: CoroutineScope,
+    hideBottomBar: MutableState<Boolean>,
 ) {
-    Scaffold(
-        modifier = modifier,
-        content = { _ ->
-            MainNavHost(
-                navigator = navigator,
-                onShowErrorSnackbar = onShowErrorSnackbar,
-                onShowMessageSnackbar = onShowMessageSnackbar,
-            )
-        },
-        snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
-    )
+    CompositionLocalProvider(
+        LocalSnackbarHostState provides snackbarHostState,
+        LocalSnackbarScope provides snackbarScope,
+        LocalHideBottomBar provides hideBottomBar,
+    ) {
+        Scaffold(
+            modifier = modifier,
+            content = { innerPadding ->
+                MainNavHost(
+                    modifier = Modifier
+                        .padding(paddingValues = innerPadding)
+                        .consumeWindowInsets(paddingValues = innerPadding),
+                    navigator = navigator,
+                )
+            },
+            bottomBar = {
+                val currentTab = navigator.currentTab
+                if (currentTab != null && !hideBottomBar.value) {
+                    MainBottomNavigationBar(
+                        selectedTab = currentTab,
+                        onTabClick = { tab -> navigator.navigateTab(tab = tab) },
+                    )
+                }
+            },
+            snackbarHost = { SnackbarHost(hostState = snackbarHostState) }
+        )
+    }
 }

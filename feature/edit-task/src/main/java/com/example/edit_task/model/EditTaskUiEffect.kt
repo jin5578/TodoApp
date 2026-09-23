@@ -9,8 +9,5 @@ sealed interface EditTaskUiEffect {
     data object Idle : EditTaskUiEffect
 
     @Immutable
-    data object SuccessEditTask : EditTaskUiEffect
-
-    @Immutable
     data object SuccessDeleteTask : EditTaskUiEffect
 }

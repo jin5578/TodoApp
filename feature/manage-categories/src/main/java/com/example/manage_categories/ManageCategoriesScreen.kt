@@ -1,7 +1,11 @@
 package com.example.manage_categories
 
-import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
@@ -10,54 +14,44 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.design_system.component.EmptyContent
-import com.example.design_system.component.Loading
+import com.example.design_system.component.dialog.category.CategoryDialog
 import com.example.design_system.theme.TodoTheme
-import com.example.manage_categories.component.AddCategoryBottomSheetContent
 import com.example.manage_categories.component.CategoryCard
-import com.example.manage_categories.component.EditCategoryBottomSheetContent
-import com.example.manage_categories.model.BottomSheetType
-import com.example.manage_categories.model.ManageCategoriesUiState
-import com.example.model.Category
+import com.example.manage_categories.model.ManageCategoryUiModel
 import com.example.model.CategoryColorType
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import kotlinx.coroutines.flow.collectLatest
 import com.example.design_system.R as DesignSystemR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun ManageCategoriesScreen(
-    categories: ImmutableList<Category>,
-    popBackStack: () -> Unit,
+    modifier: Modifier = Modifier,
+    categoryUiModels: ImmutableList<ManageCategoryUiModel>,
     onCategoryAdd: (title: String, type: CategoryColorType) -> Unit,
     onCategoryDelete: (Long) -> Unit,
     onCategoryUpdate: (id: Long, title: String, type: CategoryColorType) -> Unit,
+    popBackStack: () -> Unit,
 ) {
-    val bottomSheetState = rememberModalBottomSheetState()
-    var showBottomSheet by remember { mutableStateOf(value = BottomSheetType.IDLE) }
+    var isShowAddCategoryDialog by remember { mutableStateOf(value = false) }
+    var isShowEditCategoryDialog by remember { mutableStateOf(value = false) }
 
     var editId by remember { mutableLongStateOf(value = 0L) }
     var editTitle by remember { mutableStateOf(value = "") }
@@ -67,101 +61,65 @@ internal fun ManageCategoriesScreen(
         topBar = {
             TopAppBar(
                 colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = Color.Transparent
+                    containerColor = MaterialTheme.colorScheme.background
                 ),
                 title = {
                     Text(
-                        text = stringResource(id = DesignSystemR.string.category),
-                        style = TodoTheme.typography.headlineMedium,
-                        color = MaterialTheme.colorScheme.onSurface,
+                        text = stringResource(id = DesignSystemR.string.manage_categories),
+                        style = TodoTheme.typography.bold_20,
+                        color = MaterialTheme.colorScheme.onBackground,
                     )
                 },
                 navigationIcon = {
                     IconButton(onClick = popBackStack) {
                         Icon(
-                            modifier = Modifier.size(size = 24.dp),
+                            modifier = modifier.size(size = 24.dp),
                             imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface,
+                            tint = MaterialTheme.colorScheme.onBackground,
                         )
                     }
                 },
-                actions = {
-                    IconButton(
-                        onClick = {
-                            showBottomSheet = BottomSheetType.ADD_CATEGORY
-                        }
-                    ) {
-                        Icon(
-                            modifier = Modifier.size(size = 21.dp),
-                            imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_add_category),
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSurface
-                        )
-                    }
-                }
             )
         }
     ) { paddingValues ->
-        if (showBottomSheet != BottomSheetType.IDLE) {
-            ModalBottomSheet(
-                onDismissRequest = { showBottomSheet = BottomSheetType.IDLE },
-                sheetState = bottomSheetState,
-                containerColor = MaterialTheme.colorScheme.secondaryContainer,
-            ) {
-                Box() {
-                    when (showBottomSheet) {
-                        BottomSheetType.ADD_CATEGORY -> {
-                            AddCategoryBottomSheetContent(
-                                onCancelClick = {
-                                    showBottomSheet = BottomSheetType.IDLE
-                                },
-                                onCreateClick = { title, type ->
-                                    onCategoryAdd(title, type)
-                                    showBottomSheet = BottomSheetType.IDLE
-                                }
-                            )
-                        }
-
-                        else -> {
-                            EditCategoryBottomSheetContent(
-                                id = editId,
-                                title = editTitle,
-                                type = editColorType,
-                                onCancelClick = {
-                                    showBottomSheet = BottomSheetType.IDLE
-                                },
-                                onEditClick = { id, title, type ->
-                                    onCategoryUpdate(
-                                        id,
-                                        title,
-                                        type
-                                    )
-                                    showBottomSheet = BottomSheetType.IDLE
-                                }
-                            )
-                        }
-                    }
+        if (isShowAddCategoryDialog) {
+            CategoryDialog(
+                titleResId = DesignSystemR.string.create_new_category,
+                onCloseClick = { isShowAddCategoryDialog = false },
+                onSaveClick = { title, type ->
+                    onCategoryAdd(title, type)
+                    isShowAddCategoryDialog = false
                 }
-            }
+            )
         }
 
-        if (categories.isEmpty()) {
-            EmptyContent(
-                modifier = Modifier.fillMaxSize(),
-                title = stringResource(id = DesignSystemR.string.no_categories)
+        if (isShowEditCategoryDialog) {
+            CategoryDialog(
+                titleResId = DesignSystemR.string.edit_category,
+                id = editId,
+                categoryTitle = editTitle,
+                categoryColorType = editColorType,
+                onCloseClick = { isShowEditCategoryDialog = false },
+                onUpdateClick = { id, title, type ->
+                    onCategoryUpdate(id, title, type)
+                    isShowEditCategoryDialog = false
+                }
             )
-        } else {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-                    .padding(paddingValues = paddingValues)
-            ) {
+        }
+
+        Column(
+            modifier = modifier.fillMaxSize()
+                .padding(paddingValues = paddingValues)
+        ) {
+            LazyColumn() {
                 itemsIndexed(
-                    items = categories,
-                    key = { _, category ->
-                        category.id
+                    items = categoryUiModels,
+                    key = { _, categoryUiModel ->
+                        categoryUiModel.category.id
                     }
-                ) { _, category ->
+                ) { _, categoryUiModel ->
+                    val category = categoryUiModel.category
                     val type = CategoryColorType.entries.filter {
                         it.colorValue == category.colorValue
                     }.getOrNull(index = 0) ?: CategoryColorType.RED
@@ -169,15 +127,40 @@ internal fun ManageCategoriesScreen(
                         id = category.id,
                         title = category.title,
                         type = type,
+                        taskCount = categoryUiModel.taskCount,
                         onEditClick = { id, title, type ->
                             editId = id
                             editTitle = title
                             editColorType = type
-                            showBottomSheet = BottomSheetType.EDIT_CATEGORY
+                            isShowEditCategoryDialog = true
                         },
                         onDeleteClick = onCategoryDelete
                     )
                 }
+            }
+
+            Row(
+                modifier = Modifier.fillMaxWidth()
+                    .clickable {
+                        isShowAddCategoryDialog = true
+                    }
+                    .padding(horizontal = 20.dp, vertical = 16.dp),
+                horizontalArrangement = Arrangement.spacedBy(space = 10.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Icon(
+                    modifier = Modifier.size(size = 20.dp),
+                    imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_plus_small),
+                    tint = MaterialTheme.colorScheme.onBackground,
+                    contentDescription = null,
+                )
+
+                Text(
+                    modifier = Modifier.weight(weight = 1f),
+                    text = stringResource(id = DesignSystemR.string.create_new),
+                    style = TodoTheme.typography.medium_16,
+                    color = MaterialTheme.colorScheme.onBackground
+                )
             }
         }
     }
@@ -188,11 +171,11 @@ internal fun ManageCategoriesScreen(
 private fun ManageCategoriesScreenPreview() {
     TodoTheme {
         ManageCategoriesScreen(
-            categories = persistentListOf(),
-            popBackStack = {},
+            categoryUiModels = persistentListOf(),
             onCategoryAdd = { _, _ -> },
             onCategoryDelete = {},
-            onCategoryUpdate = { _, _, _ -> }
+            onCategoryUpdate = { _, _, _ -> },
+            popBackStack = {},
         )
     }
 }

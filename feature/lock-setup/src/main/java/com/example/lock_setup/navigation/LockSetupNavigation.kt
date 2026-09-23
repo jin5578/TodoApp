@@ -8,13 +8,9 @@ import com.example.navigation.Route
 
 fun NavGraphBuilder.lockSetupNavGraph(
     popBackStack: () -> Unit,
-    onShowErrorSnackbar: (Throwable?) -> Unit,
-    onShowMessageSnackbar: (String) -> Unit,
 ) = composable<Route.LockSetup> {
     LockSetupRoute(
         popBackStack = popBackStack,
-        onShowErrorSnackbar = onShowErrorSnackbar,
-        onShowMessageSnackbar = onShowMessageSnackbar
     )
 }
 

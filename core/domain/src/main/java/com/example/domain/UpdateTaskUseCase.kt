@@ -14,7 +14,7 @@ class UpdateTaskUseCase @Inject constructor(
 
         cancelNotificationWorkUseCase(id = task.uuid)
 
-        if (task.isRemind && !task.isCompleted) {
+        if (task.reminderTime != null && !task.isCompleted) {
             scheduleNotificationWorkUseCase(task = task)
         }
     }
