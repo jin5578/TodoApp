@@ -23,6 +23,9 @@ jobs:
       - name: Set up Gradle
         uses: gradle/actions/setup-gradle@v4
 
+      - name: Check code formatting
+        run: ./gradlew spotlessCheck
+
       - name: Run unit tests, lint, and assemble debug build
         run: ./gradlew testDebugUnitTest lintDebug assembleDebug
 
