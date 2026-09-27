@@ -12,9 +12,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
-import com.example.design_system.utils.LocalHideBottomBar
-import com.example.design_system.utils.LocalSnackbarHostState
-import com.example.design_system.utils.LocalSnackbarScope
+import com.example.designSystem.utils.LocalHideBottomBar
+import com.example.designSystem.utils.LocalSnackbarHostState
+import com.example.designSystem.utils.LocalSnackbarScope
 import com.example.main.component.MainBottomNavigationBar
 import com.example.main.navigation.MainNavHost
 import com.example.main.navigation.MainNavigator

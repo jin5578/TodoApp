@@ -23,9 +23,9 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.theme.Green
-import com.example.design_system.theme.Red
-import com.example.design_system.theme.TodoTheme
+import com.example.designSystem.theme.Green
+import com.example.designSystem.theme.Red
+import com.example.designSystem.theme.TodoTheme
 import com.kizitonwose.calendar.core.WeekDay
 import com.kizitonwose.calendar.core.WeekDayPosition
 import java.time.LocalDate

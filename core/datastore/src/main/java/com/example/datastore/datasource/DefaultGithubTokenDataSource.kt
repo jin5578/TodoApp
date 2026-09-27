@@ -16,7 +16,7 @@ private const val GITHUB_TOKEN_KEY_ALIAS = "github_token_key"
 class DefaultGithubTokenDataSource
 @Inject
 constructor(
-    @Named(value = "github_token") private val dataStore: DataStore<Preferences>,
+    @Named(value = "githubToken") private val dataStore: DataStore<Preferences>,
 ) : GithubTokenDataSource {
     private val cipher = KeystoreTokenCipher(keyAlias = GITHUB_TOKEN_KEY_ALIAS)
 
@@ -49,7 +49,7 @@ constructor(
     }
 
     private object PreferencesKey {
-        val ACCESS_TOKEN_KEY = stringPreferencesKey(name = "access_token")
+        val ACCESS_TOKEN_KEY = stringPreferencesKey(name = "accessToken")
         val USERNAME_KEY = stringPreferencesKey(name = "username")
     }
 }

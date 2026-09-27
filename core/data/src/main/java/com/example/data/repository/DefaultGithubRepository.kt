@@ -2,7 +2,7 @@ package com.example.data.repository
 
 import com.example.data.remote.github.GithubDeviceCodeApi
 import com.example.data.remote.github.GithubGraphQlApi
-import com.example.data_api.repository.GithubRepository
+import com.example.dataApi.repository.GithubRepository
 import com.example.datastore.datasource.GithubTokenDataSource
 import com.example.model.github.GithubContributionDay
 import com.example.model.github.GithubDeviceCode

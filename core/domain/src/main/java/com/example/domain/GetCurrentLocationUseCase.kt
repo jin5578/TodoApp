@@ -1,6 +1,6 @@
 package com.example.domain
 
-import com.example.data_api.repository.LocationRepository
+import com.example.dataApi.repository.LocationRepository
 import com.example.model.location.Coordinates
 import javax.inject.Inject
 

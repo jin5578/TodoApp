@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.edit_task"
+    namespace = "com.example.editTask"
     compileSdk {
         version = release(37)
     }

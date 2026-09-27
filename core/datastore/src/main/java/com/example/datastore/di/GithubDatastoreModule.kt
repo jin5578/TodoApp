@@ -23,7 +23,7 @@ object GithubDatastoreModule {
 
     @Provides
     @Singleton
-    @Named(value = "github_token")
+    @Named(value = "githubToken")
     fun providesGithubTokenDataStore(
         @ApplicationContext context: Context,
     ): DataStore<Preferences> = context.githubTokenDataStore

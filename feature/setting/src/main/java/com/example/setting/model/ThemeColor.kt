@@ -1,22 +1,22 @@
 package com.example.setting.model
 
 import androidx.compose.ui.graphics.Color
-import com.example.design_system.theme.onPrimaryDeepSpace
-import com.example.design_system.theme.onPrimaryEmber
-import com.example.design_system.theme.onPrimaryMeadow
-import com.example.design_system.theme.onPrimaryMidnight
-import com.example.design_system.theme.onPrimaryOcean
-import com.example.design_system.theme.onPrimarySunRise
-import com.example.design_system.theme.onSurfaceMidnight
-import com.example.design_system.theme.onSurfaceSunRise
-import com.example.design_system.theme.primaryDeepSpace
-import com.example.design_system.theme.primaryEmber
-import com.example.design_system.theme.primaryMeadow
-import com.example.design_system.theme.primaryMidnight
-import com.example.design_system.theme.primaryOcean
-import com.example.design_system.theme.primarySunRise
-import com.example.design_system.theme.surfaceMidnight
-import com.example.design_system.theme.surfaceSunRise
+import com.example.designSystem.theme.onPrimaryDeepSpace
+import com.example.designSystem.theme.onPrimaryEmber
+import com.example.designSystem.theme.onPrimaryMeadow
+import com.example.designSystem.theme.onPrimaryMidnight
+import com.example.designSystem.theme.onPrimaryOcean
+import com.example.designSystem.theme.onPrimarySunRise
+import com.example.designSystem.theme.onSurfaceMidnight
+import com.example.designSystem.theme.onSurfaceSunRise
+import com.example.designSystem.theme.primaryDeepSpace
+import com.example.designSystem.theme.primaryEmber
+import com.example.designSystem.theme.primaryMeadow
+import com.example.designSystem.theme.primaryMidnight
+import com.example.designSystem.theme.primaryOcean
+import com.example.designSystem.theme.primarySunRise
+import com.example.designSystem.theme.surfaceMidnight
+import com.example.designSystem.theme.surfaceSunRise
 
 enum class ThemeColor(
     val backgroundColor: Color,

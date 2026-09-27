@@ -1,6 +1,6 @@
 package com.example.domain
 
-import com.example.data_api.repository.OpenWeatherRepository
+import com.example.dataApi.repository.OpenWeatherRepository
 import javax.inject.Inject
 
 class GetOpenWeatherUseCase

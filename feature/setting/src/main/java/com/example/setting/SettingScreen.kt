@@ -31,7 +31,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.theme.TodoTheme
+import com.example.designSystem.theme.TodoTheme
 import com.example.model.LanguageType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
@@ -42,7 +42,7 @@ import com.example.setting.component.SettingTimePickerContent
 import com.example.setting.model.BottomSheetType
 import com.example.setting.model.CategoryItemUiState
 import kotlinx.collections.immutable.persistentListOf
-import com.example.design_system.R as DesignSystemR
+import com.example.designSystem.R as DesignSystemR
 
 private const val ABOUT_URL =
     "https://intelligent-party-142.notion.site/TODO-1109ff809974806cb274f0b95d4a71d4?pvs=4"

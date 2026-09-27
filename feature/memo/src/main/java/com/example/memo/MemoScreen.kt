@@ -15,13 +15,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.theme.TodoTheme
+import com.example.designSystem.theme.TodoTheme
 import com.example.memo.component.MemoTextField
 import com.example.memo.component.MemoTopAppBar
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import com.example.design_system.R as DesignSystemR
+import com.example.designSystem.R as DesignSystemR
 
 @Composable
 internal fun MemoScreen(

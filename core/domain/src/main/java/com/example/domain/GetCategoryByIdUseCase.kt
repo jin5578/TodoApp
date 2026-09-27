@@ -1,6 +1,6 @@
 package com.example.domain
 
-import com.example.data_api.repository.CategoryRepository
+import com.example.dataApi.repository.CategoryRepository
 import javax.inject.Inject
 
 class GetCategoryByIdUseCase

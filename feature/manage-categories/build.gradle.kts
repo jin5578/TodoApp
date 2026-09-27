@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.manage_categories"
+    namespace = "com.example.manageCategories"
     compileSdk {
         version = release(37)
     }

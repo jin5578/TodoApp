@@ -1,8 +1,8 @@
 package com.example.data.repository
 
-import com.example.data.remote.open_weather.OpenWeatherApi
-import com.example.data_api.repository.OpenWeatherRepository
-import com.example.model.open_weather.WeatherInfo
+import com.example.data.remote.openWeather.OpenWeatherApi
+import com.example.dataApi.repository.OpenWeatherRepository
+import com.example.model.openWeather.WeatherInfo
 import javax.inject.Inject
 
 internal class DefaultOpenWeatherRepository

@@ -1,6 +1,6 @@
 package com.example.domain
 
-import com.example.data_api.repository.CategoryRepository
+import com.example.dataApi.repository.CategoryRepository
 import com.example.model.Category
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject

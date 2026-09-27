@@ -1,8 +1,8 @@
 package com.example.domain
 
-import com.example.data_api.repository.CategoryRepository
-import com.example.data_api.repository.TaskRepository
-import com.example.model.manage_categories.ManageCategories
+import com.example.dataApi.repository.CategoryRepository
+import com.example.dataApi.repository.TaskRepository
+import com.example.model.manageCategories.ManageCategories
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import javax.inject.Inject

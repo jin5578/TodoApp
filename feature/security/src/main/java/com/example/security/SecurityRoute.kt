@@ -6,9 +6,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.platform.LocalResources
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.design_system.component.Loading
-import com.example.design_system.utils.LocalSnackbarHostState
-import com.example.design_system.utils.toErrorMessage
+import com.example.designSystem.component.Loading
+import com.example.designSystem.utils.LocalSnackbarHostState
+import com.example.designSystem.utils.toErrorMessage
 import com.example.security.model.SecurityUiState
 import kotlinx.coroutines.flow.collectLatest
 

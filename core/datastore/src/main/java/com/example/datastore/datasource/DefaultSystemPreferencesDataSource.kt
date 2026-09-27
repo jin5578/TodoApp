@@ -138,27 +138,27 @@ constructor(
 
     private object PreferencesKey {
         val SLEEP_TIME_KEY =
-            stringPreferencesKey(name = "sleep_time_key")
+            stringPreferencesKey(name = "sleepTimeKey")
         val SORT_BY_KEY =
-            stringPreferencesKey(name = "sort_by_key")
+            stringPreferencesKey(name = "sortByKey")
         val LANGUAGE_TYPE_KEY =
-            stringPreferencesKey(name = "language_type_key")
+            stringPreferencesKey(name = "languageTypeKey")
         val THEME_KEY =
-            stringPreferencesKey(name = "theme_key")
+            stringPreferencesKey(name = "themeKey")
         val TIME_PICKER_KEY =
-            stringPreferencesKey(name = "time_picker_key")
+            stringPreferencesKey(name = "timePickerKey")
         val LOCALE_KEY =
-            stringPreferencesKey(name = "locale_key")
+            stringPreferencesKey(name = "localeKey")
         val BUILD_VERSION_KEY =
-            stringPreferencesKey(name = "build_version_key")
+            stringPreferencesKey(name = "buildVersionKey")
         val PASSWORD_KEY =
-            stringPreferencesKey(name = "password_key")
+            stringPreferencesKey(name = "passwordKey")
         val BIOMETRIC_ENABLED_KEY =
-            booleanPreferencesKey(name = "biometric_enabled_key")
+            booleanPreferencesKey(name = "biometricEnabledKey")
         val LAST_LATITUDE_KEY =
-            doublePreferencesKey(name = "last_latitude_key")
+            doublePreferencesKey(name = "lastLatitudeKey")
         val LAST_LONGITUDE_KEY =
-            doublePreferencesKey(name = "last_longitude_key")
+            doublePreferencesKey(name = "lastLongitudeKey")
     }
 
     companion object {

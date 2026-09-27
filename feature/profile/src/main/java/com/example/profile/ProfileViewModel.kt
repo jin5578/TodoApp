@@ -3,7 +3,7 @@ package com.example.profile
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.design_system.model.HeatmapEntry
+import com.example.designSystem.model.HeatmapEntry
 import com.example.domain.GetGithubContributionsUseCase
 import com.example.domain.GetGithubUsernameUseCase
 import com.example.domain.GetProfileDataUseCase

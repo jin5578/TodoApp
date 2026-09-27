@@ -37,14 +37,14 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.component.CircleIndicator
-import com.example.design_system.component.NumberPadButton
-import com.example.design_system.component.dialog.forgot_password.ForgotPasswordDialog
-import com.example.design_system.theme.TodoTheme
+import com.example.designSystem.component.CircleIndicator
+import com.example.designSystem.component.NumberPadButton
+import com.example.designSystem.component.dialog.forgotPassword.ForgotPasswordDialog
+import com.example.designSystem.theme.TodoTheme
 import com.example.tasks.model.TasksPasswordProcessType
 import com.example.tasks.utils.getTitleResId
 import com.example.utils.randomNumberPadRows
-import com.example.design_system.R as DesignSystemR
+import com.example.designSystem.R as DesignSystemR
 
 private const val PASSWORD_LENGTH = 6
 

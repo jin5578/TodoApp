@@ -2,7 +2,7 @@ package com.example.main.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
-import com.example.design_system.R
+import com.example.designSystem.R
 import com.example.navigation.Route
 
 internal enum class MainTab(

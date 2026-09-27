@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.github_auth"
+    namespace = "com.example.githubAuth"
     compileSdk {
         version = release(37)
     }

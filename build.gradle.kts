@@ -18,8 +18,6 @@ spotless {
             mapOf(
                 "ktlint_function_naming_ignore_when_annotated_with" to "Composable",
                 "ktlint_standard_no-wildcard-imports" to "disabled",
-                // TODO: re-enable once the project-wide snake_case -> camelCase package rename lands
-                "ktlint_standard_package-name" to "disabled",
             ),
         )
         trimTrailingWhitespace()
