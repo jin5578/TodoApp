@@ -1,6 +1,6 @@
 package com.example.domain
 
-import com.example.data_api.repository.GithubRepository
+import com.example.dataApi.repository.GithubRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

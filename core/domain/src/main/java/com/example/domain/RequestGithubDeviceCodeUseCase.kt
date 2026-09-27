@@ -1,6 +1,6 @@
 package com.example.domain
 
-import com.example.data_api.repository.GithubRepository
+import com.example.dataApi.repository.GithubRepository
 import com.example.model.github.GithubDeviceCode
 import javax.inject.Inject
 

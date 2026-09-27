@@ -20,7 +20,7 @@ import com.example.domain.UpdateTaskSymbolUseCase
 import com.example.model.Category
 import com.example.model.SortByType
 import com.example.model.Task
-import com.example.model.open_weather.WeatherInfo
+import com.example.model.openWeather.WeatherInfo
 import com.example.model.toUiModels
 import com.example.tasks.model.TaskState
 import com.example.tasks.model.TaskStateGroup

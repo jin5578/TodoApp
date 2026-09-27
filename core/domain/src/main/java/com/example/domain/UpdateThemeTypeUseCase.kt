@@ -1,6 +1,6 @@
 package com.example.domain
 
-import com.example.data_api.repository.SystemRepository
+import com.example.dataApi.repository.SystemRepository
 import com.example.model.ThemeType
 import javax.inject.Inject
 

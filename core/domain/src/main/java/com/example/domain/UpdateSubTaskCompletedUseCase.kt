@@ -1,6 +1,6 @@
 package com.example.domain
 
-import com.example.data_api.repository.SubTaskRepository
+import com.example.dataApi.repository.SubTaskRepository
 import javax.inject.Inject
 
 class UpdateSubTaskCompletedUseCase

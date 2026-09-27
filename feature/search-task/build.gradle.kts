@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.search_task"
+    namespace = "com.example.searchTask"
     compileSdk {
         version = release(37)
     }

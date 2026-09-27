@@ -13,7 +13,7 @@ import androidx.core.app.NotificationCompat
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
-import com.example.design_system.R as DesignSystemR
+import com.example.designSystem.R as DesignSystemR
 
 class NotificationHelper
 @Inject

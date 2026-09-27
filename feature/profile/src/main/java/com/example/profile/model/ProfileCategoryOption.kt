@@ -1,6 +1,6 @@
 package com.example.profile.model
 
-import com.example.design_system.R as DesignSystemR
+import com.example.designSystem.R as DesignSystemR
 
 interface ProfileCategoryOption {
     val titleResId: Int

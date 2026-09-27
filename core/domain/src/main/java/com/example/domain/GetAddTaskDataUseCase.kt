@@ -1,9 +1,9 @@
 package com.example.domain
 
-import com.example.data_api.repository.CategoryRepository
-import com.example.data_api.repository.SystemRepository
-import com.example.data_api.repository.TaskRepository
-import com.example.model.add_task.AddTask
+import com.example.dataApi.repository.CategoryRepository
+import com.example.dataApi.repository.SystemRepository
+import com.example.dataApi.repository.TaskRepository
+import com.example.model.addTask.AddTask
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.combine
 import java.time.LocalDate

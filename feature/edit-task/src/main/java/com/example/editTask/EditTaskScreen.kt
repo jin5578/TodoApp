@@ -1,0 +1,260 @@
+package com.example.editTask
+
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import com.example.designSystem.component.dialog.calendar.CalendarDialog
+import com.example.designSystem.component.dialog.reminder.ReminderDialog
+import com.example.designSystem.component.dialog.timePicker.ClockTimePickerDialog
+import com.example.designSystem.component.dialog.timePicker.ScrollTimePickerDialog
+import com.example.designSystem.theme.TodoTheme
+import com.example.editTask.component.EditTaskCategoryChip
+import com.example.editTask.component.EditTaskDateRow
+import com.example.editTask.component.EditTaskMemoRow
+import com.example.editTask.component.EditTaskSubTask
+import com.example.editTask.component.EditTaskTimeRow
+import com.example.editTask.component.EditTaskTitleTextField
+import com.example.editTask.component.EditTaskTopAppBar
+import com.example.model.Category
+import com.example.model.PriorityType
+import com.example.model.SubTask
+import com.example.model.TaskUiModel
+import com.example.model.TimePickerType
+import kotlinx.collections.immutable.ImmutableList
+import kotlinx.collections.immutable.persistentListOf
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.Locale
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+internal fun EditTaskScreen(
+    modifier: Modifier = Modifier,
+    timePickerType: TimePickerType,
+    categories: ImmutableList<Category>,
+    task: TaskUiModel,
+    locale: Locale,
+    onCategoryClick: (taskId: Long, categoryId: Long) -> Unit,
+    onTitleValueChanged: (taskId: Long, title: String) -> Unit,
+    onDateTimeChanged: (taskId: Long, date: LocalDate, time: LocalDateTime?, reminderTime: LocalDateTime?) -> Unit,
+    onCompletedChanged: (taskId: Long, isCompleted: Boolean) -> Unit,
+    onDeleteClick: (id: Long, uuid: String) -> Unit,
+    onSubTasksSync: (parentId: Long, List<SubTask>) -> Unit,
+    navigateManageCategories: () -> Unit,
+    navigateMemo: (Long) -> Unit,
+    popBackStack: () -> Unit,
+) {
+    val scrollState = rememberScrollState()
+
+    var isShowCalendarDialog by remember { mutableStateOf(value = false) }
+    var isShowTimePickerDialog by remember { mutableStateOf(value = false) }
+    var isShowReminderDialog by remember { mutableStateOf(value = false) }
+
+    var isShowCategoryMenu by remember { mutableStateOf(value = false) }
+
+    var taskTitle by remember { mutableStateOf(value = task.title) }
+
+    Scaffold(
+        topBar = {
+            EditTaskTopAppBar(
+                popBackStack = popBackStack,
+                isCompleted = task.isCompleted,
+                onCompletedChanged = { isCompleted ->
+                    onCompletedChanged(
+                        task.id,
+                        isCompleted,
+                    )
+                },
+                onDeleteClick = { onDeleteClick(task.id, task.uuid) },
+            )
+        },
+    ) { paddingValues ->
+        if (isShowCalendarDialog) {
+            CalendarDialog(
+                taskDate = task.date,
+                taskTime = task.time,
+                reminderTime = task.reminderTime,
+                locale = locale,
+                onTimeClick = { isShowTimePickerDialog = true },
+                onReminderClick = { isShowReminderDialog = true },
+                onCloseClick = {
+                    isShowCalendarDialog = false
+                },
+                onConfirmClick = { date, time, reminderTime ->
+                    onDateTimeChanged(task.id, date, time, reminderTime)
+                    isShowCalendarDialog = false
+                },
+            )
+        }
+
+        if (isShowTimePickerDialog) {
+            if (timePickerType == TimePickerType.CLOCK_TIME_PICKER) {
+                ClockTimePickerDialog(
+                    taskDate = task.date,
+                    taskTime = task.time,
+                    onCloseClick = {
+                        isShowTimePickerDialog = false
+                    },
+                    onConfirmClick = { dateTime ->
+                        onDateTimeChanged(task.id, task.date, dateTime, null)
+                        isShowTimePickerDialog = false
+                    },
+                )
+            } else {
+                ScrollTimePickerDialog(
+                    taskDate = task.date,
+                    taskTime = task.time,
+                    onCloseClick = { isShowTimePickerDialog = false },
+                    onConfirmClick = { dateTime ->
+                        onDateTimeChanged(task.id, task.date, dateTime, null)
+                        isShowTimePickerDialog = false
+                    },
+                )
+            }
+        }
+
+        if (isShowReminderDialog) {
+            val tempTime = task.time ?: return@Scaffold
+            ReminderDialog(
+                taskTime = tempTime,
+                reminderTime = task.reminderTime,
+                onCloseClick = {
+                    isShowReminderDialog = false
+                },
+                onConfirmClick = { dateTime ->
+                    onDateTimeChanged(task.id, task.date, task.time, dateTime)
+                    isShowReminderDialog = false
+                },
+            )
+        }
+
+        Column(
+            modifier = modifier.padding(paddingValues = paddingValues)
+                .verticalScroll(state = scrollState),
+        ) {
+            EditTaskCategoryChip(
+                categories = categories,
+                taskCategoryId = task.categoryId,
+                isShowCategoryMenu = isShowCategoryMenu,
+                onOpenClick = { isShowCategoryMenu = true },
+                onCloseClick = { isShowCategoryMenu = false },
+                onCategoryClick = { categoryId ->
+                    onCategoryClick(task.id, categoryId)
+                    isShowCategoryMenu = false
+                },
+                onCreateNewCategoryClick = {
+                    isShowCategoryMenu = false
+                    navigateManageCategories()
+                },
+            )
+
+            EditTaskTitleTextField(
+                title = taskTitle,
+                isCompleted = task.isCompleted,
+                onValueChange = { title ->
+                    taskTitle = title
+                    onTitleValueChanged(task.id, title)
+                },
+            )
+
+            EditTaskSubTask(
+                subTasks = task.subTasks,
+                parentId = task.id,
+                onSubTasksSync = onSubTasksSync,
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.surfaceDim,
+            )
+
+            EditTaskDateRow(
+                date = task.date,
+                locale = locale,
+                onClick = { isShowCalendarDialog = true },
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.surfaceDim,
+            )
+
+            EditTaskTimeRow(
+                locale = locale,
+                time = task.time,
+                reminderTime = task.reminderTime,
+                onTimeClick = {
+                    isShowTimePickerDialog = true
+                },
+                onReminderTimeClick = {
+                    isShowReminderDialog = true
+                },
+            )
+
+            HorizontalDivider(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                color = MaterialTheme.colorScheme.surfaceDim,
+            )
+
+            EditTaskMemoRow(
+                id = task.id,
+                memoTitle = task.memoTitle,
+                memoContent = task.memoContent,
+                navigateMemo = navigateMemo,
+            )
+        }
+    }
+}
+
+@Preview(showBackground = true)
+@Composable
+private fun EditTaskScreenPreview() {
+    TodoTheme {
+        val task = TaskUiModel(
+            id = 0,
+            uuid = "",
+            title = "",
+            isCompleted = true,
+            date = LocalDate.now(),
+            time = LocalDateTime.now(),
+            reminderTime = LocalDateTime.now(),
+            memoTitle = "",
+            memoContent = "",
+            memoUpdatedAt = LocalDateTime.now(),
+            priority = PriorityType.LOW.ordinal,
+            categoryId = 0,
+            symbol = -1,
+            subTasks = persistentListOf(),
+        )
+
+        EditTaskScreen(
+            timePickerType = TimePickerType.CLOCK_TIME_PICKER,
+            categories = persistentListOf(),
+            task = task,
+            locale = Locale.KOREA,
+            onCategoryClick = { _, _ -> },
+            onTitleValueChanged = { _, _ -> },
+            onDateTimeChanged = { _, _, _, _ -> },
+            onCompletedChanged = { _, _ -> },
+            onDeleteClick = { _, _ -> },
+            onSubTasksSync = { _, _ -> },
+            navigateManageCategories = {},
+            navigateMemo = {},
+            popBackStack = {},
+        )
+    }
+}

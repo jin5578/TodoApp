@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.data_api"
+    namespace = "com.example.dataApi"
     compileSdk {
         version = release(37)
     }

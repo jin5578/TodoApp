@@ -1,0 +1,13 @@
+package com.example.editTask.model
+
+import androidx.compose.runtime.Immutable
+import androidx.compose.runtime.Stable
+
+@Stable
+sealed interface EditTaskUiEffect {
+    @Immutable
+    data object Idle : EditTaskUiEffect
+
+    @Immutable
+    data object SuccessDeleteTask : EditTaskUiEffect
+}

@@ -29,8 +29,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.component.BasicDropdownMenuItem
-import com.example.design_system.theme.TodoTheme
+import com.example.designSystem.component.BasicDropdownMenuItem
+import com.example.designSystem.theme.TodoTheme
 import com.example.profile.model.ProfileCategoryEntry
 import com.example.profile.model.ProfileCategoryOption
 import com.example.profile.model.ProfileTaskDuration
@@ -44,7 +44,7 @@ import com.patrykandpatrick.vico.compose.pie.rememberPieChart
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import java.util.Locale
-import com.example.design_system.R as DesignSystemR
+import com.example.designSystem.R as DesignSystemR
 
 @Composable
 internal fun ProfileCategorySummary(

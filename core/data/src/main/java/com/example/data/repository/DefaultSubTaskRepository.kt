@@ -1,6 +1,6 @@
 package com.example.data.repository
 
-import com.example.data_api.repository.SubTaskRepository
+import com.example.dataApi.repository.SubTaskRepository
 import com.example.database.datasource.SubTaskDatabaseDataSource
 import com.example.database.task.SubTaskEntity
 import com.example.model.SubTask

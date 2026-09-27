@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.lock_setup"
+    namespace = "com.example.lockSetup"
     compileSdk {
         version = release(37)
     }

@@ -1,20 +1,20 @@
 package com.example.data.repository
 
 import android.location.Location
-import com.example.data_api.repository.SystemRepository
+import com.example.dataApi.repository.SystemRepository
 import com.example.datastore.datasource.SystemPreferencesDataSource
 import com.example.model.LanguageType
 import com.example.model.SortByType
 import com.example.model.ThemeType
 import com.example.model.TimePickerType
-import com.example.model.add_task.AddTaskSystem
+import com.example.model.addTask.AddTaskSystem
 import com.example.model.calendar.CalendarSystem
-import com.example.model.completed_tasks.CompletedTasksSystem
-import com.example.model.edit_task.EditTaskSystem
-import com.example.model.lock_setup.LockSetupSystem
+import com.example.model.completedTasks.CompletedTasksSystem
+import com.example.model.editTask.EditTaskSystem
+import com.example.model.lockSetup.LockSetupSystem
 import com.example.model.memo.MemoSystem
 import com.example.model.profile.ProfileSystem
-import com.example.model.search_task.SearchTaskSystem
+import com.example.model.searchTask.SearchTaskSystem
 import com.example.model.security.SecuritySystem
 import com.example.model.setting.SettingSystem
 import com.example.model.tasks.TasksSystem

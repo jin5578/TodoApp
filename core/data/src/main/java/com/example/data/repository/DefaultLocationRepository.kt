@@ -5,7 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.content.pm.PackageManager
 import androidx.core.content.ContextCompat
-import com.example.data_api.repository.LocationRepository
+import com.example.dataApi.repository.LocationRepository
 import com.example.model.location.Coordinates
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.Priority

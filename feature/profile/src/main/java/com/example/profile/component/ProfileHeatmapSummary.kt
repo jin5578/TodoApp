@@ -12,14 +12,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.component.Heatmap
-import com.example.design_system.model.HeatmapEntry
-import com.example.design_system.theme.TodoTheme
+import com.example.designSystem.component.Heatmap
+import com.example.designSystem.model.HeatmapEntry
+import com.example.designSystem.theme.TodoTheme
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.toPersistentList
 import java.time.LocalDate
 import java.util.Locale
-import com.example.design_system.R as DesignSystemR
+import com.example.designSystem.R as DesignSystemR
 
 @Composable
 internal fun ProfileHeatmapSummary(

@@ -2,7 +2,7 @@ package com.example.profile.model
 
 import androidx.compose.runtime.Immutable
 import androidx.compose.runtime.Stable
-import com.example.design_system.model.HeatmapEntry
+import com.example.designSystem.model.HeatmapEntry
 import kotlinx.collections.immutable.ImmutableList
 import java.time.LocalDate
 import java.util.Locale

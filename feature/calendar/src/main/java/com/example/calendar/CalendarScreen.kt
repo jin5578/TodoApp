@@ -42,16 +42,16 @@ import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.component.AddTaskBottomSheetContent
-import com.example.design_system.component.BasicDropdownMenuItem
-import com.example.design_system.component.CustomFloatingActionButton
-import com.example.design_system.component.DaysOfWeek
-import com.example.design_system.component.EmptyContent
-import com.example.design_system.component.MonthDay
-import com.example.design_system.component.TaskCard
-import com.example.design_system.component.dialog.category.CategoryDialog
-import com.example.design_system.theme.TodoTheme
-import com.example.design_system.utils.LocalSnackbarHostState
+import com.example.designSystem.component.AddTaskBottomSheetContent
+import com.example.designSystem.component.BasicDropdownMenuItem
+import com.example.designSystem.component.CustomFloatingActionButton
+import com.example.designSystem.component.DaysOfWeek
+import com.example.designSystem.component.EmptyContent
+import com.example.designSystem.component.MonthDay
+import com.example.designSystem.component.TaskCard
+import com.example.designSystem.component.dialog.category.CategoryDialog
+import com.example.designSystem.theme.TodoTheme
+import com.example.designSystem.utils.LocalSnackbarHostState
 import com.example.model.Category
 import com.example.model.CategoryColorType
 import com.example.model.Task
@@ -67,7 +67,7 @@ import java.time.LocalDate
 import java.time.YearMonth
 import java.time.format.DateTimeFormatter
 import java.util.Locale
-import com.example.design_system.R as DesignSystemR
+import com.example.designSystem.R as DesignSystemR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

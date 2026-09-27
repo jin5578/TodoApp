@@ -5,8 +5,8 @@ import com.example.data.remote.github.GithubApiService
 import com.example.data.remote.github.GithubDeviceCodeApi
 import com.example.data.remote.github.GithubDeviceFlowService
 import com.example.data.remote.github.GithubGraphQlApi
-import com.example.data.remote.open_weather.OpenWeatherApi
-import com.example.data.remote.open_weather.OpenWeatherService
+import com.example.data.remote.openWeather.OpenWeatherApi
+import com.example.data.remote.openWeather.OpenWeatherService
 import com.jakewharton.retrofit2.converter.kotlinx.serialization.asConverterFactory
 import dagger.Module
 import dagger.Provides

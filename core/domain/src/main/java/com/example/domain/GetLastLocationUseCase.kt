@@ -1,7 +1,7 @@
 package com.example.domain
 
 import android.location.Location
-import com.example.data_api.repository.SystemRepository
+import com.example.dataApi.repository.SystemRepository
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 

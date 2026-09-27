@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.completed_tasks"
+    namespace = "com.example.completedTasks"
     compileSdk {
         version = release(37)
     }

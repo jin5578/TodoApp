@@ -1,6 +1,6 @@
 package com.example.data.repository
 
-import com.example.data_api.repository.CategoryRepository
+import com.example.dataApi.repository.CategoryRepository
 import com.example.database.category.CategoryEntity
 import com.example.database.datasource.CategoryDatabaseDataSource
 import com.example.model.Category

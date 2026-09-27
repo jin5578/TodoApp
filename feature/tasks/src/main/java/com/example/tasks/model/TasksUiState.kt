@@ -5,7 +5,7 @@ import androidx.compose.runtime.Stable
 import com.example.model.Category
 import com.example.model.SortByType
 import com.example.model.TimePickerType
-import com.example.model.open_weather.WeatherInfo
+import com.example.model.openWeather.WeatherInfo
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
 import java.util.Locale

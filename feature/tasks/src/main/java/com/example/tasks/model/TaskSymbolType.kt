@@ -1,10 +1,10 @@
 package com.example.tasks.model
 
 import androidx.compose.ui.graphics.Color
-import com.example.design_system.theme.flagColors
+import com.example.designSystem.theme.flagColors
 import kotlinx.collections.immutable.ImmutableList
 import kotlinx.collections.immutable.persistentListOf
-import com.example.design_system.R as DesignSystemR
+import com.example.designSystem.R as DesignSystemR
 
 enum class TaskSymbolType(
     val titleResId: Int,

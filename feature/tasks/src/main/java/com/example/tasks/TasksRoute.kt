@@ -14,10 +14,10 @@ import androidx.compose.ui.platform.LocalResources
 import androidx.core.content.ContextCompat
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.design_system.component.Loading
-import com.example.design_system.utils.LocalHideBottomBar
-import com.example.design_system.utils.LocalSnackbarHostState
-import com.example.design_system.utils.toErrorMessage
+import com.example.designSystem.component.Loading
+import com.example.designSystem.utils.LocalHideBottomBar
+import com.example.designSystem.utils.LocalSnackbarHostState
+import com.example.designSystem.utils.toErrorMessage
 import com.example.model.CategoryColorType
 import com.example.model.SortByType
 import com.example.model.Task

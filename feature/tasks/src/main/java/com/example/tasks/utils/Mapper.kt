@@ -2,7 +2,7 @@ package com.example.tasks.utils
 
 import com.example.tasks.model.TaskState
 import com.example.tasks.model.TasksPasswordProcessType
-import com.example.design_system.R as DesignSystemR
+import com.example.designSystem.R as DesignSystemR
 
 internal fun TaskState.getTitleResId(): Int = when (this) {
     TaskState.PREVIOUS -> DesignSystemR.string.previous

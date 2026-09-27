@@ -13,8 +13,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.model.HeatmapEntry
-import com.example.design_system.theme.TodoTheme
+import com.example.designSystem.model.HeatmapEntry
+import com.example.designSystem.theme.TodoTheme
 import com.example.profile.component.ProfileCategorySummary
 import com.example.profile.component.ProfileDailySummary
 import com.example.profile.component.ProfileHeatmapSummary
@@ -27,7 +27,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.toPersistentList
 import java.time.LocalDate
 import java.util.Locale
-import com.example.design_system.R as DesignSystemR
+import com.example.designSystem.R as DesignSystemR
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

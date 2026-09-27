@@ -54,20 +54,20 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.design_system.component.AddTaskBottomSheetContent
-import com.example.design_system.component.BasicDropdownMenuItem
-import com.example.design_system.component.CustomFloatingActionButton
-import com.example.design_system.component.EmptyContent
-import com.example.design_system.component.dialog.category.CategoryDialog
-import com.example.design_system.component.dialog.sort_by.SortByDialog
-import com.example.design_system.theme.TodoTheme
-import com.example.design_system.utils.LocalSnackbarHostState
+import com.example.designSystem.component.AddTaskBottomSheetContent
+import com.example.designSystem.component.BasicDropdownMenuItem
+import com.example.designSystem.component.CustomFloatingActionButton
+import com.example.designSystem.component.EmptyContent
+import com.example.designSystem.component.dialog.category.CategoryDialog
+import com.example.designSystem.component.dialog.sortBy.SortByDialog
+import com.example.designSystem.theme.TodoTheme
+import com.example.designSystem.utils.LocalSnackbarHostState
 import com.example.model.Category
 import com.example.model.CategoryColorType
 import com.example.model.SortByType
 import com.example.model.Task
 import com.example.model.TimePickerType
-import com.example.model.open_weather.WeatherInfo
+import com.example.model.openWeather.WeatherInfo
 import com.example.tasks.component.taskStateGroup
 import com.example.tasks.model.TaskStateGroup
 import com.example.tasks.utils.toggled
@@ -76,7 +76,7 @@ import kotlinx.collections.immutable.persistentListOf
 import kotlinx.collections.immutable.persistentSetOf
 import java.util.Locale
 import kotlin.math.roundToInt
-import com.example.design_system.R as DesignSystemR
+import com.example.designSystem.R as DesignSystemR
 
 private const val WEATHER_HEADER_ANCHOR_KEY = "weather_header_anchor"
 
