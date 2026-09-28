@@ -2,9 +2,11 @@ package com.example.data.remote.github
 
 import com.example.model.github.GithubDeviceCode
 import com.example.model.github.GithubPollResult
+import com.example.model.github.GithubTokenRefreshResult
 
 private const val DEVICE_FLOW_GRANT_TYPE =
     "urn:ietf:params:oauth:grant-type:device_code"
+private const val REFRESH_TOKEN_GRANT_TYPE = "refresh_token"
 private const val DEVICE_FLOW_SCOPE = "read:user"
 
 internal class GithubDeviceCodeApi(
@@ -46,6 +48,8 @@ internal class GithubDeviceCodeApi(
             return GithubPollResult.Success(
                 accessToken = accessToken,
                 username = username,
+                refreshToken = response.refreshToken,
+                accessTokenExpiresInSeconds = response.expiresInSeconds,
             )
         }
 
@@ -55,5 +59,22 @@ internal class GithubDeviceCodeApi(
             "access_denied" -> GithubPollResult.Denied
             else -> GithubPollResult.Expired
         }
+    }
+
+    suspend fun refreshAccessToken(refreshToken: String): GithubTokenRefreshResult {
+        val response =
+            deviceFlowService.refreshAccessToken(
+                clientId = clientId,
+                refreshToken = refreshToken,
+                grantType = REFRESH_TOKEN_GRANT_TYPE,
+            )
+        val accessToken =
+            response.accessToken ?: return GithubTokenRefreshResult.Invalid
+
+        return GithubTokenRefreshResult.Success(
+            accessToken = accessToken,
+            refreshToken = response.refreshToken,
+            accessTokenExpiresInSeconds = response.expiresInSeconds,
+        )
     }
 }
