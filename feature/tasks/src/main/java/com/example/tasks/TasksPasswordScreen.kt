@@ -48,14 +48,13 @@ import com.example.designSystem.R as DesignSystemR
 
 private const val PASSWORD_LENGTH = 6
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun TasksPasswordScreen(
     modifier: Modifier = Modifier,
     tasksPasswordProcessType: TasksPasswordProcessType,
-    exitApp: () -> Unit,
     onPasswordCheck: (String) -> Unit,
     onDeleteAllData: () -> Unit,
+    exitApp: () -> Unit,
 ) {
     val numberPadRows = remember { randomNumberPadRows() }
     val inputPassword = remember { mutableStateListOf<String>() }
@@ -68,21 +67,8 @@ internal fun TasksPasswordScreen(
 
     Scaffold(
         topBar = {
-            TopAppBar(
-                colors = TopAppBarDefaults.topAppBarColors(
-                    containerColor = MaterialTheme.colorScheme.background,
-                ),
-                title = {},
-                navigationIcon = {
-                    IconButton(onClick = exitApp) {
-                        Icon(
-                            modifier = modifier.size(size = 24.dp),
-                            imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onBackground,
-                        )
-                    }
-                },
+            TasksPasswordTopAppBar(
+                exitApp = exitApp,
             )
         },
     ) { paddingValues ->
@@ -184,15 +170,39 @@ internal fun TasksPasswordScreen(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+private fun TasksPasswordTopAppBar(
+    exitApp: () -> Unit,
+    modifier: Modifier = Modifier,
+) {
+    TopAppBar(
+        colors = TopAppBarDefaults.topAppBarColors(
+            containerColor = MaterialTheme.colorScheme.background,
+        ),
+        title = {},
+        navigationIcon = {
+            IconButton(onClick = exitApp) {
+                Icon(
+                    modifier = modifier.size(size = 24.dp),
+                    imageVector = ImageVector.vectorResource(id = DesignSystemR.drawable.svg_arrow_left),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onBackground,
+                )
+            }
+        },
+    )
+}
+
 @Preview(showBackground = true)
 @Composable
 private fun TasksPasswordScreenPreview() {
     TodoTheme {
         TasksPasswordScreen(
             tasksPasswordProcessType = TasksPasswordProcessType.ENTER_EXISTING_PASSWORD,
-            exitApp = {},
             onPasswordCheck = { _ -> },
             onDeleteAllData = {},
+            exitApp = {},
         )
     }
 }
