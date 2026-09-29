@@ -16,8 +16,8 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TimePicker
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.key
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -54,6 +54,19 @@ fun ClockTimePickerDialog(
         initialMinute = taskTime?.minute ?: LocalDateTime.now().minute,
         is24Hour = false,
     )
+    val initialPickerTime = remember {
+        timePickerState.hour to timePickerState.minute
+    }
+
+    LaunchedEffect(key1 = timePickerState.hour, key2 = timePickerState.minute) {
+        val currentPickerTime = timePickerState.hour to timePickerState.minute
+        if (currentPickerTime != initialPickerTime) {
+            selectedTaskTime = LocalDateTime.of(
+                taskDate,
+                LocalTime.of(timePickerState.hour, timePickerState.minute),
+            )
+        }
+    }
 
     Dialog(
         onDismissRequest = { onCloseClick() },
@@ -84,11 +97,10 @@ fun ClockTimePickerDialog(
                     textAlign = TextAlign.Start,
                 )
 
-                key(timePickerState.hour, timePickerState.minute) {
-                    TimePicker(
-                        state = timePickerState,
-                    )
-                }
+                TimePicker(
+                    state = timePickerState,
+                )
+
                 FlowRow(
                     modifier = Modifier.fillMaxWidth()
                         .padding(horizontal = 16.dp),
