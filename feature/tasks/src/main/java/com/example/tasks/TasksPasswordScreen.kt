@@ -68,7 +68,7 @@ internal fun TasksPasswordScreen(
     Scaffold(
         topBar = {
             TasksPasswordTopAppBar(
-                exitApp = exitApp
+                exitApp = exitApp,
             )
         },
     ) { paddingValues ->
@@ -174,7 +174,7 @@ internal fun TasksPasswordScreen(
 @Composable
 private fun TasksPasswordTopAppBar(
     exitApp: () -> Unit,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
