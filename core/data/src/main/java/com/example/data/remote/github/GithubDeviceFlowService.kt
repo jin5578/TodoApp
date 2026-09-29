@@ -25,6 +25,15 @@ internal interface GithubDeviceFlowService {
         @Field("device_code") deviceCode: String,
         @Field("grant_type") grantType: String,
     ): AccessTokenResponse
+
+    @FormUrlEncoded
+    @Headers("Accept: application/json")
+    @POST("login/oauth/access_token")
+    suspend fun refreshAccessToken(
+        @Field("client_id") clientId: String,
+        @Field("refresh_token") refreshToken: String,
+        @Field("grant_type") grantType: String,
+    ): AccessTokenResponse
 }
 
 @OptIn(InternalSerializationApi::class)
@@ -41,5 +50,7 @@ internal data class DeviceCodeResponse(
 @Serializable
 internal data class AccessTokenResponse(
     @SerialName("access_token") val accessToken: String? = null,
+    @SerialName("expires_in") val expiresInSeconds: Int? = null,
+    @SerialName("refresh_token") val refreshToken: String? = null,
     @SerialName("error") val error: String? = null,
 )

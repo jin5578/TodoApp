@@ -8,6 +8,8 @@ sealed interface GithubPollResult {
     data class Success(
         val accessToken: String,
         val username: String,
+        val refreshToken: String?,
+        val accessTokenExpiresInSeconds: Int?,
     ) : GithubPollResult
 
     data object Expired : GithubPollResult
