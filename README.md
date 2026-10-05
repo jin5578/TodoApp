@@ -38,9 +38,3 @@ Presentation/Domain/Data Layered Architecture 형태로 설계하였습니다.
 ## Module
 Multi-module 구조이며 각 Feature마다 모듈 형태로 구성하였습니다.
 ![graphviz](docs/module-graph.svg)
-
-다이어그램은 [Graphviz](https://graphviz.org/)로 생성되며, 소스는 [`docs/module-graph.dot`](docs/module-graph.dot)에 있습니다. 모듈 의존성이 바뀌면 아래 명령으로 다시 생성하세요.
-
-```bash
-dot -Tsvg docs/module-graph.dot -o docs/module-graph.svg
-```
