@@ -1,0 +1,162 @@
+digraph TodoAppModules {
+    rankdir=TB;
+    splines=true;
+    concentrate=true;
+    nodesep=0.35;
+    ranksep=0.9;
+    node [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=11, margin="0.15,0.08"];
+    edge [color="#9aa0a6", arrowsize=0.7];
+
+    subgraph cluster_app {
+        label="app";
+        style="rounded,filled";
+        color="#dadce0";
+        fillcolor="#e8f0fe";
+        app [label="app", fillcolor="#aecbfa"];
+    }
+
+    subgraph cluster_feature {
+        label="feature";
+        style="rounded,filled";
+        color="#dadce0";
+        fillcolor="#e6f4ea";
+        node [fillcolor="#a8dab5"];
+        "feature:main";
+        "feature:calendar";
+        "feature:completed-tasks";
+        "feature:edit-task";
+        "feature:github-auth";
+        "feature:lock-setup";
+        "feature:manage-categories";
+        "feature:memo";
+        "feature:profile";
+        "feature:search-task";
+        "feature:security";
+        "feature:setting";
+        "feature:tasks";
+    }
+
+    subgraph cluster_core {
+        label="core";
+        style="rounded,filled";
+        color="#dadce0";
+        fillcolor="#fef7e0";
+        node [fillcolor="#fde293"];
+        "core:navigation";
+        "core:domain";
+        "core:data";
+        "core:data-api";
+        "core:database";
+        "core:datastore";
+        "core:design-system";
+        "core:utils";
+        "core:model";
+    }
+
+    app -> "core:domain";
+    app -> "core:model";
+    app -> "feature:main";
+
+    "feature:main" -> "feature:calendar";
+    "feature:main" -> "feature:completed-tasks";
+    "feature:main" -> "feature:edit-task";
+    "feature:main" -> "feature:github-auth";
+    "feature:main" -> "feature:lock-setup";
+    "feature:main" -> "feature:manage-categories";
+    "feature:main" -> "feature:memo";
+    "feature:main" -> "feature:profile";
+    "feature:main" -> "feature:search-task";
+    "feature:main" -> "feature:security";
+    "feature:main" -> "feature:setting";
+    "feature:main" -> "feature:tasks";
+    "feature:main" -> "core:data";
+    "feature:main" -> "core:data-api";
+    "feature:main" -> "core:database";
+    "feature:main" -> "core:datastore";
+    "feature:main" -> "core:design-system";
+    "feature:main" -> "core:domain";
+    "feature:main" -> "core:model";
+    "feature:main" -> "core:navigation";
+    "feature:main" -> "core:utils";
+
+    "feature:calendar" -> "core:design-system";
+    "feature:calendar" -> "core:domain";
+    "feature:calendar" -> "core:model";
+    "feature:calendar" -> "core:navigation";
+
+    "feature:completed-tasks" -> "core:design-system";
+    "feature:completed-tasks" -> "core:domain";
+    "feature:completed-tasks" -> "core:model";
+    "feature:completed-tasks" -> "core:navigation";
+    "feature:completed-tasks" -> "core:utils";
+
+    "feature:edit-task" -> "core:design-system";
+    "feature:edit-task" -> "core:domain";
+    "feature:edit-task" -> "core:model";
+    "feature:edit-task" -> "core:navigation";
+    "feature:edit-task" -> "core:utils";
+
+    "feature:github-auth" -> "core:design-system";
+    "feature:github-auth" -> "core:domain";
+    "feature:github-auth" -> "core:model";
+    "feature:github-auth" -> "core:navigation";
+    "feature:github-auth" -> "core:utils";
+
+    "feature:lock-setup" -> "core:design-system";
+    "feature:lock-setup" -> "core:domain";
+    "feature:lock-setup" -> "core:model";
+    "feature:lock-setup" -> "core:navigation";
+    "feature:lock-setup" -> "core:utils";
+
+    "feature:manage-categories" -> "core:design-system";
+    "feature:manage-categories" -> "core:domain";
+    "feature:manage-categories" -> "core:model";
+    "feature:manage-categories" -> "core:navigation";
+
+    "feature:memo" -> "core:design-system";
+    "feature:memo" -> "core:domain";
+    "feature:memo" -> "core:model";
+    "feature:memo" -> "core:navigation";
+
+    "feature:profile" -> "core:design-system";
+    "feature:profile" -> "core:domain";
+    "feature:profile" -> "core:model";
+    "feature:profile" -> "core:navigation";
+
+    "feature:search-task" -> "core:design-system";
+    "feature:search-task" -> "core:domain";
+    "feature:search-task" -> "core:model";
+    "feature:search-task" -> "core:navigation";
+
+    "feature:security" -> "core:design-system";
+    "feature:security" -> "core:domain";
+    "feature:security" -> "core:model";
+    "feature:security" -> "core:navigation";
+    "feature:security" -> "core:utils";
+
+    "feature:setting" -> "core:design-system";
+    "feature:setting" -> "core:domain";
+    "feature:setting" -> "core:model";
+    "feature:setting" -> "core:navigation";
+    "feature:setting" -> "core:utils";
+
+    "feature:tasks" -> "core:design-system";
+    "feature:tasks" -> "core:domain";
+    "feature:tasks" -> "core:model";
+    "feature:tasks" -> "core:navigation";
+    "feature:tasks" -> "core:utils";
+
+    "core:data" -> "core:data-api";
+    "core:data" -> "core:database";
+    "core:data" -> "core:datastore";
+    "core:data" -> "core:model";
+
+    "core:domain" -> "core:data-api";
+    "core:domain" -> "core:model";
+    "core:domain" -> "core:utils";
+
+    "core:data-api" -> "core:model";
+    "core:design-system" -> "core:model";
+    "core:utils" -> "core:design-system";
+    "core:utils" -> "core:model";
+}
