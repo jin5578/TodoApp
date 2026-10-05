@@ -10,7 +10,7 @@
 </p>
 
 ## Tech stack & Open-source libraries
-- Minimum SDK level 26
+- Minimum SDK level 28
 - [Kotlin](https://kotlinlang.org/) 기반으로, 비동기 작업을 위해 [Coroutine](https://github.com/Kotlin/kotlinx.coroutines), [Flow](https://kotlin.github.io/kotlinx.coroutines/kotlinx-coroutines-core/kotlinx.coroutines.flow/)를 활용하였습니다.
 - Jetpack Libraries
   - [Compose](https://developer.android.com/compose) : 선언형 UI 개발을 위한 Android toolkit
@@ -18,7 +18,6 @@
   - [ViewModel](https://developer.android.com/topic/libraries/architecture/viewmodel) : UI 관련 데이터를 관리하며 생명 주기를 인식하여, 설정 변경 시에도 데이터가 유지되도록 보장
   - [Navigation](https://developer.android.com/guide/navigation) : 스크린 간의 이동을 용이하게 하며, 의존성 주입을 위해 [Hilt Navigation Compose](https://developer.android.com/reference/kotlin/androidx/hilt/navigation/compose/package-summary)를 활용하여 보완
   - [Room](https://developer.android.com/training/data-storage/room) : 원활한 데이터베이스 접근을 위해 SQLite 추상화 계층을 사용하여 데이터베이스를 구성
-  - [Glance](https://developer.android.com/develop/ui/compose/glance) : Compose UI를 기반으로 하여 선언적인 방식으로 위젯 개발
 - Architecture
   - MVVM Architecture (View - ViewModel - Model) : 관심사 분리를 돕고 유지보수성 향상
   - Repository Pattern : 다양한 데이터 소스와 애플리케이션의 비즈니스 로직 사이에서 중재자 역할
